@@ -33,8 +33,9 @@ import org.emftext.language.owl.ObjectPropertyMin;
 import org.emftext.language.owl.Ontology;
 import org.emftext.language.owl.OntologyDocument;
 import org.emftext.language.owl.OwlFactory;
-import org.emftext.language.owl.resource.owl.OwlPrinter;
-import org.emftext.language.owl.resource.owl.OwlResource;
+import org.emftext.language.owl.resource.owl.mopp.OwlPrinter;
+import org.emftext.language.owl.resource.owl.mopp.OwlResource;
+
 
 import eu.most.bpmn.Factory;
 
