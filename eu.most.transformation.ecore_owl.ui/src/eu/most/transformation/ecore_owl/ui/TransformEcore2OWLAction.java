@@ -16,7 +16,7 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 import org.emftext.language.owl.OntologyDocument;
 
-import eu.most.transformation.Ecore2Owl;
+import eu.most.transformation.ecore_owl.Ecore2Owl;
 
 public class TransformEcore2OWLAction implements IObjectActionDelegate {
 

@@ -1,4 +1,4 @@
-package eu.most.transformation;
+package eu.most.transformation.ecore_owl;
 
 import java.util.Collection;
 import java.util.HashMap;

@@ -9,4 +9,4 @@ Require-Bundle: org.eclipse.ui,
  org.emftext.language.owl.resource.owl
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Export-Package: eu.most.transformation
+Export-Package: eu.most.transformation.ecore_owl
