@@ -1,6 +1,6 @@
 package eu.most.transformation;
 
-import java.io.ByteArrayOutputStream;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -33,49 +33,17 @@ import org.emftext.language.owl.ObjectPropertyMin;
 import org.emftext.language.owl.Ontology;
 import org.emftext.language.owl.OntologyDocument;
 import org.emftext.language.owl.OwlFactory;
-import org.emftext.language.owl.resource.owl.mopp.OwlPrinter;
-import org.emftext.language.owl.resource.owl.mopp.OwlResource;
-
-
-import eu.most.bpmn.Factory;
-
-import bpmn.flowObjects.EndEvent;
-import bpmn.flowObjects.Process;
-import bpmn.flowObjects.StartEvent;
-import bpmn.flowObjects.Task;
-
 
 public class Ecore2Owl {
 
 	public Ecore2Owl() {
-		
+		super();
 	}
 	
 	private OwlFactory owlFactory = OwlFactory.eINSTANCE;
 	private Ontology ontology;
 	private HashMap<EClassifier, Frame> etype2oclass = new HashMap<EClassifier, Frame>();
 	private HashMap<EStructuralFeature, Feature> references2objectProperties = new HashMap<EStructuralFeature, Feature>();
-	
-	public static void main(String[] args) {
-		Factory f = new Factory();
-		Process process = f.createProcess("Hiring");
-		StartEvent startEvent = f.createStartEvent();
-		EndEvent endEvent = f.createEndEvent();
-		Task hire = f.createTask("Hire");
-		process.addSequenceFlow(startEvent, hire);
-		process.addSequenceFlow(hire, endEvent);
-		OntologyDocument ontologyDocument = new Ecore2Owl().transform(process);
-		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		
-		OwlPrinter p = new OwlPrinter(stream, new OwlResource());
-	
-		p.print(ontologyDocument);
-		
-		// instead of printing this string could be send to pellet, or TrOWL for validation, reasoning
-		System.out.println("Result:\n\n" + stream.toString());
-		
-		//return stream.toString();
-	}
 	
 	private void initDatatypes() {
 		HashMap<String, String> nameMap = new HashMap<String, String>();
@@ -95,15 +63,21 @@ public class Ecore2Owl {
 		}
 	}
 	
-	public OntologyDocument transform(EObject eo) {
+	public OntologyDocument transform(Collection<EObject> eObjects) {
 		OntologyDocument d = owlFactory.createOntologyDocument();
 		ontology = owlFactory.createOntology();
 		initDatatypes();
 		d.setOntology(ontology);
-		EPackage metamodel = eo.eClass().getEPackage();
-		while(metamodel.getESuperPackage() != null) metamodel = metamodel.getESuperPackage();
-		propagateMetamodel(metamodel);
-		propagateInstances(eo);
+		
+		for (EObject eObject : eObjects) {
+			// TODO propagate each metamodel only once
+			EPackage metamodel = eObject.eClass().getEPackage();
+			while (metamodel.getESuperPackage() != null) {
+				metamodel = metamodel.getESuperPackage();
+			}
+			propagateMetamodel(metamodel);
+			propagateInstances(eObject);
+		}
 		return d;
 	}
 

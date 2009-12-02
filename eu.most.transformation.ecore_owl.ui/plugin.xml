@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension  
+            point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="true"
+            id="eu.most.transformation.ecore_owl.ui.TransformEcore2OWL"
+            nameFilter="*"
+            objectClass="org.eclipse.core.resources.IFile">
+         <action
+               class="eu.most.transformation.ecore_owl.ui.TransformEcore2OWLAction"
+               enablesFor="1"
+               id="eu.most.transformation.ecore_owl.ui.TransformEcore2OWLAction"
+               label="Transform to OWL"
+               menubarPath="additions"/>
+      </objectContribution>
+   </extension>
+
+</plugin>
