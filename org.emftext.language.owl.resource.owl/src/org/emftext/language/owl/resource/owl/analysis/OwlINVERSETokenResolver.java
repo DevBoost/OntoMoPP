@@ -13,6 +13,7 @@
  ******************************************************************************/
 package org.emftext.language.owl.resource.owl.analysis;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.emftext.language.owl.resource.owl.IOwlTokenResolveResult;
 
@@ -26,5 +27,16 @@ public class OwlINVERSETokenResolver extends BooleanAttributeResolver {
 			return;
 		}
 		super.resolve(lexem, feature, result);
+	}
+
+	@Override
+	public String deResolve(Object value, EStructuralFeature feature,
+			EObject container) {
+		if ((Boolean) value) {
+			return "inv";
+		} else {
+			return "";
+		}
+		
 	}
 }

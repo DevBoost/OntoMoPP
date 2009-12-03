@@ -123,9 +123,8 @@ package owl owl "http://org.emftext/owl.ecore" {
 	}
 	
 	 class HasKey  extends Misc {
-			unique ordered changeable attribute EBoolean inverse (1..1);
 			containment unique ordered changeable resolveProxies reference Description description (1..1);
-			unique ordered changeable resolveProxies reference Feature feature (0..-1);
+			containment unique ordered changeable resolveProxies reference FeatureReference featureReferences (0..-1);
 	}
 	
 	 class DataRange {
@@ -221,18 +220,30 @@ package owl owl "http://org.emftext/owl.ecore" {
 	}
 	
 	abstract class FeatureRestriction  extends Primary {
-			unique ordered changeable attribute EBoolean inverse (1..1);
-			unique ordered changeable resolveProxies reference Feature feature (1..1);
+			containment unique ordered changeable resolveProxies reference FeatureReference featureReference (1..1);
 	}
 	
 	abstract class ObjectPropertyRestriction  extends Primary {
-			unique ordered changeable attribute EBoolean inverse (1..1);
+			containment unique ordered changeable resolveProxies reference ObjectPropertyReference objectPropertyReference (1..1);
+	}
+	
+	class FeatureReference  {
+			unique ordered changeable resolveProxies reference Feature feature (1..1);
+	}
+	
+	class InverseFeatureReference extends FeatureReference  {
+	}
+	class OwlApiInverseFeatureReference extends FeatureReference  {
+	}
+	
+	class ObjectPropertyReference {
 			unique ordered changeable resolveProxies reference ObjectProperty objectProperty (1..1);
 	}
 	
-	 class ObjectPropertyReference {
-			unique ordered changeable resolveProxies reference ObjectProperty objectProperty (1..1);
-			unique ordered changeable attribute EBoolean inverse (1..1);
+	class InverseObjectPropertyReference extends ObjectPropertyReference  {
+	}
+	
+	class OwlApiInverseObjectPropertyReference extends ObjectPropertyReference  {
 	}
 	
 	 class ObjectPropertySome  extends FeatureRestriction {

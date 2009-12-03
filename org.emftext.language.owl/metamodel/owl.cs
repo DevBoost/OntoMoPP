@@ -33,7 +33,7 @@ TOKENS{
 	DEFINE WHITESPACE $(' '|'\t'|'\f')$;
 	DEFINE LINEBREAKS $('\r\n'|'\r'|'\n')$;
 	DEFINE NOT $'not'$;
-	DEFINE INVERSE $'inverse'|'inv'$;
+	//DEFINE INVERSE $'inverse'|'inv'$;
 	DEFINE INT $('+'|'-')?('0'..'9')+$;
 	DEFINE FLOAT $('0'..'9')+ '.' ('0'..'9')* (('e'|'E'|'p'|'P') ('+'|'-')? ('0'..'9')+)? ('f'|'F') 
 				| ('.' ('0'..'9')+ (('e'|'E'|'p'|'P') ('+'|'-')? ('0'..'9')+)?) ('f'|'F') 
@@ -124,7 +124,7 @@ RULES{
 	 
 	DataPropertyFact ::= not[NOT]? dataProperty[IRI] literal;
 	
-	// MISC Frame TODO
+	// MISC Frame 
 	EquivalentClasses ::= "EquivalentClasses:" annotations? descriptions ("," descriptions)+;
 	DisjointClasses ::= "DisjointClasses:" annotations? descriptions ("," descriptions)+;
 	EquivalentProperties ::= "EquivalentProperties:" annotations? objectProperties[IRI] ("," objectProperties[IRI])+;
@@ -132,29 +132,35 @@ RULES{
 	SameIndividuals ::= "SameIndividual:" annotations? individuals[IRI] ("," individuals[IRI])+;
 	DifferentIndividuals ::= "DifferentIndividuals:" annotations? individuals[IRI] ("," individuals[IRI])+;
 	
-	HasKey ::=  "HasKey:" annotations? ( inverse[INVERSE]? feature[IRI])+;
+	HasKey ::=  "HasKey:" annotations? (  featureReferences )+;
 	
 	// Descriptions
 	
 	Disjunction ::= (annotations ("," annotations)*)? conjunctions:Conjunction ("or" conjunctions:Conjunction)*;
 	Conjunction ::= (clazz[IRI] "that")? primaries:Primary ("and" primaries:Primary)*;								
 		
-	ObjectPropertySome ::= not[NOT]? inverse[INVERSE]? feature[IRI] "some" (primary|dataPrimary);
-	ObjectPropertyOnly ::= not[NOT]? inverse[INVERSE]? feature[IRI] "only" (primary|dataPrimary);
-	ObjectPropertySelf ::= not[NOT]? inverse[INVERSE]? objectProperty[IRI] "self";
-	ObjectPropertyValue ::= not[NOT]? inverse[INVERSE]? feature[IRI] "value" (individual[IRI]|literal);
+	ObjectPropertySome ::= not[NOT]?  featureReference "some" (primary|dataPrimary);
+	ObjectPropertyOnly ::= not[NOT]?  featureReference "only" (primary|dataPrimary);
+	ObjectPropertySelf ::= not[NOT]? objectPropertyReference "self";
+	ObjectPropertyValue ::= not[NOT]?  featureReference "value" (individual[IRI]|literal);
 
- 	ObjectPropertyMin ::= not[NOT]? inverse[INVERSE]? feature[IRI] "min" value[INT] (primary|dataPrimary)?;
-	ObjectPropertyMax ::= not[NOT]? inverse[INVERSE]? feature[IRI] "max" value[INT] (primary|dataPrimary)?;
-	ObjectPropertyExactly ::= not[NOT]? inverse[INVERSE]? feature[IRI] "exactly" value[INT] (primary|dataPrimary)?;
+ 	ObjectPropertyMin ::= not[NOT]?  featureReference "min" value[INT] (primary|dataPrimary)?;
+	ObjectPropertyMax ::= not[NOT]?  featureReference "max" value[INT] (primary|dataPrimary)?;
+	ObjectPropertyExactly ::= not[NOT]?  featureReference "exactly" value[INT] (primary|dataPrimary)?;
 
 
 	ClassAtomic ::= not[NOT]? clazz[IRI];
 	IndividualsAtomic ::= not[NOT]? "{" individuals[IRI] ("," individuals[IRI])* "}";
 	NestedDescription ::= not[NOT]? "(" description:Disjunction ")";
 	
-	ObjectPropertyReference ::= inverse[INVERSE]? objectProperty[IRI];
-
+	ObjectPropertyReference ::= objectProperty[IRI];
+	InverseObjectPropertyReference ::= "inverse" objectProperty[IRI];
+	OwlApiInverseObjectPropertyReference ::= "inv" "("objectProperty[IRI] ")";
+	 
+	FeatureReference ::= feature[IRI];
+	InverseFeatureReference ::= "inverse" feature[IRI];
+	OwlApiInverseFeatureReference ::= "inv" "("feature[IRI] ")";
+	
 	// DataRanges
 	DataRange ::= dataConjunctions:DataConjunction ("or" dataConjunctions:DataConjunction)*;
 	DataConjunction ::= dataPrimaries:DataPrimary ("and" dataPrimaries:DataPrimary)*; 

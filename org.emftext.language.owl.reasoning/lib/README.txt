@@ -4,8 +4,8 @@ Pellet: An Open Source OWL DL reasoner for Java
 Pellet is a dual-licensed open source [1] Java-based OWL-DL reasoner        
 developed and commercially supported [2] by Clark & Parsia LLC. It can      
 be used in conjunction with either Jena or OWL-API libraries. Pellet        
-provides functionality to validate ontology species, check consistency of   
-ontologies, classify the taxonomy, check entailments and answer SPARQL      
+provides functionality to check consistency of ontologies, compute 
+the classification hierarchy, explain inferences and answer SPARQL      
 queries.                                                                    
 
 Documentation how to use Pellet is in the doc/ directory and there are some 
@@ -17,7 +17,7 @@ Commercial support for Pellet is available:
 
 See the Pellet FAQ for answers to some Frequently Asked Questions:
 
-	http://pellet.owldl.com/faq
+	http://clarkparsia.com/pellet/faq
 
 There is a mailing lists for questions and feedback:
 
@@ -30,12 +30,12 @@ You can subscribe to the list and see the archives here:
 Bug reports and enhancement requests should be sent to the mailing          
 list.  Prior to raising an issue, please search the Pellet Issue Tracker:   
 
-	http://cvsdude.com/trac/clark-parsia/pellet-devel/report                    
+	http://clark-parsia.trac.cvsdude.com/pellet-devel/report                   
 
 A list of issues resolved and enhancements made in this release is          
 available:                                                                  
 
-	http://cvsdude.com/trac/clark-parsia/pellet-devel/report/11
+	http://clark-parsia.trac.cvsdude.com/pellet-devel/report/11
 
 Thanks for using Pellet.
 

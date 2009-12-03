@@ -22,6 +22,6 @@ Characteristics:
 SubPropertyOf:
       connectedWith
 SubPropertyChain:
-       inv hasTarget o hasSource
+       inv  ( hasTarget ) o hasSource
 	
 
