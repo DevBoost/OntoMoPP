@@ -21,16 +21,22 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
 import org.emftext.language.owl.Class;
+import org.emftext.language.owl.Frame;
+import org.emftext.language.owl.IRIIdentified;
+import org.emftext.language.owl.OntologyDocument;
+import org.emftext.language.owl.loading.RemoteLoader;
 import org.emftext.language.owl.resource.owl.IOwlOptionProvider;
 import org.emftext.language.owl.resource.owl.IOwlOptions;
 import org.emftext.language.owl.resource.owl.IOwlProblem;
 import org.emftext.language.owl.resource.owl.IOwlResourcePostProcessor;
 import org.emftext.language.owl.resource.owl.IOwlResourcePostProcessorProvider;
 import org.emftext.language.owl.resource.owl.OwlEProblemType;
+import org.emftext.language.owl.resource.owl.analysis.custom.CrossResourceIRIResolver;
 import org.emftext.language.owl.resource.owl.mopp.OwlResource;
 import org.semanticweb.owl.model.OWLClass;
 
@@ -52,6 +58,7 @@ public class ConsistencyChecker implements IOwlResourcePostProcessor,
 	}
 
 	public void process(OwlResource resource) {
+		checkImportedElements(resource);
 		IFile file = WorkspaceSynchronizer.getFile(resource);
 		try {
 			InputStream stream = file.getContents();
@@ -80,7 +87,7 @@ public class ConsistencyChecker implements IOwlResourcePostProcessor,
 						return e.getMessage();
 					}
 				}, resource.getContents().get(0));
-				
+
 				return;
 			}
 			Set<String> invalidIris = new HashSet<String>();
@@ -111,6 +118,28 @@ public class ConsistencyChecker implements IOwlResourcePostProcessor,
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+
+	private void checkImportedElements(OwlResource resource) {
+		EObject root = resource.getContents().get(0);
+		if (root instanceof OntologyDocument) {
+			OntologyDocument od = (OntologyDocument) root;
+			CrossResourceIRIResolver iriResolver = CrossResourceIRIResolver
+					.theInstance();
+			EList<Frame> frames = od.getOntology().getFrames();
+			for (Frame frame : frames) {
+				String iri = frame.getIri();
+				if (iriResolver.hasPrefix(frame.getIri())) {
+					String prefix = iriResolver.getPrefix(iri);
+					IRIIdentified entity = iriResolver.getOntologyEntity(
+							prefix, od, iriResolver.getId(iri));
+					if(entity == null) {
+						resource.addWarning("The referenced iri-identified element could not be resolved in the imported ontology", frame);
+					}
+				}
+
+			}
 		}
 	}
 

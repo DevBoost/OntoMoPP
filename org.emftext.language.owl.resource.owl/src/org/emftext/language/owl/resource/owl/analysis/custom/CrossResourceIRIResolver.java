@@ -81,14 +81,14 @@ public class CrossResourceIRIResolver {
 		}
 	}
 
-	private String getId(String identifier) {
+	public String getId(String identifier) {
 		int startIdx = identifier.indexOf(":");
 		if ((startIdx == -1)) return "";
 		else return identifier.substring(startIdx+1);
 	
 	}
 
-	private IRIIdentified getOntologyEntity(String iriPrefix, EObject containerObject, String identifier) {
+	public IRIIdentified getOntologyEntity(String iriPrefix, EObject containerObject, String identifier) {
 		
 		EList<EObject> contents = containerObject.eResource().getContents();
 		for (EObject object : contents) {
@@ -112,6 +112,7 @@ public class CrossResourceIRIResolver {
 		for (Namespace namespace : namespaces) {
 			if (iriPrefix.equals(namespace.getPrefix())) {
 				uri = namespace.getImportedOntology().getUri(); 
+				if (uri == null) return null;
 				remoteLoader.loadOntology(uri, ontologyDocument);
 				IRIIdentified entity = remoteLoader.getOntologyElement(identifier);
 				return entity;
@@ -120,13 +121,13 @@ public class CrossResourceIRIResolver {
 		return null;
 	}
 
-	private String getPrefix(String identifier) {
+	public String getPrefix(String identifier) {
 		int startIdx = identifier.indexOf(":");
 		if ((startIdx == -1)) return "";
 		else return identifier.substring(0, startIdx);
 	}
 
-	private boolean hasPrefix(String identifier) {
+	public boolean hasPrefix(String identifier) {
 		return (!(identifier.indexOf(":") == -1));
 	}
 

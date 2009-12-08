@@ -14,14 +14,15 @@
 package org.emftext.language.owl.resource.owl.analysis;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.owl.Ontology;
 import org.emftext.language.owl.OntologyDocument;
+import org.emftext.language.owl.loading.RemoteLoader;
+import org.emftext.language.owl.resource.owl.analysis.custom.CrossResourceIRIResolver;
 
 public class NamespaceImportedOntologyReferenceResolver implements org.emftext.language.owl.resource.owl.IOwlReferenceResolver<org.emftext.language.owl.Namespace, org.emftext.language.owl.Ontology> {
 	
 	private org.emftext.language.owl.resource.owl.analysis.OwlDefaultResolverDelegate<org.emftext.language.owl.Namespace, org.emftext.language.owl.Ontology> delegate = new org.emftext.language.owl.resource.owl.analysis.OwlDefaultResolverDelegate<org.emftext.language.owl.Namespace, org.emftext.language.owl.Ontology>();
+	private RemoteLoader remoteLoader = CrossResourceIRIResolver.theInstance().getRemoteLoader();
 	
 	public void resolve(java.lang.String identifier, org.emftext.language.owl.Namespace container, org.eclipse.emf.ecore.EReference reference, int position, boolean resolveFuzzy, final org.emftext.language.owl.resource.owl.IOwlReferenceResolveResult<org.emftext.language.owl.Ontology> result) {
 		OntologyDocument ontologyDocument = (OntologyDocument) container.eContainer();
@@ -31,6 +32,13 @@ public class NamespaceImportedOntologyReferenceResolver implements org.emftext.l
 			if (identifier.equals(ontology.getUri())) {
 				result.addMapping(identifier, ontology);
 				return;
+			}
+		}
+		if (result.getMappings() == null || result.getMappings().isEmpty()) {
+			Ontology loadedOntology = remoteLoader.loadOntology(identifier, container);
+			if (loadedOntology != null) {
+				ontologyDocument.getOntology().getImports().add(loadedOntology);
+				result.addMapping(identifier, loadedOntology);
 			}
 		}
 	}
