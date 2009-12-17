@@ -155,7 +155,9 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sparql.ecore#//PropertyListNotEmpty/objectlist"/>
     </genClasses>
     <genClasses image="false" ecoreClass="sparql.ecore#//Verb"/>
-    <genClasses ecoreClass="sparql.ecore#//VerbANE"/>
+    <genClasses ecoreClass="sparql.ecore#//VerbANE">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sparql.ecore#//VerbANE/theA"/>
+    </genClasses>
     <genClasses ecoreClass="sparql.ecore#//ObjectList">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sparql.ecore#//ObjectList/object"/>
     </genClasses>
@@ -342,7 +344,6 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute sparql.ecore#//PNAME_NS/pn_prefix"/>
     </genClasses>
     <genClasses ecoreClass="sparql.ecore#//PNAME_LN">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sparql.ecore#//PNAME_LN/pname_ns"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sparql.ecore#//PNAME_LN/pn_local"/>
     </genClasses>
     <genClasses ecoreClass="sparql.ecore#//NotInList">

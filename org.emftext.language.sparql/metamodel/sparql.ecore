@@ -213,7 +213,10 @@
         lowerBound="1" upperBound="-1" eType="#//ObjectList" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Verb" abstract="true" eSuperTypes="#//LocatedElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="VerbANE" eSuperTypes="#//Verb"/>
+  <eClassifiers xsi:type="ecore:EClass" name="VerbANE" eSuperTypes="#//Verb">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="theA" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="a"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ObjectList" eSuperTypes="#//LocatedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="object" ordered="false"
         lowerBound="1" upperBound="-1" eType="#//Object" containment="true"/>
@@ -472,8 +475,6 @@
         unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PNAME_LN" eSuperTypes="#//PrefixedName #//VarOrIRIref">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="pname_ns" ordered="false"
-        lowerBound="1" eType="#//PNAME_NS" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="pn_local" ordered="false"
         lowerBound="1" eType="#//PN_LOCAL" containment="true"/>
   </eClassifiers>
