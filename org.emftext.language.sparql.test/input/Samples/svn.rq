@@ -1,6 +1,6 @@
-PREFIX ex: <http//exampleorg/>
+PREFIX a:  <http//example.org/>
 PREFIX userdef: <java:propertyfunction.>
-CONSTRUCT { ?buch  ex:publishedBy ?verlag .
+CONSTRUCT { ?a  ex:publishedBy ?verlag .
             ?buch  ex:title ?titelupp . 
             ?verlag  ex:name  ?name }
 WHERE { ?buch ex:VerlegtBei ?verlag .
