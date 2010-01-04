@@ -25,6 +25,7 @@ import org.emftext.language.owl.Namespace;
 import org.emftext.language.owl.OntologyDocument;
 import org.emftext.language.owl.OwlFactory;
 import org.emftext.language.owl.OwlPackage;
+import org.emftext.language.owl.loading.OntologyLoadExeption;
 import org.emftext.language.owl.loading.RemoteLoader;
 import org.emftext.language.owl.resource.owl.IOwlReferenceResolveResult;
 
@@ -62,7 +63,13 @@ public class CrossResourceIRIResolver {
 		String iriPrefix = getPrefix(identifier);
 		identifier = getId(identifier);
 		
-		IRIIdentified entity = getOntologyEntity(iriPrefix, containerObject, identifier);
+		IRIIdentified entity;
+		try {
+			entity = getOntologyEntity(iriPrefix, containerObject, identifier);
+		} catch (OntologyLoadExeption e) {
+			result.setErrorMessage(e.getMessage());
+			return;
+		}
 		if (entity != null) {
 			if (entity.eIsProxy()) {
 				entity = (IRIIdentified) EcoreUtil.resolve(entity, containerObject);
@@ -88,7 +95,7 @@ public class CrossResourceIRIResolver {
 	
 	}
 
-	public IRIIdentified getOntologyEntity(String iriPrefix, EObject containerObject, String identifier) {
+	public IRIIdentified getOntologyEntity(String iriPrefix, EObject containerObject, String identifier) throws OntologyLoadExeption {
 		
 		EList<EObject> contents = containerObject.eResource().getContents();
 		for (EObject object : contents) {
@@ -100,7 +107,7 @@ public class CrossResourceIRIResolver {
 		return null;
 	}
 
-	private IRIIdentified searchOntologyEntity(String iriPrefix, OntologyDocument ontologyDocument, String identifier) {
+	private IRIIdentified searchOntologyEntity(String iriPrefix, OntologyDocument ontologyDocument, String identifier) throws OntologyLoadExeption {
 		String uri = standardNamespaces.get(iriPrefix); 
 		if (uri != null) {
 			remoteLoader.loadOntology(uri, ontologyDocument);

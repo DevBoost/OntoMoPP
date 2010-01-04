@@ -75,7 +75,7 @@ public class RemoteLoader {
 		
 	}
 		
-	public Ontology loadOntology(String uri,  EObject container) {
+	public Ontology loadOntology(String uri,  EObject container) throws OntologyLoadExeption {
 		ontology = url2ontologies.get(uri);
 		if (ontology == null) {
 			initialise(uri, container);
@@ -105,7 +105,7 @@ public class RemoteLoader {
 		return hintURI;
 	}
 	
-	private void initialise(String uri, EObject container) {
+	private void initialise(String uri, EObject container) throws OntologyLoadExeption {
 		if (uri.startsWith("http")) {
 			initialiseRemoteUri(uri);
 		}
@@ -122,17 +122,17 @@ public class RemoteLoader {
 		}
 		org.eclipse.emf.common.util.URI loadUri = getLocationHintURI(uri, container);
 		if ("owl".equals(loadUri.fileExtension())) {
-			Resource csResource = null;
+			Resource ontoResource = null;
 			
 			try {
-				csResource = rs.getResource(loadUri, true);
+				ontoResource = rs.getResource(loadUri, true);
 			} catch (Exception e) {
-				System.out.println(e);
+				e.printStackTrace();
 			}
 			
 			EList<EObject> contents = null; 
-			if (csResource != null) {
-				contents = csResource.getContents();	
+			if (ontoResource != null) {
+				contents = ontoResource.getContents();	
 			}
 			if (contents != null && contents.size() > 0) {
 				if(contents.get(0) instanceof OntologyDocument) {
@@ -144,7 +144,7 @@ public class RemoteLoader {
 		}
 	}
 
-	private void initialiseRemoteUri(String uri) {
+	private void initialiseRemoteUri(String uri) throws OntologyLoadExeption {
 		OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 		// Load the ontology 
 		try {
@@ -152,17 +152,10 @@ public class RemoteLoader {
 			ontology = propagate(owlOnto);
 			ontology.setUri(uri);
 		} catch (OWLOntologyCreationException e) {
-			// TODO Auto-generated catch block
-			try {
-				ontology = propagate(manager.
-						createOntology(Collections.EMPTY_SET));
-			} catch (OWLOntologyCreationException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (OWLOntologyChangeException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+				//ontology = propagate(manager.
+				//						createOntology(Collections.EMPTY_SET));
+				throw new OntologyLoadExeption("Ontology could not be loaded for given uri.", e);
+			
 			//e.printStackTrace();
 		}
 		url2ontologies.put(uri, ontology);

@@ -16,6 +16,7 @@ package org.emftext.language.owl.resource.owl.analysis;
 import org.eclipse.emf.common.util.EList;
 import org.emftext.language.owl.Ontology;
 import org.emftext.language.owl.OntologyDocument;
+import org.emftext.language.owl.loading.OntologyLoadExeption;
 import org.emftext.language.owl.loading.RemoteLoader;
 import org.emftext.language.owl.resource.owl.analysis.custom.CrossResourceIRIResolver;
 
@@ -35,7 +36,13 @@ public class NamespaceImportedOntologyReferenceResolver implements org.emftext.l
 			}
 		}
 		if (result.getMappings() == null || result.getMappings().isEmpty()) {
-			Ontology loadedOntology = remoteLoader.loadOntology(identifier, container);
+			Ontology loadedOntology;
+			try {
+				loadedOntology = remoteLoader.loadOntology(identifier, container);
+			} catch (OntologyLoadExeption e) {
+				result.setErrorMessage(e.getMessage());
+				return;
+			}
 			if (loadedOntology != null) {
 				ontologyDocument.getOntology().getImports().add(loadedOntology);
 				result.addMapping(identifier, loadedOntology);

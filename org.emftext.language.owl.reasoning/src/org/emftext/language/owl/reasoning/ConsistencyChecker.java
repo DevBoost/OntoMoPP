@@ -29,6 +29,7 @@ import org.emftext.language.owl.Class;
 import org.emftext.language.owl.Frame;
 import org.emftext.language.owl.IRIIdentified;
 import org.emftext.language.owl.OntologyDocument;
+import org.emftext.language.owl.loading.OntologyLoadExeption;
 import org.emftext.language.owl.loading.RemoteLoader;
 import org.emftext.language.owl.resource.owl.IOwlOptionProvider;
 import org.emftext.language.owl.resource.owl.IOwlOptions;
@@ -60,7 +61,7 @@ public class ConsistencyChecker implements IOwlResourcePostProcessor,
 	public void process(OwlResource resource) {
 		checkImportedElements(resource);
 		IFile file = WorkspaceSynchronizer.getFile(resource);
-		try {
+		try {			
 			InputStream stream = file.getContents();
 			BufferedReader br = new BufferedReader(
 					new InputStreamReader(stream));
@@ -73,8 +74,9 @@ public class ConsistencyChecker implements IOwlResourcePostProcessor,
 			br.close();
 			String content = sb.toString();
 			Set<OWLClass> inconsistentClasses;
-			System.out.println(content);
+			//System.out.println(content);
 			try {
+				
 				inconsistentClasses = reasoner.getInconsistentClasses(content);
 			} catch (final ReasoningException e) {
 				resource.addProblem(new IOwlProblem() {
@@ -132,11 +134,17 @@ public class ConsistencyChecker implements IOwlResourcePostProcessor,
 				String iri = frame.getIri();
 				if (iriResolver.hasPrefix(frame.getIri())) {
 					String prefix = iriResolver.getPrefix(iri);
-					IRIIdentified entity = iriResolver.getOntologyEntity(
-							prefix, od, iriResolver.getId(iri));
-					if(entity == null) {
-						resource.addWarning("The referenced iri-identified element could not be resolved in the imported ontology", frame);
+					IRIIdentified entity;
+					try {
+						entity = iriResolver.getOntologyEntity(
+								prefix, od, iriResolver.getId(iri));
+						if(entity == null) {
+							resource.addWarning("The referenced iri-identified element could not be resolved in the imported ontology", frame);
+						}
+					} catch (OntologyLoadExeption e) {
+						resource.addWarning(e.getMessage(), frame);	
 					}
+					
 				}
 
 			}

@@ -16,6 +16,7 @@ package org.emftext.language.owl.resource.owl.analysis;
 import java.util.Map;
 
 import org.emftext.language.owl.Ontology;
+import org.emftext.language.owl.loading.OntologyLoadExeption;
 import org.emftext.language.owl.loading.RemoteLoader;
 import org.emftext.language.owl.resource.owl.IOwlReferenceResolveResult;
 import org.emftext.language.owl.resource.owl.IOwlReferenceResolver;
@@ -34,7 +35,13 @@ public class OntologyImportsReferenceResolver implements IOwlReferenceResolver<o
 	
 		
 	public void resolve(java.lang.String identifier, org.emftext.language.owl.Ontology container, org.eclipse.emf.ecore.EReference reference, int position, boolean resolveFuzzy, IOwlReferenceResolveResult<org.emftext.language.owl.Ontology> result) {
-		Ontology loadedOntology = remoteLoader.loadOntology(identifier, container);
+		Ontology loadedOntology;
+		try {
+			loadedOntology = remoteLoader.loadOntology(identifier, container);
+		} catch (OntologyLoadExeption e) {
+			result.setErrorMessage(e.getMessage());
+			return;
+		}
 		if (loadedOntology != null) {
 			result.addMapping(identifier, loadedOntology);
 		}
