@@ -1,0 +1,4 @@
++Feature "testRootFeature" {
+	-Feature "anOptionalFeature"
+	+Feature "anMandatoryFeature"
+}

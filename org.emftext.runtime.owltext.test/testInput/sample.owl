@@ -1,0 +1,17 @@
+Namespace: feature <platform:/resource/org.emftext.runtime.owltext.test/metamodel/feature.owl#>
+
+Ontology: <http://www.semanticweb.org/ontologies/2009/7/manch.owl>
+Import: <platform:/resource/org.emftext.runtime.owltext.test/metamodel/feature.owl>
+
+Individual: testRootFeature
+	Types: feature:MandatoryFeature
+	
+Individual: anOptionalFeature
+	Types: feature:OptionalFeature
+
+Individual: anMandatoryFeature
+	Types: feature:MandatoryFeature, feature:OptionalFeature
+	
+Class: feature:OptionalFeature
+
+Class: feature:MandatoryFeature
