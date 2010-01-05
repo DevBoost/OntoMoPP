@@ -234,4 +234,26 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		return super.eIsSet(featureID);
 	}
 
+	public String getOWLRepresentation() {
+		// TODO implement printing to manchester syntax
+		return "Namespace: feature <platform:/resource/org.emftext.runtime.owltext.test/metamodel/feature.owl#>\n"+
+
+"Ontology: <http://www.semanticweb.org/ontologies/2009/7/manch.owl>\n"+
+"Import: <platform:/resource/org.emftext.runtime.owltext.test/metamodel/feature.owl>\n"+
+
+"Individual: testRootFeature\n"+
+"	Types: feature:MandatoryFeature\n"+
+	
+"Individual: anOptionalFeature\n"+
+"	Types: feature:OptionalFeature\n"+
+
+"Individual: anMandatoryFeature\n"+
+"	Types: feature:MandatoryFeature, feature:OptionalFeature\n"+
+	
+"Class: feature:OptionalFeature\n"+
+
+"Class: feature:MandatoryFeature\n"+
+"";
+	}
+
 }
