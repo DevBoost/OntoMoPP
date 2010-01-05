@@ -1,6 +1,5 @@
 package org.emftext.runtime.owltext;
 
-import java.awt.PageAttributes.OriginType;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -13,6 +12,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 public class OWLTextEObjectImpl extends EObjectImpl {
 
+	// TODO fix generics warings
 	private final class OWLTextEListDelegator implements EList {
 		private final EList original;
 		private OWLTextEObjectImpl thisObject;
@@ -25,21 +25,20 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		}
 
 		public boolean add(Object e) {
+			// TODO add corresponding axioms to ontology
 			System.out.println("add: " + thisObject.eClass().getName() +"." + thisObject.eDynamicFeature(featureID).getName() + " " + e);
-			
 			return original.add(e);
 		}
 
 		public boolean addAll(Collection c) {
+			// TODO add corresponding axioms to ontology
 			System.out.println("addAll: " + thisObject.eClass().getName() +"." + thisObject.eDynamicFeature(featureID).getName() + " " + c);
-			
 			return original.addAll(c);
 		}
 
 		public void clear() {
+			// TODO add corresponding axioms to ontology
 			System.out.println("clear: " + thisObject.eClass().getName() +"." + thisObject.eDynamicFeature(featureID).getName() );
-			
-			
 			original.clear();
 		}
 
@@ -60,18 +59,19 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		}
 
 		public boolean remove(Object o) {
+			// TODO remove corresponding axioms to ontology
 			System.out.println("remove: " + thisObject.eClass().getName() +"." + thisObject.eDynamicFeature(featureID).getName() + " " + o);
-			
 			return original.remove(o);
 		}
 
 		public boolean removeAll(Collection c) {
+			// TODO remove corresponding axioms to ontology
 			System.out.println("removeAll: " + thisObject.eClass().getName() +"." + thisObject.eDynamicFeature(featureID).getName() + " " + c);
-			
 			return original.removeAll(c);
 		}
 
 		public boolean retainAll(Collection c) {
+			// TODO remove corresponding axioms to ontology
 			return original.removeAll(c);
 		}
 
@@ -88,35 +88,34 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		}
 
 		public void move(int newPosition, Object object) {
+			// TODO add corresponding axioms to ontology
 			System.out.println("move" + thisObject.eClass().getName() +"." + thisObject.eDynamicFeature(featureID).getName() );
-			
-			
 			original.move(newPosition, object);
 			
 		}
 
 		public Object move(int newPosition, int oldPosition) {
+			// TODO add corresponding axioms to ontology
 			System.out.println("move" + thisObject.eClass().getName() +"." + thisObject.eDynamicFeature(featureID).getName() );
-			
 			return original.move(newPosition, oldPosition);
 		}
 
 		public void add(int index, Object element) {
+			// TODO add corresponding axioms to ontology
 			System.out.println("add at" + thisObject.eClass().getName() +"." + thisObject.eDynamicFeature(featureID).getName() );
-			
 			original.add(index, element);
 			
 		}
 
 		public boolean addAll(int index, Collection c) {
+			// TODO add corresponding axioms to ontology
 			System.out.println("addAll at" + thisObject.eClass().getName() +"." + thisObject.eDynamicFeature(featureID).getName() );
-			
 			return original.addAll(index, c);
 		}
 
 		public Object get(int index) {
+			// TODO infer and read corresponding axioms to ontology
 			System.out.println("get at" + thisObject.eClass().getName() +"." + thisObject.eDynamicFeature(featureID).getName() );
-			
 			return original.get(index);
 		}
 
@@ -137,12 +136,13 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		}
 
 		public Object remove(int index) {
+			// TODO remove corresponding axioms to ontology
 			System.out.println("remove at" + thisObject.eClass().getName() +"." + thisObject.eDynamicFeature(featureID).getName() );
-			
 			return original.remove(index);
 		}
 
 		public Object set(int index, Object element) {
+			// TODO adapt corresponding axioms to ontology
 			return original.set(index, element);
 		}
 
@@ -155,6 +155,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 
 	public OWLTextEObjectImpl() {
 		super();
+		// TODO add corresponding axioms to ontology
 		System.out.println("> construct " + this.eClass().getName()
 				+ this.hashCode());
 
@@ -168,6 +169,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
+		// TODO remove corresponding axioms to ontology
 		System.out.println("eInverseRemove: " + this.eClass().getName()
 				+ this.hashCode() + "."
 				+ this.eDynamicFeature(featureID).getName() + " " + otherEnd);
@@ -182,6 +184,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 	@Override
 	  public Object eGet(int featureID, boolean resolve, boolean coreType)
 	  {
+		// TODO infer and read corresponding axioms from ontology
 		System.out.println("eGet: " + this.eClass().getName() + this.hashCode() + "." + this.eDynamicFeature(featureID).getName());
 		Object result = super.eGet(featureID, resolve, coreType);
 		if (result instanceof EList) {
@@ -202,6 +205,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
+		// TODO add corresponding axioms to ontology
 		System.out.println("eSet: " + this.eClass().getName() + this.hashCode()
 				+ "." + this.eDynamicFeature(featureID).getName() + " "
 				+ newValue);
@@ -215,6 +219,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 	 */
 	@Override
 	public void eUnset(int featureID) {
+		// TODO remove corresponding axioms to ontology
 		System.out.println("eUnset: " + this.eClass().getName()
 				+ this.hashCode() + "."
 				+ this.eDynamicFeature(featureID).getName());
@@ -228,6 +233,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
+		// TODO infer and read corresponding axioms to ontology
 		System.out.println("eIsSet: " + this.eClass().getName()
 				+ this.hashCode() + "."
 				+ this.eDynamicFeature(featureID).getName());
@@ -235,25 +241,9 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 	}
 
 	public String getOWLRepresentation() {
-		// TODO implement printing to manchester syntax
-		return "Namespace: feature <platform:/resource/org.emftext.runtime.owltext.test/metamodel/feature.owl#>\n"+
-
-"Ontology: <http://www.semanticweb.org/ontologies/2009/7/manch.owl>\n"+
-"Import: <platform:/resource/org.emftext.runtime.owltext.test/metamodel/feature.owl>\n"+
-
-"Individual: testRootFeature\n"+
-"	Types: feature:MandatoryFeature\n"+
-	
-"Individual: anOptionalFeature\n"+
-"	Types: feature:OptionalFeature\n"+
-
-"Individual: anMandatoryFeature\n"+
-"	Types: feature:MandatoryFeature, feature:OptionalFeature\n"+
-	
-"Class: feature:OptionalFeature\n"+
-
-"Class: feature:MandatoryFeature\n"+
-"";
+		// TODO implement printing to manchester syntax 
+		// using the plugin org.emftext.language.owl.resource.owl
+		return "";
 	}
 
 }
