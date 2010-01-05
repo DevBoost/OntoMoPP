@@ -154,7 +154,7 @@ public class RemoteLoader {
 		} catch (OWLOntologyCreationException e) {
 				//ontology = propagate(manager.
 				//						createOntology(Collections.EMPTY_SET));
-				throw new OntologyLoadExeption("Ontology could not be loaded for given uri.", e);
+				throw new OntologyLoadExeption("Ontology could not be loaded for given URI (" + uri + ").", e);
 			
 			//e.printStackTrace();
 		}
