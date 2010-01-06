@@ -44,6 +44,7 @@ public class ConsistencyChecker implements IOwlResourcePostProcessor,
 
 	public void process(OwlResource resource) {
 		checkImportedElements(resource);
+
 	}
 
 	private void checkImportedElements(OwlResource resource) {
@@ -55,6 +56,8 @@ public class ConsistencyChecker implements IOwlResourcePostProcessor,
 			EList<Frame> frames = od.getOntology().getFrames();
 			for (Frame frame : frames) {
 				String iri = frame.getIri();
+				// ignore anonymous frames
+				if (iri == null) continue;
 				if (iriResolver.hasPrefix(frame.getIri())) {
 					String prefix = iriResolver.getPrefix(iri);
 					IRIIdentified entity;

@@ -22,6 +22,7 @@ import org.emftext.language.owl.resource.owl.IOwlProblem;
 import org.emftext.language.owl.resource.owl.OwlEProblemType;
 import org.emftext.language.owl.resource.owl.mopp.OwlBuilderAdapter;
 import org.emftext.language.owl.resource.owl.mopp.OwlResource;
+import org.emftext.language.owl.resource.owl.ui.OwlMarkerHelper;
 import org.emftext.language.owl.resource.owl.util.OwlStreamUtil;
 import org.semanticweb.owl.model.OWLClass;
 
@@ -90,6 +91,7 @@ public class OwlReasoningBuilder extends IncrementalProjectBuilder implements IO
 					}
 				}
 			}
+			OwlMarkerHelper.mark(resource);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

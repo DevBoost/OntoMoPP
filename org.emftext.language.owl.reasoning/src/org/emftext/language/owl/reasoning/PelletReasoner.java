@@ -23,6 +23,7 @@ import org.eclipse.core.runtime.Path;
 import org.mindswap.pellet.exceptions.InternalReasonerException;
 import org.mindswap.pellet.owlapi.Reasoner;
 import org.semanticweb.owl.apibinding.OWLManager;
+import org.semanticweb.owl.inference.OWLReasonerException;
 import org.semanticweb.owl.io.OWLParser;
 import org.semanticweb.owl.io.OWLParserFactoryRegistry;
 import org.semanticweb.owl.io.StringInputSource;
@@ -75,7 +76,6 @@ public class PelletReasoner implements org.emftext.language.owl.reasoning.EMFTex
 			Set<OWLOntology> importsClosure = manager
 					.getImportsClosure(ontology);
 			reasoner.loadOntologies(importsClosure);
-			
 			// derive inconsistent classes
 			if (!reasoner.isConsistent()) {
 				
@@ -90,7 +90,11 @@ public class PelletReasoner implements org.emftext.language.owl.reasoning.EMFTex
 //			
 			}
 			else {
-			//reasoner.realise();
+				reasoner.realise();
+				reasoner.getKB().printClassTree();
+			
+				
+				//reasoner.realise();
 			//reasoner.classify();
 			//reasoner.getKB().ensureConsistency();
 			inconsistentClasses = reasoner
@@ -106,10 +110,10 @@ public class PelletReasoner implements org.emftext.language.owl.reasoning.EMFTex
 			String message = "The ontology could not be checked for consistency: "+ e.getMessage();
 			throw new ReasoningException(message, e);
 		} 
-//			catch (OWLReasonerException e) {
-//			String message = "The ontology could not be checked for consistency: "+ e.getMessage();
-//			throw new ReasoningException(message, e);
-//		}
+			catch (OWLReasonerException e) {
+			String message = "The ontology could not be checked for consistency: "+ e.getMessage();
+			throw new ReasoningException(message, e);
+		}
 	
 
 	}
