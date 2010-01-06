@@ -24,6 +24,8 @@ import org.emftext.language.owl.DataPropertyFact;
 import org.emftext.language.owl.Datatype;
 import org.emftext.language.owl.DatatypeReference;
 import org.emftext.language.owl.Feature;
+import org.emftext.language.owl.FeatureReference;
+import org.emftext.language.owl.FeatureRestriction;
 import org.emftext.language.owl.Frame;
 import org.emftext.language.owl.Individual;
 import org.emftext.language.owl.ObjectProperty;
@@ -161,14 +163,14 @@ public class Ecore2Owl {
 					
 					if (attribute.getLowerBound() != 0) {
 						ObjectPropertyMin minRestriction = owlFactory.createObjectPropertyMin();
-						minRestriction.setFeature(dataProperty);
+						setFeature(minRestriction, dataProperty);
 						minRestriction.setValue(attribute.getLowerBound());
 						supertypes.getPrimaries().add(minRestriction);
 					}
 					
 					if (attribute.getUpperBound() != -1) {
 						ObjectPropertyMax maxRestriction = owlFactory.createObjectPropertyMax();
-						maxRestriction.setFeature(dataProperty);
+						setFeature(maxRestriction, dataProperty);
 						maxRestriction.setValue(attribute.getUpperBound());
 						supertypes.getPrimaries().add(maxRestriction);
 					}
@@ -179,14 +181,14 @@ public class Ecore2Owl {
 					
 					if (reference.getLowerBound() != 0) {
 						ObjectPropertyMin minRestriction = owlFactory.createObjectPropertyMin();
-						minRestriction.setFeature(objectProperty);
+						setFeature(minRestriction, objectProperty);
 						minRestriction.setValue(reference.getLowerBound());
 						supertypes.getPrimaries().add(minRestriction);
 					}
 					
 					if (reference.getUpperBound() != -1) {
 						ObjectPropertyMax maxRestriction = owlFactory.createObjectPropertyMax();
-						maxRestriction.setFeature(objectProperty);
+						setFeature(maxRestriction, objectProperty);
 						maxRestriction.setValue(reference.getUpperBound());
 						supertypes.getPrimaries().add(maxRestriction);
 					}
@@ -196,6 +198,12 @@ public class Ecore2Owl {
 			
 		}
 		
+	}
+
+	private void setFeature(FeatureRestriction restriction, Feature feature) {
+		FeatureReference reference = OwlFactory.eINSTANCE.createFeatureReference();
+		reference.setFeature(feature);
+		restriction.setFeatureReference(reference);
 	}
 
 	private void transformSingle(EAttribute elem) {
