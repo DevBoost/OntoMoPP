@@ -1,0 +1,15 @@
+Namespace: ecore <platform:/resource/org.emftext.language.owl/models/ecore.owl#>
+
+Ontology: <http://test.org/persons.owl>
+Import: <platform:/resource/org.emftext.language.owl/models/ecore.owl>
+
+Individual: Person
+	Types: ecore:EClass
+	
+Class: InvalidTest
+	SubClassOf: ecore:EClass, ecore:EPackage
+	
+Class: ecore:EClass
+
+Class: ecore:EPackage
+    

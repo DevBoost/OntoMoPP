@@ -1,0 +1,10 @@
+Ontology: <platform:/resource/org.emftext.language.owl/models/ecore.owl>
+
+Class:	EClassifier
+
+Class: EClass
+	SubClassOf: EClassifier
+
+Class: EPackage
+	DisjointWith: EClass
+	
