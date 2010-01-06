@@ -12,39 +12,24 @@
  ******************************************************************************/
 package org.emftext.language.owl.reasoning;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
-import org.emftext.language.owl.Class;
 import org.emftext.language.owl.Frame;
 import org.emftext.language.owl.IRIIdentified;
 import org.emftext.language.owl.OntologyDocument;
 import org.emftext.language.owl.loading.OntologyLoadExeption;
-import org.emftext.language.owl.loading.RemoteLoader;
 import org.emftext.language.owl.resource.owl.IOwlOptionProvider;
 import org.emftext.language.owl.resource.owl.IOwlOptions;
-import org.emftext.language.owl.resource.owl.IOwlProblem;
 import org.emftext.language.owl.resource.owl.IOwlResourcePostProcessor;
 import org.emftext.language.owl.resource.owl.IOwlResourcePostProcessorProvider;
-import org.emftext.language.owl.resource.owl.OwlEProblemType;
 import org.emftext.language.owl.resource.owl.analysis.custom.CrossResourceIRIResolver;
 import org.emftext.language.owl.resource.owl.mopp.OwlResource;
-import org.semanticweb.owl.model.OWLClass;
 
 public class ConsistencyChecker implements IOwlResourcePostProcessor,
 		IOwlResourcePostProcessorProvider, IOwlOptionProvider {
-
-	private EMFTextOWLReasoner reasoner;
 
 	public Map<?, ?> getOptions() {
 		Map<String, Object> options = new HashMap<String, Object>();
@@ -54,73 +39,11 @@ public class ConsistencyChecker implements IOwlResourcePostProcessor,
 	}
 
 	public ConsistencyChecker() {
-		this.reasoner = new PelletReasoner();
-
+		super();
 	}
 
 	public void process(OwlResource resource) {
 		checkImportedElements(resource);
-		IFile file = WorkspaceSynchronizer.getFile(resource);
-		try {			
-			InputStream stream = file.getContents();
-			BufferedReader br = new BufferedReader(
-					new InputStreamReader(stream));
-			StringBuilder sb = new StringBuilder();
-			String line = null;
-
-			while ((line = br.readLine()) != null) {
-				sb.append(line + "\n");
-			}
-			br.close();
-			String content = sb.toString();
-			Set<OWLClass> inconsistentClasses;
-			//System.out.println(content);
-			try {
-				
-				inconsistentClasses = reasoner.getInconsistentClasses(content);
-			} catch (final ReasoningException e) {
-				resource.addProblem(new IOwlProblem() {
-
-					public OwlEProblemType getType() {
-						return OwlEProblemType.ERROR;
-					}
-
-					public String getMessage() {
-						return e.getMessage();
-					}
-				}, resource.getContents().get(0));
-
-				return;
-			}
-			Set<String> invalidIris = new HashSet<String>();
-			for (OWLClass class1 : inconsistentClasses) {
-				invalidIris.add(class1.getURI().getFragment());
-			}
-			TreeIterator<EObject> allContents = resource.getAllContents();
-			while (allContents.hasNext()) {
-				EObject next = allContents.next();
-				if (next instanceof Class) {
-					final Class c = ((Class) next);
-					if (invalidIris.contains(c.getIri())) {
-						resource.addProblem(new IOwlProblem() {
-
-							public OwlEProblemType getType() {
-								return OwlEProblemType.ERROR;
-							}
-
-							public String getMessage() {
-								return "The class '" + c.getIri()
-										+ "' is inconsistent.";
-							}
-						}, next);
-					}
-				}
-			}
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	private void checkImportedElements(OwlResource resource) {

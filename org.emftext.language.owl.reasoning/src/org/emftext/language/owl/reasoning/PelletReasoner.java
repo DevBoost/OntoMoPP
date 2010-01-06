@@ -12,9 +12,6 @@
  ******************************************************************************/
 package org.emftext.language.owl.reasoning;
 
-import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
 import java.net.URI;
 import java.util.HashSet;
 import java.util.Set;
@@ -29,19 +26,11 @@ import org.semanticweb.owl.apibinding.OWLManager;
 import org.semanticweb.owl.io.OWLParser;
 import org.semanticweb.owl.io.OWLParserFactoryRegistry;
 import org.semanticweb.owl.io.StringInputSource;
-import org.semanticweb.owl.model.OWLAxiom;
 import org.semanticweb.owl.model.OWLClass;
-import org.semanticweb.owl.model.OWLException;
 import org.semanticweb.owl.model.OWLOntology;
 import org.semanticweb.owl.model.OWLOntologyCreationException;
 import org.semanticweb.owl.model.OWLOntologyManager;
 import org.semanticweb.owl.model.OWLOntologyURIMapper;
-
-import com.clarkparsia.explanation.PelletExplanation;
-import com.clarkparsia.explanation.io.manchester.BlockWriter;
-import com.clarkparsia.explanation.io.manchester.ManchesterSyntaxExplanationRenderer;
-import com.clarkparsia.explanation.io.manchester.ManchesterSyntaxObjectRenderer;
-import com.clarkparsia.explanation.io.manchester.TextBlockWriter;
 
 public class PelletReasoner implements org.emftext.language.owl.reasoning.EMFTextOWLReasoner {
 
