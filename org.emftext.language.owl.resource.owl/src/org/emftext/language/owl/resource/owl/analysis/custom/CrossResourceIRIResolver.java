@@ -135,9 +135,6 @@ public class CrossResourceIRIResolver {
 	}
 
 	public boolean hasPrefix(String identifier) {
-		if (identifier == null) {
-			return false;
-		}
 		return (!(identifier.indexOf(":") == -1));
 	}
 
