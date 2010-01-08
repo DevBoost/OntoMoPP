@@ -5,7 +5,9 @@ Bundle-SymbolicName: org.emftext.runtime.owltext
 Bundle-Version: 0.1.0.qualifier
 Bundle-Activator: org.emftext.runtime.owltext.OWLTextRuntimePlugin
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.emf.ecore
+ org.eclipse.emf.ecore,
+ org.emftext.language.owl,
+ org.emftext.language.owl.resource.owl
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.emftext.runtime.owltext
