@@ -1,5 +1,6 @@
 package org.emftext.runtime.owltext;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -9,9 +10,15 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.emftext.language.owl.Individual;
+import org.emftext.language.owl.OwlFactory;
+import org.emftext.language.owl.resource.owl.mopp.OwlPrinter;
+import org.semanticweb.owl.io.StringOutputTarget;
 
 public class OWLTextEObjectImpl extends EObjectImpl {
 
+	private Individual owlIndividual;
+	
 	// TODO fix generics warings
 	private final class OWLTextEListDelegator implements EList {
 		private final EList original;
@@ -158,7 +165,8 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		// TODO add corresponding axioms to ontology
 		System.out.println("> construct " + this.eClass().getName()
 				+ this.hashCode());
-
+		this.owlIndividual =  OwlFactory.eINSTANCE.createIndividual();
+		
 	}
 
 	/**
@@ -240,10 +248,17 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		return super.eIsSet(featureID);
 	}
 
-	public String getOWLRepresentation() {
-		// TODO implement printing to manchester syntax 
-		// using the plugin org.emftext.language.owl.resource.owl
-		return "";
+	public void appendOWLRepresentation(OwlPrinter printer) {
+		printer.print(this.owlIndividual);
 	}
+	
+	public String getOWLRepresentation() {
+		ByteArrayOutputStream outStream=new ByteArrayOutputStream();  
+	    OwlPrinter printer = new OwlPrinter(outStream, null);
+	    appendOWLRepresentation(printer);
+	    String string = outStream.toString();
+	    return string;
+	}
+	
 
 }
