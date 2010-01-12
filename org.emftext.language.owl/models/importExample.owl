@@ -1,11 +1,11 @@
-Namespace: pizza: <http://www.co-ode.org/ontologies/pizza/pizza.owl#>
+Namespace: pizza <http://www.co-ode.org/ontologies/pizza/pizza.owl#>
 
 
 Ontology: <http://example/s> 
 Import: <http://www.co-ode.org/ontologies/pizza/pizza.owl#>
 
 Class: MyExample
-    SubClassOf: owl:Thing and pizza:Pizza and not pizza:Pizza
+    SubClassOf: owl:Thing and pizza:Pizza
     
 Class: pizza:Pizza
 
