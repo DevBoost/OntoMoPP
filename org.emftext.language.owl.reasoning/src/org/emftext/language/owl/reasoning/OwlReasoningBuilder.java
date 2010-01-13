@@ -64,7 +64,7 @@ public class OwlReasoningBuilder extends IncrementalProjectBuilder implements IO
 						return e.getMessage();
 					}
 				}, resource.getContents().get(0));
-
+				OwlMarkerHelper.mark(resource);
 				return Status.OK_STATUS;
 			}
 			Set<String> invalidIris = new HashSet<String>();

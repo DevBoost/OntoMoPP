@@ -19,6 +19,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.owl.Frame;
 import org.emftext.language.owl.IRIIdentified;
+import org.emftext.language.owl.Namespace;
 import org.emftext.language.owl.OntologyDocument;
 import org.emftext.language.owl.loading.OntologyLoadExeption;
 import org.emftext.language.owl.resource.owl.IOwlOptionProvider;
@@ -43,37 +44,42 @@ public class ConsistencyChecker implements IOwlResourcePostProcessor,
 	}
 
 	public void process(OwlResource resource) {
-		checkImportedElements(resource);
-
-	}
-
-	private void checkImportedElements(OwlResource resource) {
 		EObject root = resource.getContents().get(0);
 		if (root instanceof OntologyDocument) {
 			OntologyDocument od = (OntologyDocument) root;
-			CrossResourceIRIResolver iriResolver = CrossResourceIRIResolver
-					.theInstance();
-			EList<Frame> frames = od.getOntology().getFrames();
-			for (Frame frame : frames) {
-				String iri = frame.getIri();
-				// ignore anonymous frames
-				if (iri == null) continue;
-				if (iriResolver.hasPrefix(frame.getIri())) {
-					String prefix = iriResolver.getPrefix(iri);
-					IRIIdentified entity;
-					try {
-						entity = iriResolver.getOntologyEntity(
-								prefix, od, iriResolver.getId(iri));
-						if(entity == null) {
-							resource.addWarning("The referenced iri-identified element could not be resolved in the imported ontology", frame);
-						}
-					} catch (OntologyLoadExeption e) {
-						resource.addWarning(e.getMessage(), frame);	
+			checkImportedElements(od, resource);
+		}
+	}
+
+	
+	private void checkImportedElements(OntologyDocument od, OwlResource resource) {
+
+		CrossResourceIRIResolver iriResolver = CrossResourceIRIResolver
+				.theInstance();
+		EList<Frame> frames = od.getOntology().getFrames();
+		for (Frame frame : frames) {
+			String iri = frame.getIri();
+			// ignore anonymous frames
+			if (iri == null)
+				continue;
+			if (iriResolver.hasPrefix(frame.getIri())) {
+				String prefix = iriResolver.getPrefix(iri);
+				IRIIdentified entity;
+				try {
+					entity = iriResolver.getOntologyEntity(prefix, od,
+							iriResolver.getId(iri));
+					if (entity == null) {
+						resource
+								.addWarning(
+										"The referenced iri-identified element could not be resolved in the imported ontology",
+										frame);
 					}
-					
+				} catch (OntologyLoadExeption e) {
+					resource.addWarning(e.getMessage(), frame);
 				}
 
 			}
+
 		}
 	}
 

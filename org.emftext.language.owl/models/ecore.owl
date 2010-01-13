@@ -1,10 +1,33 @@
 Ontology: <platform:/resource/org.emftext.language.owl/models/ecore.owl>
 
-Class:	EClassifier
+Class: NamedElement
+		SubClassOf:
+		name  exactly 1 xsd:string
+		
+	Class: EPackage
+		SubClassOf: NamedElement
+		DisjointWith: EClass, EAttribute
+		
+	Class: EClass
+		SubClassOf: NamedElement
+		DisjointWith: EPackage, EAttribute
+		
+	Class: EAttribute
+		SubClassOf: NamedElement 
+		DisjointWith: EPackage, EClass 
+		
+	DataProperty: name 
+		Domain: NamedElement
+		Range:  xsd:string 
+		Characteristics: Functional 
 
-Class: EClass
-	SubClassOf: EClassifier
+	ObjectProperty: eAttributes
+		Domain:  EClass
+		Range:  EAttribute
+		InverseOf: containingEClass
 
-Class: EPackage
-	DisjointWith: EClass
-	
+	ObjectProperty: containingEClass
+		Domain:  EAttribute
+		Range:  EClass
+		InverseOf: eAttributes
+

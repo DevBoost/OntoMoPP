@@ -7,8 +7,9 @@ Individual: Person
 	Types: ecore:EClass
 	
 Class: InvalidTest
-	SubClassOf: ecore:EClass, ecore:EPackage
-	
+	SubClassOf: ecore:EClass
+/** test **/
+
 Class: ecore:EClass
 
 Class: ecore:EPackage

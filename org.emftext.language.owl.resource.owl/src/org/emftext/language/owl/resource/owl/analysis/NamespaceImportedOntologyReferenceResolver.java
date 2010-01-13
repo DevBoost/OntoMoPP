@@ -19,6 +19,7 @@ import org.emftext.language.owl.OntologyDocument;
 import org.emftext.language.owl.loading.OntologyLoadExeption;
 import org.emftext.language.owl.loading.RemoteLoader;
 import org.emftext.language.owl.resource.owl.analysis.custom.CrossResourceIRIResolver;
+import org.emftext.language.owl.resource.owl.mopp.OwlResource;
 
 public class NamespaceImportedOntologyReferenceResolver implements org.emftext.language.owl.resource.owl.IOwlReferenceResolver<org.emftext.language.owl.Namespace, org.emftext.language.owl.Ontology> {
 	
@@ -28,6 +29,9 @@ public class NamespaceImportedOntologyReferenceResolver implements org.emftext.l
 	public void resolve(java.lang.String identifier, org.emftext.language.owl.Namespace container, org.eclipse.emf.ecore.EReference reference, int position, boolean resolveFuzzy, final org.emftext.language.owl.resource.owl.IOwlReferenceResolveResult<org.emftext.language.owl.Ontology> result) {
 		OntologyDocument ontologyDocument = (OntologyDocument) container.eContainer();
 		EList<Ontology> imports = ontologyDocument.getOntology().getImports();
+		if (!identifier.endsWith("#")) {
+			((OwlResource) container.eResource()).addWarning("URIs of imported namespaces should end with \"#\", to allow for resolving its declarations by iri", container);
+		}
 		for (Ontology ontology : imports) {
 			
 			if (identifier.equals(ontology.getUri())) {

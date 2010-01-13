@@ -51,7 +51,9 @@ public class PelletReasoner implements org.emftext.language.owl.reasoning.EMFTex
 			OWLParser parser = f.createParser(manager);
 			
 			// load and parse ontology in manchester syntax
-			StringInputSource inputSource = new StringInputSource(owlRepresentation);
+			StringInputSource inputSource = new StringInputSource(owlRepresentation) {
+				
+			};
 			OWLOntology ontology = manager.createOntology(URI.create("check"));
 			manager.addURIMapper(new OWLOntologyURIMapper() {
 				
@@ -78,7 +80,8 @@ public class PelletReasoner implements org.emftext.language.owl.reasoning.EMFTex
 			reasoner.loadOntologies(importsClosure);
 			// derive inconsistent classes
 			if (!reasoner.isConsistent()) {
-				
+				String message = "The ontologies fact base is inconsistent. ";
+				throw new ReasoningException(message);
 			
 //
 //				PelletExplanation pe = new PelletExplanation(reasoner);
@@ -94,11 +97,11 @@ public class PelletReasoner implements org.emftext.language.owl.reasoning.EMFTex
 				reasoner.getKB().printClassTree();
 			
 				
-				//reasoner.realise();
-			//reasoner.classify();
-			//reasoner.getKB().ensureConsistency();
-			inconsistentClasses = reasoner
-					.getInconsistentClasses();
+					//reasoner.realise();
+				//reasoner.classify();
+				//reasoner.getKB().ensureConsistency();
+				inconsistentClasses = reasoner
+						.getInconsistentClasses();
 			}
 			return inconsistentClasses;
 
