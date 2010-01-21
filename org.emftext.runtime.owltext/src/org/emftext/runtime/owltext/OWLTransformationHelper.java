@@ -10,7 +10,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.resource.Resource.Factory;
 import org.emftext.language.owl.AnnotationProperty;
 import org.emftext.language.owl.Class;
 import org.emftext.language.owl.DataProperty;
@@ -26,12 +25,17 @@ import org.emftext.language.owl.loading.OntologyLoadExeption;
 import org.emftext.language.owl.resource.owl.analysis.custom.CrossResourceIRIResolver;
 import org.emftext.language.owl.resource.owl.mopp.OwlPrinter;
 
-public class OWLTextHelper {
+public class OWLTransformationHelper {
 
 
 	private static Map<EObject, Integer> uniqueIdMap = new HashMap<EObject, Integer>();
 	private static int counter = 0;
 	private static Map<EPackage, Ontology> packageOntologyMap = new HashMap<EPackage, Ontology>();
+	
+	private static String getNamespacePrefix(EPackage ePackage) {
+		return ePackage.getName();
+	}
+
 	
 	public static String createIri(EClass eClass) {
 		String iri = eClass.getEPackage().getName();
@@ -40,7 +44,7 @@ public class OWLTextHelper {
 		return iri;
 	}
 
-	public static String createIri(OWLTextEObjectImpl eObject) {
+	public static String getIdentificationIRI(OWLTextEObjectImpl eObject) {
 		return "individual_" + getUniqueId(eObject);
 	}
 
@@ -53,7 +57,7 @@ public class OWLTextHelper {
 		return id.toString();
 	}
 
-	public static String createIri(EStructuralFeature feature) {
+	public static String getIdentificationIRI(EStructuralFeature feature) {
 		String iri = createIri(feature.getEContainingClass());
 		iri += "_" + feature.getName();
 		return iri;
@@ -97,7 +101,7 @@ public class OWLTextHelper {
 		
 		
 		Namespace namespace = factory.createNamespace();
-		String metaModelNamespacePrefix = createNamespacePrefix(ePackage);
+		String metaModelNamespacePrefix = getNamespacePrefix(ePackage);
 		namespace.setPrefix(metaModelNamespacePrefix);
 		namespace.setImportedOntology(importedMetamodelOntology);
 		ontologyDocument.getNamespace().add(namespace);
@@ -127,9 +131,6 @@ public class OWLTextHelper {
 		}
 	}
 
-	private static String createNamespacePrefix(EPackage ePackage) {
-		return ePackage.getName();
-	}
 
 	private static Ontology getOntology(EPackage ePackage, OWLTextEObjectImpl root) {
 		Ontology ontology = packageOntologyMap.get(ePackage);

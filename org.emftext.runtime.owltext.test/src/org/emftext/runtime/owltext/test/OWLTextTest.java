@@ -22,7 +22,7 @@ import org.emftext.language.owl.OntologyDocument;
 import org.emftext.language.owl.resource.owl.mopp.OwlResource;
 import org.emftext.language.owl.resource.owl.mopp.OwlResourceFactory;
 import org.emftext.runtime.owltext.OWLTextEObjectImpl;
-import org.emftext.runtime.owltext.OWLTextHelper;
+import org.emftext.runtime.owltext.OWLTransformationHelper;
 import org.junit.Test;
 import org.owltext.feature.resource.fea.mopp.FeaResource;
 import org.owltext.feature.resource.fea.mopp.FeaResourceFactory;
@@ -69,7 +69,7 @@ public class OWLTextTest {
 		// write to temp file
 		//ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 		OWLTextEObjectImpl rootOWLTextObjectImpl = (OWLTextEObjectImpl) root;
-		String owlRepresentation = OWLTextHelper.getOWLRepresentation(rootOWLTextObjectImpl);
+		String owlRepresentation = OWLTransformationHelper.getOWLRepresentation(rootOWLTextObjectImpl);
 		BufferedWriter out = new BufferedWriter(new FileWriter(outFile));
 		out.write(owlRepresentation);
 		out.close();

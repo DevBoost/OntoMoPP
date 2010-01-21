@@ -42,7 +42,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 			ObjectPropertyFact objectPropertyFact = factory.createObjectPropertyFact();
 			
 			ObjectProperty objectProperty = factory.createObjectProperty();
-			objectProperty.setIri(OWLTextHelper.createIri(eDynamicFeature(featureID)));
+			objectProperty.setIri(OWLTransformationHelper.getIdentificationIRI(eDynamicFeature(featureID)));
 			objectPropertyFact.setObjectProperty(objectProperty);
 			
 			objectPropertyFact.setIndividual(((OWLTextEObjectImpl) e).getOWLIndividual());
@@ -58,7 +58,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 				ObjectPropertyFact objectPropertyFact = factory.createObjectPropertyFact();
 				
 				ObjectProperty objectProperty = factory.createObjectProperty();
-				objectProperty.setIri(OWLTextHelper.createIri(eDynamicFeature(featureID)));
+				objectProperty.setIri(OWLTransformationHelper.getIdentificationIRI(eDynamicFeature(featureID)));
 				objectPropertyFact.setObjectProperty(objectProperty);
 				
 				objectPropertyFact.setIndividual(((OWLTextEObjectImpl) t).getOWLIndividual());
@@ -190,10 +190,10 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		super();
 		OwlFactory factory = OwlFactory.eINSTANCE;
 		this.owlIndividual =  factory.createIndividual();
-		owlIndividual.setIri(OWLTextHelper.createIri(this));
+		owlIndividual.setIri(OWLTransformationHelper.getIdentificationIRI(this));
 	
 		this.superclass = factory.createClass();
-		superclass.setIri(OWLTextHelper.createIri(this.eClass()));
+		superclass.setIri(OWLTransformationHelper.createIri(this.eClass()));
 		ClassAtomic classAtomic = factory.createClassAtomic();
 		classAtomic.setClazz(superclass);
 		owlIndividual.getTypes().add(classAtomic);
@@ -250,7 +250,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 			ObjectPropertyFact objectPropertyFact = factory.createObjectPropertyFact();
 			
 			ObjectProperty objectProperty = factory.createObjectProperty();
-			objectProperty.setIri(OWLTextHelper.createIri(feature));
+			objectProperty.setIri(OWLTransformationHelper.getIdentificationIRI(feature));
 			objectPropertyFact.setObjectProperty(objectProperty);
 			
 			objectPropertyFact.setIndividual(((OWLTextEObjectImpl) newValue).getOWLIndividual());
@@ -260,7 +260,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 			DataPropertyFact dataPropertyFact = factory.createDataPropertyFact();
 			
 			DataProperty dataProperty = factory.createDataProperty();
-			dataProperty.setIri(OWLTextHelper.createIri(feature));
+			dataProperty.setIri(OWLTransformationHelper.getIdentificationIRI(feature));
 			dataPropertyFact.setDataProperty(dataProperty);
 		
 			dataPropertyFact.setLiteral(new LiteralConverter().convert(newValue));
