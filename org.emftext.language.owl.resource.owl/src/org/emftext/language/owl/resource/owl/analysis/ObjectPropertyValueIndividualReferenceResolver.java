@@ -25,7 +25,7 @@ public class ObjectPropertyValueIndividualReferenceResolver implements IOwlRefer
 		new OwlDefaultResolverDelegate<org.emftext.language.owl.ObjectPropertyValue, org.emftext.language.owl.Individual>();
 	
 	public java.lang.String deResolve(org.emftext.language.owl.Individual element, org.emftext.language.owl.ObjectPropertyValue container, org.eclipse.emf.ecore.EReference reference) {
-		return delegate.deResolve(element, container, reference);
+		return CrossResourceIRIResolver.theInstance().deResolve(element, container, reference);
 	}
 	
 		

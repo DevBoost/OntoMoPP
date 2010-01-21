@@ -6,7 +6,7 @@
  */
 package org.emftext.language.owl.resource.owl.analysis;
 
-public class FeatureReferenceFeatureReferenceResolver implements org.emftext.language.owl.resource.owl.IOwlReferenceResolver<org.emftext.language.owl.FeatureReference, org.emftext.language.owl.Feature> {
+public  class FeatureReferenceFeatureReferenceResolver implements org.emftext.language.owl.resource.owl.IOwlReferenceResolver<org.emftext.language.owl.FeatureReference, org.emftext.language.owl.Feature> {
 	
 	private org.emftext.language.owl.resource.owl.analysis.OwlDefaultResolverDelegate<org.emftext.language.owl.FeatureReference, org.emftext.language.owl.Feature> delegate = new org.emftext.language.owl.resource.owl.analysis.OwlDefaultResolverDelegate<org.emftext.language.owl.FeatureReference, org.emftext.language.owl.Feature>();
 	

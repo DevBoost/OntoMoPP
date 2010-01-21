@@ -25,7 +25,7 @@ public class AnnotationAnnotationPropertyReferenceResolver implements IOwlRefere
 		new OwlDefaultResolverDelegate<org.emftext.language.owl.Annotation, org.emftext.language.owl.AnnotationProperty>();
 		
 	public java.lang.String deResolve(org.emftext.language.owl.AnnotationProperty element, org.emftext.language.owl.Annotation container, org.eclipse.emf.ecore.EReference reference) {
-		return delegate.deResolve(element, container, reference);
+		return CrossResourceIRIResolver.theInstance().deResolve(element, container, reference);
 	}
 	
 		

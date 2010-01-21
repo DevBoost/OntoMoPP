@@ -25,7 +25,7 @@ public class ObjectPropertyRestrictionObjectPropertyReferenceResolver implements
 		new OwlDefaultResolverDelegate<org.emftext.language.owl.ObjectPropertyRestriction, org.emftext.language.owl.ObjectProperty>();
 		
 	public java.lang.String deResolve(org.emftext.language.owl.ObjectProperty element, org.emftext.language.owl.ObjectPropertyRestriction container, org.eclipse.emf.ecore.EReference reference) {
-		return delegate.deResolve(element, container, reference);
+		return CrossResourceIRIResolver.theInstance().deResolve(element, container, reference);
 	}
 	
 		

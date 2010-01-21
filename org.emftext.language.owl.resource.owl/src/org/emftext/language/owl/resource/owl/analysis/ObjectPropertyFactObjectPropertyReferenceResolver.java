@@ -26,7 +26,7 @@ public class ObjectPropertyFactObjectPropertyReferenceResolver implements IOwlRe
 		
 		
 	public java.lang.String deResolve(org.emftext.language.owl.ObjectProperty element, org.emftext.language.owl.ObjectPropertyFact container, org.eclipse.emf.ecore.EReference reference) {
-		return delegate.deResolve(element, container, reference);
+		return CrossResourceIRIResolver.theInstance().deResolve(element, container, reference);
 	}
 	
 		

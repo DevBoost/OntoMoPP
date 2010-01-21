@@ -26,8 +26,8 @@ public class ObjectPropertyFactIndividualReferenceResolver implements IOwlRefere
 		
 	
 	public java.lang.String deResolve(org.emftext.language.owl.Individual element, org.emftext.language.owl.ObjectPropertyFact container, org.eclipse.emf.ecore.EReference reference) {
-		return delegate.deResolve(element, container, reference);
-	}
+		return CrossResourceIRIResolver.theInstance().deResolve(element, container, reference);
+    }
 	
 		
 	public void resolve(java.lang.String identifier, org.emftext.language.owl.ObjectPropertyFact container, org.eclipse.emf.ecore.EReference reference, int position, boolean resolveFuzzy, IOwlReferenceResolveResult<org.emftext.language.owl.Individual> result) {

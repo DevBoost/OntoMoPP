@@ -25,7 +25,7 @@ public class ConjunctionClazzReferenceResolver implements IOwlReferenceResolver<
 		new OwlDefaultResolverDelegate<org.emftext.language.owl.Conjunction, org.emftext.language.owl.Class>();
 		
 	public java.lang.String deResolve(org.emftext.language.owl.Class element, org.emftext.language.owl.Conjunction container, org.eclipse.emf.ecore.EReference reference) {
-		return delegate.deResolve(element, container, reference);
+		return CrossResourceIRIResolver.theInstance().deResolve(element, container, reference);
 	}
 	
 		

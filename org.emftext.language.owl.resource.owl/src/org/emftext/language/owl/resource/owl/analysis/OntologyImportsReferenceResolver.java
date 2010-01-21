@@ -30,7 +30,7 @@ public class OntologyImportsReferenceResolver implements IOwlReferenceResolver<o
 		new OwlDefaultResolverDelegate<org.emftext.language.owl.Ontology, org.emftext.language.owl.Ontology>();
 		
 	public java.lang.String deResolve(org.emftext.language.owl.Ontology element, org.emftext.language.owl.Ontology container, org.eclipse.emf.ecore.EReference reference) {
-		return element.getUri();
+		return  "<" + element.getUri() + ">";
 	}
 	
 		

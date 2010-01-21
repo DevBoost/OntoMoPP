@@ -26,7 +26,7 @@ public class SameIndividualsIndividualsReferenceResolver implements IOwlReferenc
 
 	
 	public java.lang.String deResolve(org.emftext.language.owl.Individual element, org.emftext.language.owl.SameIndividuals container, org.eclipse.emf.ecore.EReference reference) {
-		return delegate.deResolve(element, container, reference);
+		return CrossResourceIRIResolver.theInstance().deResolve(element, container, reference);
 	}
 	
 		

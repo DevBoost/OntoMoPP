@@ -19,9 +19,12 @@ import java.util.Map;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.owl.IRIIdentified;
 import org.emftext.language.owl.Namespace;
+import org.emftext.language.owl.Ontology;
 import org.emftext.language.owl.OntologyDocument;
 import org.emftext.language.owl.OwlFactory;
 import org.emftext.language.owl.OwlPackage;
@@ -140,6 +143,30 @@ public class CrossResourceIRIResolver {
 
 	public RemoteLoader getRemoteLoader() {
 		return this.remoteLoader;
+	}
+	
+	public String deResolve(IRIIdentified element, EObject container, EStructuralFeature reference){
+		Ontology containingOntologyElement = getContainingOntology(element);
+		Ontology containingOntologyContainer = getContainingOntology(container);
+		if (containingOntologyContainer == containingOntologyElement) {
+			return element.getIri();
+		}
+		else {
+			EList<Namespace> namespaces = ((OntologyDocument) containingOntologyContainer.eContainer()).getNamespace();
+			for (Namespace namespace : namespaces) {
+				if (namespace.getImportedOntology().getUri().equals(containingOntologyElement.getUri())) {
+					return namespace.getPrefix() + ":" + element.getIri();
+				}
+			}
+		}
+		return element.getIri();
+	}
+
+	private Ontology getContainingOntology(EObject element) {
+		Resource eResource = element.eResource();
+		if (eResource == null || eResource.getContents().size() != 1) return null;
+		return ((OntologyDocument) eResource.getContents().get(0)).getOntology();
+		
 	}
 	
 

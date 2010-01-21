@@ -25,7 +25,7 @@ public class DatatypeReferenceTheDatatypeReferenceResolver implements IOwlRefere
 		new OwlDefaultResolverDelegate<org.emftext.language.owl.DatatypeReference, org.emftext.language.owl.Datatype>();
 	
 	public java.lang.String deResolve(org.emftext.language.owl.Datatype element, org.emftext.language.owl.DatatypeReference container, org.eclipse.emf.ecore.EReference reference) {
-		return delegate.deResolve(element, container, reference);
+		return CrossResourceIRIResolver.theInstance().deResolve(element, container, reference);
 	}
 	
 		

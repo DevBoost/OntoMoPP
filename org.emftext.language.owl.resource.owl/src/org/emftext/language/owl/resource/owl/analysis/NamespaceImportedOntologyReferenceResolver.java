@@ -34,7 +34,7 @@ public class NamespaceImportedOntologyReferenceResolver implements org.emftext.l
 		}
 		for (Ontology ontology : imports) {
 			
-			if (identifier.equals(ontology.getUri())) {
+			if (identifier.equals(ontology.getUri()) || identifier.equals(ontology.getUri() + "#")) {
 				result.addMapping(identifier, ontology);
 				return;
 			}
@@ -55,7 +55,12 @@ public class NamespaceImportedOntologyReferenceResolver implements org.emftext.l
 	}
 	
 	public java.lang.String deResolve(org.emftext.language.owl.Ontology element, org.emftext.language.owl.Namespace container, org.eclipse.emf.ecore.EReference reference) {
-		return element.getUri();
+		String uri = element.getUri();
+		
+		if (!uri.endsWith("#")) {
+			uri = uri.substring(0, uri.length()) + "#";
+		}
+		return "<" + uri + ">";
 	}
 	
 	public void setOptions(java.util.Map<?,?> options) {

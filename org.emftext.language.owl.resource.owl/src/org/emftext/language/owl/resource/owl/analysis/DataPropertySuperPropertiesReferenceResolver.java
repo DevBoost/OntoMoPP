@@ -25,7 +25,7 @@ public class DataPropertySuperPropertiesReferenceResolver implements IOwlReferen
 		new OwlDefaultResolverDelegate<org.emftext.language.owl.DataProperty, org.emftext.language.owl.DataProperty>();
 	
 	public java.lang.String deResolve(org.emftext.language.owl.DataProperty element, org.emftext.language.owl.DataProperty container, org.eclipse.emf.ecore.EReference reference) {
-		return delegate.deResolve(element, container, reference);
+		return CrossResourceIRIResolver.theInstance().deResolve(element, container, reference);
 	}
 	
 		

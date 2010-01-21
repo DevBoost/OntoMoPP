@@ -25,7 +25,7 @@ public class FeatureRestrictionFeatureReferenceResolver implements IOwlReference
 		new OwlDefaultResolverDelegate<org.emftext.language.owl.FeatureRestriction, org.emftext.language.owl.Feature>();
 		
 	public java.lang.String deResolve(org.emftext.language.owl.Feature element, org.emftext.language.owl.FeatureRestriction container, org.eclipse.emf.ecore.EReference reference) {
-		return delegate.deResolve(element, container, reference);
+		return CrossResourceIRIResolver.theInstance().deResolve(element, container, reference);
 	}
 	
 		
