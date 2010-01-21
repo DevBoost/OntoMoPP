@@ -1,2 +1,35 @@
-Individual: 
+Namespace: feature <platform:/resource/org.emftext.runtime.owltext.test/metamodel/feature.owl#> 
+	Ontology: <http://transformed/sample.fea> 
+	Import: <platform:/resource/org.emftext.runtime.owltext.test/metamodel/feature.owl> 
 	
+	Class: feature:Feature 
+		
+		
+	Class: feature:MandatoryFeature 
+		
+		
+	Class: feature:OptionalFeature 
+		
+		
+	ObjectProperty: feature:Feature_children 
+		
+		
+	DataProperty: feature:Feature_name 
+		Characteristics: Functional 
+			
+		
+	Individual: individual_0 
+		Types:  feature:MandatoryFeature 
+			Facts:  feature:Feature_name "testRootFeature" ,  feature:Feature_children individual_1 ,  feature:Feature_children individual_2 
+			
+		
+	Individual: individual_1 
+		Types:  feature:OptionalFeature 
+			Facts:  feature:Feature_name "anOptionalFeature" 
+			
+		
+	Individual: individual_2 
+		Types:  feature:MandatoryFeature 
+			Facts:  feature:Feature_name "anMandatoryFeature" 
+			
+		

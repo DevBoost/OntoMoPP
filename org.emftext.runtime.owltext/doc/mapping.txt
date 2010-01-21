@@ -1,0 +1,18 @@
+==Metamodellierung:==
+OWLClass (iri:string) <-> EClass (name:string)
+OWLObjectProperty (iri:string, domain:OWLClass, domain:OWLClass, inverseOf:OWLObjectProperty) <-> EReference (name:string, containingEClass:EClass, etype:EClass, eOpposite:EReference)
+OWLDataProperty (iri:string, domain:OWLClass, range:OWLDataType) <-> EAttribute (name:string, containingEClass:EClass, eAttributeType:EcoreDataType)
+DataOneOf, ObjectOneOf <->  EEnum (name:String, literals:EEnumLiteral)
+Literal, Individual <->  EEnumLiteral (name:String, literal:String, value:int)
+ETypedElement.lowerbound <-> ObjectMinCardinality, ETypedElement.upperBound <-> ObjectMaxCardinality, EPackage <-> Ontology, EDatatype <-> Datatype
+
+==Modellierung:==
+
+OWLIndividual (iri:String, type:OWLClass, facts:Facts) <-> EObject(someUniqueID ??? : string, eClass: EClass, EStructuralFeatureSettings)
+ObjectPropertyFact(objectProperty:OWLObjectProperty, individual) <-> eSet, eGet (eStructuralFeature: EReference, value:EObject)
+DataPropertyFact(dataOoperty:OWLDataProperty, literal) <-> eSet, eGet (eStructuralFeature: EAttribute, value:Object)
+
+
+
+
+

@@ -1,6 +1,5 @@
 package org.emftext.runtime.owltext;
 
-import java.io.ByteArrayOutputStream;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -8,15 +7,23 @@ import java.util.ListIterator;
 
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.emftext.language.owl.Class;
+import org.emftext.language.owl.ClassAtomic;
+import org.emftext.language.owl.DataProperty;
+import org.emftext.language.owl.DataPropertyFact;
 import org.emftext.language.owl.Individual;
+import org.emftext.language.owl.ObjectProperty;
+import org.emftext.language.owl.ObjectPropertyFact;
 import org.emftext.language.owl.OwlFactory;
-import org.emftext.language.owl.resource.owl.mopp.OwlPrinter;
 
 public class OWLTextEObjectImpl extends EObjectImpl {
 
 	private Individual owlIndividual;
+	private Class superclass;
 	
 	
 	private final class OWLTextEListDelegator<T> implements EList<T> {
@@ -31,14 +38,34 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		}
 		
 		public boolean add(T e) {
-			// TODO add corresponding axioms to ontology
-			System.out.println("add: " + thisObject.eClass().getName() +"." + thisObject.eDynamicFeature(featureID).getName() + " " + e);
+			OwlFactory factory = OwlFactory.eINSTANCE;
+			ObjectPropertyFact objectPropertyFact = factory.createObjectPropertyFact();
+			
+			ObjectProperty objectProperty = factory.createObjectProperty();
+			objectProperty.setIri(OWLTextHelper.createIri(eDynamicFeature(featureID)));
+			objectPropertyFact.setObjectProperty(objectProperty);
+			
+			objectPropertyFact.setIndividual(((OWLTextEObjectImpl) e).getOWLIndividual());
+			
+			owlIndividual.getFacts().add(objectPropertyFact);
+			
 			return original.add(e);
 		}
 	
 		public boolean addAll(Collection<? extends T> c) {
-			// TODO add corresponding axioms to ontology
-			System.out.println("addAll: " + thisObject.eClass().getName() +"." + thisObject.eDynamicFeature(featureID).getName() + " " + c);
+			for (T t : c) {
+				OwlFactory factory = OwlFactory.eINSTANCE;
+				ObjectPropertyFact objectPropertyFact = factory.createObjectPropertyFact();
+				
+				ObjectProperty objectProperty = factory.createObjectProperty();
+				objectProperty.setIri(OWLTextHelper.createIri(eDynamicFeature(featureID)));
+				objectPropertyFact.setObjectProperty(objectProperty);
+				
+				objectPropertyFact.setIndividual(((OWLTextEObjectImpl) t).getOWLIndividual());
+				
+				owlIndividual.getFacts().add(objectPropertyFact);
+			}
+
 			return original.addAll(c);
 		}
 
@@ -161,12 +188,16 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 
 	public OWLTextEObjectImpl() {
 		super();
-		// TODO add corresponding axioms to ontology
-		System.out.println("> construct " + this.eClass().getName()
-				+ this.hashCode());
-		this.owlIndividual =  OwlFactory.eINSTANCE.createIndividual();
-		
-	}
+		OwlFactory factory = OwlFactory.eINSTANCE;
+		this.owlIndividual =  factory.createIndividual();
+		owlIndividual.setIri(OWLTextHelper.createIri(this));
+	
+		this.superclass = factory.createClass();
+		superclass.setIri(OWLTextHelper.createIri(this.eClass()));
+		ClassAtomic classAtomic = factory.createClassAtomic();
+		classAtomic.setClazz(superclass);
+		owlIndividual.getTypes().add(classAtomic);
+	}	
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -213,10 +244,34 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		// TODO add corresponding axioms to ontology
-		System.out.println("eSet: " + this.eClass().getName() + this.hashCode()
-				+ "." + this.eDynamicFeature(featureID).getName() + " "
-				+ newValue);
+		EStructuralFeature feature = this.eDynamicFeature(featureID);
+		OwlFactory factory = OwlFactory.eINSTANCE;
+		if (feature instanceof EReference) {
+			ObjectPropertyFact objectPropertyFact = factory.createObjectPropertyFact();
+			
+			ObjectProperty objectProperty = factory.createObjectProperty();
+			objectProperty.setIri(OWLTextHelper.createIri(feature));
+			objectPropertyFact.setObjectProperty(objectProperty);
+			
+			objectPropertyFact.setIndividual(((OWLTextEObjectImpl) newValue).getOWLIndividual());
+			
+			this.owlIndividual.getFacts().add(objectPropertyFact);
+		} else {
+			DataPropertyFact dataPropertyFact = factory.createDataPropertyFact();
+			
+			DataProperty dataProperty = factory.createDataProperty();
+			dataProperty.setIri(OWLTextHelper.createIri(feature));
+			dataPropertyFact.setDataProperty(dataProperty);
+		
+			dataPropertyFact.setLiteral(new LiteralConverter().convert(newValue));
+			
+			this.owlIndividual.getFacts().add(dataPropertyFact);
+		}
 		super.eSet(featureID, newValue);
+	}
+
+	protected Individual getOWLIndividual() {
+		return this.owlIndividual;
 	}
 
 	/**
@@ -247,17 +302,9 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		return super.eIsSet(featureID);
 	}
 
-	public void appendOWLRepresentation(OwlPrinter printer) {
-		printer.print(this.owlIndividual);
-	}
 	
-	public String getOWLRepresentation() {
-		ByteArrayOutputStream outStream=new ByteArrayOutputStream();  
-	    OwlPrinter printer = new OwlPrinter(outStream, null);
-	    appendOWLRepresentation(printer);
-	    String string = outStream.toString();
-	    return string;
-	}
+	
+	
 	
 
 }
