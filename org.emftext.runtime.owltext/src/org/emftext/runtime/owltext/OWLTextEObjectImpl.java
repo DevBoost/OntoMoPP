@@ -15,6 +15,7 @@ import org.emftext.language.owl.Class;
 import org.emftext.language.owl.ClassAtomic;
 import org.emftext.language.owl.DataProperty;
 import org.emftext.language.owl.DataPropertyFact;
+import org.emftext.language.owl.Fact;
 import org.emftext.language.owl.Individual;
 import org.emftext.language.owl.ObjectProperty;
 import org.emftext.language.owl.ObjectPropertyFact;
@@ -193,7 +194,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		owlIndividual.setIri(OWLTransformationHelper.getIdentificationIRI(this));
 	
 		this.superclass = factory.createClass();
-		superclass.setIri(OWLTransformationHelper.createIri(this.eClass()));
+		superclass.setIri(OWLTransformationHelper.getIdentificationIRI(this.eClass()));
 		ClassAtomic classAtomic = factory.createClassAtomic();
 		classAtomic.setClazz(superclass);
 		owlIndividual.getTypes().add(classAtomic);
@@ -243,7 +244,6 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 
 	@Override
 	public void eSet(int featureID, Object newValue) {
-		// TODO add corresponding axioms to ontology
 		EStructuralFeature feature = this.eDynamicFeature(featureID);
 		OwlFactory factory = OwlFactory.eINSTANCE;
 		if (feature instanceof EReference) {
@@ -281,10 +281,25 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 	 */
 	@Override
 	public void eUnset(int featureID) {
-		// TODO remove corresponding axioms to ontology
-		System.out.println("eUnset: " + this.eClass().getName()
-				+ this.hashCode() + "."
-				+ this.eDynamicFeature(featureID).getName());
+		EStructuralFeature feature = this.eDynamicFeature(featureID);
+		EList<Fact> facts = this.owlIndividual.getFacts();
+		Fact toRemove = null;
+		for (Fact fact : facts) {
+			if (fact instanceof ObjectPropertyFact) {
+				ObjectPropertyFact opf = (ObjectPropertyFact) fact;
+				if (opf.getObjectProperty().getIri().equals(OWLTransformationHelper.getIdentificationIRI(feature))) {
+					toRemove = opf;
+					break;
+				}
+			} else if (facts instanceof DataPropertyFact) {
+				DataPropertyFact dpf = (DataPropertyFact) fact;
+				if (dpf.getDataProperty().getIri().equals(OWLTransformationHelper.getIdentificationIRI(feature))) {
+					toRemove = dpf;
+					break;
+				}
+			}
+		}
+		this.owlIndividual.getFacts().remove(toRemove);
 		super.eUnset(featureID);
 	}
 

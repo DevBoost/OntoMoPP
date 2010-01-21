@@ -37,7 +37,7 @@ public class OWLTransformationHelper {
 	}
 
 	
-	public static String createIri(EClass eClass) {
+	public static String getIdentificationIRI(EClass eClass) {
 		String iri = eClass.getEPackage().getName();
 		iri += ":";
 		iri += eClass.getName();
@@ -58,7 +58,7 @@ public class OWLTransformationHelper {
 	}
 
 	public static String getIdentificationIRI(EStructuralFeature feature) {
-		String iri = createIri(feature.getEContainingClass());
+		String iri = getIdentificationIRI(feature.getEContainingClass());
 		iri += "_" + feature.getName();
 		return iri;
 	}
