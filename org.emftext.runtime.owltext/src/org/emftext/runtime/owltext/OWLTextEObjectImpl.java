@@ -1,5 +1,6 @@
 package org.emftext.runtime.owltext;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -71,8 +72,18 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		}
 
 		public void clear() {
-			// TODO add corresponding axioms to ontology
-			System.out.println("clear: " + thisObject.eClass().getName() +"." + thisObject.eDynamicFeature(featureID).getName() );
+			EList<Fact> facts = owlIndividual.getFacts();
+			List<ObjectPropertyFact> toRemove = new ArrayList<ObjectPropertyFact>();
+			for (Fact fact : facts) {
+				// only object property facts hold (inverse) references
+				if (fact instanceof ObjectPropertyFact) {
+					ObjectPropertyFact opf = (ObjectPropertyFact) fact;
+					if (opf.getObjectProperty().getIri().equals(OWLTransformationHelper.getIdentificationIRI(eDynamicFeature(this.featureID)))) {
+						toRemove.add(opf);
+					}
+				}
+			}
+			owlIndividual.getFacts().removeAll(toRemove);
 			original.clear();
 		}
 
@@ -203,7 +214,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated 
 	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
