@@ -73,13 +73,18 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 
 		public void clear() {
 			EList<Fact> facts = owlIndividual.getFacts();
-			List<ObjectPropertyFact> toRemove = new ArrayList<ObjectPropertyFact>();
+			List<Fact> toRemove = new ArrayList<Fact>();
 			for (Fact fact : facts) {
-				// only object property facts hold (inverse) references
 				if (fact instanceof ObjectPropertyFact) {
 					ObjectPropertyFact opf = (ObjectPropertyFact) fact;
 					if (opf.getObjectProperty().getIri().equals(OWLTransformationHelper.getIdentificationIRI(eDynamicFeature(this.featureID)))) {
 						toRemove.add(opf);
+					}
+				}
+				if (fact instanceof DataPropertyFact) {
+					DataPropertyFact dpf = (DataPropertyFact) fact;
+					if (dpf.getDataProperty().getIri().equals(OWLTransformationHelper.getIdentificationIRI(eDynamicFeature(this.featureID)))) {
+						toRemove.add(dpf);
 					}
 				}
 			}
@@ -272,6 +277,10 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 	public void eSet(int featureID, Object newValue) {
 		EStructuralFeature feature = this.eDynamicFeature(featureID);
 		OwlFactory factory = OwlFactory.eINSTANCE;
+		if (feature.getUpperBound() == 1) {
+			eUnset(feature);
+		}
+		
 		if (feature instanceof EReference) {
 			ObjectPropertyFact objectPropertyFact = factory.createObjectPropertyFact();
 			
@@ -317,7 +326,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 					toRemove = opf;
 					break;
 				}
-			} else if (facts instanceof DataPropertyFact) {
+			} else if (fact instanceof DataPropertyFact) {
 				DataPropertyFact dpf = (DataPropertyFact) fact;
 				if (dpf.getDataProperty().getIri().equals(OWLTransformationHelper.getIdentificationIRI(feature))) {
 					toRemove = dpf;

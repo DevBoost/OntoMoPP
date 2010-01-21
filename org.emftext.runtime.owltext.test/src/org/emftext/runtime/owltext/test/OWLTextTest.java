@@ -5,15 +5,9 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.util.HashMap;
 
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -24,6 +18,7 @@ import org.emftext.language.owl.resource.owl.mopp.OwlResourceFactory;
 import org.emftext.runtime.owltext.OWLTextEObjectImpl;
 import org.emftext.runtime.owltext.OWLTransformationHelper;
 import org.junit.Test;
+import org.owltext.feature.Feature;
 import org.owltext.feature.resource.fea.mopp.FeaResource;
 import org.owltext.feature.resource.fea.mopp.FeaResourceFactory;
 
@@ -85,7 +80,7 @@ public class OWLTextTest {
 		assertTrue("In resource is empty.",resource.getContents().size() == 1);
 		EObject root = resource.getContents().get(0);
 		assertTrue("In root is not instanceOf OWLTextEObjectImpl", root instanceof OWLTextEObjectImpl);
-		
+		((Feature) root).setName("secondSetName");
 		// write to temp file
 		//ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 		OWLTextEObjectImpl rootOWLTextObjectImpl = (OWLTextEObjectImpl) root;

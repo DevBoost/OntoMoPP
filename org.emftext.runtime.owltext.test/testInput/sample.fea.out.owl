@@ -20,7 +20,7 @@ Namespace: feature <platform:/resource/org.emftext.runtime.owltext.test/metamode
 		
 	Individual: individual_0 
 		Types:  feature:MandatoryFeature 
-			Facts:  feature:Feature_name "testRootFeature" ,  feature:Feature_children individual_1 ,  feature:Feature_children individual_2 
+			Facts:  feature:Feature_children individual_1 ,  feature:Feature_children individual_2 ,  feature:Feature_name "secondSetName" 
 			
 		
 	Individual: individual_1 
