@@ -208,7 +208,22 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
-		// TODO remove corresponding axioms to ontology
+		EStructuralFeature feature = this.eDynamicFeature(featureID);
+		EList<Fact> facts = this.owlIndividual.getFacts();
+		Fact toRemove = null;
+		for (Fact fact : facts) {
+			// only object property facts hold (inverse) references
+			if (fact instanceof ObjectPropertyFact) {
+				ObjectPropertyFact opf = (ObjectPropertyFact) fact;
+				if (opf.getObjectProperty().getIri().equals(OWLTransformationHelper.getIdentificationIRI(feature))
+						&& opf.getIndividual().getIri().equals(OWLTransformationHelper.getIdentificationIRI(otherEnd)) ) {
+					toRemove = opf;
+					break;
+				}
+			}
+		}
+		this.owlIndividual.getFacts().remove(toRemove);
+		
 		System.out.println("eInverseRemove: " + this.eClass().getName()
 				+ this.hashCode() + "."
 				+ this.eDynamicFeature(featureID).getName() + " " + otherEnd);

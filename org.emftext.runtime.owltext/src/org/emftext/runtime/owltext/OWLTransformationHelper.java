@@ -44,11 +44,11 @@ public class OWLTransformationHelper {
 		return iri;
 	}
 
-	public static String getIdentificationIRI(OWLTextEObjectImpl eObject) {
+	public static String getIdentificationIRI(EObject eObject) {
 		return "individual_" + getUniqueId(eObject);
 	}
 
-	private static String getUniqueId(OWLTextEObjectImpl eObject) {
+	private static String getUniqueId(EObject eObject) {
 		Integer id = uniqueIdMap.get(eObject);
 		if (id == null ) {
 			id = counter++;
