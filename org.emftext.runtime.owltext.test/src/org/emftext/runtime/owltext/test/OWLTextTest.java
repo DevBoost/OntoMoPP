@@ -38,6 +38,26 @@ public class OWLTextTest {
 			owlResourceFactory);	
 	}
 	
+	
+	// TODO implement test for eSet, EAttributes, EReferences, different lower and upper bounds 
+	// TODO implement test for eGet, EAttributes, EReferences, different lower and upper bounds
+	// TODO implement test for eUnset, EAttributes, EReferences, different lower and upper bounds
+	// TODO implement test for eIsSet, EAttributes, EReferences, different lower and upper bounds
+	// TODO implement test for add
+	// TODO implement test for addAll
+	// TODO implement test for remove
+	// TODO implement test for removeAll
+	// TODO implement test for clear()
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@Test
 	public void testSample() throws Throwable {
 		String inFileName = "sample.fea";	
