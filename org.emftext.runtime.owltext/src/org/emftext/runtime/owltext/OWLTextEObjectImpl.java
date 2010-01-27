@@ -40,6 +40,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		}
 		
 		public boolean add(T e) {
+			// TODO check whether we also have to deal with EAtrributes here
 			OwlFactory factory = OwlFactory.eINSTANCE;
 			ObjectPropertyFact objectPropertyFact = factory.createObjectPropertyFact();
 			
