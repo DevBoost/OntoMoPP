@@ -19,7 +19,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.owl.Frame;
 import org.emftext.language.owl.IRIIdentified;
-import org.emftext.language.owl.Namespace;
 import org.emftext.language.owl.OntologyDocument;
 import org.emftext.language.owl.loading.OntologyLoadExeption;
 import org.emftext.language.owl.resource.owl.IOwlOptionProvider;
