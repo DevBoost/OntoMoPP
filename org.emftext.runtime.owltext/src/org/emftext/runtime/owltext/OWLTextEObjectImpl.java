@@ -1,5 +1,6 @@
 package org.emftext.runtime.owltext;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -8,19 +9,31 @@ import java.util.ListIterator;
 
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+import org.emftext.language.owl.AnnotationProperty;
 import org.emftext.language.owl.Class;
 import org.emftext.language.owl.ClassAtomic;
 import org.emftext.language.owl.DataProperty;
 import org.emftext.language.owl.DataPropertyFact;
+import org.emftext.language.owl.Datatype;
 import org.emftext.language.owl.Fact;
+import org.emftext.language.owl.Frame;
 import org.emftext.language.owl.Individual;
+import org.emftext.language.owl.Namespace;
 import org.emftext.language.owl.ObjectProperty;
 import org.emftext.language.owl.ObjectPropertyFact;
+import org.emftext.language.owl.Ontology;
+import org.emftext.language.owl.OntologyDocument;
 import org.emftext.language.owl.OwlFactory;
+import org.emftext.language.owl.resource.owl.mopp.OwlPrinter;
+
+import eu.most.transformation.ecore_owl.OWLTransformationHelper;
 
 public class OWLTextEObjectImpl extends EObjectImpl {
 
@@ -355,7 +368,73 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 
 	
 	
-	
+	public String getOWLRepresentation(OWLTextEObjectImpl eobject) {
+		OwlFactory factory = OwlFactory.eINSTANCE;
+		OntologyDocument ontologyDocument = factory.createOntologyDocument();
+		Ontology ontology = factory.createOntology();
+		ontology.setUri("http://transformed/" + eobject.eResource().getURI().lastSegment());
+		ontologyDocument.setOntology(ontology);
+		OWLTextEObjectImpl root = eobject;
+		while(root.eContainer() != null) {
+			root = (OWLTextEObjectImpl) root.eContainer();
+		}
+		
+		addMetamodelImportAxioms(factory, ontologyDocument, ontology, root);
+		
+		
+		ontology.getFrames().add(root.getOWLIndividual());
+		TreeIterator<EObject> eAllContents = root.eAllContents();
+		while (eAllContents.hasNext()) {
+			OWLTextEObjectImpl child = (OWLTextEObjectImpl) eAllContents.next();
+			ontology.getFrames().add(child.getOWLIndividual());
+		}
+		ByteArrayOutputStream outStream=new ByteArrayOutputStream();  
+	    OwlPrinter printer = new OwlPrinter(outStream, null);
+		printer.print(ontologyDocument);
+	    String string = outStream.toString();
+	    return string;
+	}
+
+	private void addMetamodelImportAxioms(OwlFactory factory,
+			OntologyDocument ontologyDocument, Ontology ontology,
+			EObject root) {
+		EPackage ePackage = root.eClass().getEPackage();
+		
+		Ontology importedMetamodelOntology = OWLTransformationHelper.getOntology(ePackage, root);
+		ontology.getImports().add(importedMetamodelOntology);
+		
+		
+		Namespace namespace = factory.createNamespace();
+		String metaModelNamespacePrefix = OWLTransformationHelper.getNamespacePrefix(ePackage);
+		namespace.setPrefix(metaModelNamespacePrefix);
+		namespace.setImportedOntology(importedMetamodelOntology);
+		ontologyDocument.getNamespace().add(namespace);
+		
+		EList<Frame> frames = importedMetamodelOntology.getFrames();
+		for (Frame frame : frames) {
+			if (frame.getIri() != null && !frame.getIri().isEmpty()) {
+				Frame declarationFrame = null;
+				if (frame instanceof Class) {
+					declarationFrame = factory.createClass();
+				} else if (frame instanceof ObjectProperty) {
+					declarationFrame = factory.createObjectProperty();
+				} 
+				else if (frame instanceof DataProperty) {
+					declarationFrame = factory.createDataProperty();
+				} else if (frame instanceof Datatype) {
+					declarationFrame = factory.createDatatype();
+				} else if (frame instanceof AnnotationProperty) {
+					declarationFrame = factory.createAnnotationProperty();
+				} else if (frame instanceof Individual) {
+					declarationFrame = factory.createIndividual();
+				}
+				declarationFrame.setIri(metaModelNamespacePrefix + ":" + frame.getIri());
+				ontology.getFrames().add(declarationFrame);
+			
+			}
+		}
+	}
+
 	
 
 }

@@ -48,10 +48,70 @@ public class Ecore2Owl {
 	private HashMap<EStructuralFeature, Feature> references2objectProperties = new HashMap<EStructuralFeature, Feature>();
 	
 	private void initDatatypes() {
-		HashMap<String, String> nameMap = new HashMap<String, String>();
-		nameMap.put("EString", "xsd:string");
-		nameMap.put("EInt", "xsd:integer");
-		nameMap.put("EFloat", "xsd:float");
+		HashMap<String, String> datatypeMap = new HashMap<String, String>();
+//		# owl:real
+		//		# owl:rational
+		//		# xsd:decimal
+		datatypeMap.put("java.math.BigDecimal", "xsd:decimal");
+		//		# xsd:integer
+		datatypeMap.put("java.math.BigInteger", "xsd:integer");
+		datatypeMap.put("java.lang.Integer", "xsd:integer");
+		datatypeMap.put("EInt", "xsd:integer");
+		datatypeMap.put("integer", "xsd:integer");
+		//		# xsd:nonNegativeInteger
+		//		# xsd:nonPositiveInteger
+		//		# xsd:positiveInteger
+		//		# xsd:negativeInteger
+		//		# xsd:long
+		datatypeMap.put("long", "xsd:long");
+		datatypeMap.put("java.lang.Long", "xsd:long");
+
+		//		# xsd:int
+		datatypeMap.put("int", "xsd:int");
+		//		# xsd:short
+		datatypeMap.put("short", "xsd:short");
+		datatypeMap.put("java.lang.Short", "xsd:short");
+		//		# xsd:byte
+		datatypeMap.put("byte", "xsd:byte");
+		datatypeMap.put("java.lang.Byte", "xsd:byte");
+
+		//		# xsd:unsignedLong
+		//		# xsd:unsignedInt
+		//		# xsd:unsignedShort
+		//		# xsd:unsignedByte
+		//		
+		//		# xsd:double
+		datatypeMap.put("double", "xsd:double");
+		datatypeMap.put("java.lang.Double", "xsd:double");
+
+		//		# xsd:float
+		datatypeMap.put("float", "xsd:float");
+		datatypeMap.put("java.lang.Float", "xsd:float");
+		//
+		//		# xsd:boolean
+		datatypeMap.put("java.lang.Boolean", "xsd:boolean");
+		datatypeMap.put("EBoolean", "xsd:boolean");
+		datatypeMap.put("boolean", "xsd:boolean");
+		//		
+		//		# xsd:string
+		datatypeMap.put("java.lang.String", "xsd:string");
+		datatypeMap.put("EString", "xsd:string");
+		datatypeMap.put("string", "xsd:string");
+		//		# xsd:normalizedString
+		//		# xsd:token
+		//		# xsd:language
+		//		# xsd:Name
+		//		# xsd:NCName
+		//		# xsd:NMTOKEN
+		//		
+		//		# xsd:hexBinary
+		//		# xsd:base64Binary
+		//		
+		//		# xsd:dateTime
+		datatypeMap.put("java.lang.Date", "xsd:dateTime");
+
+		//		# xsd:dateTimeStamp
+
 		
 		EDataType[] primitiveTypes = new EDataType[]{
 				EcorePackage.eINSTANCE.getEString(),
@@ -59,7 +119,9 @@ public class Ecore2Owl {
 				EcorePackage.eINSTANCE.getEFloat()};
 		for (EDataType primitive : primitiveTypes) {
 			Datatype property = owlFactory.createDatatype();
-			property.setIri(nameMap.get(primitive.getName()));
+			String typeName = datatypeMap.get(primitive.getInstanceClassName());
+			if (typeName == null) typeName = primitive.getName();
+			property.setIri(typeName);
 			etype2oclass.put(primitive, property);
 			//ontology.getFrames().add(property);
 		}
@@ -243,6 +305,7 @@ public class Ecore2Owl {
 		references2objectProperties.put(elem, o);
 	}
 
+	// TODO check.
 	private void transformSingle(EDataType elem) {
 		Datatype d = owlFactory.createDatatype();
 		ontology.getFrames().add(d);
@@ -257,4 +320,6 @@ public class Ecore2Owl {
 		c.setIri(elem.getName());
 		etype2oclass.put(elem, c);
 	}
+	
+	
 }
