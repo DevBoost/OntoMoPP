@@ -67,16 +67,16 @@ TOKENS{
 }
 
 RULES{	
-	SparqlQueries ::= prologue query+;
+	SparqlQueries ::= prologue !0 query+;
 	
 	Prologue ::= basedeclaration? prefixdeclaration* ; 
-	BaseDecl ::= "BASE" iriref  ;
-	PrefixDecl ::= "PREFIX" pnamens iriref  ;
+	BaseDecl ::= "BASE" iriref !0 ;
+	PrefixDecl ::= "PREFIX" pnamens iriref !0 ;
 	
-	SelectQuery ::= "SELECT" solutionsdisplay? ( var+ | "*" ) datasetclause* whereclause solutionmodifier;
-	ConstructQuery ::= "CONSTRUCT" constructtemplate datasetclause* whereclause solutionmodifier ;
-	DescribeQuery ::= "DESCRIBE" ( varoririref+ | "*" ) datasetclause* whereclause? solutionmodifier ;
-	AskQuery ::= "ASK" datasetclause* whereclause ;
+	SelectQuery ::= "SELECT" solutionsdisplay? ( var+ | "*" ) datasetclause* !0 whereclause solutionmodifier;
+	ConstructQuery ::= "CONSTRUCT" constructtemplate datasetclause* !0 whereclause solutionmodifier ;
+	DescribeQuery ::= "DESCRIBE" ( varoririref+ | "*" ) datasetclause* !0 whereclause? solutionmodifier ;
+	AskQuery ::= "ASK" datasetclause* !0 whereclause ;
 	
 	DistinctNE ::= "DISTINCT";
 	ReducedNE ::= "REDUCED" ;
@@ -96,9 +96,9 @@ RULES{
 	LimitClause ::= "LIMIT" integer ;
 	OffsetClause ::= "OFFSET" integer ;
 	
-	GroupGraphPattern ::= "{" triplesblock? additionalGGPelements* "}" ;
+	GroupGraphPattern ::= "{" !1 triplesblock? additionalGGPelements* !0 "}" ;
 	AdditionalGGPElement ::= patternOrFilterNE (".")? triplesblock? ;
-	TriplesBlock ::= triplessamesubject ( "." triplessamesubject? )* ;
+	TriplesBlock ::= triplessamesubject ( "." !0 triplessamesubject? )* ;
 	
 	OptionalGraphPattern ::= "OPTIONAL" groupgraphpattern ;
 	GraphGraphPattern ::= "GRAPH" varoririref groupgraphpattern;
@@ -114,7 +114,7 @@ RULES{
 	TriplesSameSubjectLeftNE ::= varorterm propertylistnotempty ;
 	TriplesSameSubjectRightNE ::= triplesnode propertylistnotempty?;
 	
-	PropertyListNotEmpty ::= verb objectlist ( ";" ( verb objectlist )? )* ;
+	PropertyListNotEmpty ::= verb objectlist ( ";" !0 ( verb objectlist )? )* ;
 	ObjectList ::= object ( "," object )* ;
 	Object ::= graphnode ; //abstract möglich?
 	

@@ -4,6 +4,7 @@ Class: NamedElement
 		SubClassOf:
 		name  exactly 1 xsd:string
 		
+		
 	Class: EPackage
 		SubClassOf: NamedElement
 		DisjointWith: EClass, EAttribute
@@ -13,8 +14,14 @@ Class: NamedElement
 		DisjointWith: EPackage, EAttribute
 		
 	Class: EAttribute
-		SubClassOf: NamedElement 
+		SubClassOf: NamedElement and
+					(qualifiedName only xsd:string[minLength 1 ] )
 		DisjointWith: EPackage, EClass 
+		
+	DataProperty: qualifiedName 
+		Domain: EAttribute
+		Range:  xsd:string 
+		Characteristics: Functional	
 		
 	DataProperty: name 
 		Domain: NamedElement

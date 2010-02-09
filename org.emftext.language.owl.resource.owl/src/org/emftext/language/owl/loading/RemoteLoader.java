@@ -48,18 +48,18 @@ public class RemoteLoader {
 
 	private Ontology ontology;
 	private static OwlFactory factory = OwlFactory.eINSTANCE;
-	private static Map<String, Ontology> url2ontologies 
-						= new HashMap<String, Ontology>();
+	private static Map<String, Ontology> url2ontologies = new HashMap<String, Ontology>();
 	private Map<String, Map<String, Frame>> url2irimaps = new HashMap<String, Map<String, Frame>>();
 
-	
 	static {
-		
+
 		Ontology o = factory.createOntology();
 		String uri = "http://www.w3.org/2001/XMLSchema#";
 		o.setUri(uri);
-		String[] types = new String[]{"string", "integer", "float","decimal"};
-		for (String type : types ) {
+		String[] types = new String[] { "string", "integer", "float",
+				"decimal", "double", "boolean", "long", "short", "byte",
+				"dateTime" };
+		for (String type : types) {
 			Datatype datatype = factory.createDatatype();
 			datatype.setIri(type);
 			o.getFrames().add(datatype);
@@ -68,14 +68,12 @@ public class RemoteLoader {
 
 	}
 
-	
-	
-
 	public RemoteLoader() {
-		
+
 	}
-		
-	public Ontology loadOntology(String uri,  EObject container) throws OntologyLoadExeption {
+
+	public Ontology loadOntology(String uri, EObject container)
+			throws OntologyLoadExeption {
 		ontology = url2ontologies.get(uri);
 		if (ontology == null) {
 			initialise(uri, container);
@@ -83,59 +81,64 @@ public class RemoteLoader {
 		}
 		return ontology;
 	}
-	
-	public org.eclipse.emf.common.util.URI getLocationHintURI(String locationHint, EObject container) {
+
+	public org.eclipse.emf.common.util.URI getLocationHintURI(
+			String locationHint, EObject container) {
 		org.eclipse.emf.common.util.URI hintURI = null;
-		
+
 		if (locationHint.contains(":")) {
 			// locationHint is an absolute path - we can use it as it is
 			hintURI = org.eclipse.emf.common.util.URI.createURI(locationHint);
 		} else {
 			// locationHint is an relative path - we must resolve it
-			org.eclipse.emf.common.util.URI containerURI = container.eResource().getURI();
-			if(containerURI.isRelative()) {
+			org.eclipse.emf.common.util.URI containerURI = container
+					.eResource().getURI();
+			if (containerURI.isRelative()) {
 				URI f = new File(".").getAbsoluteFile().toURI();
-				org.eclipse.emf.common.util.URI baseURI = org.eclipse.emf.common.util.URI.createURI(f.toString());
+				org.eclipse.emf.common.util.URI baseURI = org.eclipse.emf.common.util.URI
+						.createURI(f.toString());
 				containerURI = containerURI.resolve(baseURI);
-			} 
-				hintURI = org.eclipse.emf.common.util.URI.createURI(locationHint).resolve(containerURI);
-					
 			}
-		
+			hintURI = org.eclipse.emf.common.util.URI.createURI(locationHint)
+					.resolve(containerURI);
+
+		}
+
 		return hintURI;
 	}
-	
-	private void initialise(String uri, EObject container) throws OntologyLoadExeption {
+
+	private void initialise(String uri, EObject container)
+			throws OntologyLoadExeption {
 		if (uri.startsWith("http")) {
 			initialiseRemoteUri(uri);
-		}
-		else {
-			initialiseLocalUri(uri, container);	
+		} else {
+			initialiseLocalUri(uri, container);
 		}
 	}
 
 	private void initialiseLocalUri(String uri, EObject container) {
 		ResourceSet rs = container.eResource().getResourceSet();
-		
+
 		if (uri == null) {
 			return;
 		}
-		org.eclipse.emf.common.util.URI loadUri = getLocationHintURI(uri, container);
+		org.eclipse.emf.common.util.URI loadUri = getLocationHintURI(uri,
+				container);
 		if ("owl".equals(loadUri.fileExtension())) {
 			Resource ontoResource = null;
-			
+
 			try {
 				ontoResource = rs.getResource(loadUri, true);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
-			EList<EObject> contents = null; 
+
+			EList<EObject> contents = null;
 			if (ontoResource != null) {
-				contents = ontoResource.getContents();	
+				contents = ontoResource.getContents();
 			}
 			if (contents != null && contents.size() > 0) {
-				if(contents.get(0) instanceof OntologyDocument) {
+				if (contents.get(0) instanceof OntologyDocument) {
 					OntologyDocument d = (OntologyDocument) contents.get(0);
 					ontology = d.getOntology();
 					url2ontologies.put(uri, ontology);
@@ -146,22 +149,22 @@ public class RemoteLoader {
 
 	private void initialiseRemoteUri(String uri) throws OntologyLoadExeption {
 		OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
-		// Load the ontology 
+		// Load the ontology
 		try {
-			OWLOntology owlOnto = manager.loadOntology( URI.create( uri ) );
+			OWLOntology owlOnto = manager.loadOntology(URI.create(uri));
 			ontology = propagate(owlOnto);
 			ontology.setUri(uri);
 		} catch (OWLOntologyCreationException e) {
-				//ontology = propagate(manager.
-				//						createOntology(Collections.EMPTY_SET));
-				throw new OntologyLoadExeption("Ontology could not be loaded for given URI (" + uri + ").", e);
-			
-			//e.printStackTrace();
+			// ontology = propagate(manager.
+			// createOntology(Collections.EMPTY_SET));
+			throw new OntologyLoadExeption(
+					"Ontology could not be loaded for given URI (" + uri + ").",
+					e);
+
+			// e.printStackTrace();
 		}
 		url2ontologies.put(uri, ontology);
 	}
-
-	
 
 	private Ontology propagate(OWLOntology owlOntology) {
 		final Ontology o = factory.createOntology();
@@ -172,19 +175,22 @@ public class RemoteLoader {
 			newClass.setIri(clazz.getURI().getFragment());
 			o.getFrames().add(newClass);
 		}
-		Set<OWLObjectProperty> objectProperties = owlOntology.getObjectPropertiesInSignature();
+		Set<OWLObjectProperty> objectProperties = owlOntology
+				.getObjectPropertiesInSignature();
 		for (OWLObjectProperty objectProperty : objectProperties) {
 			ObjectProperty newOP = factory.createObjectProperty();
 			newOP.setIri(objectProperty.getURI().getFragment());
 			o.getFrames().add(newOP);
 		}
-		Set<OWLDataProperty> dataPropertiesInSignature = owlOntology.getDataPropertiesInSignature();
+		Set<OWLDataProperty> dataPropertiesInSignature = owlOntology
+				.getDataPropertiesInSignature();
 		for (OWLDataProperty dataProperty : dataPropertiesInSignature) {
 			DataProperty newDP = factory.createDataProperty();
 			newDP.setIri(dataProperty.getURI().getFragment());
 			o.getFrames().add(newDP);
 		}
-		Set<OWLIndividual> individualsInSignature = owlOntology.getIndividualsInSignature();
+		Set<OWLIndividual> individualsInSignature = owlOntology
+				.getIndividualsInSignature();
 		for (OWLIndividual individual : individualsInSignature) {
 			Individual newIndividual = factory.createIndividual();
 			newIndividual.setIri(individual.getURI().getFragment());
@@ -192,14 +198,14 @@ public class RemoteLoader {
 		}
 		Set<URI> annotationURIs = owlOntology.getAnnotationURIs();
 		for (URI uri : annotationURIs) {
-			AnnotationProperty newAnnotationProperty = factory.createAnnotationProperty();
+			AnnotationProperty newAnnotationProperty = factory
+					.createAnnotationProperty();
 			newAnnotationProperty.setIri(uri.getFragment());
 			o.getFrames().add(newAnnotationProperty);
 		}
 		return o;
 	}
 
-	
 	public Ontology getOntology() {
 		return this.ontology;
 	}
@@ -219,13 +225,14 @@ public class RemoteLoader {
 
 	private Map<String, Frame> intialiseIriMap(Ontology onto) {
 		Map<String, Frame> iriMap = new HashMap<String, Frame>();
-		if (onto == null) return iriMap;
-		
+		if (onto == null)
+			return iriMap;
+
 		EList<Frame> frames = onto.getFrames();
 		for (Frame frame : frames) {
-			if(frame.getIri() != null ) {
+			if (frame.getIri() != null) {
 				iriMap.put(frame.getIri(), frame);
-			}	
+			}
 		}
 		url2irimaps.put(onto.getUri(), iriMap);
 		return iriMap;

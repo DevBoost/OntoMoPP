@@ -14,6 +14,7 @@
 package org.emftext.language.owl.resource.owl.analysis;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.owl.Ontology;
 import org.emftext.language.owl.OntologyDocument;
 import org.emftext.language.owl.loading.OntologyLoadExeption;
@@ -31,6 +32,11 @@ public class NamespaceImportedOntologyReferenceResolver implements org.emftext.l
 		EList<Ontology> imports = ontologyDocument.getOntology().getImports();
 		if (!identifier.endsWith("#")) {
 			((OwlResource) container.eResource()).addWarning("URIs of imported namespaces should end with \"#\", to allow for resolving its declarations by iri", container);
+		}
+		OntologyDocument document = (OntologyDocument) container.eContainer();
+		if ((document.getOntology().getUri() + "#").equals(identifier)) {
+			result.addMapping(identifier, document.getOntology());
+			return;
 		}
 		for (Ontology ontology : imports) {
 			
@@ -60,7 +66,9 @@ public class NamespaceImportedOntologyReferenceResolver implements org.emftext.l
 		if (!uri.endsWith("#")) {
 			uri = uri.substring(0, uri.length()) + "#";
 		}
-		return "<" + uri + ">";
+		if (!uri.startsWith("<") && !uri.endsWith(">"))
+			uri = "<" + uri + ">";
+		return uri;
 	}
 	
 	public void setOptions(java.util.Map<?,?> options) {

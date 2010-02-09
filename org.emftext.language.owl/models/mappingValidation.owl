@@ -1,0 +1,23 @@
+Ontology: <platform:/org.emftext.language.owl/models/mappingValidation.owl> 
+
+Class: Feature
+	
+Class: Element
+Class: DependentElement 
+	SubClassOf: Element and
+				depends_on max 1 Element	
+
+
+ObjectProperty: depends_on
+	Domain: DependentElement
+	Range: Element
+
+	
+Class: interface
+	SubClassOf: DependentElement	
+
+Class: implementation
+	SubClassOf: DependentElement and depends_on exactly 1 interface, 
+				 DependentElement and depends_on exactly 1 implementation 
+
+	

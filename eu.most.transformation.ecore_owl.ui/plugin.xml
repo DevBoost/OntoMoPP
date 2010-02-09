@@ -18,4 +18,21 @@
       </objectContribution>
    </extension>
 
+
+   <extension  
+            point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="true"
+            id="eu.most.transformation.ecore_owl.ui.TransformMetamodel2OWL"
+            nameFilter="*.ecore"
+            objectClass="org.eclipse.core.resources.IFile">
+         <action
+               class="eu.most.transformation.ecore_owl.ui.TransformMetamodel2OWLAction"
+               enablesFor="1"
+               id="eu.most.transformation.ecore_owl.ui.TransformMetamodel2OWLAction"
+               label="Transform Metamodel to OWL"
+               menubarPath="additions"/>
+      </objectContribution>
+   </extension>
+
 </plugin>

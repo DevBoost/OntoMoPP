@@ -1,29 +1,15 @@
 package eu.most.transformation.ecore_owl;
 
-import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.emftext.language.owl.AnnotationProperty;
-import org.emftext.language.owl.Class;
-import org.emftext.language.owl.DataProperty;
-import org.emftext.language.owl.Datatype;
-import org.emftext.language.owl.Frame;
-import org.emftext.language.owl.Individual;
-import org.emftext.language.owl.Namespace;
-import org.emftext.language.owl.ObjectProperty;
 import org.emftext.language.owl.Ontology;
-import org.emftext.language.owl.OntologyDocument;
-import org.emftext.language.owl.OwlFactory;
 import org.emftext.language.owl.loading.OntologyLoadExeption;
 import org.emftext.language.owl.resource.owl.analysis.custom.CrossResourceIRIResolver;
-import org.emftext.language.owl.resource.owl.mopp.OwlPrinter;
 
 public class OWLTransformationHelper {
 
@@ -38,7 +24,12 @@ public class OWLTransformationHelper {
 
 	
 	public static String getIdentificationIRI(EClass eClass) {
-		String iri = eClass.getEPackage().getName();
+		EPackage ePackage = eClass.getEPackage();
+		String iri = ePackage.getName();
+		while (ePackage.getESuperPackage() != null) {
+			ePackage = ePackage.getESuperPackage();
+			iri = ePackage.getName() + "_" + iri;
+		}
 		iri += ":";
 		iri += eClass.getName();
 		return iri;

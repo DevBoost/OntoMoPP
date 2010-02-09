@@ -94,9 +94,9 @@ public class PelletReasoner implements org.emftext.language.owl.reasoning.EMFTex
 			}
 			else {
 				reasoner.realise();
+				reasoner.classify();
 				reasoner.getKB().printClassTree();
-			
-				
+							
 					//reasoner.realise();
 				//reasoner.classify();
 				//reasoner.getKB().ensureConsistency();

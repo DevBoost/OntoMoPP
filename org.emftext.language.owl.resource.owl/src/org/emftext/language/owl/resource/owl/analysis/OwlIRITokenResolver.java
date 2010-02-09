@@ -24,7 +24,7 @@ public class OwlIRITokenResolver implements IOwlTokenResolver {
 	
 	public java.lang.String deResolve(java.lang.Object value, org.eclipse.emf.ecore.EStructuralFeature feature, org.eclipse.emf.ecore.EObject container) {
 		java.lang.String result = defaultResolver.deResolve(value, feature, container);
-		if (result.indexOf("://") != -1) {
+		if (result.indexOf("://") != -1 && !result.startsWith("<") && !result.endsWith(">")) {
 			result = "<" + result + ">";
 		}
 		return result;

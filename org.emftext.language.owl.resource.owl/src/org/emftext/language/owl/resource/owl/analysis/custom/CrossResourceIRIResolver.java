@@ -151,7 +151,7 @@ public class CrossResourceIRIResolver {
 		if (containingOntologyContainer == containingOntologyElement) {
 			return element.getIri();
 		}
-		else {
+		else if (containingOntologyElement != null) {
 			EList<Namespace> namespaces = ((OntologyDocument) containingOntologyContainer.eContainer()).getNamespace();
 			for (Namespace namespace : namespaces) {
 				if (namespace.getImportedOntology().getUri().equals(containingOntologyElement.getUri())) {
