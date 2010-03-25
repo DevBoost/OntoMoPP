@@ -76,7 +76,6 @@ public class OWLTransformationHelper {
 
 	public static String getOWLRepresentation(
 			OWLTextEObjectImpl rootOWLTextObjectImpl) {
-		// TODO Auto-generated method stub
-		return null;
+		return rootOWLTextObjectImpl.getOWLRepresentation(rootOWLTextObjectImpl);
 	}
 }
