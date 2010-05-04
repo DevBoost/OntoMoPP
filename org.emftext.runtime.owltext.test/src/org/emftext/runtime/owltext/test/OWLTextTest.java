@@ -16,7 +16,7 @@ import org.emftext.language.owl.OntologyDocument;
 import org.emftext.language.owl.resource.owl.mopp.OwlResource;
 import org.emftext.language.owl.resource.owl.mopp.OwlResourceFactory;
 import org.emftext.runtime.owltext.OWLTextEObjectImpl;
-import org.emftext.runtime.owltext.OWLTransformationHelper;
+import org.emftext.runtime.owltext.OWLTextEObjectPrinter;
 import org.junit.Test;
 import org.owltext.feature.Feature;
 import org.owltext.feature.resource.fea.mopp.FeaResource;
@@ -69,27 +69,29 @@ public class OWLTextTest {
 		
 		
 		org.eclipse.emf.ecore.resource.ResourceSet rs = new org.eclipse.emf.ecore.resource.impl.ResourceSetImpl();
-		rs.getURIConverter().getURIMap().put(
-				URI.createURI("platform:/resource/org.emftext.runtime.owltext.test/metamodel/feature.owl"),
-				URI.createURI("./metamodel/feature.owl"));
-		OwlResource metamodel = (OwlResource) rs.getResource(URI.createURI("platform:/resource/org.emftext.runtime.owltext.test/metamodel/feature.owl"), true);
-		assertTrue("Resource map adaptation does not work", metamodel.getContents().size() == 1);
+		//rs.getURIConverter().getURIMap().put(
+			//	URI.createURI("platform:/resource/org.emftext.runtime.owltext.test/metamodel/feature.owl"),
+			//	URI.createURI("./metamodel/feature.owl"));
+		//OwlResource metamodel = (OwlResource) rs.getResource(URI.createURI("platform:/resource/org.emftext.runtime.owltext.test/metamodel/feature.owl"), true);
+		//assertTrue("Resource map adaptation does not work", metamodel.getContents().size() == 1);
 	
+		// load and owlify feature model
 		FeaResource resource = (FeaResource) rs.getResource(URI.createFileURI(inFile.getAbsolutePath()), true);
 		assertNotNull("In resource was not loaded.", resource);
 		assertTrue("In resource is empty.",resource.getContents().size() == 1);
 		EObject root = resource.getContents().get(0);
 		assertTrue("In root is not instanceOf OWLTextEObjectImpl", root instanceof OWLTextEObjectImpl);
-		((Feature) root).setName("secondSetName");
+		((Feature) root).setName("setByApiName");
 		// write to temp file
 		//ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 		OWLTextEObjectImpl rootOWLTextObjectImpl = (OWLTextEObjectImpl) root;
-		String owlRepresentation = OWLTransformationHelper.getOWLRepresentation(rootOWLTextObjectImpl);
+		String owlRepresentation = OWLTextEObjectPrinter.getOWLRepresentation(rootOWLTextObjectImpl);
 		BufferedWriter out = new BufferedWriter(new FileWriter(outFile));
 		out.write(owlRepresentation);
 		out.close();
 		//ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 		
+		// load owl representation of feature model
 		OwlResource outResource = (OwlResource) rs.getResource(URI.createFileURI(outFile.getAbsolutePath()), true);
 		assertNotNull("Out resource was not loaded.", outResource);
 		assertTrue("Out resource is empty.",outResource.getContents().size() == 1);
@@ -97,6 +99,7 @@ public class OWLTextTest {
 		assertTrue("Out root is not instanceOf OntologyDocument", ontRoot2 instanceof OntologyDocument);
 		outResource.save(new HashMap());
 		
+		// load expected owl representation
 		OwlResource expectedResource = (OwlResource) rs.getResource(URI.createFileURI(expectedOutFile.getAbsolutePath()), true);
 		assertNotNull("Expected out resource was not loaded.", expectedResource);
 		assertTrue("Expected out resource is empty.",expectedResource.getContents().size() == 1);

@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -19,6 +20,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.emftext.language.owl.AbbreviatedXSDStringLiteral;
 import org.emftext.language.owl.Characteristic;
 import org.emftext.language.owl.Class;
@@ -165,9 +167,7 @@ public class Ecore2Owl {
 		ontology = owlFactory.createOntology();
 		initDatatypes();
 		initStandardImports(d, metamodel);
-
 		ontology.setUri(metamodel.getNsURI());
-
 		propagateMetamodel(metamodel);
 		d.setOntology(ontology);
 		return d;

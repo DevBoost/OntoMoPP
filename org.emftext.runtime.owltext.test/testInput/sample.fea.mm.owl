@@ -1,0 +1,45 @@
+Namespace: rdfs <http://www.w3.org/2000/01/rdf-schema#> 
+	Namespace:   <http://org.owltext/feature#> 
+	Namespace: xsd <http://www.w3.org/2001/XMLSchema#> 
+	Namespace: owl <http://www.w3.org/2002/07/owl#> 
+	Namespace: rdf <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+	Namespace: feature <http://org.owltext/feature#> 
+	Ontology: <http://org.owltext/feature> 
+	
+	Class: feature:Feature 
+		SubClassOf:  feature:Feature_name min 1 and  feature:Feature_name max 1 and  feature:Feature_parent max 1 
+			
+		
+	Class: feature:MandatoryFeature 
+		SubClassOf:  feature:Feature 
+			
+		
+	Class: feature:OptionalFeature 
+		SubClassOf:  feature:Feature 
+			
+		
+	DataProperty: feature:Feature_name 
+		Domain:  feature:Feature 
+			Range:  xsd:string 
+			Characteristics: Functional 
+			
+		
+	DataProperty: feature:Feature_annotations 
+		Domain:  feature:Feature 
+			Range:  xsd:string 
+			Characteristics: Functional 
+			
+		
+	ObjectProperty: feature:Feature_children 
+		Domain:  feature:Feature 
+			Range:  feature:Feature 
+			InverseOf: feature:Feature_parent , feature:Feature_parent 
+			
+		
+	ObjectProperty: feature:Feature_parent 
+		Domain:  feature:Feature 
+			Range:  feature:Feature 
+			Characteristics: Functional 
+			InverseOf: feature:Feature_children , feature:Feature_children 
+			
+		

@@ -15,6 +15,7 @@ package org.emftext.language.owl.resource.owl.analysis;
 
 import java.util.Map;
 
+import org.eclipse.emf.common.util.URI;
 import org.emftext.language.owl.Ontology;
 import org.emftext.language.owl.loading.OntologyLoadExeption;
 import org.emftext.language.owl.loading.RemoteLoader;
@@ -30,6 +31,10 @@ public class OntologyImportsReferenceResolver implements IOwlReferenceResolver<o
 		new OwlDefaultResolverDelegate<org.emftext.language.owl.Ontology, org.emftext.language.owl.Ontology>();
 		
 	public java.lang.String deResolve(org.emftext.language.owl.Ontology element, org.emftext.language.owl.Ontology container, org.eclipse.emf.ecore.EReference reference) {
+		URI uri = element.eResource().getURI();
+		if (uri.isFile()) {
+			return "<" + uri + ">";
+		}
 		return  "<" + element.getUri() + ">";
 	}
 	

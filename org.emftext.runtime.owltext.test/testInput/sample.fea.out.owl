@@ -1,6 +1,6 @@
-Namespace: feature <platform:/resource/org.emftext.runtime.owltext.test/metamodel/feature.owl#> 
+Namespace: feature <http://org.owltext/feature#> 
 	Ontology: <http://transformed/sample.fea> 
-	Import: <platform:/resource/org.emftext.runtime.owltext.test/metamodel/feature.owl> 
+	Import: <file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/testInput/sample.fea.mm.owl> 
 	
 	Class: feature:Feature 
 		
@@ -11,16 +11,23 @@ Namespace: feature <platform:/resource/org.emftext.runtime.owltext.test/metamode
 	Class: feature:OptionalFeature 
 		
 		
-	ObjectProperty: feature:Feature_children 
-		
-		
 	DataProperty: feature:Feature_name 
 		Characteristics: Functional 
 			
 		
+	DataProperty: feature:Feature_annotations 
+		Characteristics: Functional 
+			
+		
+	ObjectProperty: feature:Feature_children 
+		
+		
+	ObjectProperty: feature:Feature_parent 
+		
+		
 	Individual: individual_0 
 		Types:  feature:MandatoryFeature 
-			Facts:  feature:Feature_children individual_1 ,  feature:Feature_children individual_2 ,  feature:Feature_name "secondSetName" 
+			Facts:  feature:Feature_children individual_1 ,  feature:Feature_children individual_2 ,  feature:Feature_name "setByApiName" 
 			
 		
 	Individual: individual_1 

@@ -428,7 +428,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 				} else if (frame instanceof Individual) {
 					declarationFrame = factory.createIndividual();
 				}
-				declarationFrame.setIri(metaModelNamespacePrefix + ":" + frame.getIri());
+				declarationFrame.setIri(frame.getIri());
 				ontology.getFrames().add(declarationFrame);
 			
 			}
