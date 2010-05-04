@@ -23,9 +23,12 @@ import org.junit.Test;
 import org.owltext.feature.Feature;
 import org.owltext.feature.resource.fea.mopp.FeaResource;
 import org.owltext.feature.resource.fea.mopp.FeaResourceFactory;
+import org.eclipse.emf.compare.diff.metamodel.DiffModel;
+import org.eclipse.emf.compare.diff.service.DiffService;
 import org.eclipse.emf.compare.match.MatchOptions;
 import org.eclipse.emf.compare.match.metamodel.MatchModel;
 import org.eclipse.emf.compare.match.service.MatchService;
+import org.eclipse.emf.compare.util.ModelUtils;
 
 public class OWLTextTest {
 
@@ -70,7 +73,7 @@ public class OWLTextTest {
 		File outFile = new File("./testInput/" + inFileName + ".out.owl");
 		if (outFile.exists()) outFile.delete();
 		File expectedOutFile = new File("./testInput/" + expectedOutFileName);
-		
+		File diff = new File("./testInput/" + inFileName + ".diff");
 		
 		
 		org.eclipse.emf.ecore.resource.ResourceSet rs = new org.eclipse.emf.ecore.resource.impl.ResourceSetImpl();
@@ -118,6 +121,9 @@ public class OWLTextTest {
 		options.put(MatchOptions.OPTION_IGNORE_XMI_ID, true);
 		options.put(MatchOptions.OPTION_SEARCH_WINDOW, Integer.valueOf(100));
 		MatchModel matchResult = MatchService.doContentMatch(ontRoot, ontRoot2, options);
+		DiffModel genDiff = DiffService.doDiff(matchResult, false);   
+		//Serialize to XMI   
+		ModelUtils.save(genDiff, diff.getAbsolutePath());
 		// TODO should use EMFCompare for comparison, to be independent of tree structure.
 		assertTrue("Expected ontology output does not equal produced output.", matchResult.getUnmatchedElements().size() == 0);
 	}

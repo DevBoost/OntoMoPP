@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="MacRoman"?>
+<diff:DiffModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:diff="http://www.eclipse.org/emf/compare/diff/1.1">
+  <ownedElements xsi:type="diff:DiffGroup">
+    <subDiffElements xsi:type="diff:DiffGroup">
+      <subDiffElements xsi:type="diff:DiffGroup">
+        <subDiffElements xsi:type="diff:ReferenceOrderChange">
+          <reference href="http://org.emftext/owl.ecore#//Ontology/imports"/>
+          <rightElement href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/sample.fea.out.owl#//@ontology"/>
+          <leftElement href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/sample.owl#//@ontology"/>
+        </subDiffElements>
+        <subDiffElements xsi:type="diff:ReferenceOrderChange">
+          <reference href="http://org.emftext/owl.ecore#//Ontology/frames"/>
+          <rightElement href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/sample.fea.out.owl#//@ontology"/>
+          <leftElement href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/sample.owl#//@ontology"/>
+          <leftTarget href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/sample.owl#feature:Feature"/>
+          <leftTarget href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/sample.owl#feature:MandatoryFeature"/>
+          <leftTarget href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/sample.owl#feature:OptionalFeature"/>
+          <leftTarget href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/sample.owl#feature:Feature_name"/>
+          <leftTarget href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/sample.owl#feature:Feature_annotations"/>
+          <leftTarget href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/sample.owl#feature:Feature_children"/>
+          <leftTarget href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/sample.owl#feature:Feature_parent"/>
+          <leftTarget href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/sample.owl#individual_0"/>
+          <leftTarget href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/sample.owl#individual_1"/>
+          <leftTarget href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/sample.owl#individual_2"/>
+          <rightTarget href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/sample.fea.out.owl#feature:Feature"/>
+          <rightTarget href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/sample.fea.out.owl#feature:MandatoryFeature"/>
+          <rightTarget href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/sample.fea.out.owl#feature:OptionalFeature"/>
+          <rightTarget href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/sample.fea.out.owl#feature:Feature_children"/>
+          <rightTarget href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/sample.fea.out.owl#feature:Feature_parent"/>
+          <rightTarget href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/sample.fea.out.owl#individual_0"/>
+          <rightTarget href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/sample.fea.out.owl#individual_1"/>
+          <rightTarget href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/sample.fea.out.owl#individual_2"/>
+          <rightTarget href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/sample.fea.out.owl#feature:Feature_name"/>
+          <rightTarget href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/sample.fea.out.owl#feature:Feature_annotations"/>
+        </subDiffElements>
+        <subDiffElements xsi:type="diff:DiffGroup">
+          <subDiffElements xsi:type="diff:DiffGroup">
+            <subDiffElements xsi:type="diff:DiffGroup">
+              <subDiffElements xsi:type="diff:UpdateAttribute">
+                <attribute href="http://org.emftext/owl.ecore#//AbbreviatedXSDStringLiteral/value"/>
+                <leftElement href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/sample.owl#//@ontology/@frames.5/@facts.2/@literal"/>
+                <rightElement href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/sample.fea.out.owl#//@ontology/@frames.7/@facts.2/@literal"/>
+              </subDiffElements>
+              <rightParent href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/sample.fea.out.owl#//@ontology/@frames.7/@facts.2/@literal"/>
+            </subDiffElements>
+            <rightParent href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/sample.fea.out.owl#//@ontology/@frames.7/@facts.2"/>
+          </subDiffElements>
+          <rightParent href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/sample.fea.out.owl#individual_0"/>
+        </subDiffElements>
+        <rightParent href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/sample.fea.out.owl#//@ontology"/>
+      </subDiffElements>
+      <rightParent href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/sample.fea.out.owl#/"/>
+    </subDiffElements>
+  </ownedElements>
+  <leftRoots href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/sample.owl#/"/>
+  <rightRoots href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/sample.fea.out.owl#/"/>
+</diff:DiffModel>
