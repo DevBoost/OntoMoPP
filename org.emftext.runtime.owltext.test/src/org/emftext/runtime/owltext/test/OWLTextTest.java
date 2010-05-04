@@ -15,6 +15,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.owl.OntologyDocument;
+import org.emftext.language.owl.reasoning.OwlReasoningBuilder;
+import org.emftext.language.owl.resource.owl.mopp.OwlBuilder;
 import org.emftext.language.owl.resource.owl.mopp.OwlResource;
 import org.emftext.language.owl.resource.owl.mopp.OwlResourceFactory;
 import org.emftext.runtime.owltext.OWLTextEObjectImpl;
@@ -107,12 +109,19 @@ public class OWLTextTest {
 		assertTrue("Out root is not instanceOf OntologyDocument", ontRoot2 instanceof OntologyDocument);
 		outResource.save(new HashMap());
 		
+		OwlReasoningBuilder builder = new OwlReasoningBuilder();
+		builder.validateOWL(owlRepresentation, outResource);
+		
 		// load expected owl representation
 		OwlResource expectedResource = (OwlResource) rs.getResource(URI.createFileURI(expectedOutFile.getAbsolutePath()), true);
 		assertNotNull("Expected out resource was not loaded.", expectedResource);
 		assertTrue("Expected out resource is empty.",expectedResource.getContents().size() == 1);
 		EObject ontRoot = expectedResource.getContents().get(0);
 		assertTrue("Expected out root is not instanceOf OntologyDocument", ontRoot instanceof OntologyDocument);
+		
+		
+		
+		
 		
 		boolean equals = EcoreUtil.equals(ontRoot, ontRoot2);
 		

@@ -26,6 +26,7 @@ import org.emftext.language.owl.Characteristic;
 import org.emftext.language.owl.Class;
 import org.emftext.language.owl.ClassAtomic;
 import org.emftext.language.owl.Conjunction;
+import org.emftext.language.owl.DataPrimary;
 import org.emftext.language.owl.DataProperty;
 import org.emftext.language.owl.DataPropertyFact;
 import org.emftext.language.owl.Datatype;
@@ -325,6 +326,11 @@ public class Ecore2Owl {
 								.createObjectPropertyMin();
 						setFeature(minRestriction, dataProperty);
 						minRestriction.setValue(attribute.getLowerBound());
+						DatatypeReference primary = owlFactory.createDatatypeReference();
+						
+						Datatype dataType = (Datatype) etype2oclass.get(attribute.getEType());
+						primary.setTheDatatype(dataType);
+						minRestriction.setDataPrimary(primary);
 						supertypes.getPrimaries().add(minRestriction);
 					}
 
@@ -333,6 +339,12 @@ public class Ecore2Owl {
 								.createObjectPropertyMax();
 						setFeature(maxRestriction, dataProperty);
 						maxRestriction.setValue(attribute.getUpperBound());
+						DatatypeReference primary = owlFactory.createDatatypeReference();
+						
+						Datatype dataType = (Datatype) etype2oclass.get(attribute.getEType());
+						primary.setTheDatatype(dataType);
+						maxRestriction.setDataPrimary(primary);
+						
 						supertypes.getPrimaries().add(maxRestriction);
 					}
 				}
@@ -345,6 +357,9 @@ public class Ecore2Owl {
 						ObjectPropertyMin minRestriction = owlFactory
 								.createObjectPropertyMin();
 						setFeature(minRestriction, objectProperty);
+						ClassAtomic classAtomic = owlFactory.createClassAtomic();
+						classAtomic.setClazz((Class) etype2oclass.get(reference.getEType()));
+						minRestriction.setPrimary(classAtomic);
 						minRestriction.setValue(reference.getLowerBound());
 						supertypes.getPrimaries().add(minRestriction);
 					}
@@ -353,6 +368,10 @@ public class Ecore2Owl {
 						ObjectPropertyMax maxRestriction = owlFactory
 								.createObjectPropertyMax();
 						setFeature(maxRestriction, objectProperty);
+						ClassAtomic classAtomic = owlFactory.createClassAtomic();
+						classAtomic.setClazz((Class) etype2oclass.get(reference.getEType()));
+						maxRestriction.setPrimary(classAtomic);
+						
 						maxRestriction.setValue(reference.getUpperBound());
 						supertypes.getPrimaries().add(maxRestriction);
 					}

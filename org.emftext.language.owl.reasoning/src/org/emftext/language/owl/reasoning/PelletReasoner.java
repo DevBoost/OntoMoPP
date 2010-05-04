@@ -60,14 +60,21 @@ public class PelletReasoner implements org.emftext.language.owl.reasoning.EMFTex
 				public URI getPhysicalURI(URI logicalUri) {
 					if (logicalUri.toString().startsWith("http")) return null;
 					org.eclipse.emf.common.util.URI localURI = org.eclipse.emf.common.util.URI.createURI(logicalUri.toString());
-					String platformResourcePath = localURI.toPlatformString(true);
+					if (localURI.isPlatform()) {
 					
-					IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(platformResourcePath));
-					String absoluteLocation = file.getLocation().toFile().toURI().toString();
-					URI absoluteURI = URI.create(absoluteLocation);
-					System.out.println("Requested: " + logicalUri + " - " + absoluteURI);
-					
-					return absoluteURI;
+						String platformResourcePath = localURI.toPlatformString(true);
+						
+						IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(platformResourcePath));
+						String absoluteLocation = file.getLocation().toFile().toURI().toString();
+						URI absoluteURI = URI.create(absoluteLocation);
+						System.out.println("Requested: " + logicalUri + " - " + absoluteURI);
+						
+						return absoluteURI;
+					} else if (localURI.isFile()) {
+						URI absoluteURI = URI.create(localURI.toString());
+						return absoluteURI;
+					}
+					return null;
 				}
 			});
 			parser.setOWLOntologyManager(manager);

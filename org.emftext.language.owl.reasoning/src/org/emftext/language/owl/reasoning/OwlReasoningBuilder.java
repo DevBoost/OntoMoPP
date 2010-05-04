@@ -1,5 +1,6 @@
 package org.emftext.language.owl.reasoning;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Map;
@@ -26,7 +27,8 @@ import org.emftext.language.owl.resource.owl.ui.OwlMarkerHelper;
 import org.emftext.language.owl.resource.owl.util.OwlStreamUtil;
 import org.semanticweb.owl.model.OWLClass;
 
-public class OwlReasoningBuilder extends IncrementalProjectBuilder implements IOwlBuilder {
+public class OwlReasoningBuilder extends IncrementalProjectBuilder implements
+		IOwlBuilder {
 
 	private EMFTextOWLReasoner reasoner;
 
@@ -45,13 +47,30 @@ public class OwlReasoningBuilder extends IncrementalProjectBuilder implements IO
 
 	public IStatus build(OwlResource resource, IProgressMonitor monitor) {
 		IFile file = WorkspaceSynchronizer.getFile(resource);
-		try {			
-			InputStream stream = file.getContents();
+		InputStream stream;
+		try {
+			stream = file.getContents();
 			String content = OwlStreamUtil.getContent(stream);
+			validateOWL(content, resource);
+			OwlMarkerHelper.mark(resource);
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return Status.OK_STATUS;
+	}
+
+	public void validateOWL(String content, OwlResource resource) {
+
+		try {
+
 			Set<OWLClass> inconsistentClasses;
-			//System.out.println(content);
+			// System.out.println(content);
 			try {
-				
+
 				inconsistentClasses = reasoner.getInconsistentClasses(content);
 			} catch (final ReasoningException e) {
 				resource.addProblem(new IOwlProblem() {
@@ -64,8 +83,8 @@ public class OwlReasoningBuilder extends IncrementalProjectBuilder implements IO
 						return e.getMessage();
 					}
 				}, resource.getContents().get(0));
-				OwlMarkerHelper.mark(resource);
-				return Status.OK_STATUS;
+				
+				return;
 			}
 			Set<String> invalidIris = new HashSet<String>();
 			for (OWLClass class1 : inconsistentClasses) {
@@ -91,12 +110,10 @@ public class OwlReasoningBuilder extends IncrementalProjectBuilder implements IO
 					}
 				}
 			}
-			OwlMarkerHelper.mark(resource);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return Status.OK_STATUS;
 	}
 
 	public boolean isBuildingNeeded(URI uri) {

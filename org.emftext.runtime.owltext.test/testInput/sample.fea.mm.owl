@@ -7,7 +7,7 @@ Namespace: rdfs <http://www.w3.org/2000/01/rdf-schema#>
 	Ontology: <http://org.owltext/feature> 
 	
 	Class: feature:Feature 
-		SubClassOf:  feature:Feature_name min 1 and  feature:Feature_name max 1 and  feature:Feature_parent max 1 
+		SubClassOf:  feature:Feature_name min 1  xsd:string and  feature:Feature_name max 1  xsd:string and  feature:Feature_parent max 1  feature:Feature 
 			
 		
 	Class: feature:MandatoryFeature 
