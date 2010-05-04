@@ -7,6 +7,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -21,6 +23,9 @@ import org.junit.Test;
 import org.owltext.feature.Feature;
 import org.owltext.feature.resource.fea.mopp.FeaResource;
 import org.owltext.feature.resource.fea.mopp.FeaResourceFactory;
+import org.eclipse.emf.compare.match.MatchOptions;
+import org.eclipse.emf.compare.match.metamodel.MatchModel;
+import org.eclipse.emf.compare.match.service.MatchService;
 
 public class OWLTextTest {
 
@@ -108,7 +113,12 @@ public class OWLTextTest {
 		
 		boolean equals = EcoreUtil.equals(ontRoot, ontRoot2);
 		
+		Map<String, Object> options = new LinkedHashMap<String, Object>();
+		options.put(MatchOptions.OPTION_IGNORE_ID, true);
+		options.put(MatchOptions.OPTION_IGNORE_XMI_ID, true);
+		options.put(MatchOptions.OPTION_SEARCH_WINDOW, Integer.valueOf(100));
+		MatchModel matchResult = MatchService.doContentMatch(ontRoot, ontRoot2, options);
 		// TODO should use EMFCompare for comparison, to be independent of tree structure.
-		assertTrue("Expected ontology output does not equal produced output.", equals);
+		assertTrue("Expected ontology output does not equal produced output.", matchResult.getUnmatchedElements().size() == 0);
 	}
 }

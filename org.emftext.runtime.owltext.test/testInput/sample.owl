@@ -1,17 +1,42 @@
-Namespace: feature <platform:/resource/org.emftext.runtime.owltext.test/metamodel/feature.owl#>
-
-Ontology: <http://www.semanticweb.org/ontologies/2009/7/manch.owl>
-Import: <platform:/resource/org.emftext.runtime.owltext.test/metamodel/feature.owl>
-
-Individual: testRootFeature
-	Types: feature:MandatoryFeature
+Namespace: feature <http://org.owltext/feature#> 
+	Ontology: <http://transformed/sample.fea> 
+	Import: <file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/testInput/sample.fea.mm.owl> 
 	
-Individual: anOptionalFeature
-	Types: feature:OptionalFeature
-
-Individual: anMandatoryFeature
-	Types: feature:MandatoryFeature, feature:OptionalFeature
+	Class: feature:Feature 
+		
+		
+	Class: feature:MandatoryFeature 
+		
+		
+	Class: feature:OptionalFeature 
+		
 	
-Class: feature:OptionalFeature
-
-Class: feature:MandatoryFeature
+			
+		
+	ObjectProperty: feature:Feature_children 
+		
+		
+	ObjectProperty: feature:Feature_parent 
+		
+		
+	Individual: individual_0 
+		Types:  feature:MandatoryFeature 
+			Facts:  feature:Feature_children individual_1 ,  feature:Feature_children individual_2 ,  feature:Feature_name "setByApi" 
+			
+		
+	Individual: individual_1 
+		Types:  feature:OptionalFeature 
+			Facts:  feature:Feature_name "anOptionalFeature" 
+			
+		
+	Individual: individual_2 
+		Types:  feature:MandatoryFeature 
+			Facts:  feature:Feature_name "anMandatoryFeature" 
+			
+			
+	DataProperty: feature:Feature_name 
+		Characteristics: Functional 
+			
+		
+	DataProperty: feature:Feature_annotations 
+		Characteristics: Functional 
