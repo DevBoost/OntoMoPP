@@ -47,7 +47,6 @@ import com.clarkparsia.ic.ICTranslator;
 import com.clarkparsia.ic.ICValidator;
 import com.clarkparsia.ic.impl.ICTranslatorImpl;
 import com.clarkparsia.ic.impl.ICValidatorPellet;
-import com.hp.hpl.jena.iri.IRI;
 
 public class PelletReasoner implements
 		org.emftext.language.owl.reasoning.EMFTextOWLReasoner {

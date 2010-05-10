@@ -14,7 +14,6 @@
 package org.emftext.language.owl.resource.owl.analysis;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.owl.Ontology;
 import org.emftext.language.owl.OntologyDocument;
 import org.emftext.language.owl.loading.OntologyLoadExeption;

@@ -14,7 +14,6 @@ package org.emftext.language.owl.loading;
 
 import java.io.File;
 import java.net.URI;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -40,7 +39,6 @@ import org.semanticweb.owl.model.OWLDataProperty;
 import org.semanticweb.owl.model.OWLIndividual;
 import org.semanticweb.owl.model.OWLObjectProperty;
 import org.semanticweb.owl.model.OWLOntology;
-import org.semanticweb.owl.model.OWLOntologyChangeException;
 import org.semanticweb.owl.model.OWLOntologyCreationException;
 import org.semanticweb.owl.model.OWLOntologyManager;
 

@@ -6,12 +6,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.emftext.language.owl.Characteristic;
 import org.emftext.language.owl.Ontology;
 import org.emftext.language.owl.OntologyDocument;
 import org.emftext.language.owl.loading.OntologyLoadExeption;
