@@ -1,7 +1,7 @@
 Namespace: rdfs <http://www.w3.org/2000/01/rdf-schema#> 
 	Namespace:   <http://org.owltext/feature#> 
-	Namespace: xsd <http://www.w3.org/2001/XMLSchema#> 
 	Namespace: owl <http://www.w3.org/2002/07/owl#> 
+	Namespace: xsd <http://www.w3.org/2001/XMLSchema#> 
 	Namespace: rdf <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
 	Namespace: feature <http://org.owltext/feature#> 
 	Ontology: <http://org.owltext/feature> 

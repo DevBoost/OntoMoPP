@@ -35,7 +35,7 @@ import org.emftext.language.owl.resource.owl.IOwlReferenceResolveResult;
 public class CrossResourceIRIResolver {
 	
 	private static CrossResourceIRIResolver instance;
-	static private Map<String, String> standardNamespaces = new HashMap<String, String>();
+	static public Map<String, String> standardNamespaces = new HashMap<String, String>();
 	static {
 		standardNamespaces.put("rdf","http://www.w3.org/1999/02/22-rdf-syntax-ns#");
 		standardNamespaces.put("rdfs","http://www.w3.org/2000/01/rdf-schema#");
@@ -77,16 +77,9 @@ public class CrossResourceIRIResolver {
 			if (entity.eIsProxy()) {
 				entity = (IRIIdentified) EcoreUtil.resolve(entity, containerObject);
 			}
-			if (entity.eResource() != null) {
-				r = (RESULT) entity;
-				result.addMapping(entity.getIri(), r);		
-			} else {
-				String name = entity.getIri();
-				EClass classifier = (EClass) OwlPackage.eINSTANCE.getEClassifier(c.getSimpleName());
-				r = (RESULT) OwlFactory.eINSTANCE.create(classifier);
-				r.setIri(name);
-				result.addMapping(name, r);		
-			}
+			r = (RESULT) entity;
+			result.addMapping(entity.getIri(), r);		
+			
 			
 		}
 	}
@@ -158,14 +151,23 @@ public class CrossResourceIRIResolver {
 					return namespace.getPrefix() + ":" + element.getIri();
 				}
 			}
+			for (String prefix : standardNamespaces.keySet()) {
+				String standardOntologyUri = standardNamespaces.get(prefix);
+				if (standardOntologyUri.equals(containingOntologyElement.getUri())) {
+					return prefix + ":" + element.getIri();
+				}
+			}
 		}
 		return element.getIri();
 	}
 
 	private Ontology getContainingOntology(EObject element) {
 		Resource eResource = element.eResource();
-		if (eResource == null || eResource.getContents().size() != 1) return null;
-		return ((OntologyDocument) eResource.getContents().get(0)).getOntology();
+		EObject parent = element.eContainer();
+		while(parent != null && !(parent instanceof Ontology)) {
+			parent = parent.eContainer();
+		}
+		return (Ontology) parent;
 		
 	}
 	

@@ -26,7 +26,7 @@ Namespace: feature <http://org.owltext/feature#>
 		
 		
 	Individual: individual_0 
-		Types:  feature:MandatoryFeature ,  feature:Feature_name value "testRootFeature" ,  feature:Feature_children value individual_1 ,  feature:Feature_children value individual_2 ,  feature:Feature_name exactly 1  xsd:string ,  feature:Feature_annotations exactly 0  xsd:string ,  feature:Feature_children exactly 2  feature:Feature ,  feature:Feature_parent exactly 0  feature:Feature 
+		Types:  feature:MandatoryFeature ,  feature:Feature_children value individual_1 ,  feature:Feature_children value individual_2 ,  feature:Feature_name exactly 0  xsd:string ,  feature:Feature_annotations exactly 0  xsd:string ,  feature:Feature_children exactly 2  feature:Feature ,  feature:Feature_parent exactly 0  feature:Feature 
 			
 		
 	Individual: individual_1 

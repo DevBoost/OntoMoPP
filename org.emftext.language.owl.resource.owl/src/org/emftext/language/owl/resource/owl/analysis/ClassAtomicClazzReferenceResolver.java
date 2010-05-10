@@ -23,6 +23,7 @@ public class ClassAtomicClazzReferenceResolver implements IOwlReferenceResolver<
 
 	private OwlDefaultResolverDelegate<org.emftext.language.owl.ClassAtomic, org.emftext.language.owl.Class> delegate = 
 		new OwlDefaultResolverDelegate<org.emftext.language.owl.ClassAtomic, org.emftext.language.owl.Class>();
+	 
 	
 	public java.lang.String deResolve(org.emftext.language.owl.Class element, org.emftext.language.owl.ClassAtomic container, org.eclipse.emf.ecore.EReference reference) {
 		return CrossResourceIRIResolver.theInstance().deResolve(element, container, reference);

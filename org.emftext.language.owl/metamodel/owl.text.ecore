@@ -91,7 +91,7 @@ package owl owl "http://org.emftext/owl.ecore" {
 			unique ordered resolveProxies reference Individual differentFrom (0..-1);
 	}
 	
-	 class Datatype  extends Frame, Annotateable {
+	 class Datatype  extends Class, Annotateable {
 			containment unique ordered resolveProxies reference DataRange dataRange (0..1);
 	}
 	

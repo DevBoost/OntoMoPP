@@ -10,7 +10,13 @@ Namespace: feature <http://org.owltext/feature#>
 		
 	Class: feature:OptionalFeature 
 		
-	
+		
+	DataProperty: feature:Feature_name 
+		Characteristics: Functional 
+			
+		
+	DataProperty: feature:Feature_annotations 
+		Characteristics: Functional 
 			
 		
 	ObjectProperty: feature:Feature_children 
@@ -20,23 +26,16 @@ Namespace: feature <http://org.owltext/feature#>
 		
 		
 	Individual: individual_0 
-		Types:  feature:MandatoryFeature 
-			Facts:  feature:Feature_children individual_1 ,  feature:Feature_children individual_2 ,  feature:Feature_name "setByApi" 
+		Types:  feature:MandatoryFeature ,  feature:Feature_name value "testRootFeature" ,  feature:Feature_children value individual_1 ,  feature:Feature_children value individual_2 ,  feature:Feature_name exactly 1  xsd:string ,  feature:Feature_annotations exactly 0  xsd:string ,  feature:Feature_children exactly 2  feature:Feature ,  feature:Feature_parent exactly 0  feature:Feature 
 			
 		
 	Individual: individual_1 
-		Types:  feature:OptionalFeature 
-			Facts:  feature:Feature_name "anOptionalFeature" 
+		Types:  feature:OptionalFeature ,  feature:Feature_name value "anOptionalFeature" ,  feature:Feature_name exactly 1  xsd:string ,  feature:Feature_annotations exactly 0  xsd:string ,  feature:Feature_children exactly 0  feature:Feature ,  feature:Feature_parent exactly 1  feature:Feature 
 			
 		
 	Individual: individual_2 
-		Types:  feature:MandatoryFeature 
-			Facts:  feature:Feature_name "anMandatoryFeature" 
-			
-			
-	DataProperty: feature:Feature_name 
-		Characteristics: Functional 
+		Types:  feature:MandatoryFeature ,  feature:Feature_name value "anMandatoryFeature" ,  feature:Feature_name exactly 1  xsd:string ,  feature:Feature_annotations exactly 0  xsd:string ,  feature:Feature_children exactly 0  feature:Feature ,  feature:Feature_parent exactly 1  feature:Feature 
 			
 		
-	DataProperty: feature:Feature_annotations 
-		Characteristics: Functional 
+	DifferentIndividuals: individual_0 , individual_1 , individual_2 
+		

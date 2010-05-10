@@ -43,6 +43,7 @@ import org.emftext.language.owl.ObjectPropertyReference;
 import org.emftext.language.owl.Ontology;
 import org.emftext.language.owl.OntologyDocument;
 import org.emftext.language.owl.OwlFactory;
+import org.emftext.language.owl.resource.owl.analysis.custom.CrossResourceIRIResolver;
 
 public class Ecore2Owl {
 
@@ -90,11 +91,7 @@ public class Ecore2Owl {
 
 	private void initStandardImports(OntologyDocument d, EPackage metamodel) {
 
-		Map<String, String> namespaces = new HashMap<String, String>();
-		namespaces.put("rdfs", "http://www.w3.org/2000/01/rdf-schema#");
-		namespaces.put("owl", "http://www.w3.org/2002/07/owl#");
-		namespaces.put("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
-		namespaces.put("xsd", "http://www.w3.org/2001/XMLSchema#");
+		Map<String, String> namespaces = CrossResourceIRIResolver.standardNamespaces;
 		//namespaces.put("owl2xml", "http://www.w3.org/2006/12/owl2-xml#");
 
 		namespaces.put(metamodel.getNsPrefix(), metamodel.getNsURI());
