@@ -4,12 +4,14 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -22,12 +24,22 @@ import org.emftext.language.owl.ClassAtomic;
 import org.emftext.language.owl.DataProperty;
 import org.emftext.language.owl.DataPropertyFact;
 import org.emftext.language.owl.Datatype;
+import org.emftext.language.owl.DatatypeReference;
+import org.emftext.language.owl.Description;
+import org.emftext.language.owl.DifferentIndividuals;
+import org.emftext.language.owl.DisjointClasses;
 import org.emftext.language.owl.Fact;
+import org.emftext.language.owl.FeatureReference;
+import org.emftext.language.owl.FeatureRestriction;
 import org.emftext.language.owl.Frame;
 import org.emftext.language.owl.Individual;
 import org.emftext.language.owl.Namespace;
 import org.emftext.language.owl.ObjectProperty;
+import org.emftext.language.owl.ObjectPropertyExactly;
 import org.emftext.language.owl.ObjectPropertyFact;
+import org.emftext.language.owl.ObjectPropertyReference;
+import org.emftext.language.owl.ObjectPropertySome;
+import org.emftext.language.owl.ObjectPropertyValue;
 import org.emftext.language.owl.Ontology;
 import org.emftext.language.owl.OntologyDocument;
 import org.emftext.language.owl.OwlFactory;
@@ -55,54 +67,54 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		public boolean add(T e) {
 			// TODO check whether we also have to deal with EAtrributes here
 			OwlFactory factory = OwlFactory.eINSTANCE;
-			ObjectPropertyFact objectPropertyFact = factory.createObjectPropertyFact();
+			ObjectPropertyValue objectPropertyValue = factory.createObjectPropertyValue();
 			
 			ObjectProperty objectProperty = factory.createObjectProperty();
-			objectProperty.setIri(OWLTransformationHelper.getIdentificationIRI(eDynamicFeature(featureID)));
-			objectPropertyFact.setObjectProperty(objectProperty);
+			objectProperty.setIri(OWLTransformationHelper.getFeatureIdentificationIRI(eDynamicFeature(featureID)));
+			FeatureReference featureRef = factory.createFeatureReference();
+			featureRef.setFeature(objectProperty);
+			objectPropertyValue.setFeatureReference(featureRef );
+			Individual individual = ((OWLTextEObjectImpl) e).getIndividual();
+			objectPropertyValue.setIndividual(individual);
 			
-			objectPropertyFact.setIndividual(((OWLTextEObjectImpl) e).getOWLIndividual());
-			
-			owlIndividual.getFacts().add(objectPropertyFact);
-			
+			owlIndividual.getTypes().add(objectPropertyValue);
+						
 			return original.add(e);
 		}
 	
 		public boolean addAll(Collection<? extends T> c) {
 			for (T t : c) {
 				OwlFactory factory = OwlFactory.eINSTANCE;
-				ObjectPropertyFact objectPropertyFact = factory.createObjectPropertyFact();
+				
+				ObjectPropertyValue objectPropertyValue = factory.createObjectPropertyValue();
 				
 				ObjectProperty objectProperty = factory.createObjectProperty();
-				objectProperty.setIri(OWLTransformationHelper.getIdentificationIRI(eDynamicFeature(featureID)));
-				objectPropertyFact.setObjectProperty(objectProperty);
+				objectProperty.setIri(OWLTransformationHelper.getFeatureIdentificationIRI(eDynamicFeature(featureID)));
+				FeatureReference featureRef = factory.createFeatureReference();
+				featureRef.setFeature(objectProperty);
+				objectPropertyValue.setFeatureReference(featureRef );
+				Individual individual = ((OWLTextEObjectImpl) t).getIndividual();
+				objectPropertyValue.setIndividual(individual);
 				
-				objectPropertyFact.setIndividual(((OWLTextEObjectImpl) t).getOWLIndividual());
-				
-				owlIndividual.getFacts().add(objectPropertyFact);
+				owlIndividual.getTypes().add(objectPropertyValue);
+						
 			}
 
 			return original.addAll(c);
 		}
 
 		public void clear() {
-			EList<Fact> facts = owlIndividual.getFacts();
-			List<Fact> toRemove = new ArrayList<Fact>();
-			for (Fact fact : facts) {
-				if (fact instanceof ObjectPropertyFact) {
-					ObjectPropertyFact opf = (ObjectPropertyFact) fact;
-					if (opf.getObjectProperty().getIri().equals(OWLTransformationHelper.getIdentificationIRI(eDynamicFeature(this.featureID)))) {
-						toRemove.add(opf);
-					}
-				}
-				if (fact instanceof DataPropertyFact) {
-					DataPropertyFact dpf = (DataPropertyFact) fact;
-					if (dpf.getDataProperty().getIri().equals(OWLTransformationHelper.getIdentificationIRI(eDynamicFeature(this.featureID)))) {
-						toRemove.add(dpf);
+			EList<Description> descriptions = owlIndividual.getTypes();
+			List<Description> toRemove = new ArrayList<Description>();
+			for (Description description : descriptions) {
+				if (description instanceof FeatureRestriction) {
+					FeatureRestriction featureRestriction = (FeatureRestriction) description;
+					if (featureRestriction.getFeatureReference().getFeature().getIri().equals(OWLTransformationHelper.getFeatureIdentificationIRI(eDynamicFeature(this.featureID)))) {
+						toRemove.add(featureRestriction);
 					}
 				}
 			}
-			owlIndividual.getFacts().removeAll(toRemove);
+			owlIndividual.getTypes().removeAll(toRemove);
 			original.clear();
 		}
 
@@ -221,10 +233,10 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		super();
 		OwlFactory factory = OwlFactory.eINSTANCE;
 		this.owlIndividual =  factory.createIndividual();
-		owlIndividual.setIri(OWLTransformationHelper.getIdentificationIRI(this));
+		owlIndividual.setIri(OWLTransformationHelper.getObjectIdentificationIRI(this));
 	
 		this.superclass = factory.createClass();
-		superclass.setIri(OWLTransformationHelper.getIdentificationIRI(this.eClass()));
+		superclass.setIri(OWLTransformationHelper.getClassIdentificationIRI(this.eClass()));
 		ClassAtomic classAtomic = factory.createClassAtomic();
 		classAtomic.setClazz(superclass);
 		owlIndividual.getTypes().add(classAtomic);
@@ -239,20 +251,20 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
 			int featureID, NotificationChain msgs) {
 		EStructuralFeature feature = this.eDynamicFeature(featureID);
-		EList<Fact> facts = this.owlIndividual.getFacts();
-		Fact toRemove = null;
-		for (Fact fact : facts) {
+		EList<Description> descriptions = this.owlIndividual.getTypes();
+		ObjectPropertySome toRemove = null;
+		for (Description description : descriptions) {
 			// only object property facts hold (inverse) references
-			if (fact instanceof ObjectPropertyFact) {
-				ObjectPropertyFact opf = (ObjectPropertyFact) fact;
-				if (opf.getObjectProperty().getIri().equals(OWLTransformationHelper.getIdentificationIRI(feature))
-						&& opf.getIndividual().getIri().equals(OWLTransformationHelper.getIdentificationIRI(otherEnd)) ) {
-					toRemove = opf;
+			if (description instanceof ObjectPropertySome) {
+				ObjectPropertySome ops = (ObjectPropertySome) description;
+				if (ops.getFeatureReference().getFeature().getIri().equals(OWLTransformationHelper.getFeatureIdentificationIRI(feature))
+						&& ((ClassAtomic) ops.getPrimary()).getClazz().getIri().equals(OWLTransformationHelper.getObjectIdentificationIRI(otherEnd)) ) {
+					toRemove = ops;
 					break;
 				}
 			}
 		}
-		this.owlIndividual.getFacts().remove(toRemove);
+		this.owlIndividual.getTypes().remove(toRemove);
 		
 		System.out.println("eInverseRemove: " + this.eClass().getName()
 				+ this.hashCode() + "."
@@ -294,32 +306,39 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		if (feature.getUpperBound() == 1) {
 			eUnset(feature);
 		}
+		if (newValue == null) return;
+		
 		
 		if (feature instanceof EReference) {
-			ObjectPropertyFact objectPropertyFact = factory.createObjectPropertyFact();
+			ObjectPropertyValue objectPropertyValue = factory.createObjectPropertyValue();
 			
 			ObjectProperty objectProperty = factory.createObjectProperty();
-			objectProperty.setIri(OWLTransformationHelper.getIdentificationIRI(feature));
-			objectPropertyFact.setObjectProperty(objectProperty);
+			objectProperty.setIri(OWLTransformationHelper.getFeatureIdentificationIRI(feature));
+			FeatureReference featureRef = factory.createFeatureReference();
+			featureRef.setFeature(objectProperty);
+			objectPropertyValue.setFeatureReference(featureRef );
+			Individual individual = ((OWLTextEObjectImpl) newValue).getIndividual();
+			objectPropertyValue.setIndividual(individual);
 			
-			objectPropertyFact.setIndividual(((OWLTextEObjectImpl) newValue).getOWLIndividual());
-			
-			this.owlIndividual.getFacts().add(objectPropertyFact);
+			this.owlIndividual.getTypes().add(objectPropertyValue);
 		} else {
-			DataPropertyFact dataPropertyFact = factory.createDataPropertyFact();
+			ObjectPropertyValue objectPropertyValue = factory.createObjectPropertyValue();
 			
 			DataProperty dataProperty = factory.createDataProperty();
-			dataProperty.setIri(OWLTransformationHelper.getIdentificationIRI(feature));
-			dataPropertyFact.setDataProperty(dataProperty);
-		
-			dataPropertyFact.setLiteral(new LiteralConverter().convert(newValue));
+			dataProperty.setIri(OWLTransformationHelper.getFeatureIdentificationIRI(feature));
+			FeatureReference featureRef = factory.createFeatureReference();
+			featureRef.setFeature(dataProperty);
+			objectPropertyValue.setFeatureReference(featureRef );
 			
-			this.owlIndividual.getFacts().add(dataPropertyFact);
+			
+			objectPropertyValue.setLiteral(new LiteralConverter().convert(newValue));
+			
+			this.owlIndividual.getTypes().add(objectPropertyValue);
 		}
 		super.eSet(featureID, newValue);
 	}
 
-	protected Individual getOWLIndividual() {
+	protected Individual getIndividual() {
 		return this.owlIndividual;
 	}
 
@@ -331,24 +350,18 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 	@Override
 	public void eUnset(int featureID) {
 		EStructuralFeature feature = this.eDynamicFeature(featureID);
-		EList<Fact> facts = this.owlIndividual.getFacts();
-		Fact toRemove = null;
-		for (Fact fact : facts) {
-			if (fact instanceof ObjectPropertyFact) {
-				ObjectPropertyFact opf = (ObjectPropertyFact) fact;
-				if (opf.getObjectProperty().getIri().equals(OWLTransformationHelper.getIdentificationIRI(feature))) {
-					toRemove = opf;
-					break;
-				}
-			} else if (fact instanceof DataPropertyFact) {
-				DataPropertyFact dpf = (DataPropertyFact) fact;
-				if (dpf.getDataProperty().getIri().equals(OWLTransformationHelper.getIdentificationIRI(feature))) {
-					toRemove = dpf;
+		EList<Description> descriptions = this.owlIndividual.getTypes();
+		Description toRemove = null;
+		for (Description description : descriptions) {
+			if (description instanceof FeatureRestriction) {
+				FeatureRestriction featureRestriction = (FeatureRestriction) description;
+				if (featureRestriction.getFeatureReference().getFeature().getIri().equals(OWLTransformationHelper.getFeatureIdentificationIRI(feature))) {
+					toRemove = featureRestriction;
 					break;
 				}
 			}
 		}
-		this.owlIndividual.getFacts().remove(toRemove);
+		this.owlIndividual.getTypes().remove(toRemove);
 		super.eUnset(featureID);
 	}
 
@@ -382,17 +395,96 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		addMetamodelImportAxioms(factory, ontologyDocument, ontology, root);
 		
 		
-		ontology.getFrames().add(root.getOWLIndividual());
+		ontology.getFrames().add(root.getIndividual());
 		TreeIterator<EObject> eAllContents = root.eAllContents();
+		List<Individual> individuals = new LinkedList<Individual>();
+		Individual selfIndividual = this.getIndividual();
+		clean(selfIndividual);
+		fixCardinality(factory, this, selfIndividual);
+		
+		individuals.add(selfIndividual);
+		// collect individuals, fix cardinalities
 		while (eAllContents.hasNext()) {
 			OWLTextEObjectImpl child = (OWLTextEObjectImpl) eAllContents.next();
-			ontology.getFrames().add(child.getOWLIndividual());
+			
+			Individual individual = child.getIndividual();
+			ontology.getFrames().add(individual);
+			individuals.add(individual);
+			
+			// fix cardinality for all features
+			clean(individual);
+			fixCardinality(factory, child, individual);
+		}
+		
+		
+		// uniqueness
+		if (individuals.size()>1) {
+			DifferentIndividuals differentIndividuals = factory.createDifferentIndividuals();
+			ontology.getFrames().add(differentIndividuals);
+			for (Individual individual : individuals) {
+				differentIndividuals.getIndividuals().add(individual);
+			}
 		}
 		ByteArrayOutputStream outStream=new ByteArrayOutputStream();  
 	    OwlPrinter printer = new OwlPrinter(outStream, null);
 		printer.print(ontologyDocument);
 	    String string = outStream.toString();
 	    return string;
+	}
+
+	private void fixCardinality(OwlFactory factory, OWLTextEObjectImpl child,
+			Individual individual) {
+		EList<EStructuralFeature> eStructuralFeatures = child.eClass().getEAllStructuralFeatures();
+		for (EStructuralFeature eStructuralFeature : eStructuralFeatures) {
+			
+			Object value = child.eGet(eStructuralFeature);
+			int size = 0;
+			if (value instanceof Collection<?>) {
+				Collection<?> c = (Collection<?>) value;
+				size = c.size();
+			} else if (value == null) {
+				size = 0;
+			} else {
+				size = 1;
+			}
+			
+			ObjectPropertyExactly ope = factory.createObjectPropertyExactly();
+			ObjectProperty objectProperty = factory.createObjectProperty();
+			objectProperty.setIri(OWLTransformationHelper.getFeatureIdentificationIRI(eStructuralFeature));
+			FeatureReference featureRef = factory.createFeatureReference();
+			featureRef.setFeature(objectProperty);
+			ope.setFeatureReference(featureRef);
+			if (eStructuralFeature instanceof EAttribute) {
+				DatatypeReference primary = factory.createDatatypeReference();
+				Datatype datatype = factory.createDatatype();
+				datatype.setIri( OWLTransformationHelper.getDatatypeMap().get(eStructuralFeature.getEType().getInstanceTypeName()));
+				primary.setTheDatatype(datatype);
+				ope.setDataPrimary(primary); 
+			} else {
+				ClassAtomic primary = factory.createClassAtomic();
+				Class clazz = factory.createClass();
+				clazz.setIri(OWLTransformationHelper.getClassIdentificationIRI(eStructuralFeature.getEType()));
+				primary.setClazz(clazz);
+				ope.setPrimary(primary); 
+			}
+			
+			
+			ope.setValue(size);
+			individual.getTypes().add(ope);
+		
+		}
+	}
+
+	private void clean(Individual individual) {
+		EList<Description> types = individual.getTypes();
+		List<Description> toRemove = new LinkedList<Description>();
+		
+		for (Description description : types) {
+			if (description instanceof ObjectPropertyExactly) {
+				toRemove.add(description);
+			}
+		}
+		individual.getTypes().removeAll(toRemove);
 	}
 
 	private void addMetamodelImportAxioms(OwlFactory factory,

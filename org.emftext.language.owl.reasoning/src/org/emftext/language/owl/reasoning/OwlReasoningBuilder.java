@@ -26,6 +26,7 @@ import org.emftext.language.owl.resource.owl.mopp.OwlResource;
 import org.emftext.language.owl.resource.owl.ui.OwlMarkerHelper;
 import org.emftext.language.owl.resource.owl.util.OwlStreamUtil;
 import org.semanticweb.owl.model.OWLClass;
+import org.semanticweb.owl.model.OWLIndividual;
 
 public class OwlReasoningBuilder extends IncrementalProjectBuilder implements
 		IOwlBuilder {
@@ -68,6 +69,7 @@ public class OwlReasoningBuilder extends IncrementalProjectBuilder implements
 		try {
 
 			Set<OWLClass> inconsistentClasses;
+			Set<OWLIndividual> inconsistentIndividual = new HashSet<OWLIndividual>();
 			// System.out.println(content);
 			try {
 
@@ -89,6 +91,9 @@ public class OwlReasoningBuilder extends IncrementalProjectBuilder implements
 			Set<String> invalidIris = new HashSet<String>();
 			for (OWLClass class1 : inconsistentClasses) {
 				invalidIris.add(class1.getURI().getFragment());
+			}
+			for (OWLIndividual i : inconsistentIndividual) {
+				invalidIris.add(i.getURI().getFragment());
 			}
 			TreeIterator<EObject> allContents = resource.getAllContents();
 			while (allContents.hasNext()) {

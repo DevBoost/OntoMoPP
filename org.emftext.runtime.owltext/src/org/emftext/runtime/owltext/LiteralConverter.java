@@ -19,6 +19,7 @@ public class LiteralConverter {
 	}
 	
 	public Literal convert(Object newValue) {
+		if (newValue == null) return null;
 		if (newValue instanceof String) {
 			return doConvert((String) newValue);
 		} 

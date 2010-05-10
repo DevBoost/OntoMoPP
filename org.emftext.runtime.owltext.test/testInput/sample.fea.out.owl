@@ -1,42 +1,96 @@
-Namespace: feature <http://org.owltext/feature#> 
-	Ontology: <http://transformed/sample.fea> 
-	Import: <file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/testInput/sample.fea.mm.owl> 
-	
-	Class: feature:Feature 
-		
-		
-	Class: feature:MandatoryFeature 
-		
-		
-	Class: feature:OptionalFeature 
-		
-		
-	DataProperty: feature:Feature_name 
-		Characteristics: Functional 
-			
-		
-	DataProperty: feature:Feature_annotations 
-		Characteristics: Functional 
-			
-		
-	ObjectProperty: feature:Feature_children 
-		
-		
-	ObjectProperty: feature:Feature_parent 
-		
-		
-	Individual: individual_0 
-		Types:  feature:MandatoryFeature 
-			Facts:  feature:Feature_children individual_1 ,  feature:Feature_children individual_2 ,  feature:Feature_name "setByApiName" 
-			
-		
-	Individual: individual_1 
-		Types:  feature:OptionalFeature 
-			Facts:  feature:Feature_name "anOptionalFeature" 
-			
-		
-	Individual: individual_2 
-		Types:  feature:MandatoryFeature 
-			Facts:  feature:Feature_name "anMandatoryFeature" 
-			
-		
+Namespace: rdfs <http://www.w3.org/2000/01/rdf-schema#>
+Namespace: owl2xml <http://www.w3.org/2006/12/owl2-xml#>
+Namespace: owl <http://www.w3.org/2002/07/owl#>
+Namespace: xsd <http://www.w3.org/2001/XMLSchema#>
+Namespace: rdf <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+Namespace: feature <http://org.owltext/feature#>
+Namespace: sample <http://transformed/sample.fea#>
+
+
+
+Ontology: <http://transformed/sample.fea>
+Import: <file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/testInput/sample.fea.mm.owl>
+
+ObjectProperty: feature:Feature_children
+
+    
+
+
+
+DataProperty: feature:Feature_name
+
+    Characteristics: 
+        Functional
+    
+    
+
+
+
+DataProperty: feature:Feature_annotations
+
+    Characteristics: 
+        Functional
+    
+    
+
+
+
+Class: feature:MandatoryFeature
+
+    
+
+
+
+Class: individual_2
+
+    SubClassOf: 
+        feature:MandatoryFeature,
+        feature:Feature_name value "anMandatoryFeature"
+    
+    
+
+
+
+Class: feature:OptionalFeature
+
+    
+
+
+
+Class: individual_0
+
+    SubClassOf: 
+        feature:MandatoryFeature,
+        feature:Feature_children some individual_1,
+        feature:Feature_children some individual_2,
+        feature:Feature_name value "testRootFeature"
+    
+    
+
+
+
+Class: individual_1
+
+    SubClassOf: 
+        feature:OptionalFeature,
+        feature:Feature_name value "anOptionalFeature"
+    
+    
+
+
+
+Individual: i1
+
+    Types: 
+        individual_0,
+        feature:Feature_name exactly 0 Literal
+    
+    
+
+
+
+DisjointClasses: 
+    individual_0,
+    individual_1,
+    individual_2
+

@@ -18,5 +18,6 @@
 	<classpathentry exported="true" kind="lib" path="lib/xsdlib/xsdlib.jar" sourcepath="org.emftext.language.owl.reasoningsrc.zip"/>
 	<classpathentry kind="lib" path="lib/pellet-jena.jar"/>
 	<classpathentry kind="lib" path="lib/jena/jena-2.6.2.jar"/>
+	<classpathentry kind="lib" path="lib/pellet-ic.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

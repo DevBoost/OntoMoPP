@@ -59,90 +59,7 @@ public class Ecore2Owl {
 	private HashMap<EStructuralFeature, Feature> references2objectProperties = new HashMap<EStructuralFeature, Feature>();
 
 	private void initDatatypes() {
-		HashMap<String, String> datatypeMap = new HashMap<String, String>();
-		// # owl:real
-		// # owl:rational
-		// # xsd:decimal
-		datatypeMap.put("java.math.BigDecimal", "xsd:decimal");
-		datatypeMap.put("EBigDecimal","xsd:decimal");
-		// # xsd:integer
-		datatypeMap.put("java.math.BigInteger", "xsd:integer");
-		datatypeMap.put("java.lang.Integer", "xsd:integer");
-		datatypeMap.put("EInt", "xsd:integer");
-		datatypeMap.put("EInteger", "xsd:integer");
-		datatypeMap.put("EIntegerObject", "xsd:integer");
-		datatypeMap.put("EBigInteger", "xsd:integer");
-		datatypeMap.put("integer", "xsd:integer");
-		// # xsd:nonNegativeInteger
-		// # xsd:nonPositiveInteger
-		// # xsd:positiveInteger
-		// # xsd:negativeInteger
-		// # xsd:long
-		datatypeMap.put("long", "xsd:long");
-		datatypeMap.put("java.lang.Long", "xsd:long");
-		datatypeMap.put("ELong", "xsd:long");
-		datatypeMap.put("ELongObject", "xsd:long");
-
-		// # xsd:int
-		datatypeMap.put("int", "xsd:int");
-		// # xsd:short
-		datatypeMap.put("short", "xsd:short");
-		datatypeMap.put("java.lang.Short", "xsd:short");
-		datatypeMap.put("EShort", "xsd:short");
-		datatypeMap.put("EShortObject", "xsd:short");
-		// # xsd:byte
-		datatypeMap.put("byte", "xsd:byte");
-		datatypeMap.put("java.lang.Byte", "xsd:byte");
-		datatypeMap.put("EByte", "xsd:byte");
-		datatypeMap.put("EByteObject", "xsd:byte");
-		
-		// # xsd:unsignedLong
-		// # xsd:unsignedInt
-		// # xsd:unsignedShort
-		// # xsd:unsignedByte
-		//		
-		// # xsd:double
-		datatypeMap.put("double", "xsd:double");
-		datatypeMap.put("java.lang.Double", "xsd:double");
-		datatypeMap.put("EDouble", "xsd:double");
-		datatypeMap.put("EDoubleObject", "xsd:double");
-		
-
-		// # xsd:float
-		datatypeMap.put("float", "xsd:float");
-		datatypeMap.put("java.lang.Float", "xsd:float");
-		datatypeMap.put("EFloat", "xsd:float");
-		datatypeMap.put("EFloatObject", "xsd:float");
-		//
-		// # xsd:boolean
-		datatypeMap.put("java.lang.Boolean", "xsd:boolean");
-		datatypeMap.put("EBoolean", "xsd:boolean");
-		datatypeMap.put("boolean", "xsd:boolean");
-		datatypeMap.put("EBooleanObject", "xsd:boolean");
-		//		
-		// # xsd:string
-		datatypeMap.put("java.lang.String", "xsd:string");
-		datatypeMap.put("EString", "xsd:string");
-		datatypeMap.put("string", "xsd:string");
-		// # xsd:normalizedString
-		// # xsd:token
-		// # xsd:language
-		// # xsd:Name
-		// # xsd:NCName
-		// # xsd:NMTOKEN
-		//		
-		// # xsd:hexBinary
-		// # xsd:base64Binary
-		//		
-		// # xsd:dateTime
-		datatypeMap.put("java.lang.Date", "xsd:dateTime");
-		datatypeMap.put("EDate", "xsd:dateTime");
-
-		
-		datatypeMap.put("java.lang.Char", "xsd:string");
-		datatypeMap.put("char", "xsd:string");
-		datatypeMap.put("EChar", "xsd:string");
-		datatypeMap.put("ECharacterObject", "xsd:string");
+	
 		
 		EList<EClassifier> eClassifiers = EcorePackage.eINSTANCE
 				.getEClassifiers();
@@ -150,7 +67,7 @@ public class Ecore2Owl {
 			if (eclassifier instanceof EDataType) {
 				EDataType primitive = (EDataType) eclassifier;
 				Datatype property = owlFactory.createDatatype();
-				String typeName = datatypeMap.get(primitive
+				String typeName = OWLTransformationHelper.getDatatypeMap().get(primitive
 						.getInstanceClassName());
 				if (typeName == null)
 					typeName = primitive.getName();
@@ -417,7 +334,7 @@ public class Ecore2Owl {
 	private void transformEAttribute(EAttribute elem) {
 		DataProperty d = owlFactory.createDataProperty();
 		ontology.getFrames().add(d);
-		d.setIri(OWLTransformationHelper.getIdentificationIRI(elem));
+		d.setIri(OWLTransformationHelper.getFeatureIdentificationIRI(elem));
 		Class domainClass = (Class) etype2oclass
 				.get(elem.getEContainingClass());
 		ClassAtomic domainClassAtomic = owlFactory.createClassAtomic();
@@ -439,7 +356,7 @@ public class Ecore2Owl {
 
 	private void transformEReference(EReference elem) {
 		ObjectProperty o = owlFactory.createObjectProperty();
-		o.setIri(OWLTransformationHelper.getIdentificationIRI(elem));
+		o.setIri(OWLTransformationHelper.getFeatureIdentificationIRI(elem));
 		ontology.getFrames().add(o);
 
 		Class rangeClass = (Class) etype2oclass.get(elem.getEType());
@@ -462,7 +379,7 @@ public class Ecore2Owl {
 	private void transformEEnum(EEnum elem) {
 		Class d = owlFactory.createClass();
 		ontology.getFrames().add(d);
-		d.setIri(OWLTransformationHelper.getIdentificationIRI(elem));
+		d.setIri(OWLTransformationHelper.getClassIdentificationIRI(elem));
 		etype2oclass.put(elem, d);
 
 		IndividualsAtomic description = owlFactory.createIndividualsAtomic();
@@ -485,7 +402,7 @@ public class Ecore2Owl {
 	private void transformEDatatype(EDataType elem) {
 		Datatype d = owlFactory.createDatatype();
 		ontology.getFrames().add(d);
-		d.setIri(OWLTransformationHelper.getIdentificationIRI(elem));
+		d.setIri(OWLTransformationHelper.getClassIdentificationIRI(elem));
 		etype2oclass.put(elem, d);
 
 	}
@@ -493,7 +410,7 @@ public class Ecore2Owl {
 	private void transformEClass(EClass elem) {
 		Class c = owlFactory.createClass();
 		ontology.getFrames().add(c);
-		c.setIri(OWLTransformationHelper.getIdentificationIRI(elem));
+		c.setIri(OWLTransformationHelper.getClassIdentificationIRI(elem));
 		etype2oclass.put(elem, c);
 	}
 
