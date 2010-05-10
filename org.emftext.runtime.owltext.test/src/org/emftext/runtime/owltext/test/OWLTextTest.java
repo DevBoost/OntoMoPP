@@ -8,6 +8,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.InputStream;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -22,6 +24,7 @@ import org.eclipse.emf.compare.match.service.MatchService;
 import org.eclipse.emf.compare.util.ModelUtils;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.Resource.Diagnostic;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.owl.OntologyDocument;
@@ -38,6 +41,9 @@ import org.owltext.feature.resource.fea.mopp.FeaResourceFactory;
 
 public class OWLTextTest {
 
+	private static ResourceSet rs = new org.eclipse.emf.ecore.resource.impl.ResourceSetImpl();
+
+	
 	static {
 		FeaResourceFactory feaResourceFactory = new FeaResourceFactory();
 		OwlResourceFactory owlResourceFactory = new OwlResourceFactory();
@@ -46,7 +52,6 @@ public class OWLTextTest {
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(
 				"owl", owlResourceFactory);
 	}
-
 	// TODO implement test for eSet, EAttributes, EReferences, different lower
 	// and upper bounds
 	// TODO implement test for eGet, EAttributes, EReferences, different lower
@@ -62,7 +67,7 @@ public class OWLTextTest {
 	// TODO implement test for clear()
 
 	@Test
-	public void testSample() throws Throwable {
+	public void testSampleOwlification() throws Throwable {
 		String inFileName = "sample.fea";
 		String expectedOutFileName = "sample.owl";
 		assertCorrespondance(inFileName, expectedOutFileName);
@@ -75,44 +80,39 @@ public class OWLTextTest {
 	}
 
 	private void validate(String inFileName) throws Exception {
-
-		org.eclipse.emf.ecore.resource.ResourceSet rs = new org.eclipse.emf.ecore.resource.impl.ResourceSetImpl();
-
 		File outFile = new File("./testInput/" + inFileName + ".out.owl");
-		OwlResource outResource = (OwlResource) rs.getResource(URI
+		OwlResource owlifiedResource = (OwlResource) rs.getResource(URI
 				.createFileURI(outFile.getAbsolutePath()), true);
-		assertNotNull("Out resource was not loaded.", outResource);
+		assertNotNull("Out resource was not loaded.", owlifiedResource);
 		assertTrue("Out resource is empty.",
-				outResource.getContents().size() == 1);
-		EObject ontRoot2 = outResource.getContents().get(0);
+				owlifiedResource.getContents().size() == 1);
+		EObject ontologyRoot = owlifiedResource.getContents().get(0);
 		assertTrue("Out root is not instanceOf OntologyDocument",
-				ontRoot2 instanceof OntologyDocument);
+				ontologyRoot instanceof OntologyDocument);
 		// outResource.save(new HashMap());
 		InputStream stream;
-
 		stream = new FileInputStream(outFile);
 		String content = OwlStreamUtil.getContent(stream);
 
 		OwlReasoningBuilder builder = new OwlReasoningBuilder();
-		builder.validateOWL(content, outResource);
-		EList<Diagnostic> errors = outResource.getErrors();
+		builder.validateOWL(content, owlifiedResource);
+		EList<Diagnostic> errors = owlifiedResource.getErrors();
 		for (Diagnostic diagnostic : errors) {
 			System.out.println(diagnostic.getMessage());
 		}
 		assertTrue("Resource is error free: ",
-				outResource.getErrors().size() == 0);
+				owlifiedResource.getErrors().size() == 0);
 	}
 
 	public void assertCorrespondance(String inFileName,
 			String expectedOutFileName) throws Throwable {
-		File inFile = new File("./testInput/" + inFileName);
-		File outFile = new File("./testInput/" + inFileName + ".out.owl");
-		if (outFile.exists())
-			outFile.delete();
-		File expectedOutFile = new File("./testInput/" + expectedOutFileName);
-		File diff = new File("./testInput/" + inFileName + ".diff");
+		File modelInputFile = new File("./testInput/" + inFileName);
+		File owlifiedModelOutputFile = new File("./testInput/" + inFileName + ".out.owl");
+		if (owlifiedModelOutputFile.exists())
+			owlifiedModelOutputFile.delete();
+		File expectedOutputFile = new File("./testInput/" + expectedOutFileName);
+		File compareDiffFile = new File("./testInput/" + inFileName + ".diff");
 
-		org.eclipse.emf.ecore.resource.ResourceSet rs = new org.eclipse.emf.ecore.resource.impl.ResourceSetImpl();
 		// rs.getURIConverter().getURIMap().put(
 		// URI.createURI("platform:/resource/org.emftext.runtime.owltext.test/metamodel/feature.owl"),
 		// URI.createURI("./metamodel/feature.owl"));
@@ -123,67 +123,62 @@ public class OWLTextTest {
 		// metamodel.getContents().size() == 1);
 
 		// load and owlify feature model
-		FeaResource resource = (FeaResource) rs.getResource(URI
-				.createFileURI(inFile.getAbsolutePath()), true);
-		assertNotNull("In resource was not loaded.", resource);
-		assertTrue("In resource is empty.", resource.getContents().size() == 1);
-		EObject root = resource.getContents().get(0);
-		assertTrue("In root is not instanceOf OWLTextEObjectImpl",
-				root instanceof OWLTextEObjectImpl);
-		 ((Feature) root).setName(null);
+		FeaResource modelResource = (FeaResource) rs.getResource(URI
+				.createFileURI(modelInputFile.getAbsolutePath()), true);
+		assertNotNull("Model input resource was not loaded.", modelResource);
+		assertTrue("Model input resource is empty.", modelResource.getContents().size() == 1);
+		EObject modelInputRoot = modelResource.getContents().get(0);
+		assertTrue("Root element of model input resource is not instanceOf OWLTextEObjectImpl",
+				modelInputRoot instanceof OWLTextEObjectImpl);
+		
 		// write to temp file
-		// ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE,
-		// new NullProgressMonitor());
-		OWLTextEObjectImpl rootOWLTextObjectImpl = (OWLTextEObjectImpl) root;
+		OWLTextEObjectImpl rootOWLTextObjectImpl = (OWLTextEObjectImpl) modelInputRoot;
 		String owlRepresentation = OWLTextEObjectPrinter
 				.getOWLRepresentation(rootOWLTextObjectImpl);
-		BufferedWriter out = new BufferedWriter(new FileWriter(outFile));
+		BufferedWriter out = new BufferedWriter(new FileWriter(owlifiedModelOutputFile));
 		out.write(owlRepresentation);
 		out.close();
-		// ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE,
-		// new NullProgressMonitor());
-
-		// load owl representation of feature model
-		OwlResource outResource = (OwlResource) rs.getResource(URI
-				.createFileURI(outFile.getAbsolutePath()), true);
-		assertNotNull("Out resource was not loaded.", outResource);
-		assertTrue("Out resource is empty.",
-				outResource.getContents().size() == 1);
-		EObject ontRoot2 = outResource.getContents().get(0);
-		assertTrue("Out root is not instanceOf OntologyDocument",
-				ontRoot2 instanceof OntologyDocument);
-		outResource.save(new HashMap());
+		
+		// load owl representation of input model and resave to test printing
+		OwlResource owlifiedOutputResource = (OwlResource) rs.getResource(URI
+				.createFileURI(owlifiedModelOutputFile.getAbsolutePath()), true);
+		assertNotNull("The owlified output resource was not loaded.", owlifiedOutputResource);
+		assertTrue("The owlified output resource is empty.",
+				owlifiedOutputResource.getContents().size() == 1);
+		EObject owlifiedOntologyRoot = owlifiedOutputResource.getContents().get(0);
+		assertTrue("The root element of the owlified output resource not instanceOf OntologyDocument",
+				owlifiedOntologyRoot instanceof OntologyDocument);
+		owlifiedOutputResource.save(Collections.EMPTY_MAP);
 
 		OwlReasoningBuilder builder = new OwlReasoningBuilder();
-		builder.validateOWL(owlRepresentation, outResource);
-		EList<Diagnostic> errors = outResource.getErrors();
+		builder.validateOWL(owlRepresentation, owlifiedOutputResource);
+		EList<Diagnostic> errors = owlifiedOutputResource.getErrors();
 		for (Diagnostic diagnostic : errors) {
 			System.out.println(diagnostic.getMessage());
 		}
 		assertTrue("Resource is error free: ",
-				outResource.getErrors().size() == 0);
+				owlifiedOutputResource.getErrors().size() == 0);
 
 		// load expected owl representation
-		OwlResource expectedResource = (OwlResource) rs.getResource(URI
-				.createFileURI(expectedOutFile.getAbsolutePath()), true);
-		assertNotNull("Expected out resource was not loaded.", expectedResource);
-		assertTrue("Expected out resource is empty.", expectedResource
+		OwlResource expectedOwlResource = (OwlResource) rs.getResource(URI
+				.createFileURI(expectedOutputFile.getAbsolutePath()), true);
+		assertNotNull("Resource representing the expected owl output was not loaded.", expectedOwlResource);
+		assertTrue("Resource representing the expected owl output is empty.", expectedOwlResource
 				.getContents().size() == 1);
-		EObject ontRoot = expectedResource.getContents().get(0);
-		assertTrue("Expected out root is not instanceOf OntologyDocument",
-				ontRoot instanceof OntologyDocument);
+		EObject expectedOntologyRoot = expectedOwlResource.getContents().get(0);
+		assertTrue("The root element of the expected owl output is not instance of an OntologyDocument",
+				expectedOntologyRoot instanceof OntologyDocument);
 
-		boolean equals = EcoreUtil.equals(ontRoot, ontRoot2);
-
+		// compare expected and owlified ontology, store diff
 		Map<String, Object> options = new LinkedHashMap<String, Object>();
 		options.put(MatchOptions.OPTION_IGNORE_ID, true);
 		options.put(MatchOptions.OPTION_IGNORE_XMI_ID, true);
 		options.put(MatchOptions.OPTION_SEARCH_WINDOW, Integer.valueOf(100));
-		MatchModel matchResult = MatchService.doContentMatch(ontRoot, ontRoot2,
+		MatchModel matchResult = MatchService.doContentMatch(expectedOntologyRoot, owlifiedOntologyRoot,
 				options);
 		DiffModel genDiff = DiffService.doDiff(matchResult, false);
 		// Serialize to XMI
-		ModelUtils.save(genDiff, diff.getAbsolutePath());
+		ModelUtils.save(genDiff, compareDiffFile.getAbsolutePath());
 		// TODO should use EMFCompare for comparison, to be independent of tree
 		// structure.
 		assertTrue("Expected ontology output does not equal produced output.",
