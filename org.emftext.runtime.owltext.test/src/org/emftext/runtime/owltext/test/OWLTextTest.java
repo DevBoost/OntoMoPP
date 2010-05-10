@@ -10,6 +10,8 @@ import java.io.FileWriter;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
@@ -33,6 +35,8 @@ import org.emftext.runtime.owltext.OWLTextEObjectImpl;
 import org.emftext.runtime.owltext.OWLTextEObjectPrinter;
 import org.junit.Test;
 import org.owltext.feature.Feature;
+import org.owltext.feature.FeaturePackage;
+import org.owltext.feature.OptionalFeature;
 import org.owltext.feature.resource.fea.mopp.FeaResource;
 import org.owltext.feature.resource.fea.mopp.FeaResourceFactory;
 
@@ -82,7 +86,15 @@ public class OWLTextTest {
 
 		// incorporate error
 		((Feature) rootObject).setName(null);
-
+		// test with large input model
+		List<Feature> manyChilds = new LinkedList<Feature>();
+		for(int i = 0; i<400; i++) {
+			OptionalFeature f = FeaturePackage.eINSTANCE.getFeatureFactory().createOptionalFeature();
+			f.setName("Feature_" + i);
+			manyChilds.add(f);
+		}
+		((Feature) rootObject).getChildren().addAll(manyChilds);
+		
 		File owlifiedModelOutputFile = new File("./testInput/" + inFileName
 				+ ".err.owl");
 
