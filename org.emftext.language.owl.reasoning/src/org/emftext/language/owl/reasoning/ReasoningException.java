@@ -12,17 +12,15 @@
  ******************************************************************************/
 package org.emftext.language.owl.reasoning;
 
-
 public class ReasoningException extends Exception {
 
 	public ReasoningException(String message, Throwable cause) {
 		super(message, cause);
 	}
-	
+
 	public ReasoningException(String message) {
 		super(message);
 	}
-
 
 	/**
 	 * 

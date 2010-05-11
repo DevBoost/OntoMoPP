@@ -18,7 +18,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.emftext.language.owl.resource.owl.IOwlTokenResolveResult;
 
 public class OwlINVERSETokenResolver extends BooleanAttributeResolver {
-	
+
 	@Override
 	public void resolve(String lexem, EStructuralFeature feature,
 			IOwlTokenResolveResult result) {
@@ -37,6 +37,6 @@ public class OwlINVERSETokenResolver extends BooleanAttributeResolver {
 		} else {
 			return "";
 		}
-		
+
 	}
 }

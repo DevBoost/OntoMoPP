@@ -1,4 +1,4 @@
-Namespace: ecore <platform:/resource/org.emftext.language.owl/models/ecore.owl#>
+Prefix: ecore <platform:/resource/org.emftext.language.owl/models/ecore.owl#>
 
 Ontology: <http://test.org/persons.owl>
 Import: <platform:/resource/org.emftext.language.owl/models/ecore.owl>
@@ -8,7 +8,7 @@ Individual: Person
 	
 Class: InvalidTest
 	SubClassOf: ecore:EClass
-/** test **/
+
 
 Class: ecore:EClass
 

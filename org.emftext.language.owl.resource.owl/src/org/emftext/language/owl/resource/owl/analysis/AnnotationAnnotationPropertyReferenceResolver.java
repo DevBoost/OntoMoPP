@@ -19,20 +19,34 @@ import org.emftext.language.owl.resource.owl.IOwlReferenceResolveResult;
 import org.emftext.language.owl.resource.owl.IOwlReferenceResolver;
 import org.emftext.language.owl.resource.owl.analysis.custom.CrossResourceIRIResolver;
 
-public class AnnotationAnnotationPropertyReferenceResolver implements IOwlReferenceResolver<org.emftext.language.owl.Annotation, org.emftext.language.owl.AnnotationProperty> {
-	
-	private OwlDefaultResolverDelegate<org.emftext.language.owl.Annotation, org.emftext.language.owl.AnnotationProperty> delegate = 
-		new OwlDefaultResolverDelegate<org.emftext.language.owl.Annotation, org.emftext.language.owl.AnnotationProperty>();
-		
-	public java.lang.String deResolve(org.emftext.language.owl.AnnotationProperty element, org.emftext.language.owl.Annotation container, org.eclipse.emf.ecore.EReference reference) {
-		return CrossResourceIRIResolver.theInstance().deResolve(element, container, reference);
-	}
-	
-		
-	public void resolve(java.lang.String identifier, org.emftext.language.owl.Annotation container, org.eclipse.emf.ecore.EReference reference, int position, boolean resolveFuzzy, IOwlReferenceResolveResult<org.emftext.language.owl.AnnotationProperty> result) {
-		CrossResourceIRIResolver.theInstance().doResolve(identifier, container, resolveFuzzy, result, org.emftext.language.owl.AnnotationProperty.class);
-		delegate.resolve(identifier, container, reference, position, resolveFuzzy, result);
+public class AnnotationAnnotationPropertyReferenceResolver
+		implements
+		IOwlReferenceResolver<org.emftext.language.owl.Annotation, org.emftext.language.owl.AnnotationProperty> {
+
+	private OwlDefaultResolverDelegate<org.emftext.language.owl.Annotation, org.emftext.language.owl.AnnotationProperty> delegate = new OwlDefaultResolverDelegate<org.emftext.language.owl.Annotation, org.emftext.language.owl.AnnotationProperty>();
+
+	public java.lang.String deResolve(
+			org.emftext.language.owl.AnnotationProperty element,
+			org.emftext.language.owl.Annotation container,
+			org.eclipse.emf.ecore.EReference reference) {
+		return CrossResourceIRIResolver.theInstance().deResolve(element,
+				container, reference);
 	}
 
-    public void setOptions(Map<?, ?> options) {}
+	public void resolve(
+			java.lang.String identifier,
+			org.emftext.language.owl.Annotation container,
+			org.eclipse.emf.ecore.EReference reference,
+			int position,
+			boolean resolveFuzzy,
+			IOwlReferenceResolveResult<org.emftext.language.owl.AnnotationProperty> result) {
+		CrossResourceIRIResolver.theInstance().doResolve(identifier, container,
+				resolveFuzzy, result,
+				org.emftext.language.owl.AnnotationProperty.class);
+		delegate.resolve(identifier, container, reference, position,
+				resolveFuzzy, result);
+	}
+
+	public void setOptions(Map<?, ?> options) {
+	}
 }

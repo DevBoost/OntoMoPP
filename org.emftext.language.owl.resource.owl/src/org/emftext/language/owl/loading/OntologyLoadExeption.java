@@ -1,9 +1,7 @@
 package org.emftext.language.owl.loading;
 
-
 public class OntologyLoadExeption extends Exception {
 
-	
 	/**
 	 * 
 	 */

@@ -21,16 +21,29 @@ import org.emftext.language.owl.loading.RemoteLoader;
 import org.emftext.language.owl.resource.owl.analysis.custom.CrossResourceIRIResolver;
 import org.emftext.language.owl.resource.owl.mopp.OwlResource;
 
-public class NamespaceImportedOntologyReferenceResolver implements org.emftext.language.owl.resource.owl.IOwlReferenceResolver<org.emftext.language.owl.Namespace, org.emftext.language.owl.Ontology> {
-	
+public class NamespaceImportedOntologyReferenceResolver
+		implements
+		org.emftext.language.owl.resource.owl.IOwlReferenceResolver<org.emftext.language.owl.Namespace, org.emftext.language.owl.Ontology> {
+
 	private org.emftext.language.owl.resource.owl.analysis.OwlDefaultResolverDelegate<org.emftext.language.owl.Namespace, org.emftext.language.owl.Ontology> delegate = new org.emftext.language.owl.resource.owl.analysis.OwlDefaultResolverDelegate<org.emftext.language.owl.Namespace, org.emftext.language.owl.Ontology>();
-	private RemoteLoader remoteLoader = CrossResourceIRIResolver.theInstance().getRemoteLoader();
-	
-	public void resolve(java.lang.String identifier, org.emftext.language.owl.Namespace container, org.eclipse.emf.ecore.EReference reference, int position, boolean resolveFuzzy, final org.emftext.language.owl.resource.owl.IOwlReferenceResolveResult<org.emftext.language.owl.Ontology> result) {
-		OntologyDocument ontologyDocument = (OntologyDocument) container.eContainer();
+	private RemoteLoader remoteLoader = CrossResourceIRIResolver.theInstance()
+			.getRemoteLoader();
+
+	public void resolve(
+			java.lang.String identifier,
+			org.emftext.language.owl.Namespace container,
+			org.eclipse.emf.ecore.EReference reference,
+			int position,
+			boolean resolveFuzzy,
+			final org.emftext.language.owl.resource.owl.IOwlReferenceResolveResult<org.emftext.language.owl.Ontology> result) {
+		OntologyDocument ontologyDocument = (OntologyDocument) container
+				.eContainer();
 		EList<Ontology> imports = ontologyDocument.getOntology().getImports();
 		if (!identifier.endsWith("#")) {
-			((OwlResource) container.eResource()).addWarning("URIs of imported namespaces should end with \"#\", to allow for resolving its declarations by iri", container);
+			((OwlResource) container.eResource())
+					.addWarning(
+							"URIs of imported namespaces should end with \"#\", to allow for resolving its declarations by iri",
+							container);
 		}
 		OntologyDocument document = (OntologyDocument) container.eContainer();
 		if ((document.getOntology().getUri() + "#").equals(identifier)) {
@@ -38,8 +51,9 @@ public class NamespaceImportedOntologyReferenceResolver implements org.emftext.l
 			return;
 		}
 		for (Ontology ontology : imports) {
-			
-			if (identifier.equals(ontology.getUri()) || identifier.equals(ontology.getUri() + "#")) {
+
+			if (identifier.equals(ontology.getUri())
+					|| identifier.equals(ontology.getUri() + "#")) {
 				result.addMapping(identifier, ontology);
 				return;
 			}
@@ -47,7 +61,8 @@ public class NamespaceImportedOntologyReferenceResolver implements org.emftext.l
 		if (result.getMappings() == null || result.getMappings().isEmpty()) {
 			Ontology loadedOntology;
 			try {
-				loadedOntology = remoteLoader.loadOntology(identifier, container);
+				loadedOntology = remoteLoader.loadOntology(identifier,
+						container);
 			} catch (OntologyLoadExeption e) {
 				result.setErrorMessage(e.getMessage());
 				return;
@@ -58,10 +73,13 @@ public class NamespaceImportedOntologyReferenceResolver implements org.emftext.l
 			}
 		}
 	}
-	
-	public java.lang.String deResolve(org.emftext.language.owl.Ontology element, org.emftext.language.owl.Namespace container, org.eclipse.emf.ecore.EReference reference) {
+
+	public java.lang.String deResolve(
+			org.emftext.language.owl.Ontology element,
+			org.emftext.language.owl.Namespace container,
+			org.eclipse.emf.ecore.EReference reference) {
 		String uri = element.getUri();
-		
+
 		if (!uri.endsWith("#")) {
 			uri = uri.substring(0, uri.length()) + "#";
 		}
@@ -69,9 +87,10 @@ public class NamespaceImportedOntologyReferenceResolver implements org.emftext.l
 			uri = "<" + uri + ">";
 		return uri;
 	}
-	
-	public void setOptions(java.util.Map<?,?> options) {
-		// TODO save options in a field or leave method empty if this resolver does not depend on any option
+
+	public void setOptions(java.util.Map<?, ?> options) {
+		// TODO save options in a field or leave method empty if this resolver
+		// does not depend on any option
 	}
-	
+
 }

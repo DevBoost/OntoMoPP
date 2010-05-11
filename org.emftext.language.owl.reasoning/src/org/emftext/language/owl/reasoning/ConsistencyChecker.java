@@ -50,7 +50,6 @@ public class ConsistencyChecker implements IOwlResourcePostProcessor,
 		}
 	}
 
-	
 	private void checkImportedElements(OntologyDocument od, OwlResource resource) {
 
 		CrossResourceIRIResolver iriResolver = CrossResourceIRIResolver

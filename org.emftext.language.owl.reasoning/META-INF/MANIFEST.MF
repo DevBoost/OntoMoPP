@@ -7,24 +7,18 @@ Bundle-SymbolicName: org.emftext.language.owl.reasoning; singleton:=tr
  ue
 Bundle-Version: 1.1.0.v200911130906
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Export-Package: org.emftext.language.owl.reasoning
+Require-Bundle: org.eclipse.emf.workspace,
+ org.emftext.language.owl;visibility:=reexport,
+ org.emftext.language.owl.resource.owl;visibility:=reexport
+Bundle-Vendor: Software Technology Group - TU Dresden Germany
 Bundle-ClassPath: lib/pellet-core.jar,
  lib/pellet-datatypes.jar,
  lib/pellet-dig.jar,
  lib/pellet-el.jar,
  lib/pellet-explanation.jar,
- lib/pellet-modularity.jar,
- lib/pellet-owlapi.jar,
+ lib/pellet-owlapiv3.jar,
  lib/pellet-pellint.jar,
- lib/pellet-query.jar,
- lib/pellet-rules.jar,
- lib/owlapi/owlapi-bin.jar,
  lib/aterm-java-1.6.jar,
- lib/xsdlib/relaxngDatatype.jar,
- lib/xsdlib/xsdlib.jar,
- lib/pellet-ic.jar,
- .
-Export-Package: org.emftext.language.owl.reasoning
-Require-Bundle: org.eclipse.emf.workspace,org.emftext.language.owl;vis
- ibility:=reexport,org.emftext.language.owl.resource.owl
-Bundle-Vendor: Software Technology Group - TU Dresden Germany
+ lib/pellet-rules.jar
 

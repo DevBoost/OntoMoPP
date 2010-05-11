@@ -37,30 +37,31 @@ public class ParseOWLTest extends TestCase {
 	public void setUp() {
 		registerResourceFactories();
 	}
-	
+
 	public void testRegularExpressions() {
 		// TODO enable this test
-		//Matcher matcher = OwlScannerlessParser.TOKEN_IRI.matcher("Class:");
-		//assertFalse(matcher.matches());
+		// Matcher matcher = OwlScannerlessParser.TOKEN_IRI.matcher("Class:");
+		// assertFalse(matcher.matches());
 	}
-	
+
 	public void testSimpleOntologyParsing() {
-		//parseString("Ontology:");
-		//parseString("Ontology: Class: A");
+		// parseString("Ontology:");
+		// parseString("Ontology: Class: A");
 		parseString("Ontology: Class: A SubClassOf: id min 1 and id max 1");
-		//parseString("Ontology: Class: A SubClassOf: id min 1 and id max 1 Class: B");
+		// parseString("Ontology: Class: A SubClassOf: id min 1 and id max 1 Class: B");
 	}
 
 	public void temtExampleOntologies() {
-		File modelDir = new File(".." + File.separator + "org.emftext.language.owl" + File.separator + "models");
+		File modelDir = new File(".." + File.separator
+				+ "org.emftext.language.owl" + File.separator + "models");
 		assertTrue(modelDir.exists());
 		File[] exampleFiles = modelDir.listFiles(new FileFilter() {
 			public boolean accept(File file) {
 				String filename = file.getName();
-				boolean isOwlFile = filename.endsWith("." + new OwlMetaInformation().getSyntaxName());
-				return isOwlFile && 
-					!"ill.owl".equals(filename) &&
-					!"large_galen.owl".equals(filename);
+				boolean isOwlFile = filename.endsWith("."
+						+ new OwlMetaInformation().getSyntaxName());
+				return isOwlFile && !"ill.owl".equals(filename)
+						&& !"large_galen.owl".equals(filename);
 			}
 		});
 		for (File exampleFile : exampleFiles) {
@@ -91,15 +92,18 @@ public class ParseOWLTest extends TestCase {
 		}
 		List<Diagnostic> errors = r.getErrors();
 		for (Diagnostic error : errors) {
-			System.out.println("Error " + error.getMessage() + " at " + error.getLine() + "," + error.getColumn());
+			System.out.println("Error " + error.getMessage() + " at "
+					+ error.getLine() + "," + error.getColumn());
 		}
 		List<EObject> contents = r.getContents();
 		assertTrue(contents.size() > 0);
 	}
 
 	private void registerResourceFactories() {
-		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(
-				"owl",
-				new org.emftext.language.owl.resource.owl.mopp.OwlResourceFactory());
+		Resource.Factory.Registry.INSTANCE
+				.getExtensionToFactoryMap()
+				.put(
+						"owl",
+						new org.emftext.language.owl.resource.owl.mopp.OwlResourceFactory());
 	}
 }

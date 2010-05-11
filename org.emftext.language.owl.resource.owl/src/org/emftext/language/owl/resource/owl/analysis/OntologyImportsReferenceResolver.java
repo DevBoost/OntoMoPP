@@ -23,23 +23,31 @@ import org.emftext.language.owl.resource.owl.IOwlReferenceResolveResult;
 import org.emftext.language.owl.resource.owl.IOwlReferenceResolver;
 import org.emftext.language.owl.resource.owl.analysis.custom.CrossResourceIRIResolver;
 
-public class OntologyImportsReferenceResolver implements IOwlReferenceResolver<org.emftext.language.owl.Ontology, org.emftext.language.owl.Ontology> {
-	
-	private RemoteLoader remoteLoader = CrossResourceIRIResolver.theInstance().getRemoteLoader();
-	
-	private OwlDefaultResolverDelegate<org.emftext.language.owl.Ontology, org.emftext.language.owl.Ontology> delegate = 
-		new OwlDefaultResolverDelegate<org.emftext.language.owl.Ontology, org.emftext.language.owl.Ontology>();
-		
-	public java.lang.String deResolve(org.emftext.language.owl.Ontology element, org.emftext.language.owl.Ontology container, org.eclipse.emf.ecore.EReference reference) {
+public class OntologyImportsReferenceResolver
+		implements
+		IOwlReferenceResolver<org.emftext.language.owl.Ontology, org.emftext.language.owl.Ontology> {
+
+	private RemoteLoader remoteLoader = CrossResourceIRIResolver.theInstance()
+			.getRemoteLoader();
+
+	private OwlDefaultResolverDelegate<org.emftext.language.owl.Ontology, org.emftext.language.owl.Ontology> delegate = new OwlDefaultResolverDelegate<org.emftext.language.owl.Ontology, org.emftext.language.owl.Ontology>();
+
+	public java.lang.String deResolve(
+			org.emftext.language.owl.Ontology element,
+			org.emftext.language.owl.Ontology container,
+			org.eclipse.emf.ecore.EReference reference) {
 		URI uri = element.eResource().getURI();
 		if (uri.isFile()) {
 			return "<" + uri + ">";
 		}
-		return  "<" + element.getUri() + ">";
+		return "<" + element.getUri() + ">";
 	}
-	
-		
-	public void resolve(java.lang.String identifier, org.emftext.language.owl.Ontology container, org.eclipse.emf.ecore.EReference reference, int position, boolean resolveFuzzy, IOwlReferenceResolveResult<org.emftext.language.owl.Ontology> result) {
+
+	public void resolve(java.lang.String identifier,
+			org.emftext.language.owl.Ontology container,
+			org.eclipse.emf.ecore.EReference reference, int position,
+			boolean resolveFuzzy,
+			IOwlReferenceResolveResult<org.emftext.language.owl.Ontology> result) {
 		Ontology loadedOntology;
 		try {
 			loadedOntology = remoteLoader.loadOntology(identifier, container);
@@ -52,5 +60,6 @@ public class OntologyImportsReferenceResolver implements IOwlReferenceResolver<o
 		}
 	}
 
-    public void setOptions(Map<?, ?> options) {}
+	public void setOptions(Map<?, ?> options) {
+	}
 }

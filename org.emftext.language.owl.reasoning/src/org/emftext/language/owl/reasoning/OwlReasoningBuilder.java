@@ -17,7 +17,7 @@ import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
-import org.emftext.language.owl.Class;
+import org.emftext.language.owl.IRIIdentified;
 import org.emftext.language.owl.resource.owl.IOwlBuilder;
 import org.emftext.language.owl.resource.owl.IOwlProblem;
 import org.emftext.language.owl.resource.owl.OwlEProblemType;
@@ -25,8 +25,7 @@ import org.emftext.language.owl.resource.owl.mopp.OwlBuilderAdapter;
 import org.emftext.language.owl.resource.owl.mopp.OwlResource;
 import org.emftext.language.owl.resource.owl.ui.OwlMarkerHelper;
 import org.emftext.language.owl.resource.owl.util.OwlStreamUtil;
-import org.semanticweb.owl.model.OWLClass;
-import org.semanticweb.owl.model.OWLIndividual;
+import org.semanticweb.owlapi.model.OWLNamedObject;
 
 public class OwlReasoningBuilder extends IncrementalProjectBuilder implements
 		IOwlBuilder {
@@ -35,7 +34,7 @@ public class OwlReasoningBuilder extends IncrementalProjectBuilder implements
 
 	public OwlReasoningBuilder() {
 		super();
-		this.reasoner = new PelletReasoner();
+		this.reasoner = new EMFTextPelletReasoner();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -67,13 +66,11 @@ public class OwlReasoningBuilder extends IncrementalProjectBuilder implements
 	public void validateOWL(String content, OwlResource resource) {
 
 		try {
-
-			Set<OWLClass> inconsistentClasses;
-			Set<OWLIndividual> inconsistentIndividual = new HashSet<OWLIndividual>();
+			Set<OWLNamedObject> inconsistentOWLObjects;
 			// System.out.println(content);
 			try {
-
-				inconsistentClasses = reasoner.getInconsistentClasses(content);
+				inconsistentOWLObjects = reasoner
+						.getInconsistentFrames(content);
 			} catch (final ReasoningException e) {
 				resource.addProblem(new IOwlProblem() {
 
@@ -85,21 +82,19 @@ public class OwlReasoningBuilder extends IncrementalProjectBuilder implements
 						return e.getMessage();
 					}
 				}, resource.getContents().get(0));
-				
+
 				return;
 			}
 			Set<String> invalidIris = new HashSet<String>();
-			for (OWLClass class1 : inconsistentClasses) {
-				invalidIris.add(class1.getURI().getFragment());
-			}
-			for (OWLIndividual i : inconsistentIndividual) {
-				invalidIris.add(i.getURI().getFragment());
+
+			for (OWLNamedObject i : inconsistentOWLObjects) {
+				invalidIris.add(i.getIRI().getFragment());
 			}
 			TreeIterator<EObject> allContents = resource.getAllContents();
 			while (allContents.hasNext()) {
 				EObject next = allContents.next();
-				if (next instanceof Class) {
-					final Class c = ((Class) next);
+				if (next instanceof IRIIdentified) {
+					final IRIIdentified c = ((IRIIdentified) next);
 					if (invalidIris.contains(c.getIri())) {
 						resource.addProblem(new IOwlProblem() {
 
@@ -108,7 +103,7 @@ public class OwlReasoningBuilder extends IncrementalProjectBuilder implements
 							}
 
 							public String getMessage() {
-								return "The class '" + c.getIri()
+								return "The element '" + c.getIri()
 										+ "' is inconsistent.";
 							}
 						}, next);

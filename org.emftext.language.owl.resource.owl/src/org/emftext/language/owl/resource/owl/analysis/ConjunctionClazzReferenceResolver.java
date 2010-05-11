@@ -19,20 +19,30 @@ import org.emftext.language.owl.resource.owl.IOwlReferenceResolveResult;
 import org.emftext.language.owl.resource.owl.IOwlReferenceResolver;
 import org.emftext.language.owl.resource.owl.analysis.custom.CrossResourceIRIResolver;
 
-public class ConjunctionClazzReferenceResolver implements IOwlReferenceResolver<org.emftext.language.owl.Conjunction, org.emftext.language.owl.Class> {
-	
-	private OwlDefaultResolverDelegate<org.emftext.language.owl.Conjunction, org.emftext.language.owl.Class> delegate = 
-		new OwlDefaultResolverDelegate<org.emftext.language.owl.Conjunction, org.emftext.language.owl.Class>();
-		
-	public java.lang.String deResolve(org.emftext.language.owl.Class element, org.emftext.language.owl.Conjunction container, org.eclipse.emf.ecore.EReference reference) {
-		return CrossResourceIRIResolver.theInstance().deResolve(element, container, reference);
-	}
-	
-		
-	public void resolve(java.lang.String identifier, org.emftext.language.owl.Conjunction container, org.eclipse.emf.ecore.EReference reference, int position, boolean resolveFuzzy, IOwlReferenceResolveResult<org.emftext.language.owl.Class> result) {
-		CrossResourceIRIResolver.theInstance().doResolve(identifier, container, resolveFuzzy, result, org.emftext.language.owl.Class.class);
-		delegate.resolve(identifier, container, reference, position, resolveFuzzy, result);
+public class ConjunctionClazzReferenceResolver
+		implements
+		IOwlReferenceResolver<org.emftext.language.owl.Conjunction, org.emftext.language.owl.Class> {
+
+	private OwlDefaultResolverDelegate<org.emftext.language.owl.Conjunction, org.emftext.language.owl.Class> delegate = new OwlDefaultResolverDelegate<org.emftext.language.owl.Conjunction, org.emftext.language.owl.Class>();
+
+	public java.lang.String deResolve(org.emftext.language.owl.Class element,
+			org.emftext.language.owl.Conjunction container,
+			org.eclipse.emf.ecore.EReference reference) {
+		return CrossResourceIRIResolver.theInstance().deResolve(element,
+				container, reference);
 	}
 
-    public void setOptions(Map<?, ?> options) {}
+	public void resolve(java.lang.String identifier,
+			org.emftext.language.owl.Conjunction container,
+			org.eclipse.emf.ecore.EReference reference, int position,
+			boolean resolveFuzzy,
+			IOwlReferenceResolveResult<org.emftext.language.owl.Class> result) {
+		CrossResourceIRIResolver.theInstance().doResolve(identifier, container,
+				resolveFuzzy, result, org.emftext.language.owl.Class.class);
+		delegate.resolve(identifier, container, reference, position,
+				resolveFuzzy, result);
+	}
+
+	public void setOptions(Map<?, ?> options) {
+	}
 }

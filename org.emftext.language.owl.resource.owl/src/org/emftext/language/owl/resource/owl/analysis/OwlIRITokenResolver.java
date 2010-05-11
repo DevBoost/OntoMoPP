@@ -19,20 +19,26 @@ import org.emftext.language.owl.resource.owl.IOwlTokenResolveResult;
 import org.emftext.language.owl.resource.owl.IOwlTokenResolver;
 
 public class OwlIRITokenResolver implements IOwlTokenResolver {
-	
+
 	private OwlDefaultTokenResolver defaultResolver = new OwlDefaultTokenResolver();
-	
-	public java.lang.String deResolve(java.lang.Object value, org.eclipse.emf.ecore.EStructuralFeature feature, org.eclipse.emf.ecore.EObject container) {
-		java.lang.String result = defaultResolver.deResolve(value, feature, container);
-		if (result.indexOf("://") != -1 && !result.startsWith("<") && !result.endsWith(">")) {
+
+	public java.lang.String deResolve(java.lang.Object value,
+			org.eclipse.emf.ecore.EStructuralFeature feature,
+			org.eclipse.emf.ecore.EObject container) {
+		java.lang.String result = defaultResolver.deResolve(value, feature,
+				container);
+		if (result.indexOf("://") != -1 && !result.startsWith("<")
+				&& !result.endsWith(">")) {
 			result = "<" + result + ">";
 		}
 		return result;
 	}
-		
-	public void resolve(java.lang.String lexem, org.eclipse.emf.ecore.EStructuralFeature feature, IOwlTokenResolveResult result) {
+
+	public void resolve(java.lang.String lexem,
+			org.eclipse.emf.ecore.EStructuralFeature feature,
+			IOwlTokenResolveResult result) {
 		if (lexem.startsWith("<") && lexem.endsWith(">")) {
-			lexem = lexem.substring(1, lexem.length()-1);
+			lexem = lexem.substring(1, lexem.length() - 1);
 		}
 		defaultResolver.resolve(lexem, feature, result);
 	}

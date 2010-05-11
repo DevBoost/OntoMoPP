@@ -33,14 +33,16 @@ import org.emftext.language.owl.ObjectProperty;
 import org.emftext.language.owl.Ontology;
 import org.emftext.language.owl.OntologyDocument;
 import org.emftext.language.owl.OwlFactory;
-import org.semanticweb.owl.apibinding.OWLManager;
-import org.semanticweb.owl.model.OWLClass;
-import org.semanticweb.owl.model.OWLDataProperty;
-import org.semanticweb.owl.model.OWLIndividual;
-import org.semanticweb.owl.model.OWLObjectProperty;
-import org.semanticweb.owl.model.OWLOntology;
-import org.semanticweb.owl.model.OWLOntologyCreationException;
-import org.semanticweb.owl.model.OWLOntologyManager;
+import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAnnotationProperty;
+import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 public class RemoteLoader {
 
@@ -149,7 +151,7 @@ public class RemoteLoader {
 		OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 		// Load the ontology
 		try {
-			OWLOntology owlOnto = manager.loadOntology(URI.create(uri));
+			OWLOntology owlOnto = manager.loadOntology(IRI.create(uri));
 			ontology = propagate(owlOnto);
 			ontology.setUri(uri);
 		} catch (OWLOntologyCreationException e) {
@@ -166,39 +168,40 @@ public class RemoteLoader {
 
 	private Ontology propagate(OWLOntology owlOntology) {
 		final Ontology o = factory.createOntology();
-		o.setUri(owlOntology.getURI().toString());
+		o.setUri(owlOntology.getOntologyID().getOntologyIRI().toString());
 		Set<OWLClass> classes = owlOntology.getClassesInSignature();
 		for (OWLClass clazz : classes) {
 			Class newClass = factory.createClass();
-			newClass.setIri(clazz.getURI().getFragment());
+			newClass.setIri(clazz.getIRI().getFragment());
 			o.getFrames().add(newClass);
 		}
 		Set<OWLObjectProperty> objectProperties = owlOntology
 				.getObjectPropertiesInSignature();
 		for (OWLObjectProperty objectProperty : objectProperties) {
 			ObjectProperty newOP = factory.createObjectProperty();
-			newOP.setIri(objectProperty.getURI().getFragment());
+			newOP.setIri(objectProperty.getIRI().getFragment());
 			o.getFrames().add(newOP);
 		}
 		Set<OWLDataProperty> dataPropertiesInSignature = owlOntology
 				.getDataPropertiesInSignature();
 		for (OWLDataProperty dataProperty : dataPropertiesInSignature) {
 			DataProperty newDP = factory.createDataProperty();
-			newDP.setIri(dataProperty.getURI().getFragment());
+			newDP.setIri(dataProperty.getIRI().getFragment());
 			o.getFrames().add(newDP);
 		}
-		Set<OWLIndividual> individualsInSignature = owlOntology
+		Set<OWLNamedIndividual> individualsInSignature = owlOntology
 				.getIndividualsInSignature();
-		for (OWLIndividual individual : individualsInSignature) {
+		for (OWLNamedIndividual individual : individualsInSignature) {
 			Individual newIndividual = factory.createIndividual();
-			newIndividual.setIri(individual.getURI().getFragment());
+			newIndividual.setIri(individual.getIRI().getFragment());
 			o.getFrames().add(newIndividual);
 		}
-		Set<URI> annotationURIs = owlOntology.getAnnotationURIs();
-		for (URI uri : annotationURIs) {
+		Set<OWLAnnotationProperty> annotationProperties = owlOntology
+				.getAnnotationPropertiesInSignature();
+		for (OWLAnnotationProperty annotation : annotationProperties) {
 			AnnotationProperty newAnnotationProperty = factory
 					.createAnnotationProperty();
-			newAnnotationProperty.setIri(uri.getFragment());
+			newAnnotationProperty.setIri(annotation.getIRI().getFragment());
 			o.getFrames().add(newAnnotationProperty);
 		}
 		return o;

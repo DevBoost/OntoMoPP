@@ -18,104 +18,100 @@ import org.emftext.language.owl.resource.owl.mopp.OwlResource;
 
 public class OWLTransformationHelper {
 
-
 	private static Map<EObject, Integer> uniqueIdMap = new HashMap<EObject, Integer>();
 	private static int counter = 0;
 	private static Map<EPackage, Ontology> packageOntologyMap = new HashMap<EPackage, Ontology>();
 	private static Map<String, String> datatypeMap;
-	
+
 	static {
-	datatypeMap = new HashMap<String, String>();
-	// # owl:real
-	// # owl:rational
-	// # xsd:decimal
-	datatypeMap.put("java.math.BigDecimal", "xsd:decimal");
-	datatypeMap.put("EBigDecimal","xsd:decimal");
-	// # xsd:integer
-	datatypeMap.put("java.math.BigInteger", "xsd:integer");
-	datatypeMap.put("java.lang.Integer", "xsd:integer");
-	datatypeMap.put("EInt", "xsd:integer");
-	datatypeMap.put("EInteger", "xsd:integer");
-	datatypeMap.put("EIntegerObject", "xsd:integer");
-	datatypeMap.put("EBigInteger", "xsd:integer");
-	datatypeMap.put("integer", "xsd:integer");
-	// # xsd:nonNegativeInteger
-	// # xsd:nonPositiveInteger
-	// # xsd:positiveInteger
-	// # xsd:negativeInteger
-	// # xsd:long
-	datatypeMap.put("long", "xsd:long");
-	datatypeMap.put("java.lang.Long", "xsd:long");
-	datatypeMap.put("ELong", "xsd:long");
-	datatypeMap.put("ELongObject", "xsd:long");
+		datatypeMap = new HashMap<String, String>();
+		// # owl:real
+		// # owl:rational
+		// # xsd:decimal
+		datatypeMap.put("java.math.BigDecimal", "xsd:decimal");
+		datatypeMap.put("EBigDecimal", "xsd:decimal");
+		// # xsd:integer
+		datatypeMap.put("java.math.BigInteger", "xsd:integer");
+		datatypeMap.put("java.lang.Integer", "xsd:integer");
+		datatypeMap.put("EInt", "xsd:integer");
+		datatypeMap.put("EInteger", "xsd:integer");
+		datatypeMap.put("EIntegerObject", "xsd:integer");
+		datatypeMap.put("EBigInteger", "xsd:integer");
+		datatypeMap.put("integer", "xsd:integer");
+		// # xsd:nonNegativeInteger
+		// # xsd:nonPositiveInteger
+		// # xsd:positiveInteger
+		// # xsd:negativeInteger
+		// # xsd:long
+		datatypeMap.put("long", "xsd:long");
+		datatypeMap.put("java.lang.Long", "xsd:long");
+		datatypeMap.put("ELong", "xsd:long");
+		datatypeMap.put("ELongObject", "xsd:long");
 
-	// # xsd:int
-	datatypeMap.put("int", "xsd:int");
-	// # xsd:short
-	datatypeMap.put("short", "xsd:short");
-	datatypeMap.put("java.lang.Short", "xsd:short");
-	datatypeMap.put("EShort", "xsd:short");
-	datatypeMap.put("EShortObject", "xsd:short");
-	// # xsd:byte
-	datatypeMap.put("byte", "xsd:byte");
-	datatypeMap.put("java.lang.Byte", "xsd:byte");
-	datatypeMap.put("EByte", "xsd:byte");
-	datatypeMap.put("EByteObject", "xsd:byte");
-	
-	// # xsd:unsignedLong
-	// # xsd:unsignedInt
-	// # xsd:unsignedShort
-	// # xsd:unsignedByte
-	//		
-	// # xsd:double
-	datatypeMap.put("double", "xsd:double");
-	datatypeMap.put("java.lang.Double", "xsd:double");
-	datatypeMap.put("EDouble", "xsd:double");
-	datatypeMap.put("EDoubleObject", "xsd:double");
-	
+		// # xsd:int
+		datatypeMap.put("int", "xsd:int");
+		// # xsd:short
+		datatypeMap.put("short", "xsd:short");
+		datatypeMap.put("java.lang.Short", "xsd:short");
+		datatypeMap.put("EShort", "xsd:short");
+		datatypeMap.put("EShortObject", "xsd:short");
+		// # xsd:byte
+		datatypeMap.put("byte", "xsd:byte");
+		datatypeMap.put("java.lang.Byte", "xsd:byte");
+		datatypeMap.put("EByte", "xsd:byte");
+		datatypeMap.put("EByteObject", "xsd:byte");
 
-	// # xsd:float
-	datatypeMap.put("float", "xsd:float");
-	datatypeMap.put("java.lang.Float", "xsd:float");
-	datatypeMap.put("EFloat", "xsd:float");
-	datatypeMap.put("EFloatObject", "xsd:float");
-	//
-	// # xsd:boolean
-	datatypeMap.put("java.lang.Boolean", "xsd:boolean");
-	datatypeMap.put("EBoolean", "xsd:boolean");
-	datatypeMap.put("boolean", "xsd:boolean");
-	datatypeMap.put("EBooleanObject", "xsd:boolean");
-	//		
-	// # xsd:string
-	datatypeMap.put("java.lang.String", "xsd:string");
-	datatypeMap.put("EString", "xsd:string");
-	datatypeMap.put("string", "xsd:string");
-	// # xsd:normalizedString
-	// # xsd:token
-	// # xsd:language
-	// # xsd:Name
-	// # xsd:NCName
-	// # xsd:NMTOKEN
-	//		
-	// # xsd:hexBinary
-	// # xsd:base64Binary
-	//		
-	// # xsd:dateTime
-	datatypeMap.put("java.lang.Date", "xsd:dateTime");
-	datatypeMap.put("EDate", "xsd:dateTime");
+		// # xsd:unsignedLong
+		// # xsd:unsignedInt
+		// # xsd:unsignedShort
+		// # xsd:unsignedByte
+		//		
+		// # xsd:double
+		datatypeMap.put("double", "xsd:double");
+		datatypeMap.put("java.lang.Double", "xsd:double");
+		datatypeMap.put("EDouble", "xsd:double");
+		datatypeMap.put("EDoubleObject", "xsd:double");
 
-	
-	datatypeMap.put("java.lang.Char", "xsd:string");
-	datatypeMap.put("char", "xsd:string");
-	datatypeMap.put("EChar", "xsd:string");
-	datatypeMap.put("ECharacterObject", "xsd:string");
+		// # xsd:float
+		datatypeMap.put("float", "xsd:float");
+		datatypeMap.put("java.lang.Float", "xsd:float");
+		datatypeMap.put("EFloat", "xsd:float");
+		datatypeMap.put("EFloatObject", "xsd:float");
+		//
+		// # xsd:boolean
+		datatypeMap.put("java.lang.Boolean", "xsd:boolean");
+		datatypeMap.put("EBoolean", "xsd:boolean");
+		datatypeMap.put("boolean", "xsd:boolean");
+		datatypeMap.put("EBooleanObject", "xsd:boolean");
+		//		
+		// # xsd:string
+		datatypeMap.put("java.lang.String", "xsd:string");
+		datatypeMap.put("EString", "xsd:string");
+		datatypeMap.put("string", "xsd:string");
+		// # xsd:normalizedString
+		// # xsd:token
+		// # xsd:language
+		// # xsd:Name
+		// # xsd:NCName
+		// # xsd:NMTOKEN
+		//		
+		// # xsd:hexBinary
+		// # xsd:base64Binary
+		//		
+		// # xsd:dateTime
+		datatypeMap.put("java.lang.Date", "xsd:dateTime");
+		datatypeMap.put("EDate", "xsd:dateTime");
+
+		datatypeMap.put("java.lang.Char", "xsd:string");
+		datatypeMap.put("char", "xsd:string");
+		datatypeMap.put("EChar", "xsd:string");
+		datatypeMap.put("ECharacterObject", "xsd:string");
 	}
-	
+
 	public static String getNamespacePrefix(EPackage ePackage) {
 		return ePackage.getName();
 	}
 
-	
 	public static String getClassIdentificationIRI(EClassifier eClass) {
 		EPackage ePackage = eClass.getEPackage();
 		String iri = ePackage.getName();
@@ -124,8 +120,12 @@ public class OWLTransformationHelper {
 			iri = ePackage.getName() + "_" + iri;
 		}
 		iri += ":";
-		iri += eClass.getName();
+		iri += getSimpleClassIdentificationIRI(eClass);
 		return iri;
+	}
+
+	public static String getSimpleClassIdentificationIRI(EClassifier eClass) {
+		return eClass.getName();
 	}
 
 	public static String getObjectIdentificationIRI(EObject eObject) {
@@ -134,7 +134,7 @@ public class OWLTransformationHelper {
 
 	private static String getUniqueId(EObject eObject) {
 		Integer id = uniqueIdMap.get(eObject);
-		if (id == null ) {
+		if (id == null) {
 			id = counter++;
 			uniqueIdMap.put(eObject, id);
 		}
@@ -146,24 +146,32 @@ public class OWLTransformationHelper {
 		iri += "_" + feature.getName();
 		return iri;
 	}
-	
-	
-	
+
+	public static String getSimpleFeatureIdentificationIRI(
+			EStructuralFeature feature) {
+		String iri = getSimpleClassIdentificationIRI(feature
+				.getEContainingClass())
+				+ "_" + feature.getName();
+		return iri;
+	}
 
 	public static Ontology getOntology(EPackage ePackage, EObject root) {
 		Ontology ontology = packageOntologyMap.get(ePackage);
-		if (ontology == null ) {
+		if (ontology == null) {
 			Ecore2Owl transformation = new Ecore2Owl();
-			OntologyDocument transformedMetamodel = transformation.transformMetamodel(ePackage);
+			OntologyDocument transformedMetamodel = transformation
+					.transformMetamodel(ePackage);
 			URI uri = root.eResource().getURI().appendFileExtension("mm.owl");
-			OwlResource outResource = (OwlResource) root.eResource().getResourceSet().createResource(uri);
+			OwlResource outResource = (OwlResource) root.eResource()
+					.getResourceSet().createResource(uri);
 			outResource.getContents().add(transformedMetamodel);
 			try {
-			outResource.save(Collections.EMPTY_MAP);
-			String identifier = uri.lastSegment();
-			ontology = CrossResourceIRIResolver.theInstance().getRemoteLoader().loadOntology(identifier, root);
-			packageOntologyMap.put(ePackage, ontology);
-				
+				outResource.save(Collections.EMPTY_MAP);
+				String identifier = uri.lastSegment();
+				ontology = CrossResourceIRIResolver.theInstance()
+						.getRemoteLoader().loadOntology(identifier, root);
+				packageOntologyMap.put(ePackage, ontology);
+
 			} catch (OntologyLoadExeption e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -174,7 +182,6 @@ public class OWLTransformationHelper {
 		}
 		return ontology;
 	}
-
 
 	public static Map<String, String> getDatatypeMap() {
 		return datatypeMap;

@@ -19,9 +19,9 @@ import org.emftext.language.owl.resource.owl.IOwlTokenResolveResult;
 import org.emftext.language.owl.resource.owl.IOwlTokenResolver;
 
 public class BooleanAttributeResolver implements IOwlTokenResolver {
-	
+
 	private OwlDefaultTokenResolver defaultResolver = new OwlDefaultTokenResolver();
-	
+
 	public java.lang.String deResolve(java.lang.Object value,
 			org.eclipse.emf.ecore.EStructuralFeature feature,
 			org.eclipse.emf.ecore.EObject container) {
@@ -33,7 +33,6 @@ public class BooleanAttributeResolver implements IOwlTokenResolver {
 		}
 	}
 
-	
 	public void resolve(java.lang.String lexem,
 			org.eclipse.emf.ecore.EStructuralFeature feature,
 			IOwlTokenResolveResult result) {
@@ -43,7 +42,6 @@ public class BooleanAttributeResolver implements IOwlTokenResolver {
 			result.setResolvedToken(false);
 		}
 	}
-
 
 	public void setOptions(Map<?, ?> options) {
 		defaultResolver.setOptions(options);

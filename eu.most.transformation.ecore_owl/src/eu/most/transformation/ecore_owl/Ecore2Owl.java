@@ -35,6 +35,7 @@ import org.emftext.language.owl.Frame;
 import org.emftext.language.owl.Individual;
 import org.emftext.language.owl.IndividualsAtomic;
 import org.emftext.language.owl.Namespace;
+import org.emftext.language.owl.NestedDescription;
 import org.emftext.language.owl.ObjectProperty;
 import org.emftext.language.owl.ObjectPropertyFact;
 import org.emftext.language.owl.ObjectPropertyMax;
@@ -57,21 +58,20 @@ public class Ecore2Owl {
 	private HashMap<EStructuralFeature, Feature> references2objectProperties = new HashMap<EStructuralFeature, Feature>();
 
 	private void initDatatypes() {
-	
-		
+
 		EList<EClassifier> eClassifiers = EcorePackage.eINSTANCE
 				.getEClassifiers();
 		for (EClassifier eclassifier : eClassifiers) {
 			if (eclassifier instanceof EDataType) {
 				EDataType primitive = (EDataType) eclassifier;
 				Datatype property = owlFactory.createDatatype();
-				String typeName = OWLTransformationHelper.getDatatypeMap().get(primitive
-						.getInstanceClassName());
+				String typeName = OWLTransformationHelper.getDatatypeMap().get(
+						primitive.getInstanceClassName());
 				if (typeName == null)
 					typeName = primitive.getName();
 				property.setIri(typeName);
 				etype2oclass.put(primitive, property);
-				
+
 				// ontology.getFrames().add(property);
 			}
 
@@ -92,13 +92,13 @@ public class Ecore2Owl {
 	private void initStandardImports(OntologyDocument d, EPackage metamodel) {
 
 		Map<String, String> namespaces = CrossResourceIRIResolver.standardNamespaces;
-		//namespaces.put("owl2xml", "http://www.w3.org/2006/12/owl2-xml#");
+		// namespaces.put("owl2xml", "http://www.w3.org/2006/12/owl2-xml#");
 
-		namespaces.put(metamodel.getNsPrefix(), metamodel.getNsURI());
-		addSubpackages(metamodel.getNsPrefix(), metamodel.getNsURI(),
+		namespaces.put(metamodel.getNsPrefix() + ":", metamodel.getNsURI());
+		addSubpackages(metamodel.getNsPrefix() + ":", metamodel.getNsURI(),
 				namespaces, metamodel.getESubpackages());
 
-		namespaces.put(" ", metamodel.getNsURI());
+		namespaces.put(":", metamodel.getNsURI());
 		for (String prefix : namespaces.keySet()) {
 			Namespace namespace = owlFactory.createNamespace();
 			d.getNamespace().add(namespace);
@@ -197,8 +197,8 @@ public class Ecore2Owl {
 				transformEDatatype((EDataType) elem);
 
 			// TODO needs to be completed
-//			else
-//				System.out.println("not transformed: " + elem);
+			// else
+			// System.out.println("not transformed: " + elem);
 		}
 		allContents = metamodel.eAllContents();
 		while (allContents.hasNext()) {
@@ -208,8 +208,8 @@ public class Ecore2Owl {
 			if (elem instanceof EAttribute)
 				transformEAttribute((EAttribute) elem);
 			// TODO needs to be completed
-//			else
-//				System.out.println("not transformed: " + elem);
+			// else
+			// System.out.println("not transformed: " + elem);
 		}
 
 		Set<ENamedElement> keySet = etype2oclass.keySet();
@@ -237,12 +237,18 @@ public class Ecore2Owl {
 								.createObjectPropertyMin();
 						setFeature(minRestriction, dataProperty);
 						minRestriction.setValue(attribute.getLowerBound());
-						DatatypeReference primary = owlFactory.createDatatypeReference();
-						
-						Datatype dataType = (Datatype) etype2oclass.get(attribute.getEType());
+						DatatypeReference primary = owlFactory
+								.createDatatypeReference();
+
+						Datatype dataType = (Datatype) etype2oclass
+								.get(attribute.getEType());
 						primary.setTheDatatype(dataType);
 						minRestriction.setDataPrimary(primary);
-						supertypes.getPrimaries().add(minRestriction);
+
+						NestedDescription nestedDescription = owlFactory
+								.createNestedDescription();
+						nestedDescription.setDescription(minRestriction);
+						supertypes.getPrimaries().add(nestedDescription);
 					}
 
 					if (attribute.getUpperBound() != -1) {
@@ -250,13 +256,18 @@ public class Ecore2Owl {
 								.createObjectPropertyMax();
 						setFeature(maxRestriction, dataProperty);
 						maxRestriction.setValue(attribute.getUpperBound());
-						DatatypeReference primary = owlFactory.createDatatypeReference();
-						
-						Datatype dataType = (Datatype) etype2oclass.get(attribute.getEType());
+						DatatypeReference primary = owlFactory
+								.createDatatypeReference();
+
+						Datatype dataType = (Datatype) etype2oclass
+								.get(attribute.getEType());
 						primary.setTheDatatype(dataType);
 						maxRestriction.setDataPrimary(primary);
-						
-						supertypes.getPrimaries().add(maxRestriction);
+
+						NestedDescription nestedDescription = owlFactory
+								.createNestedDescription();
+						nestedDescription.setDescription(maxRestriction);
+						supertypes.getPrimaries().add(nestedDescription);
 					}
 				}
 				EList<EReference> references = eclass.getEReferences();
@@ -268,23 +279,35 @@ public class Ecore2Owl {
 						ObjectPropertyMin minRestriction = owlFactory
 								.createObjectPropertyMin();
 						setFeature(minRestriction, objectProperty);
-						ClassAtomic classAtomic = owlFactory.createClassAtomic();
-						classAtomic.setClazz((Class) etype2oclass.get(reference.getEType()));
+						ClassAtomic classAtomic = owlFactory
+								.createClassAtomic();
+						classAtomic.setClazz((Class) etype2oclass.get(reference
+								.getEType()));
 						minRestriction.setPrimary(classAtomic);
 						minRestriction.setValue(reference.getLowerBound());
-						supertypes.getPrimaries().add(minRestriction);
+
+						NestedDescription nestedDescription = owlFactory
+								.createNestedDescription();
+						nestedDescription.setDescription(minRestriction);
+						supertypes.getPrimaries().add(nestedDescription);
 					}
 
 					if (reference.getUpperBound() != -1) {
 						ObjectPropertyMax maxRestriction = owlFactory
 								.createObjectPropertyMax();
 						setFeature(maxRestriction, objectProperty);
-						ClassAtomic classAtomic = owlFactory.createClassAtomic();
-						classAtomic.setClazz((Class) etype2oclass.get(reference.getEType()));
+						ClassAtomic classAtomic = owlFactory
+								.createClassAtomic();
+						classAtomic.setClazz((Class) etype2oclass.get(reference
+								.getEType()));
 						maxRestriction.setPrimary(classAtomic);
-						
+
 						maxRestriction.setValue(reference.getUpperBound());
-						supertypes.getPrimaries().add(maxRestriction);
+
+						NestedDescription nestedDescription = owlFactory
+								.createNestedDescription();
+						nestedDescription.setDescription(maxRestriction);
+						supertypes.getPrimaries().add(nestedDescription);
 					}
 					if (reference.getEOpposite() != null) {
 						EReference eOpposite = reference.getEOpposite();
@@ -328,7 +351,8 @@ public class Ecore2Owl {
 	private void transformEAttribute(EAttribute elem) {
 		DataProperty d = owlFactory.createDataProperty();
 		ontology.getFrames().add(d);
-		d.setIri(OWLTransformationHelper.getFeatureIdentificationIRI(elem));
+		d.setIri(OWLTransformationHelper
+				.getSimpleFeatureIdentificationIRI(elem));
 		Class domainClass = (Class) etype2oclass
 				.get(elem.getEContainingClass());
 		ClassAtomic domainClassAtomic = owlFactory.createClassAtomic();
@@ -350,7 +374,8 @@ public class Ecore2Owl {
 
 	private void transformEReference(EReference elem) {
 		ObjectProperty o = owlFactory.createObjectProperty();
-		o.setIri(OWLTransformationHelper.getFeatureIdentificationIRI(elem));
+		o.setIri(OWLTransformationHelper
+				.getSimpleFeatureIdentificationIRI(elem));
 		ontology.getFrames().add(o);
 
 		Class rangeClass = (Class) etype2oclass.get(elem.getEType());
@@ -373,7 +398,7 @@ public class Ecore2Owl {
 	private void transformEEnum(EEnum elem) {
 		Class d = owlFactory.createClass();
 		ontology.getFrames().add(d);
-		d.setIri(OWLTransformationHelper.getClassIdentificationIRI(elem));
+		d.setIri(OWLTransformationHelper.getSimpleClassIdentificationIRI(elem));
 		etype2oclass.put(elem, d);
 
 		IndividualsAtomic description = owlFactory.createIndividualsAtomic();
@@ -396,7 +421,7 @@ public class Ecore2Owl {
 	private void transformEDatatype(EDataType elem) {
 		Datatype d = owlFactory.createDatatype();
 		ontology.getFrames().add(d);
-		d.setIri(OWLTransformationHelper.getClassIdentificationIRI(elem));
+		d.setIri(OWLTransformationHelper.getSimpleClassIdentificationIRI(elem));
 		etype2oclass.put(elem, d);
 
 	}
@@ -404,7 +429,7 @@ public class Ecore2Owl {
 	private void transformEClass(EClass elem) {
 		Class c = owlFactory.createClass();
 		ontology.getFrames().add(c);
-		c.setIri(OWLTransformationHelper.getClassIdentificationIRI(elem));
+		c.setIri(OWLTransformationHelper.getSimpleClassIdentificationIRI(elem));
 		etype2oclass.put(elem, c);
 	}
 

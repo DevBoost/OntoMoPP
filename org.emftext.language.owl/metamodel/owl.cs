@@ -18,7 +18,7 @@ START OntologyDocument
 
 OPTIONS {	
 	licenceHeader ="platform:/resource/org.reuseware/licence.txt";
-	generateCodeFromGeneratorModel = "true";
+	//generateCodeFromGeneratorModel = "true";
 	overrideManifest = "false";
 	overrideBuildProperties = "false";
 	overrideClasspath = "false";
@@ -60,7 +60,7 @@ RULES{
 	
 	LiteralTarget ::= literal;
 	
-	Namespace ::= "Namespace:" prefix[IRI]? importedOntology[IRI] !1;
+	Namespace ::= "Prefix:" prefix[IRI]? importedOntology[IRI] !1;
 	
 	Ontology ::= "Ontology:" (uri[IRI] versionIRI[IRI] ? !1)? 
 					("Import:" imports[IRI] !1)* 

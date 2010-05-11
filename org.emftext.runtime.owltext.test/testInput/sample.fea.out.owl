@@ -1,4 +1,5 @@
-Namespace: feature <http://org.owltext/feature#> 
+Prefix: : <http://transformed/sample.fea#> 
+	Prefix: feature: <http://org.owltext/feature#> 
 	Ontology: <http://transformed/sample.fea> 
 	Import: <file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/testInput/sample.fea.mm.owl> 
 	
@@ -26,15 +27,15 @@ Namespace: feature <http://org.owltext/feature#>
 		
 		
 	Individual: individual_0 
-		Types:  feature:MandatoryFeature ,  feature:Feature_name value "testRootFeature" ,  feature:Feature_children value individual_1 ,  feature:Feature_children value individual_2 ,  feature:Feature_name exactly 1  xsd:string ,  feature:Feature_annotations exactly 0  xsd:string ,  feature:Feature_children exactly 2  feature:Feature ,  feature:Feature_parent exactly 0  feature:Feature 
+		Types:  feature:MandatoryFeature ,  (  feature:Feature_name value "testRootFeature" ) ,  (  feature:Feature_children value individual_1 ) ,  (  feature:Feature_children value individual_2 ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 2  feature:Feature ) ,  (  feature:Feature_parent exactly 0  feature:Feature ) 
 			
 		
 	Individual: individual_1 
-		Types:  feature:OptionalFeature ,  feature:Feature_name value "anOptionalFeature" ,  feature:Feature_name exactly 1  xsd:string ,  feature:Feature_annotations exactly 0  xsd:string ,  feature:Feature_children exactly 0  feature:Feature ,  feature:Feature_parent exactly 1  feature:Feature 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name value "anOptionalFeature" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
 			
 		
 	Individual: individual_2 
-		Types:  feature:MandatoryFeature ,  feature:Feature_name value "anMandatoryFeature" ,  feature:Feature_name exactly 1  xsd:string ,  feature:Feature_annotations exactly 0  xsd:string ,  feature:Feature_children exactly 0  feature:Feature ,  feature:Feature_parent exactly 1  feature:Feature 
+		Types:  feature:MandatoryFeature ,  (  feature:Feature_name value "anMandatoryFeature" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
 			
 		
 	DifferentIndividuals: individual_0 , individual_1 , individual_2 

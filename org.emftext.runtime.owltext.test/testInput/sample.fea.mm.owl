@@ -1,45 +1,45 @@
-Namespace: rdfs <http://www.w3.org/2000/01/rdf-schema#> 
-	Namespace:   <http://org.owltext/feature#> 
-	Namespace: owl <http://www.w3.org/2002/07/owl#> 
-	Namespace: xsd <http://www.w3.org/2001/XMLSchema#> 
-	Namespace: rdf <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
-	Namespace: feature <http://org.owltext/feature#> 
+Prefix: xsd: <http://www.w3.org/2001/XMLSchema#> 
+	Prefix: feature: <http://org.owltext/feature#> 
+	Prefix: owl: <http://www.w3.org/2002/07/owl#> 
+	Prefix: : <http://org.owltext/feature#> 
+	Prefix: rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+	Prefix: rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
 	Ontology: <http://org.owltext/feature> 
 	
-	Class: feature:Feature 
-		SubClassOf:  feature:Feature_name min 1  xsd:string and  feature:Feature_name max 1  xsd:string and  feature:Feature_parent max 1  feature:Feature 
+	Class: Feature 
+		SubClassOf:  (  Feature_name min 1  xsd:string ) and  (  Feature_name max 1  xsd:string ) and  (  Feature_parent max 1  Feature ) 
 			
 		
-	Class: feature:MandatoryFeature 
-		SubClassOf:  feature:Feature 
+	Class: MandatoryFeature 
+		SubClassOf:  Feature 
 			
 		
-	Class: feature:OptionalFeature 
-		SubClassOf:  feature:Feature 
+	Class: OptionalFeature 
+		SubClassOf:  Feature 
 			
 		
-	DataProperty: feature:Feature_name 
-		Domain:  feature:Feature 
+	DataProperty: Feature_name 
+		Domain:  Feature 
 			Range:  xsd:string 
 			Characteristics: Functional 
 			
 		
-	DataProperty: feature:Feature_annotations 
-		Domain:  feature:Feature 
+	DataProperty: Feature_annotations 
+		Domain:  Feature 
 			Range:  xsd:string 
 			Characteristics: Functional 
 			
 		
-	ObjectProperty: feature:Feature_children 
-		Domain:  feature:Feature 
-			Range:  feature:Feature 
-			InverseOf: feature:Feature_parent , feature:Feature_parent 
+	ObjectProperty: Feature_children 
+		Domain:  Feature 
+			Range:  Feature 
+			InverseOf: Feature_parent , Feature_parent 
 			
 		
-	ObjectProperty: feature:Feature_parent 
-		Domain:  feature:Feature 
-			Range:  feature:Feature 
+	ObjectProperty: Feature_parent 
+		Domain:  Feature 
+			Range:  Feature 
 			Characteristics: Functional 
-			InverseOf: feature:Feature_children , feature:Feature_children 
+			InverseOf: Feature_children , Feature_children 
 			
 		

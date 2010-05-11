@@ -88,13 +88,14 @@ public class OWLTextTest {
 		((Feature) rootObject).setName(null);
 		// test with large input model
 		List<Feature> manyChilds = new LinkedList<Feature>();
-		for(int i = 0; i<400; i++) {
-			OptionalFeature f = FeaturePackage.eINSTANCE.getFeatureFactory().createOptionalFeature();
+		for (int i = 0; i < 10; i++) {
+			OptionalFeature f = FeaturePackage.eINSTANCE.getFeatureFactory()
+					.createOptionalFeature();
 			f.setName("Feature_" + i);
 			manyChilds.add(f);
 		}
 		((Feature) rootObject).getChildren().addAll(manyChilds);
-		
+
 		File owlifiedModelOutputFile = new File("./testInput/" + inFileName
 				+ ".err.owl");
 
@@ -116,8 +117,6 @@ public class OWLTextTest {
 				owlifiedOntologyRoot instanceof OntologyDocument);
 		owlifiedOutputResource.save(Collections.EMPTY_MAP);
 		validate(owlifiedModelOutputFile, true);
-		OwlReasoningBuilder builder = new OwlReasoningBuilder();
-		builder.validateOWL(owlRepresentation, owlifiedOutputResource);
 	}
 
 	private void validate(File outFile, boolean errorsExpected)
@@ -203,11 +202,12 @@ public class OWLTextTest {
 				"The root element of the expected owl output is not instance of an OntologyDocument",
 				expectedOntologyRoot instanceof OntologyDocument);
 
-		
 		// compare expected and owlified ontology, store diff
-		assertTrue("Owlified ontology is error free.",owlifiedOutputResource.getErrors().size() == 0);
-		assertTrue("Owlified ontology is error free.",expectedOwlResource.getErrors().size() == 0);
-		
+		assertTrue("Owlified ontology is error free.", owlifiedOutputResource
+				.getErrors().size() == 0);
+		assertTrue("Owlified ontology is error free.", expectedOwlResource
+				.getErrors().size() == 0);
+
 		Map<String, Object> options = new LinkedHashMap<String, Object>();
 		options.put(MatchOptions.OPTION_IGNORE_ID, true);
 		options.put(MatchOptions.OPTION_IGNORE_XMI_ID, true);

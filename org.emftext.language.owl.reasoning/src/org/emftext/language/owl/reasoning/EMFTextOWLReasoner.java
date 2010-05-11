@@ -14,15 +14,11 @@ package org.emftext.language.owl.reasoning;
 
 import java.util.Set;
 
-import org.semanticweb.owl.model.OWLClass;
-import org.semanticweb.owl.model.OWLIndividual;
+import org.semanticweb.owlapi.model.OWLNamedObject;
 
 public interface EMFTextOWLReasoner {
 
-	public Set<OWLClass> getInconsistentClasses(String owlRepresentation)
+	public Set<OWLNamedObject> getInconsistentFrames(String content)
 			throws ReasoningException;
-
-	public Set<OWLIndividual> getInconsistentIndividuals(
-			String owlRepresentation) throws ReasoningException;
 
 }

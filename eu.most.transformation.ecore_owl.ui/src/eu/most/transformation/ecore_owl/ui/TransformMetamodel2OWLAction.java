@@ -27,19 +27,26 @@ public class TransformMetamodel2OWLAction implements IObjectActionDelegate {
 			Object first = structuredSelection.getFirstElement();
 			if (first instanceof IFile) {
 				IFile file = (IFile) first;
-				Resource resource = new ResourceSetImpl().createResource(URI.createFileURI(file.getLocation().toOSString()));
+				Resource resource = new ResourceSetImpl().createResource(URI
+						.createFileURI(file.getLocation().toOSString()));
 				if (resource != null) {
 					try {
 						resource.load(null);
 						if (resource.getContents().get(0) instanceof EPackage) {
-							OntologyDocument document = new Ecore2Owl().transformMetamodel((EPackage) resource.getContents().get(0));
-							URI targetURI = resource.getURI().trimFileExtension().appendFileExtension("owl");
-							Resource documentResource = resource.getResourceSet().createResource(targetURI);
+							OntologyDocument document = new Ecore2Owl()
+									.transformMetamodel((EPackage) resource
+											.getContents().get(0));
+							URI targetURI = resource.getURI()
+									.trimFileExtension().appendFileExtension(
+											"owl");
+							Resource documentResource = resource
+									.getResourceSet().createResource(targetURI);
 							documentResource.getContents().add(document);
 							documentResource.save(null);
-							file.getParent().refreshLocal(Integer.MAX_VALUE, null);
+							file.getParent().refreshLocal(Integer.MAX_VALUE,
+									null);
 						}
-						
+
 					} catch (IOException e) {
 						e.printStackTrace();
 					} catch (CoreException e) {
@@ -50,8 +57,6 @@ public class TransformMetamodel2OWLAction implements IObjectActionDelegate {
 		}
 	}
 
-
-	
 	public void setActivePart(IAction action, IWorkbenchPart targetPart) {
 	}
 

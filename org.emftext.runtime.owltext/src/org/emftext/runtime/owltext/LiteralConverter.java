@@ -12,35 +12,36 @@ public class LiteralConverter {
 
 	private OwlFactory factory = OwlFactory.eINSTANCE;
 	private Datatype xsdBoolean;
-	
+
 	public LiteralConverter() {
 		xsdBoolean = factory.createDatatype();
 		xsdBoolean.setIri("xsd:boolean");
 	}
-	
+
 	public Literal convert(Object newValue) {
-		if (newValue == null) return null;
+		if (newValue == null)
+			return null;
 		if (newValue instanceof String) {
 			return doConvert((String) newValue);
-		} 
-		else if (newValue instanceof Integer) {
+		} else if (newValue instanceof Integer) {
 			return doConvert((Integer) newValue);
-		}
-		else if (newValue instanceof Float) {
+		} else if (newValue instanceof Float) {
 			return doConvert((Float) newValue);
-		}
-		else if (newValue instanceof Boolean) {
+		} else if (newValue instanceof Boolean) {
 			return doConvert((Boolean) newValue);
-		}
-		else {
-			AbbreviatedXSDStringLiteral textLiteral = factory.createAbbreviatedXSDStringLiteral();
-			textLiteral.setValue("The attribute value of type: " + newValue.getClass() + " could not be converted to an literal");
+		} else {
+			AbbreviatedXSDStringLiteral textLiteral = factory
+					.createAbbreviatedXSDStringLiteral();
+			textLiteral.setValue("The attribute value of type: "
+					+ newValue.getClass()
+					+ " could not be converted to an literal");
 			return textLiteral;
 		}
 	}
-	
+
 	public Literal doConvert(String newValue) {
-		AbbreviatedXSDStringLiteral textLiteral = factory.createAbbreviatedXSDStringLiteral();
+		AbbreviatedXSDStringLiteral textLiteral = factory
+				.createAbbreviatedXSDStringLiteral();
 		textLiteral.setValue(newValue);
 		return textLiteral;
 	}
@@ -50,19 +51,19 @@ public class LiteralConverter {
 		textLiteral.setValue(newValue);
 		return textLiteral;
 	}
-	
+
 	public Literal doConvert(Float newValue) {
 		FloatingPointLiteral textLiteral = factory.createFloatingPointLiteral();
 		textLiteral.setLiteral(newValue);
 		return textLiteral;
 	}
-	
+
 	public Literal doConvert(Boolean newValue) {
 		TypedLiteral textLiteral = factory.createTypedLiteral();
 		textLiteral.setLexicalValue(newValue.toString());
-		
+
 		textLiteral.setTheDatatype(xsdBoolean);
 		return textLiteral;
 	}
-	
+
 }

@@ -1,5 +1,5 @@
-Namespace: <http://ex.com/owl/families#>
-Namespace: g <http://ex.com/owl2/families#>
+Prefix: <http://ex.com/owl/families#>
+Prefix: g <http://ex.com/owl2/families#>
 
 Ontology: <http://example.com/owl/families> 
  Class: Person
