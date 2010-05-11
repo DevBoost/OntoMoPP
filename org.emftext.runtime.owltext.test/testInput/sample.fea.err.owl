@@ -27,7 +27,7 @@ Prefix: : <http://transformed/sample.fea#>
 		
 		
 	Individual: individual_0 
-		Types:  feature:MandatoryFeature ,  (  feature:Feature_children value individual_1 ) ,  (  feature:Feature_children value individual_2 ) ,  (  feature:Feature_children value individual_3 ) ,  (  feature:Feature_children value individual_4 ) ,  (  feature:Feature_children value individual_5 ) ,  (  feature:Feature_children value individual_6 ) ,  (  feature:Feature_children value individual_7 ) ,  (  feature:Feature_children value individual_8 ) ,  (  feature:Feature_children value individual_9 ) ,  (  feature:Feature_children value individual_10 ) ,  (  feature:Feature_children value individual_11 ) ,  (  feature:Feature_children value individual_12 ) ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 12  feature:Feature ) ,  (  feature:Feature_parent exactly 0  feature:Feature ) 
+		Types:  feature:MandatoryFeature ,  (  feature:Feature_children value individual_1 ) ,  (  feature:Feature_children value individual_2 ) ,  (  feature:Feature_children value individual_3 ) ,  (  feature:Feature_children value individual_4 ) ,  (  feature:Feature_children value individual_5 ) ,  (  feature:Feature_children value individual_6 ) ,  (  feature:Feature_children value individual_7 ) ,  (  feature:Feature_children value individual_8 ) ,  (  feature:Feature_children value individual_9 ) ,  (  feature:Feature_children value individual_10 ) ,  (  feature:Feature_children value individual_11 ) ,  (  feature:Feature_children value individual_12 ) ,  (  feature:Feature_children value individual_13 ) ,  (  feature:Feature_children value individual_14 ) ,  (  feature:Feature_children value individual_15 ) ,  (  feature:Feature_children value individual_16 ) ,  (  feature:Feature_children value individual_17 ) ,  (  feature:Feature_children value individual_18 ) ,  (  feature:Feature_children value individual_19 ) ,  (  feature:Feature_children value individual_20 ) ,  (  feature:Feature_children value individual_21 ) ,  (  feature:Feature_children value individual_22 ) ,  (  feature:Feature_children value individual_23 ) ,  (  feature:Feature_children value individual_24 ) ,  (  feature:Feature_children value individual_25 ) ,  (  feature:Feature_children value individual_26 ) ,  (  feature:Feature_children value individual_27 ) ,  (  feature:Feature_children value individual_28 ) ,  (  feature:Feature_children value individual_29 ) ,  (  feature:Feature_children value individual_30 ) ,  (  feature:Feature_children value individual_31 ) ,  (  feature:Feature_children value individual_32 ) ,  (  feature:Feature_children value individual_33 ) ,  (  feature:Feature_children value individual_34 ) ,  (  feature:Feature_children value individual_35 ) ,  (  feature:Feature_children value individual_36 ) ,  (  feature:Feature_children value individual_37 ) ,  (  feature:Feature_children value individual_38 ) ,  (  feature:Feature_children value individual_39 ) ,  (  feature:Feature_children value individual_40 ) ,  (  feature:Feature_children value individual_41 ) ,  (  feature:Feature_children value individual_42 ) ,  (  feature:Feature_children value individual_43 ) ,  (  feature:Feature_children value individual_44 ) ,  (  feature:Feature_children value individual_45 ) ,  (  feature:Feature_children value individual_46 ) ,  (  feature:Feature_children value individual_47 ) ,  (  feature:Feature_children value individual_48 ) ,  (  feature:Feature_children value individual_49 ) ,  (  feature:Feature_children value individual_50 ) ,  (  feature:Feature_children value individual_51 ) ,  (  feature:Feature_children value individual_52 ) ,  (  feature:Feature_children value individual_53 ) ,  (  feature:Feature_children value individual_54 ) ,  (  feature:Feature_children value individual_55 ) ,  (  feature:Feature_children value individual_56 ) ,  (  feature:Feature_children value individual_57 ) ,  (  feature:Feature_children value individual_58 ) ,  (  feature:Feature_children value individual_59 ) ,  (  feature:Feature_children value individual_60 ) ,  (  feature:Feature_children value individual_61 ) ,  (  feature:Feature_children value individual_62 ) ,  (  feature:Feature_children value individual_63 ) ,  (  feature:Feature_children value individual_64 ) ,  (  feature:Feature_children value individual_65 ) ,  (  feature:Feature_children value individual_66 ) ,  (  feature:Feature_children value individual_67 ) ,  (  feature:Feature_children value individual_68 ) ,  (  feature:Feature_children value individual_69 ) ,  (  feature:Feature_children value individual_70 ) ,  (  feature:Feature_children value individual_71 ) ,  (  feature:Feature_children value individual_72 ) ,  (  feature:Feature_children value individual_73 ) ,  (  feature:Feature_children value individual_74 ) ,  (  feature:Feature_children value individual_75 ) ,  (  feature:Feature_children value individual_76 ) ,  (  feature:Feature_children value individual_77 ) ,  (  feature:Feature_children value individual_78 ) ,  (  feature:Feature_children value individual_79 ) ,  (  feature:Feature_children value individual_80 ) ,  (  feature:Feature_children value individual_81 ) ,  (  feature:Feature_children value individual_82 ) ,  (  feature:Feature_children value individual_83 ) ,  (  feature:Feature_children value individual_84 ) ,  (  feature:Feature_children value individual_85 ) ,  (  feature:Feature_children value individual_86 ) ,  (  feature:Feature_children value individual_87 ) ,  (  feature:Feature_children value individual_88 ) ,  (  feature:Feature_children value individual_89 ) ,  (  feature:Feature_children value individual_90 ) ,  (  feature:Feature_children value individual_91 ) ,  (  feature:Feature_children value individual_92 ) ,  (  feature:Feature_children value individual_93 ) ,  (  feature:Feature_children value individual_94 ) ,  (  feature:Feature_children value individual_95 ) ,  (  feature:Feature_children value individual_96 ) ,  (  feature:Feature_children value individual_97 ) ,  (  feature:Feature_children value individual_98 ) ,  (  feature:Feature_children value individual_99 ) ,  (  feature:Feature_children value individual_100 ) ,  (  feature:Feature_children value individual_101 ) ,  (  feature:Feature_children value individual_102 ) ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 102  feature:Feature ) ,  (  feature:Feature_parent exactly 0  feature:Feature ) 
 			
 		
 	Individual: individual_1 
@@ -39,44 +39,404 @@ Prefix: : <http://transformed/sample.fea#>
 			
 		
 	Individual: individual_3 
-		Types:  feature:OptionalFeature ,  (  feature:Feature_name value "Feature_0" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
 			
 		
 	Individual: individual_4 
-		Types:  feature:OptionalFeature ,  (  feature:Feature_name value "Feature_1" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
 			
 		
 	Individual: individual_5 
-		Types:  feature:OptionalFeature ,  (  feature:Feature_name value "Feature_2" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
 			
 		
 	Individual: individual_6 
-		Types:  feature:OptionalFeature ,  (  feature:Feature_name value "Feature_3" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
 			
 		
 	Individual: individual_7 
-		Types:  feature:OptionalFeature ,  (  feature:Feature_name value "Feature_4" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
 			
 		
 	Individual: individual_8 
-		Types:  feature:OptionalFeature ,  (  feature:Feature_name value "Feature_5" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
 			
 		
 	Individual: individual_9 
-		Types:  feature:OptionalFeature ,  (  feature:Feature_name value "Feature_6" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
 			
 		
 	Individual: individual_10 
-		Types:  feature:OptionalFeature ,  (  feature:Feature_name value "Feature_7" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
 			
 		
 	Individual: individual_11 
-		Types:  feature:OptionalFeature ,  (  feature:Feature_name value "Feature_8" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
 			
 		
 	Individual: individual_12 
-		Types:  feature:OptionalFeature ,  (  feature:Feature_name value "Feature_9" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
 			
 		
-	DifferentIndividuals: individual_0 , individual_1 , individual_2 , individual_3 , individual_4 , individual_5 , individual_6 , individual_7 , individual_8 , individual_9 , individual_10 , individual_11 , individual_12 
+	Individual: individual_13 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_14 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_15 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_16 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_17 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_18 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_19 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_20 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_21 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_22 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_23 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_24 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_25 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_26 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_27 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_28 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_29 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_30 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_31 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_32 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_33 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_34 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_35 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_36 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_37 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_38 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_39 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_40 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_41 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_42 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_43 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_44 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_45 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_46 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_47 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_48 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_49 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_50 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_51 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_52 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_53 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_54 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_55 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_56 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_57 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_58 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_59 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_60 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_61 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_62 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_63 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_64 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_65 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_66 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_67 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_68 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_69 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_70 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_71 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_72 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_73 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_74 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_75 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_76 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_77 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_78 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_79 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_80 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_81 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_82 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_83 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_84 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_85 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_86 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_87 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_88 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_89 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_90 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_91 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_92 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_93 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_94 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_95 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_96 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_97 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_98 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_99 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_100 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_101 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_102 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name exactly 0  xsd:string ) ,  (  feature:Feature_annotations exactly 0  xsd:string ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	DifferentIndividuals: individual_0 , individual_1 , individual_2 , individual_3 , individual_4 , individual_5 , individual_6 , individual_7 , individual_8 , individual_9 , individual_10 , individual_11 , individual_12 , individual_13 , individual_14 , individual_15 , individual_16 , individual_17 , individual_18 , individual_19 , individual_20 , individual_21 , individual_22 , individual_23 , individual_24 , individual_25 , individual_26 , individual_27 , individual_28 , individual_29 , individual_30 , individual_31 , individual_32 , individual_33 , individual_34 , individual_35 , individual_36 , individual_37 , individual_38 , individual_39 , individual_40 , individual_41 , individual_42 , individual_43 , individual_44 , individual_45 , individual_46 , individual_47 , individual_48 , individual_49 , individual_50 , individual_51 , individual_52 , individual_53 , individual_54 , individual_55 , individual_56 , individual_57 , individual_58 , individual_59 , individual_60 , individual_61 , individual_62 , individual_63 , individual_64 , individual_65 , individual_66 , individual_67 , individual_68 , individual_69 , individual_70 , individual_71 , individual_72 , individual_73 , individual_74 , individual_75 , individual_76 , individual_77 , individual_78 , individual_79 , individual_80 , individual_81 , individual_82 , individual_83 , individual_84 , individual_85 , individual_86 , individual_87 , individual_88 , individual_89 , individual_90 , individual_91 , individual_92 , individual_93 , individual_94 , individual_95 , individual_96 , individual_97 , individual_98 , individual_99 , individual_100 , individual_101 , individual_102 
 		
