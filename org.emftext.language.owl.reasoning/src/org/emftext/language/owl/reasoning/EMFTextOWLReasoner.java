@@ -12,13 +12,11 @@
  ******************************************************************************/
 package org.emftext.language.owl.reasoning;
 
-import java.util.Set;
-
-import org.semanticweb.owlapi.model.OWLNamedObject;
+import java.util.Map;
 
 public interface EMFTextOWLReasoner {
 
-	public Set<OWLNamedObject> getInconsistentFrames(String content)
+	public Map<String, String> getInconsistentFrames(String content)
 			throws ReasoningException;
 
 }

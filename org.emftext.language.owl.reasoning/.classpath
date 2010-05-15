@@ -2,12 +2,12 @@
 <classpath>
 	<classpathentry exported="true" kind="lib" path="lib/pellet-rules.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/aterm-java-1.6.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/pellet-core.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/pellet-core.jar" sourcepath="lib/pellet-core-src.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/pellet-datatypes.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/pellet-dig.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/pellet-el.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/pellet-explanation.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/pellet-owlapiv3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/pellet-explanation.jar" sourcepath="lib/pellet-explanation-src.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/pellet-owlapiv3.jar" sourcepath="lib/pellet-owlapiv3-src.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/pellet-pellint.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>

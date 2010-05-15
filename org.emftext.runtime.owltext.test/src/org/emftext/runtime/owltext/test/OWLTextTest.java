@@ -88,10 +88,10 @@ public class OWLTextTest {
 		((Feature) rootObject).setName(null);
 		// test with large input model
 		List<Feature> manyChilds = new LinkedList<Feature>();
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 3; i++) {
 			OptionalFeature f = FeaturePackage.eINSTANCE.getFeatureFactory()
 					.createOptionalFeature();
-			f.setName("Feature_" + i);
+			//f.setName("Feature_" + i);
 			manyChilds.add(f);
 		}
 		((Feature) rootObject).getChildren().addAll(manyChilds);

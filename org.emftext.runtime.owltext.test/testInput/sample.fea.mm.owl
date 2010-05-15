@@ -7,7 +7,7 @@ Prefix: xsd: <http://www.w3.org/2001/XMLSchema#>
 	Ontology: <http://org.owltext/feature> 
 	
 	Class: Feature 
-		SubClassOf:  (  Feature_name min 1  xsd:string ) and  (  Feature_name max 1  xsd:string ) and  (  Feature_parent max 1  Feature ) 
+		SubClassOf:  owl:Thing 
 			
 		
 	Class: MandatoryFeature 
@@ -21,13 +21,11 @@ Prefix: xsd: <http://www.w3.org/2001/XMLSchema#>
 	DataProperty: Feature_name 
 		Domain:  Feature 
 			Range:  xsd:string 
-			Characteristics: Functional 
 			
 		
 	DataProperty: Feature_annotations 
 		Domain:  Feature 
 			Range:  xsd:string 
-			Characteristics: Functional 
 			
 		
 	ObjectProperty: Feature_children 
@@ -39,7 +37,21 @@ Prefix: xsd: <http://www.w3.org/2001/XMLSchema#>
 	ObjectProperty: Feature_parent 
 		Domain:  Feature 
 			Range:  Feature 
-			Characteristics: Functional 
 			InverseOf: Feature_children , Feature_children 
+			
+		
+	Class: __c__Feature0_min_1_name 
+		Annotations: rdfs:comment "The minimal cardinality of '1' for attribute 'name' is not satisfied." 
+			EquivalentTo:  Feature and not (  Feature_name min 1  xsd:string ) 
+			
+		
+	Class: __c__Feature1_max_1_name 
+		Annotations: rdfs:comment "The maximal cardinality of '1' for attribute 'name' is not satisfied." 
+			EquivalentTo:  Feature and not (  Feature_name max 1  xsd:string ) 
+			
+		
+	Class: __c__Feature2_max_1_parent 
+		Annotations: rdfs:comment "The maximal cardinality of '1' for reference 'parent' is not satisfied." 
+			EquivalentTo:  Feature and not (  Feature_parent max 1  Feature ) 
 			
 		

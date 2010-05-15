@@ -2,9 +2,7 @@ package org.emftext.language.owl.reasoning;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -25,7 +23,6 @@ import org.emftext.language.owl.resource.owl.mopp.OwlBuilderAdapter;
 import org.emftext.language.owl.resource.owl.mopp.OwlResource;
 import org.emftext.language.owl.resource.owl.ui.OwlMarkerHelper;
 import org.emftext.language.owl.resource.owl.util.OwlStreamUtil;
-import org.semanticweb.owlapi.model.OWLNamedObject;
 
 public class OwlReasoningBuilder extends IncrementalProjectBuilder implements
 		IOwlBuilder {
@@ -66,7 +63,7 @@ public class OwlReasoningBuilder extends IncrementalProjectBuilder implements
 	public void validateOWL(String content, OwlResource resource) {
 
 		try {
-			Set<OWLNamedObject> inconsistentOWLObjects;
+			Map<String, String> inconsistentOWLObjects;
 			// System.out.println(content);
 			try {
 				inconsistentOWLObjects = reasoner
@@ -85,17 +82,13 @@ public class OwlReasoningBuilder extends IncrementalProjectBuilder implements
 
 				return;
 			}
-			Set<String> invalidIris = new HashSet<String>();
-
-			for (OWLNamedObject i : inconsistentOWLObjects) {
-				invalidIris.add(i.getIRI().getFragment());
-			}
 			TreeIterator<EObject> allContents = resource.getAllContents();
 			while (allContents.hasNext()) {
 				EObject next = allContents.next();
 				if (next instanceof IRIIdentified) {
 					final IRIIdentified c = ((IRIIdentified) next);
-					if (invalidIris.contains(c.getIri())) {
+					final String error = inconsistentOWLObjects.get(c.getIri());
+					if (error != null) {
 						resource.addProblem(new IOwlProblem() {
 
 							public OwlEProblemType getType() {
@@ -103,8 +96,8 @@ public class OwlReasoningBuilder extends IncrementalProjectBuilder implements
 							}
 
 							public String getMessage() {
-								return "The element '" + c.getIri()
-										+ "' is inconsistent.";
+								return " '" + c.getIri()
+										+ "' is inconsistent: " + error;
 							}
 						}, next);
 					}

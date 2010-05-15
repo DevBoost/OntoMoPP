@@ -13,7 +13,8 @@
 package org.emftext.language.owl.reasoning;
 
 import java.net.URI;
-import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
@@ -22,48 +23,46 @@ import org.eclipse.core.runtime.Path;
 import org.mindswap.pellet.exceptions.InternalReasonerException;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.io.StringDocumentSource;
+import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLAnnotationAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLAnnotationValue;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataFactory;
-import org.semanticweb.owlapi.model.OWLNamedObject;
+import org.semanticweb.owlapi.model.OWLLiteral;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyIRIMapper;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.reasoner.Node;
+import org.semanticweb.owlapi.reasoner.NodeSet;
 
-import com.clarkparsia.owlapi.explanation.PelletExplanation;
 import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
 import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
 
 public class EMFTextPelletReasoner implements
 		org.emftext.language.owl.reasoning.EMFTextOWLReasoner {
 
-	public Set<OWLNamedObject> getInconsistentFrames(String owlRepresentation)
+	public static final String CONSTRAINT_CLASS_PREFIX = "__c__";
+	public static final String CONSTRAINT_PROPERTY_NAME = "rdfs:comment";
+
+	public Map<String, String> getInconsistentFrames(String owlRepresentation)
 			throws ReasoningException {
 
-		Set<OWLNamedObject> inconsistentObjects = new HashSet<OWLNamedObject>();
+		HashMap<String, String> inconsistentObjects = new HashMap<String, String>();
 
 		try {
 			// prepare infrastructure
-
 			PelletReasoner reasoner = loadOntology(owlRepresentation);
 			reasoner.prepareReasoner();
 
-			PelletExplanation expGen = new PelletExplanation(reasoner);
+			// // derive inconsistent individuals
 
-			// // derive inconsistent classes
 			if (!reasoner.isConsistent()) {
-				Set<OWLAxiom> inconsistencyExplanation = expGen
-						.getInconsistencyExplanation();
-				for (OWLAxiom owlAxiom : inconsistencyExplanation) {
-					inconsistentObjects.addAll(owlAxiom
-							.getIndividualsInSignature());
-				}
-				// String message =
-				// "The ontologies fact base is inconsistent. ";
-				// throw new ReasoningException(message);
+
+				String message = "The ontologies fact base is inconsistent. ";
+				throw new ReasoningException(message);
 
 				//
 				// PelletExplanation pe = new PelletExplanation(reasoner);
@@ -78,9 +77,44 @@ public class EMFTextPelletReasoner implements
 				// reasoner.realise();
 				Node<OWLClass> unsatisfiableClasses = reasoner
 						.getUnsatisfiableClasses();
-				inconsistentObjects.addAll(unsatisfiableClasses.getEntities());
-				reasoner.getKB().printClassTree();
+				for (OWLClass owlClass : unsatisfiableClasses.getEntities()) {
+					inconsistentObjects.put(owlClass.getIRI().toString(),
+							"Class is unsatisfiable.");
+				}
 
+				OWLOntology rootOntology = reasoner.getRootOntology();
+				HashMap<String, String> class2errorMsg = new HashMap<String, String>();
+				for (OWLOntology ontology : rootOntology.getImports()) {
+					Set<OWLAnnotationAssertionAxiom> annotations = ontology.getAxioms(AxiomType.ANNOTATION_ASSERTION);
+					for (OWLAnnotationAssertionAxiom owlAnnotation : annotations) {
+						String iri = owlAnnotation.getSubject().toString();
+						OWLAnnotationValue error = owlAnnotation.getValue();
+						String propertyIri = owlAnnotation.getProperty().toString();
+						if (propertyIri.equals(CONSTRAINT_PROPERTY_NAME) && error instanceof OWLLiteral) {
+							class2errorMsg.put(iri, ((OWLLiteral) error).getLiteral());
+						
+						}
+					}
+				}
+				Set<OWLClass> classesInSignature = rootOntology
+						.getClassesInSignature();
+				
+				for (OWLClass clazz : classesInSignature) {
+					if (clazz.getIRI().getFragment().startsWith(
+							CONSTRAINT_CLASS_PREFIX)) {
+						String error = class2errorMsg.get(clazz.getIRI().toString());
+						
+						NodeSet<OWLNamedIndividual> instances = reasoner
+								.getInstances(clazz, true);
+						for (OWLNamedIndividual individual : instances
+								.getFlattened()) {
+							String iri = individual.getIRI()
+											.getFragment();
+							inconsistentObjects.put(iri, error);
+
+						}
+					}
+				}
 				// reasoner.realise();
 				// reasoner.classify();
 				// reasoner.getKB().ensureConsistency();

@@ -54,7 +54,7 @@ package owl owl "http://org.emftext/owl.ecore" {
 	 class DataProperty  extends Feature, Annotateable {
 			containment unique ordered resolveProxies reference Description domain (0..-1);
 			containment unique ordered resolveProxies reference DataRange range (0..-1);
-			unique ordered attribute Characteristic characteristic (0..1);
+			unique ordered attribute Characteristic characteristic (0..-1) ;
 			unique ordered resolveProxies reference DataProperty superProperties (0..-1);
 			unique ordered resolveProxies reference DataProperty equivalentProperties (0..-1);
 			unique ordered resolveProxies reference DataProperty disjointProperties (0..-1);
