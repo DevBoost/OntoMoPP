@@ -43,11 +43,34 @@ import org.emftext.language.owl.resource.owl.mopp.OwlPrinter;
 
 import eu.most.transformation.ecore_owl.OWLTransformationHelper;
 
+/**
+ * A custom implementation of EObject that intercepts all reflective 
+ * calls modifying and querying features of the concrete EObject.
+ * 
+ * @author cwende
+ *
+ */
 public class OWLTextEObjectImpl extends EObjectImpl {
 
+	/**
+	 * Instance variable storing the OWL individual associated with the EObject
+	 */
 	private Individual owlIndividual;
+	
+	/**
+	 * Instance variable storing the superclass of the owl individual associated 
+	 * with the EObject
+	 */
 	private Class superclass;
 
+	
+	/** 
+	 * An EList delegator that intercepts all query and modification calls 
+	 * to ELists that hold feature settings for the EObject
+	 * @author cwende
+	 *
+	 * @param <T>
+	 */
 	private final class OWLTextEListDelegator<T> implements EList<T> {
 		private final EList<T> original;
 		private OWLTextEObjectImpl thisObject;
@@ -55,11 +78,17 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 
 		private OWLTextEListDelegator(EList<T> result,
 				OWLTextEObjectImpl thisObject, int featureID) {
+			// TODO check whether original can be finally 
+			// completely removed when all methods are implemented
 			this.original = result;
 			this.thisObject = thisObject;
 			this.featureID = featureID;
 		}
 
+		/**
+		 * Intercepts the add calls on ELists and introduces the according axioms 
+		 * for the associated owl individual
+		 */
 		public boolean add(T e) {
 			// TODO check whether we also have to deal with EAtrributes here
 			OwlFactory factory = OwlFactory.eINSTANCE;
@@ -83,6 +112,10 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 			return original.add(e);
 		}
 
+		/**
+		 * Intercepts the addAll calls on ELists and introduces the according axioms 
+		 * for the associated owl individual
+		 */
 		public boolean addAll(Collection<? extends T> c) {
 			for (T t : c) {
 				OwlFactory factory = OwlFactory.eINSTANCE;
@@ -111,6 +144,10 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 			return original.addAll(c);
 		}
 
+		/**
+		 * Intercepts the clear calls on ELists and removes the according axioms 
+		 * for the associated owl individual
+		 */
 		public void clear() {
 			EList<Description> descriptions = owlIndividual.getTypes();
 			List<Description> toRemove = new ArrayList<Description>();
@@ -136,22 +173,49 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 			original.clear();
 		}
 
+		/**
+		 * Intercepts the contains calls on ELists and returns
+		 * if a containment for the queried object can be derived 
+		 * from the axioms of the associated owl individial
+		 */
 		public boolean contains(Object o) {
+			// TODO implement ontology lookup
 			return original.contains(o);
 		}
 
+		/**
+		 * Intercepts the containsAll calls on ELists and returns
+		 * if a containment for the queried collection can be derived 
+		 * from the axioms of the associated owl individial
+		 */
 		public boolean containsAll(Collection<?> c) {
+			// TODO implement ontology lookup
 			return original.containsAll(c);
 		}
 
+		/**
+		 * Intercepts the isEmpty calls on ELists and returns
+		 * if a emptiness derived 
+		 * from the axioms of the associated owl individial
+		 */
 		public boolean isEmpty() {
+			// TODO implement ontology lookup
 			return original.isEmpty();
 		}
 
+		/**
+		 * Intercepts the iterator calls on ELists and returns
+		 * the corresponding iterator
+		 */
 		public Iterator<T> iterator() {
+			// TODO implement ontology lookup
 			return original.iterator();
 		}
 
+		/**
+		 * Intercepts the remove calls on ELists and 
+		 * removes the according axioms from the ontology
+		 */
 		public boolean remove(Object o) {
 			// TODO remove corresponding axioms to ontology
 			System.out
@@ -161,6 +225,10 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 			return original.remove(o);
 		}
 
+		/**
+		 * Intercepts the removeAll calls on ELists and 
+		 * removes the according axioms from the ontology
+		 */
 		public boolean removeAll(Collection<?> c) {
 			// TODO remove corresponding axioms to ontology
 			System.out.println("removeAll: " + thisObject.eClass().getName()
@@ -169,11 +237,19 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 			return original.removeAll(c);
 		}
 
+		/**
+		 * Intercepts the retainAll calls on ELists and 
+		 * removes the not needed axioms from the ontology
+		 */
 		public boolean retainAll(Collection<?> c) {
 			// TODO remove corresponding axioms to ontology
 			return original.removeAll(c);
 		}
 
+		/**
+		 * Intercepts the size calls on ELists and 
+		 * derives the according axioms from the ontology
+		 */
 		public int size() {
 			return original.size();
 		}
@@ -186,6 +262,10 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 			return original.toArray(a);
 		}
 
+		/**
+		 * Intercepts the move calls on ELists and 
+		 * adapts the according axioms from the ontology
+		 */
 		public void move(int newPosition, T object) {
 			// TODO add corresponding axioms to ontology
 			System.out.println("move" + thisObject.eClass().getName() + "."
@@ -194,6 +274,10 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 
 		}
 
+		/**
+		 * Intercepts the move calls on ELists and 
+		 * adapts the according axioms from the ontology
+		 */
 		public T move(int newPosition, int oldPosition) {
 			// TODO add corresponding axioms to ontology
 			System.out.println("move" + thisObject.eClass().getName() + "."
@@ -201,6 +285,10 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 			return original.move(newPosition, oldPosition);
 		}
 
+		/**
+		 * Intercepts the add calls on ELists and 
+		 * adds the according axioms from the ontology
+		 */
 		public void add(int index, T element) {
 			// TODO add corresponding axioms to ontology
 			System.out.println("add at" + thisObject.eClass().getName() + "."
@@ -208,7 +296,11 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 			original.add(index, element);
 
 		}
-
+		
+		/**
+		 * Intercepts the addAll calls on ELists and 
+		 * adds the according axioms from the ontology
+		 */
 		public boolean addAll(int index, Collection<? extends T> c) {
 			// TODO add corresponding axioms to ontology
 			System.out.println("addAll at" + thisObject.eClass().getName()
@@ -216,6 +308,10 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 			return original.addAll(index, c);
 		}
 
+		/**
+		 * Intercepts the get calls on ELists and 
+		 * retrieves the according axioms from the ontology
+		 */
 		public T get(int index) {
 			// TODO infer and read corresponding axioms to ontology
 			System.out.println("get at" + thisObject.eClass().getName() + "."
@@ -223,6 +319,10 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 			return original.get(index);
 		}
 
+		/**
+		 * Intercepts the indexOf calls on ELists and 
+		 * lock the according axioms up in the ontology
+		 */
 		public int indexOf(Object o) {
 			return original.indexOf(o);
 		}
@@ -239,6 +339,10 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 			return original.listIterator(index);
 		}
 
+		/**
+		 * Intercepts the remove calls on ELists and 
+		 * removes the according axioms from the ontology
+		 */
 		public T remove(int index) {
 			// TODO remove corresponding axioms to ontology
 			System.out.println("remove at" + thisObject.eClass().getName()
@@ -246,6 +350,10 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 			return original.remove(index);
 		}
 
+		/**
+		 * Intercepts the set calls on ELists and 
+		 * adapts the according axioms from the ontology
+		 */
 		public T set(int index, T element) {
 			// TODO adapt corresponding axioms to ontology
 			return original.set(index, element);
@@ -257,6 +365,9 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 
 	}
 
+	/**
+	 * The public constructur to create a new owlifyable EObject
+	 */
 	public OWLTextEObjectImpl() {
 		super();
 		OwlFactory factory = OwlFactory.eINSTANCE;
@@ -273,9 +384,9 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Intercepts all eInverseRemoveCalls and adapts the according axioms in the
+	 * ontology
 	 * 
-	 * @generated
 	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd,
@@ -314,9 +425,9 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Intercepts all eGet calls and retrieves the according axioms in the
+	 * ontology
 	 * 
-	 * @generated
 	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
@@ -330,17 +441,21 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		return result;
 	}
 
+	/**
+	 * Method used to encapsulate simple EList to intercepting
+	 * EList adapters
+	 * 
+	 */
 	private <T> EList<T> encapsulate(final EList<T> original,
 			OWLTextEObjectImpl thisObject, int featureID) {
 		return new OWLTextEListDelegator<T>(original, thisObject, featureID);
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Intercepts all eSet and adapts the according axioms in the
+	 * ontology
 	 * 
-	 * @generated
 	 */
-
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		EStructuralFeature feature = this.eDynamicFeature(featureID);
@@ -391,16 +506,19 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		super.eSet(featureID, newValue);
 	}
 
+	/**
+	 * Returns the OWL individual corresponding to this EObject
+	 * 
+	 */
 	protected Individual getIndividual() {
 		return this.owlIndividual;
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Intercepts all eUnset calls and adapts the according axioms in the
+	 * ontology
 	 * 
-	 * @generated
-	 */
-	@Override
+	 */@Override
 	public void eUnset(int featureID) {
 		EStructuralFeature feature = this.eDynamicFeature(featureID);
 		EList<Description> descriptions = this.owlIndividual.getTypes();
@@ -428,9 +546,9 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Intercepts all eIsSet calls and adapts the checks axioms in the
+	 * ontology
 	 * 
-	 * @generated
 	 */
 	@Override
 	public boolean eIsSet(int featureID) {
@@ -441,6 +559,11 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		return super.eIsSet(featureID);
 	}
 
+	/**
+	 * Return a string representing the ontology derived for this eobject 
+	 * and its children
+	 * 
+	 */
 	public String getOWLRepresentation(OWLTextEObjectImpl eobject) {
 		OwlFactory factory = OwlFactory.eINSTANCE;
 		OntologyDocument ontologyDocument = factory.createOntologyDocument();
@@ -542,6 +665,11 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		}
 	}
 
+	/**
+	 * Cleans the corresponding OWL individual from all manually fixed
+	 * cardinalities
+	 * 
+	 */
 	private void clean(Individual individual) {
 		EList<Description> types = individual.getTypes();
 		List<Description> toRemove = new LinkedList<Description>();
@@ -556,6 +684,9 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		individual.getTypes().removeAll(toRemove);
 	}
 
+	/**
+	 *	Declares all imported OWL Classes representing metamodel concepts
+	 */
 	private void addMetamodelImportAxioms(OwlFactory factory,
 			OntologyDocument ontologyDocument, Ontology ontology, EObject root) {
 		EPackage ePackage = root.eClass().getEPackage();
