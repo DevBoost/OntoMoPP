@@ -22,9 +22,10 @@ Require-Bundle: org.eclipse.core.resources,
  org.emftext.runtime.owltext,
  org.junit4,
  org.emftext.language.owl.reasoning,
- org.eclipse.emf.compare;bundle-version="1.0.1",
- org.eclipse.emf.compare.diff;bundle-version="1.0.1",
- org.eclipse.emf.compare.match;bundle-version="1.0.1"
+ org.eclipse.emf.compare,
+ org.eclipse.emf.compare.diff,
+ org.eclipse.emf.compare.match,
+ org.eclipse.emf.ecore.xmi
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.owltext.feature.resource.fea.ui

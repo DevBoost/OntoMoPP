@@ -4,7 +4,9 @@ START MandatoryFeature
 
 OPTIONS {
 	resourcePluginID="org.emftext.runtime.owltext.test";
+	resourceUIPluginID="org.emftext.runtime.owltext.test";
 	overrideManifest="false";
+	overrideUIManifest="false";
 }
 TOKENS{
 	DEFINE COMMENT$'//'(~('\n'|'\r'|'\uffff'))*$;
