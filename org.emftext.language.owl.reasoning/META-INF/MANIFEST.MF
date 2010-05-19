@@ -10,7 +10,8 @@ Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.emftext.language.owl.reasoning
 Require-Bundle: org.eclipse.emf.workspace,
  org.emftext.language.owl;visibility:=reexport,
- org.emftext.language.owl.resource.owl;visibility:=reexport
+ org.emftext.language.owl.resource.owl;visibility:=reexport,
+ org.emftext.language.owl.resource.owl.ui
 Bundle-Vendor: Software Technology Group - TU Dresden Germany
 Bundle-ClassPath: lib/pellet-core.jar,
  lib/pellet-datatypes.jar,
