@@ -19,7 +19,7 @@ START SparqlQueries
 IMPORTS{
 }
 
-OPTIONS{	
+OPTIONS {	
 	licenceHeader ="platform:/resource/org.reuseware/licence.txt";
 	tokenspace="1";
 	defaultTokenName = "IDENTIFIER";
@@ -28,6 +28,8 @@ OPTIONS{
 	reloadGeneratorModel="false";
 	resourcePluginID = "org.emftext.language.sparql.resource.sparql";
 	basePackage = "org.emftext.language.sparql.resource.sparql";
+	resourceUIPluginID = "org.emftext.language.sparql.resource.sparql.ui";
+	uiBasePackage = "org.emftext.language.sparql.resource.sparql.ui";
 	overridePluginXML = "true";
 }
 
