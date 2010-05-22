@@ -1,5 +1,6 @@
 package org.emftext.runtime.owltext;
 
+
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -180,6 +181,19 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		 */
 		public boolean contains(Object o) {
 			// TODO implement ontology lookup
+			//Test
+			/*
+			Individual individual = ((OWLTextEObjectImpl) o).getIndividual();
+			
+			EList<Description> descriptions = owlIndividual.getTypes();
+			for (Description description : descriptions) {
+				if (description instanceof NestedDescription) {
+					ObjectPropertyValue objectPropertyValue = (ObjectPropertyValue)((NestedDescription)description).getDescription();
+					if(objectPropertyValue.getIndividual().equals(individual)) return true;					
+				}
+			}
+			return false;
+			*/
 			return original.contains(o);
 		}
 
@@ -190,6 +204,13 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		 */
 		public boolean containsAll(Collection<?> c) {
 			// TODO implement ontology lookup
+			//Test
+			/*
+			for (Object o : c) {
+				if(!contains(o))return false;
+			}
+			return true;
+			*/
 			return original.containsAll(c);
 		}
 
@@ -200,6 +221,17 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		 */
 		public boolean isEmpty() {
 			// TODO implement ontology lookup
+			//Test
+			/*
+			EList<Description> descriptions = owlIndividual.getTypes();
+			if (descriptions.size() > 0) return false;
+			for (Description description : descriptions) {
+				if (description instanceof NestedDescription) {
+					if(((NestedDescription)description).getDescription() != null) return false;				
+				}
+			}
+			return true;
+			*/
 			return original.isEmpty();
 		}
 

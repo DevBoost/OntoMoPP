@@ -21,8 +21,9 @@ TOKENSTYLES{
 
 RULES{
 	
-	MandatoryFeature::= "+Feature"   name['"','"'] ("{" children* "}")?;
+	MandatoryFeature ::= "+Feature"   name['"','"'] annotation? comments['<','>']* ("{" children* "}")?;
 	
-	OptionalFeature::= "-Feature"   name['"','"'] ("{" children* "}")?;
-		
+	OptionalFeature ::= "-Feature"   name['"','"'] ("{" children* "}")?;
+	
+	Annotation ::=	value['[',']'];
 }

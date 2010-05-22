@@ -11,10 +11,15 @@
       ecorePackage="owlTextTestLanguage.text.ecore#/">
     <genClasses image="false" ecoreClass="owlTextTestLanguage.text.ecore#//Feature">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owlTextTestLanguage.text.ecore#//Feature/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owlTextTestLanguage.text.ecore#//Feature/comments"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference owlTextTestLanguage.text.ecore#//Feature/annotation"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference owlTextTestLanguage.text.ecore#//Feature/children"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference owlTextTestLanguage.text.ecore#//Feature/parent"/>
     </genClasses>
     <genClasses ecoreClass="owlTextTestLanguage.text.ecore#//MandatoryFeature"/>
     <genClasses ecoreClass="owlTextTestLanguage.text.ecore#//OptionalFeature"/>
+    <genClasses ecoreClass="owlTextTestLanguage.text.ecore#//Annotation">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owlTextTestLanguage.text.ecore#//Annotation/value"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>

@@ -5,7 +5,8 @@ package feature // this is the package name
 
 	abstract class Feature {
 		attribute EString name (1..1);
-		attribute EString annotations(0..-1);
+		attribute EString comments (0..-1);
+		containment reference Annotation annotation(0..1);
 		containment reference Feature children (0..-1) opposite parent;
 		reference Feature parent (0..1) opposite children;
 	}
@@ -15,5 +16,10 @@ package feature // this is the package name
 	
 	class OptionalFeature extends Feature {
 	}
+	
+	class Annotation {
+		attribute EString value (1..1);
+	}
+	
 
 }
