@@ -1,7 +1,7 @@
 Prefix: : <http://transformed/sample.fea#> 
 	Prefix: feature: <http://org.owltext/feature#> 
 	Ontology: <http://transformed/sample.fea> 
-	Import: <file:/D:/Programme/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/testInput/sample.fea.mm.owl> 
+	Import: <file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/testInput/syntaxMinimum.fea.mm.owl> 
 	
 	Class: feature:Feature 
 		
@@ -33,35 +33,35 @@ Prefix: : <http://transformed/sample.fea#>
 	DataProperty: feature:Annotation_value 
 		
 		
-	Class: feature:__c__Feature0_min_1_name 
+	Class: feature:__c__Annotation0_min_1_value 
 		
 		
-	Class: feature:__c__Feature1_max_1_name 
+	Class: feature:__c__Annotation1_max_1_value 
 		
 		
-	Class: feature:__c__Feature2_max_1_annotation 
+	Class: feature:__c__Feature2_min_1_name 
 		
 		
-	Class: feature:__c__Feature3_max_1_parent 
+	Class: feature:__c__Feature3_max_1_name 
 		
 		
-	Class: feature:__c__Annotation4_min_1_value 
+	Class: feature:__c__Feature4_max_1_annotation 
 		
 		
-	Class: feature:__c__Annotation5_max_1_value 
+	Class: feature:__c__Feature5_max_1_parent 
 		
 		
-	Individual: individual_0 
-		Types:  feature:MandatoryFeature ,  (  feature:Feature_name value "testRootFeature" ) ,  (  feature:Feature_children value individual_1 ) ,  (  feature:Feature_children value individual_2 ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 2  feature:Feature ) ,  (  feature:Feature_parent exactly 0  feature:Feature ) 
+	Individual: individual_2 
+		Types:  feature:MandatoryFeature ,  (  feature:Feature_name value "testRootFeature" ) ,  (  feature:Feature_children value individual_3 ) ,  (  feature:Feature_children value individual_4 ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 2  feature:Feature ) ,  (  feature:Feature_parent exactly 0  feature:Feature ) 
 			
 		
-	Individual: individual_1 
+	Individual: individual_3 
 		Types:  feature:OptionalFeature ,  (  feature:Feature_name value "anOptionalFeature" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
 			
 		
-	Individual: individual_2 
+	Individual: individual_4 
 		Types:  feature:MandatoryFeature ,  (  feature:Feature_name value "anMandatoryFeature" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
 			
 		
-	DifferentIndividuals: individual_0 , individual_1 , individual_2 
+	DifferentIndividuals: individual_2 , individual_3 , individual_4 
 		
