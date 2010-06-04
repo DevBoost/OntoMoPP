@@ -1,18 +1,28 @@
-<?xml version="1.0" encoding="Cp1252"?>
+<?xml version="1.0" encoding="MacRoman"?>
 <diff:DiffModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:diff="http://www.eclipse.org/emf/compare/diff/1.1">
   <ownedElements xsi:type="diff:DiffGroup">
     <subDiffElements xsi:type="diff:DiffGroup">
+      <subDiffElements xsi:type="diff:DiffGroup">
+        <subDiffElements xsi:type="diff:UpdateReference">
+          <reference href="http://org.emftext/owl.ecore#//Namespace/importedOntology"/>
+          <rightElement href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/commentTemp1.fea.out.owl#//@namespace.1"/>
+          <leftElement href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/comment.owl#//@namespace.1"/>
+          <leftTarget href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/comment.owl#EMFTEXT_INTERNAL_URI_FRAGMENT_1_http://org.owltext/feature#"/>
+          <rightTarget href="syntaxMinimum.fea.mm.owl#//@ontology"/>
+        </subDiffElements>
+        <rightParent href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/commentTemp1.fea.out.owl#//@namespace.1"/>
+      </subDiffElements>
       <subDiffElements xsi:type="diff:ModelElementChangeLeftTarget">
-        <rightParent href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/commentTemp1.fea.out.owl#/"/>
-        <leftElement href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/comment.owl#//@ontology"/>
+        <rightParent href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/commentTemp1.fea.out.owl#/"/>
+        <leftElement href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/comment.owl#//@ontology"/>
       </subDiffElements>
       <subDiffElements xsi:type="diff:ModelElementChangeRightTarget">
-        <leftParent href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/comment.owl#/"/>
-        <rightElement href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/commentTemp1.fea.out.owl#//@ontology"/>
+        <leftParent href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/comment.owl#/"/>
+        <rightElement href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/commentTemp1.fea.out.owl#//@ontology"/>
       </subDiffElements>
-      <rightParent href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/commentTemp1.fea.out.owl#/"/>
+      <rightParent href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/commentTemp1.fea.out.owl#/"/>
     </subDiffElements>
   </ownedElements>
-  <leftRoots href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/comment.owl#/"/>
-  <rightRoots href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/commentTemp1.fea.out.owl#/"/>
+  <leftRoots href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/comment.owl#/"/>
+  <rightRoots href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/commentTemp1.fea.out.owl#/"/>
 </diff:DiffModel>

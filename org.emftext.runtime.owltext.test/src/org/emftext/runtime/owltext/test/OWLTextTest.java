@@ -82,7 +82,7 @@ public class OWLTextTest {
 	@Test
 	public void testComments() throws Throwable {
 		String inFileName = "comments.fea";
-		String expectedOutFileName = "sample.owl";
+		String expectedOutFileName = "comments.owl";
 		assertCorrespondance(inFileName, expectedOutFileName);		
 	}
 	

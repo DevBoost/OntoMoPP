@@ -54,33 +54,33 @@ Prefix: xsd: <http://www.w3.org/2001/XMLSchema#>
 			Range:  xsd:string 
 			
 		
-	Class: __c__Annotation0_min_1_value 
-		Annotations: rdfs:comment "The minimal cardinality of '1' for attribute 'value' is not satisfied." 
-			EquivalentTo:  Annotation and not (  Annotation_value min 1  xsd:string ) 
-			
-		
-	Class: __c__Annotation1_max_1_value 
-		Annotations: rdfs:comment "The maximal cardinality of '1' for attribute 'value' is not satisfied." 
-			EquivalentTo:  Annotation and not (  Annotation_value max 1  xsd:string ) 
-			
-		
-	Class: __c__Feature2_min_1_name 
+	Class: __c__Feature0_min_1_name 
 		Annotations: rdfs:comment "The minimal cardinality of '1' for attribute 'name' is not satisfied." 
 			EquivalentTo:  Feature and not (  Feature_name min 1  xsd:string ) 
 			
 		
-	Class: __c__Feature3_max_1_name 
+	Class: __c__Feature1_max_1_name 
 		Annotations: rdfs:comment "The maximal cardinality of '1' for attribute 'name' is not satisfied." 
 			EquivalentTo:  Feature and not (  Feature_name max 1  xsd:string ) 
 			
 		
-	Class: __c__Feature4_max_1_annotation 
+	Class: __c__Feature2_max_1_annotation 
 		Annotations: rdfs:comment "The maximal cardinality of '1' for reference 'annotation' is not satisfied." 
 			EquivalentTo:  Feature and not (  Feature_annotation max 1  Annotation ) 
 			
 		
-	Class: __c__Feature5_max_1_parent 
+	Class: __c__Feature3_max_1_parent 
 		Annotations: rdfs:comment "The maximal cardinality of '1' for reference 'parent' is not satisfied." 
 			EquivalentTo:  Feature and not (  Feature_parent max 1  Feature ) 
+			
+		
+	Class: __c__Annotation4_min_1_value 
+		Annotations: rdfs:comment "The minimal cardinality of '1' for attribute 'value' is not satisfied." 
+			EquivalentTo:  Annotation and not (  Annotation_value min 1  xsd:string ) 
+			
+		
+	Class: __c__Annotation5_max_1_value 
+		Annotations: rdfs:comment "The maximal cardinality of '1' for attribute 'value' is not satisfied." 
+			EquivalentTo:  Annotation and not (  Annotation_value max 1  xsd:string ) 
 			
 		

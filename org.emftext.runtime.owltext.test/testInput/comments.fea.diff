@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="MacRoman"?>
+<diff:DiffModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:diff="http://www.eclipse.org/emf/compare/diff/1.1">
+  <ownedElements xsi:type="diff:DiffGroup">
+    <subDiffElements xsi:type="diff:DiffGroup">
+      <subDiffElements xsi:type="diff:DiffGroup">
+        <subDiffElements xsi:type="diff:ReferenceOrderChange">
+          <reference href="http://org.emftext/owl.ecore#//Ontology/imports"/>
+          <rightElement href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/comments.fea.out.owl#//@ontology"/>
+          <leftElement href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/comments.owl#//@ontology"/>
+        </subDiffElements>
+        <rightParent href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/comments.fea.out.owl#//@ontology"/>
+      </subDiffElements>
+      <rightParent href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/comments.fea.out.owl#/"/>
+    </subDiffElements>
+  </ownedElements>
+  <leftRoots href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/comments.owl#/"/>
+  <rightRoots href="file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/./testInput/comments.fea.out.owl#/"/>
+</diff:DiffModel>

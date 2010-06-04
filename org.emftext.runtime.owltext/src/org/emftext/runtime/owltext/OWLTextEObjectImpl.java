@@ -92,23 +92,47 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		 */
 		public boolean add(T e) {
 			// TODO check whether we also have to deal with EAtrributes here
+			// We have!
+			// TODO refactor to reuse axiom adding and removing code...
 			OwlFactory factory = OwlFactory.eINSTANCE;
-			ObjectPropertyValue objectPropertyValue = factory
-					.createObjectPropertyValue();
+			EStructuralFeature feature = eDynamicFeature(featureID);
+			if (feature instanceof EReference) {
+				ObjectPropertyValue objectPropertyValue = factory
+						.createObjectPropertyValue();
 
-			ObjectProperty objectProperty = factory.createObjectProperty();
-			objectProperty.setIri(OWLTransformationHelper
-					.getFeatureIdentificationIRI(eDynamicFeature(featureID)));
-			FeatureReference featureRef = factory.createFeatureReference();
-			featureRef.setFeature(objectProperty);
-			objectPropertyValue.setFeatureReference(featureRef);
-			Individual individual = ((OWLTextEObjectImpl) e).getIndividual();
-			objectPropertyValue.setIndividual(individual);
+				ObjectProperty objectProperty = factory.createObjectProperty();
+				objectProperty.setIri(OWLTransformationHelper
+						.getFeatureIdentificationIRI(feature));
+				FeatureReference featureRef = factory.createFeatureReference();
+				featureRef.setFeature(objectProperty);
+				objectPropertyValue.setFeatureReference(featureRef);
+				Individual individual = ((OWLTextEObjectImpl) e)
+						.getIndividual();
+				objectPropertyValue.setIndividual(individual);
 
-			NestedDescription nestedDescription = factory
-					.createNestedDescription();
-			nestedDescription.setDescription(objectPropertyValue);
-			owlIndividual.getTypes().add(nestedDescription);
+				NestedDescription nestedDescription = factory
+						.createNestedDescription();
+				nestedDescription.setDescription(objectPropertyValue);
+				owlIndividual.getTypes().add(nestedDescription);
+			} else {
+				ObjectPropertyValue objectPropertyValue = factory
+						.createObjectPropertyValue();
+
+				DataProperty dataProperty = factory.createDataProperty();
+				dataProperty.setIri(OWLTransformationHelper
+						.getFeatureIdentificationIRI(feature));
+				FeatureReference featureRef = factory.createFeatureReference();
+				featureRef.setFeature(dataProperty);
+				objectPropertyValue.setFeatureReference(featureRef);
+
+				objectPropertyValue.setLiteral(new LiteralConverter()
+						.convert(e));
+
+				NestedDescription nestedDescription = factory
+						.createNestedDescription();
+				nestedDescription.setDescription(objectPropertyValue);
+				owlIndividual.getTypes().add(nestedDescription);
+			}
 
 			return original.add(e);
 		}

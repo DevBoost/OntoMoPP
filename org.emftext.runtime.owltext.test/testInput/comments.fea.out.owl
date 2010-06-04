@@ -1,6 +1,6 @@
-Prefix: : <http://transformed/removeTemp.fea#> 
+Prefix: : <http://transformed/comments.fea#> 
 	Prefix: feature: <http://org.owltext/feature#> 
-	Ontology: <http://transformed/removeTemp.fea> 
+	Ontology: <http://transformed/comments.fea> 
 	Import: <file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/testInput/syntaxMinimum.fea.mm.owl> 
 	
 	Class: feature:Feature 
@@ -51,7 +51,7 @@ Prefix: : <http://transformed/removeTemp.fea#>
 	Class: feature:__c__Annotation5_max_1_value 
 		
 		
-	Individual: individual_55 
-		Types:  feature:MandatoryFeature ,  (  feature:Feature_name value "testRootFeature" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 0  feature:Feature ) 
+	Individual: individual_1 
+		Types:  feature:MandatoryFeature ,  (  feature:Feature_name value "testRootFeature" ) ,  (  feature:Feature_comments value "this a comment" ) ,  (  feature:Feature_comments value "another comment" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 2  xsd:string ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 0  feature:Feature ) 
 			
 		
