@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="Cp1252"?>
+<diff:DiffModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:diff="http://www.eclipse.org/emf/compare/diff/1.1">
+  <ownedElements xsi:type="diff:DiffGroup">
+    <subDiffElements xsi:type="diff:DiffGroup">
+      <subDiffElements xsi:type="diff:DiffGroup">
+        <subDiffElements xsi:type="diff:ReferenceOrderChange">
+          <reference href="http://org.emftext/owl.ecore#//Ontology/imports"/>
+          <rightElement href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/annotationTemp.fea.out.owl#//@ontology"/>
+          <leftElement href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/annotation.owl#//@ontology"/>
+        </subDiffElements>
+        <subDiffElements xsi:type="diff:DiffGroup">
+          <subDiffElements xsi:type="diff:UpdateAttribute">
+            <attribute href="http://org.emftext/owl.ecore#//IRIIdentified/iri"/>
+            <leftElement href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/annotation.owl#individual_0"/>
+            <rightElement href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/annotationTemp.fea.out.owl#individual_2"/>
+          </subDiffElements>
+          <rightParent href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/annotationTemp.fea.out.owl#individual_2"/>
+        </subDiffElements>
+        <subDiffElements xsi:type="diff:DiffGroup">
+          <subDiffElements xsi:type="diff:UpdateAttribute">
+            <attribute href="http://org.emftext/owl.ecore#//IRIIdentified/iri"/>
+            <leftElement href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/annotation.owl#individual_1"/>
+            <rightElement href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/annotationTemp.fea.out.owl#individual_3"/>
+          </subDiffElements>
+          <rightParent href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/annotationTemp.fea.out.owl#individual_3"/>
+        </subDiffElements>
+        <rightParent href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/annotationTemp.fea.out.owl#//@ontology"/>
+      </subDiffElements>
+      <rightParent href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/annotationTemp.fea.out.owl#/"/>
+    </subDiffElements>
+  </ownedElements>
+  <leftRoots href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/annotation.owl#/"/>
+  <rightRoots href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/annotationTemp.fea.out.owl#/"/>
+</diff:DiffModel>

@@ -196,15 +196,11 @@
         </subDiffElements>
         <subDiffElements xsi:type="diff:ModelElementChangeRightTarget">
           <leftParent href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/add.owl#//@ontology"/>
-          <rightElement href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/addTemp3.fea.out.owl#individual_26"/>
+          <rightElement href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/addTemp3.fea.out.owl#individual_28"/>
         </subDiffElements>
         <subDiffElements xsi:type="diff:ModelElementChangeRightTarget">
           <leftParent href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/add.owl#//@ontology"/>
           <rightElement href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/addTemp3.fea.out.owl#individual_25"/>
-        </subDiffElements>
-        <subDiffElements xsi:type="diff:ModelElementChangeRightTarget">
-          <leftParent href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/add.owl#//@ontology"/>
-          <rightElement href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/addTemp3.fea.out.owl#individual_28"/>
         </subDiffElements>
         <subDiffElements xsi:type="diff:ModelElementChangeRightTarget">
           <leftParent href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/add.owl#//@ontology"/>
@@ -213,6 +209,10 @@
         <subDiffElements xsi:type="diff:ModelElementChangeRightTarget">
           <leftParent href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/add.owl#//@ontology"/>
           <rightElement href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/addTemp3.fea.out.owl#individual_29"/>
+        </subDiffElements>
+        <subDiffElements xsi:type="diff:ModelElementChangeRightTarget">
+          <leftParent href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/add.owl#//@ontology"/>
+          <rightElement href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/addTemp3.fea.out.owl#individual_26"/>
         </subDiffElements>
         <subDiffElements xsi:type="diff:ModelElementChangeRightTarget">
           <leftParent href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/add.owl#//@ontology"/>

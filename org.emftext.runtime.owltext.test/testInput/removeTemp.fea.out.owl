@@ -1,0 +1,57 @@
+Prefix: : <http://transformed/removeTemp.fea#> 
+	Prefix: feature: <http://org.owltext/feature#> 
+	Ontology: <http://transformed/removeTemp.fea> 
+	Import: <file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/testInput/syntaxMinimum.fea.mm.owl> 
+	
+	Class: feature:Feature 
+		
+		
+	Class: feature:MandatoryFeature 
+		
+		
+	Class: feature:OptionalFeature 
+		
+		
+	Class: feature:Annotation 
+		
+		
+	DataProperty: feature:Feature_name 
+		
+		
+	DataProperty: feature:Feature_comments 
+		
+		
+	ObjectProperty: feature:Feature_annotation 
+		
+		
+	ObjectProperty: feature:Feature_children 
+		
+		
+	ObjectProperty: feature:Feature_parent 
+		
+		
+	DataProperty: feature:Annotation_value 
+		
+		
+	Class: feature:__c__Annotation0_min_1_value 
+		
+		
+	Class: feature:__c__Annotation1_max_1_value 
+		
+		
+	Class: feature:__c__Feature2_min_1_name 
+		
+		
+	Class: feature:__c__Feature3_max_1_name 
+		
+		
+	Class: feature:__c__Feature4_max_1_annotation 
+		
+		
+	Class: feature:__c__Feature5_max_1_parent 
+		
+		
+	Individual: individual_46 
+		Types:  feature:MandatoryFeature ,  (  feature:Feature_name value "testRootFeature" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 0  feature:Feature ) 
+			
+		

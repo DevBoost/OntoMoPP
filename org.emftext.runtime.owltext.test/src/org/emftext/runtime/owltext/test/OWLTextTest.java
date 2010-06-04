@@ -35,6 +35,7 @@ import org.emftext.language.owl.resource.owl.util.OwlStreamUtil;
 import org.emftext.runtime.owltext.OWLTextEObjectImpl;
 import org.emftext.runtime.owltext.OWLTextEObjectPrinter;
 import org.junit.Test;
+import org.owltext.feature.Annotation;
 import org.owltext.feature.Feature;
 import org.owltext.feature.FeaturePackage;
 import org.owltext.feature.OptionalFeature;
@@ -137,8 +138,9 @@ public class OWLTextTest {
 		validate(owlifiedModelOutputFile, true);
 	}
 	
+	//test reference with bounds 0..-1
 	@Test
-	public void testAddChildrenWithName() throws Throwable {
+	public void testAddChildrenWithAttribute() throws Throwable {
 		String inFileName = "syntaxMinimum.fea";		
 		
 		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
@@ -152,19 +154,21 @@ public class OWLTextTest {
 			feature.getChildren().add(f);
 		}
 		
-		
+		//write to File	
 		String outFileName = "addTemp.fea";
 		feaResourceToFile(loadResource, outFileName);
-		String expectedOutFileName = "add.owl";
 		
-		validateRootObjectAsOWLRepresentation(feature, false);
+		//validate the modified RootFeature
+		//validateRootObjectAsOWLRepresentation(feature, false);		
 		
+		//checkCorrespondanceWithFile	
+		String expectedOutFileName = "add.owl";		
 		assertCorrespondance(outFileName, expectedOutFileName);	
 		
 	}
 	
 	@Test
-	public void testAddChildrenWithoutName() throws Throwable {
+	public void testAddChildrenWithoutAttribute() throws Throwable {
 		String inFileName = "syntaxMinimum.fea";	
 		
 		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
@@ -175,9 +179,13 @@ public class OWLTextTest {
 			//f.setName(null);
 			feature.getChildren().add(f);
 		}
+		
+		//write to File
 		String outFileName = "addTemp2.fea";
 		feaResourceToFile(loadResource, outFileName);
-		validateRootObjectAsOWLRepresentation(feature, true);
+		
+		//validate the modified RootFeature
+		validateRootObjectAsOWLRepresentation(feature, true);		
 	}
 
 	@Test
@@ -197,13 +205,145 @@ public class OWLTextTest {
 		}
 		feature.getChildren().addAll(childs);
 		
+		//write to File
 		String outFileName = "addTemp3.fea";
 		feaResourceToFile(loadResource, outFileName);
-		String expectedOutFileName = "add.owl";
 		
-		validateRootObjectAsOWLRepresentation(feature, false);
+		//validate the modified RootFeature
+		//validateRootObjectAsOWLRepresentation(feature, false);		
 		
+		//checkCorrespondanceWithFile	
+		String expectedOutFileName = "add.owl";			
 		assertCorrespondance(outFileName, expectedOutFileName);			
+	}
+	
+	//test reference with bounds 0..1
+	@Test
+	public void testAnnotationWithAttribute() throws Throwable {
+		String inFileName = "syntaxMinimum.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		
+		Annotation a = FeaturePackage.eINSTANCE.getFeatureFactory().createAnnotation();
+		a.setValue("Annotation_1");
+		feature.setAnnotation(a);
+		
+		//write to File		
+		String outFileName = "annotationTemp.fea";
+		feaResourceToFile(loadResource, outFileName);
+		
+		//validate the modified RootFeature
+		//validateRootObjectAsOWLRepresentation(feature, false);		
+		
+		//checkCorrespondanceWithFile	
+		String expectedOutFileName = "annotation.owl";
+		assertCorrespondance(outFileName, expectedOutFileName);			
+	}
+	
+	@Test
+	public void testAnnotationWithoutAttribute() throws Throwable {
+		String inFileName = "syntaxMinimum.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		
+		Annotation a = FeaturePackage.eINSTANCE.getFeatureFactory().createAnnotation();
+		a.setValue(null);
+		feature.setAnnotation(a);		
+		
+		//write to File		
+		String outFileName = "annotationTemp2.fea";
+		feaResourceToFile(loadResource, outFileName);	
+		
+		//validate the modified RootFeature
+		validateRootObjectAsOWLRepresentation(feature, true);
+	}
+	
+	//test attributes with bounds 0..-1
+	@Test
+	public void testAddComment() throws Throwable {
+		String inFileName = "syntaxMinimum.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		
+		for (int i = 0; i < 3; i++) {
+			feature.getComments().add("Comment_" + i);			
+		}
+		
+		//write to File
+		String outFileName = "commentTemp1.fea";
+		feaResourceToFile(loadResource, outFileName);
+		
+		//validate the modified RootFeature
+		//validateRootObjectAsOWLRepresentation(feature, false);		
+		
+		//TODO need to check the syntax of corresponding owl-file 
+		//checkCorrespondanceWithFile	
+		String expectedOutFileName = "comment.owl";			
+		assertCorrespondance(outFileName, expectedOutFileName);			
+	}
+	
+	//test reference with bounds 0..-1
+	@Test
+	public void testRemoveChildren() throws Throwable {
+		String inFileName = "remove.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		
+		for (int i = 0; i < 3; i++) {
+			feature.getChildren().remove(0);
+		}
+		
+		//write to File	
+		String outFileName = "removeTemp.fea";
+		feaResourceToFile(loadResource, outFileName);
+		
+		//validate the modified RootFeature
+		//validateRootObjectAsOWLRepresentation(feature, false);		
+		
+		//checkCorrespondanceWithFile	
+		String expectedOutFileName = "remove.owl";		
+		assertCorrespondance(outFileName, expectedOutFileName);	
+		
+	}
+	
+	@Test
+	public void testRemoveAllChildren() throws Throwable {
+		String inFileName = "remove.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+
+		List<Feature> childs = new LinkedList<Feature>();
+		for (Feature f : feature.getChildren()) {
+			childs.add(f);
+		}
+		feature.getChildren().removeAll(childs);
+		
+		//write to File	
+		String outFileName = "removeTemp2.fea";
+		feaResourceToFile(loadResource, outFileName);
+		
+		//validate the modified RootFeature
+		//validateRootObjectAsOWLRepresentation(feature, false);		
+		
+		//checkCorrespondanceWithFile	
+		String expectedOutFileName = "remove.owl";		
+		assertCorrespondance(outFileName, expectedOutFileName);	
+		
 	}
 	
 	private void feaResourceToFile(FeaResource loadResource, String outFileName)throws Throwable {
@@ -232,9 +372,7 @@ public class OWLTextTest {
 				owlifiedOntologyRoot instanceof OntologyDocument);
 		owlifiedOutputResource.save(Collections.EMPTY_MAP);
 		validate(owlifiedModelOutputFile, errorsExpected);
-	}
-	
-	
+	}	
 	
 	private void validate(File outFile, boolean errorsExpected)
 			throws Exception {

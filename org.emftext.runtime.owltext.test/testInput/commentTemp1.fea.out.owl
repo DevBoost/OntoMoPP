@@ -1,0 +1,91 @@
+Prefix: : <http://transformed/commentTemp1.fea#> 
+	Prefix: feature: <http://org.owltext/feature#> 
+	Ontology: <http://transformed/commentTemp1.fea> 
+	Import: <file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/testInput/syntaxMinimum.fea.mm.owl> 
+	
+	Class: feature:Feature 
+		
+		
+	Class: feature:MandatoryFeature 
+		
+		
+	Class: feature:OptionalFeature 
+		
+		
+	Class: feature:Annotation 
+		
+		
+	DataProperty: feature:Feature_name 
+		
+		
+	DataProperty: feature:Feature_comments 
+		
+		
+	ObjectProperty: feature:Feature_annotation 
+		
+		
+	ObjectProperty: feature:Feature_children 
+		
+		
+	ObjectProperty: feature:Feature_parent 
+		
+		
+	DataProperty: feature:Annotation_value 
+		
+		
+	Class: feature:__c__Feature0_min_1_name 
+		
+		
+	Class: feature:__c__Feature1_max_1_name 
+		
+		
+	Class: feature:__c__Feature2_max_1_annotation 
+		
+		
+	Class: feature:__c__Feature3_max_1_parent 
+		
+		
+	Class: feature:__c__Annotation4_min_1_value 
+		
+		
+	Class: feature:__c__Annotation5_max_1_value 
+		
+		
+	Individual: individual_42 
+		Types:  feature:MandatoryFeature ,  (  feature:Feature_name value "testRootFeature" ) ,  (  feature:Feature_children value individual_43 ) ,  (  feature:Feature_children value individual_44 ) ,  (  feature:Feature_children value individual_45 ) ,  (  feature:Feature_children value individual_46 ) ,  (  feature:Feature_children value individual_47 ) ,  (  feature:Feature_children value individual_48 ) ,  (  feature:Feature_children value individual_49 ) ,  (  feature:Feature_children value individual_50 ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 8  feature:Feature ) ,  (  feature:Feature_parent exactly 0  feature:Feature ) 
+			
+		
+	Individual: individual_43 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name value "Feature_0" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_44 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name value "Feature_1" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_45 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name value "Feature_2" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_46 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name value "missing QUOTED_34_34" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_47 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name value "missing QUOTED_34_34" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_48 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name value "Feature_0" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_49 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name value "Feature_1" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_50 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name value "Feature_2" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	DifferentIndividuals: individual_42 , individual_43 , individual_44 , individual_45 , individual_46 , individual_47 , individual_48 , individual_49 , individual_50 
+		
