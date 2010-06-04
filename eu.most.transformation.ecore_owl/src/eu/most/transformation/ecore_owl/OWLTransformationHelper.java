@@ -161,13 +161,18 @@ public class OWLTransformationHelper {
 			Ecore2Owl transformation = new Ecore2Owl();
 			OntologyDocument transformedMetamodel = transformation
 					.transformMetamodel(ePackage);
-			URI uri = root.eResource().getURI().appendFileExtension("mm.owl");
+			
+			URI metamodelPath = root.eResource().getURI();
+			metamodelPath = metamodelPath.trimSegments(1);
+			metamodelPath = metamodelPath.appendSegment(ePackage.getName() + ".mm.owl");
 			OwlResource outResource = (OwlResource) root.eResource()
-					.getResourceSet().createResource(uri);
+					.getResourceSet().createResource(metamodelPath);
+			
 			outResource.getContents().add(transformedMetamodel);
+			
 			try {
 				outResource.save(Collections.EMPTY_MAP);
-				String identifier = uri.lastSegment();
+				String identifier = metamodelPath.lastSegment();
 				ontology = CrossResourceIRIResolver.theInstance()
 						.getRemoteLoader().loadOntology(identifier, root);
 				packageOntologyMap.put(ePackage, ontology);
