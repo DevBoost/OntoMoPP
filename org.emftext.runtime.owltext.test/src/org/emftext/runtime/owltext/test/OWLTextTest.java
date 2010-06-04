@@ -55,7 +55,9 @@ public class OWLTextTest {
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(
 				"owl", owlResourceFactory);
 	}
-
+	
+	// TODO Test owlification and retrieval for various attribute types EString, EInt, EFloat, etc.
+	//
 	// TODO implement test for eSet, EAttributes, EReferences, different lower
 	// and upper bounds
 	// TODO implement test for eGet, EAttributes, EReferences, different lower
