@@ -2,15 +2,14 @@ Manifest-Version: 1.0
 Ant-Version: Apache Ant 1.7.0
 Created-By: 1.5.0_16-133 (Apple Inc.)
 Bundle-ManifestVersion: 2
+Bundle-SymbolicName: org.emftext.language.owl.reasoning;singleton:=true
 Bundle-Name: OWL Reasoning
-Bundle-SymbolicName: org.emftext.language.owl.reasoning; singleton:=tr
- ue
 Bundle-Version: 1.1.0.v200911130906
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.emftext.language.owl.reasoning
 Require-Bundle: org.eclipse.emf.workspace,
- org.emftext.language.owl;visibility:=reexport,
- org.emftext.language.owl.resource.owl;visibility:=reexport,
+ org.emftext.language.owl,
+ org.emftext.language.owl.resource.owl,
  org.emftext.language.owl.resource.owl.ui
 Bundle-Vendor: Software Technology Group - TU Dresden Germany
 Bundle-ClassPath: lib/pellet-core.jar,
@@ -18,8 +17,11 @@ Bundle-ClassPath: lib/pellet-core.jar,
  lib/pellet-dig.jar,
  lib/pellet-el.jar,
  lib/pellet-explanation.jar,
- lib/pellet-owlapiv3.jar,
  lib/pellet-pellint.jar,
  lib/aterm-java-1.6.jar,
- lib/pellet-rules.jar
+ lib/pellet-rules.jar,
+ lib/pellet-owlapiv3.jar,
+ .
+
+
 
