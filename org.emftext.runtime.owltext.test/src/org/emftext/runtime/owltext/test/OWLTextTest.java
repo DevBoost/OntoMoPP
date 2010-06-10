@@ -45,7 +45,7 @@ import org.owltext.feature.resource.fea.mopp.FeaResourceFactory;
 
 public class OWLTextTest {
 
-	private static ResourceSet rs = new org.eclipse.emf.ecore.resource.impl.ResourceSetImpl();
+	//private static ResourceSet rs = new org.eclipse.emf.ecore.resource.impl.ResourceSetImpl();
 
 	static {
 		FeaResourceFactory feaResourceFactory = new FeaResourceFactory();
@@ -378,7 +378,7 @@ public class OWLTextTest {
 	
 	private void validate(File outFile, boolean errorsExpected)
 			throws Exception {
-
+		ResourceSet rs = new org.eclipse.emf.ecore.resource.impl.ResourceSetImpl();
 		OwlResource owlifiedResource = (OwlResource) rs.getResource(URI
 				.createFileURI(outFile.getAbsolutePath()), true);
 		assertNotNull("Out resource was not loaded.", owlifiedResource);
@@ -483,7 +483,8 @@ public class OWLTextTest {
 	@SuppressWarnings("unchecked")
 	private <RESOURCE_TYPE extends Resource> RESOURCE_TYPE loadResource(
 			File modelInputFile) {
-		RESOURCE_TYPE modelResource = (RESOURCE_TYPE) rs.getResource(URI
+		ResourceSet rs = new org.eclipse.emf.ecore.resource.impl.ResourceSetImpl();
+		RESOURCE_TYPE modelResource = (RESOURCE_TYPE) rs  .getResource(URI
 				.createFileURI(modelInputFile.getAbsolutePath()), true);
 		assertNotNull("Model input resource was not loaded.", modelResource);
 		assertTrue("Model input resource is empty.", modelResource
