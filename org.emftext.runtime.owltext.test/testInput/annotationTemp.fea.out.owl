@@ -1,7 +1,7 @@
 Prefix: : <http://transformed/annotationTemp.fea#> 
 	Prefix: feature: <http://org.owltext/feature#> 
 	Ontology: <http://transformed/annotationTemp.fea> 
-	Import: <file:/D:/Programme/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/testInput/syntaxMinimum.fea.mm.owl> 
+	Import: <file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/testInput/feature.mm.owl> 
 	
 	Class: feature:Feature 
 		
@@ -52,12 +52,9 @@ Prefix: : <http://transformed/annotationTemp.fea#>
 		
 		
 	Individual: individual_33 
-		Types:  feature:MandatoryFeature ,  (  feature:Feature_name value "testRootFeature" ) ,  (  feature:Feature_annotation value individual_34 ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_annotation exactly 1  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 0  feature:Feature ) 
 			
 		
 	Individual: individual_34 
-		Types:  feature:Annotation ,  (  feature:Annotation_value value "Annotation_1" ) ,  (  feature:Annotation_value exactly 1  xsd:string ) 
 			
 		
-	DifferentIndividuals: individual_33 , individual_34 
-		
+	DifferentIndividuals: individual_33 , individual_34

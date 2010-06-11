@@ -1,7 +1,7 @@
 Prefix: : <http://transformed/addTemp.fea#> 
 	Prefix: feature: <http://org.owltext/feature#> 
 	Ontology: <http://transformed/addTemp.fea> 
-	Import: <file:/D:/Programme/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/testInput/syntaxMinimum.fea.mm.owl> 
+	Import: <file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/testInput/feature.mm.owl> 
 	
 	Class: feature:Feature 
 		
@@ -52,20 +52,15 @@ Prefix: : <http://transformed/addTemp.fea#>
 		
 		
 	Individual: individual_15 
-		Types:  feature:MandatoryFeature ,  (  feature:Feature_name value "testRootFeature" ) ,  (  feature:Feature_children value individual_16 ) ,  (  feature:Feature_children value individual_17 ) ,  (  feature:Feature_children value individual_18 ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 3  feature:Feature ) ,  (  feature:Feature_parent exactly 0  feature:Feature ) 
 			
 		
 	Individual: individual_16 
-		Types:  feature:OptionalFeature ,  (  feature:Feature_name value "Feature_0" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
 			
 		
 	Individual: individual_17 
-		Types:  feature:OptionalFeature ,  (  feature:Feature_name value "Feature_1" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
 			
 		
 	Individual: individual_18 
-		Types:  feature:OptionalFeature ,  (  feature:Feature_name value "Feature_2" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
 			
 		
-	DifferentIndividuals: individual_15 , individual_16 , individual_17 , individual_18 
-		
+	DifferentIndividuals: individual_15 , individual_16 , individual_17 , individual_18

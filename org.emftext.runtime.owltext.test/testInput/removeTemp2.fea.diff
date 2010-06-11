@@ -5,44 +5,114 @@
       <subDiffElements xsi:type="diff:DiffGroup">
         <subDiffElements xsi:type="diff:UpdateAttribute">
           <attribute href="http://org.emftext/owl.ecore#//URIIdentified/uri"/>
-          <leftElement href="file:/D:/Programme/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/remove.owl#//@ontology"/>
-          <rightElement href="file:/D:/Programme/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#//@ontology"/>
+          <leftElement href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/remove.owl#//@ontology"/>
+          <rightElement href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#//@ontology"/>
         </subDiffElements>
-        <subDiffElements xsi:type="diff:ReferenceChangeLeftTarget">
+        <subDiffElements xsi:type="diff:ReferenceOrderChange">
           <reference href="http://org.emftext/owl.ecore#//Ontology/imports"/>
-          <rightElement href="file:/D:/Programme/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#//@ontology"/>
-          <leftElement href="file:/D:/Programme/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/remove.owl#//@ontology"/>
-          <leftTarget href="file:/D:/Programme/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/remove.owl#EMFTEXT_INTERNAL_URI_FRAGMENT_2_file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/testInput/syntaxMinimum.fea.mm.owl"/>
+          <rightElement href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#//@ontology"/>
+          <leftElement href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/remove.owl#//@ontology"/>
         </subDiffElements>
-        <subDiffElements xsi:type="diff:ReferenceChangeRightTarget">
-          <reference href="http://org.emftext/owl.ecore#//Ontology/imports"/>
-          <rightElement href="file:/D:/Programme/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#//@ontology"/>
-          <leftElement href="file:/D:/Programme/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/remove.owl#//@ontology"/>
-          <rightTarget href="syntaxMinimum.fea.mm.owl#//@ontology"/>
+        <subDiffElements xsi:type="diff:ReferenceOrderChange">
+          <reference href="http://org.emftext/owl.ecore#//Ontology/frames"/>
+          <rightElement href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#//@ontology"/>
+          <leftElement href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/remove.owl#//@ontology"/>
+          <leftTarget href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/remove.owl#feature:Feature"/>
+          <leftTarget href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/remove.owl#feature:MandatoryFeature"/>
+          <leftTarget href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/remove.owl#feature:OptionalFeature"/>
+          <leftTarget href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/remove.owl#feature:Annotation"/>
+          <leftTarget href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/remove.owl#feature:Feature_name"/>
+          <leftTarget href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/remove.owl#feature:Feature_comments"/>
+          <leftTarget href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/remove.owl#feature:Feature_annotation"/>
+          <leftTarget href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/remove.owl#feature:Feature_children"/>
+          <leftTarget href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/remove.owl#feature:Feature_parent"/>
+          <leftTarget href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/remove.owl#feature:Annotation_value"/>
+          <leftTarget href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/remove.owl#feature:__c__Feature2_min_1_name"/>
+          <leftTarget href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/remove.owl#feature:__c__Feature3_max_1_name"/>
+          <leftTarget href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/remove.owl#feature:__c__Feature4_max_1_annotation"/>
+          <leftTarget href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/remove.owl#feature:__c__Feature5_max_1_parent"/>
+          <leftTarget href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/remove.owl#feature:__c__Annotation0_min_1_value"/>
+          <leftTarget href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/remove.owl#feature:__c__Annotation1_max_1_value"/>
+          <leftTarget href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/remove.owl#individual_0"/>
+          <rightTarget href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#feature:Feature"/>
+          <rightTarget href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#feature:MandatoryFeature"/>
+          <rightTarget href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#feature:OptionalFeature"/>
+          <rightTarget href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#feature:Annotation"/>
+          <rightTarget href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#feature:Feature_name"/>
+          <rightTarget href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#feature:Feature_comments"/>
+          <rightTarget href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#feature:Feature_annotation"/>
+          <rightTarget href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#feature:Feature_children"/>
+          <rightTarget href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#feature:Feature_parent"/>
+          <rightTarget href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#feature:Annotation_value"/>
+          <rightTarget href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#feature:__c__Annotation4_min_1_value"/>
+          <rightTarget href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#feature:__c__Annotation5_max_1_value"/>
+          <rightTarget href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#feature:__c__Feature0_min_1_name"/>
+          <rightTarget href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#feature:__c__Feature1_max_1_name"/>
+          <rightTarget href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#feature:__c__Feature2_max_1_annotation"/>
+          <rightTarget href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#feature:__c__Feature3_max_1_parent"/>
+          <rightTarget href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#individual_48"/>
         </subDiffElements>
         <subDiffElements xsi:type="diff:DiffGroup">
           <subDiffElements xsi:type="diff:UpdateAttribute">
             <attribute href="http://org.emftext/owl.ecore#//IRIIdentified/iri"/>
-            <leftElement href="file:/D:/Programme/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/remove.owl#individual_0"/>
-            <rightElement href="file:/D:/Programme/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#individual_48"/>
+            <leftElement href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/remove.owl#feature:__c__Annotation0_min_1_value"/>
+            <rightElement href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#feature:__c__Annotation4_min_1_value"/>
           </subDiffElements>
-          <rightParent href="file:/D:/Programme/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#individual_48"/>
+          <rightParent href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#feature:__c__Annotation4_min_1_value"/>
         </subDiffElements>
-        <rightParent href="file:/D:/Programme/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#//@ontology"/>
-      </subDiffElements>
-      <subDiffElements xsi:type="diff:DiffGroup">
-        <subDiffElements xsi:type="diff:UpdateReference">
-          <reference href="http://org.emftext/owl.ecore#//Namespace/importedOntology"/>
-          <rightElement href="file:/D:/Programme/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#//@namespace.1"/>
-          <leftElement href="file:/D:/Programme/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/remove.owl#//@namespace.1"/>
-          <leftTarget href="file:/D:/Programme/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/remove.owl#EMFTEXT_INTERNAL_URI_FRAGMENT_1_http://org.owltext/feature#"/>
-          <rightTarget href="syntaxMinimum.fea.mm.owl#//@ontology"/>
+        <subDiffElements xsi:type="diff:DiffGroup">
+          <subDiffElements xsi:type="diff:UpdateAttribute">
+            <attribute href="http://org.emftext/owl.ecore#//IRIIdentified/iri"/>
+            <leftElement href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/remove.owl#feature:__c__Annotation1_max_1_value"/>
+            <rightElement href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#feature:__c__Annotation5_max_1_value"/>
+          </subDiffElements>
+          <rightParent href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#feature:__c__Annotation5_max_1_value"/>
         </subDiffElements>
-        <rightParent href="file:/D:/Programme/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#//@namespace.1"/>
+        <subDiffElements xsi:type="diff:DiffGroup">
+          <subDiffElements xsi:type="diff:UpdateAttribute">
+            <attribute href="http://org.emftext/owl.ecore#//IRIIdentified/iri"/>
+            <leftElement href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/remove.owl#feature:__c__Feature2_min_1_name"/>
+            <rightElement href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#feature:__c__Feature0_min_1_name"/>
+          </subDiffElements>
+          <rightParent href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#feature:__c__Feature0_min_1_name"/>
+        </subDiffElements>
+        <subDiffElements xsi:type="diff:DiffGroup">
+          <subDiffElements xsi:type="diff:UpdateAttribute">
+            <attribute href="http://org.emftext/owl.ecore#//IRIIdentified/iri"/>
+            <leftElement href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/remove.owl#feature:__c__Feature3_max_1_name"/>
+            <rightElement href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#feature:__c__Feature1_max_1_name"/>
+          </subDiffElements>
+          <rightParent href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#feature:__c__Feature1_max_1_name"/>
+        </subDiffElements>
+        <subDiffElements xsi:type="diff:DiffGroup">
+          <subDiffElements xsi:type="diff:UpdateAttribute">
+            <attribute href="http://org.emftext/owl.ecore#//IRIIdentified/iri"/>
+            <leftElement href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/remove.owl#feature:__c__Feature4_max_1_annotation"/>
+            <rightElement href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#feature:__c__Feature2_max_1_annotation"/>
+          </subDiffElements>
+          <rightParent href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#feature:__c__Feature2_max_1_annotation"/>
+        </subDiffElements>
+        <subDiffElements xsi:type="diff:DiffGroup">
+          <subDiffElements xsi:type="diff:UpdateAttribute">
+            <attribute href="http://org.emftext/owl.ecore#//IRIIdentified/iri"/>
+            <leftElement href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/remove.owl#feature:__c__Feature5_max_1_parent"/>
+            <rightElement href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#feature:__c__Feature3_max_1_parent"/>
+          </subDiffElements>
+          <rightParent href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#feature:__c__Feature3_max_1_parent"/>
+        </subDiffElements>
+        <subDiffElements xsi:type="diff:DiffGroup">
+          <subDiffElements xsi:type="diff:UpdateAttribute">
+            <attribute href="http://org.emftext/owl.ecore#//IRIIdentified/iri"/>
+            <leftElement href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/remove.owl#individual_0"/>
+            <rightElement href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#individual_48"/>
+          </subDiffElements>
+          <rightParent href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#individual_48"/>
+        </subDiffElements>
+        <rightParent href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#//@ontology"/>
       </subDiffElements>
-      <rightParent href="file:/D:/Programme/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#/"/>
+      <rightParent href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#/"/>
     </subDiffElements>
   </ownedElements>
-  <leftRoots href="file:/D:/Programme/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/remove.owl#/"/>
-  <rightRoots href="file:/D:/Programme/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#/"/>
+  <leftRoots href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/remove.owl#/"/>
+  <rightRoots href="file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/./testInput/removeTemp2.fea.out.owl#/"/>
 </diff:DiffModel>
