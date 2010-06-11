@@ -30,14 +30,18 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.Resource.Diagnostic;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.emftext.language.owl.Ontology;
+import org.emftext.language.owl.OntologyDocument;
+import org.emftext.language.owl.OwlFactory;
 import org.emftext.language.owl.resource.owl.mopp.OwlMetaInformation;
 
-public class ParseOWLTest extends TestCase {
+public class OWLTest extends TestCase {
 
 	public void setUp() {
 		registerResourceFactories();
 	}
 
+	
 	public void testRegularExpressions() {
 		// TODO enable this test
 		// Matcher matcher = OwlScannerlessParser.TOKEN_IRI.matcher("Class:");
@@ -45,10 +49,10 @@ public class ParseOWLTest extends TestCase {
 	}
 
 	public void testSimpleOntologyParsing() {
-		// parseString("Ontology:");
-		// parseString("Ontology: Class: A");
+		parseString("Ontology:");
+		parseString("Ontology: Class: A");
 		parseString("Ontology: Class: A SubClassOf: id min 1 and id max 1");
-		// parseString("Ontology: Class: A SubClassOf: id min 1 and id max 1 Class: B");
+		parseString("Ontology: Class: A SubClassOf: id min 1 and id max 1 Class: B");
 	}
 
 	public void temtExampleOntologies() {
