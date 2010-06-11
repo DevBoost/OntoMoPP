@@ -1,7 +1,7 @@
 Prefix: : <http://transformed/retain.fea#> 
 	Prefix: feature: <http://org.owltext/feature#> 
 	Ontology: <http://transformed/retain.fea> 
-	Import: <file:/E:/Arbeit/eclipse%20workspace2/org.emftext.runtime.owltext.test/testInput/syntaxMinimum.fea.mm.owl> 
+	Import: <./feature.mm.owl> 
 	
 	Class: feature:Feature 
 		
