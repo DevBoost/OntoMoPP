@@ -2,12 +2,16 @@ package org.emftext.runtime.owltext.test;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -27,8 +31,16 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.Resource.Diagnostic;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.emftext.language.owl.Class;
+import org.emftext.language.owl.ClassAtomic;
+import org.emftext.language.owl.Individual;
+import org.emftext.language.owl.Ontology;
 import org.emftext.language.owl.OntologyDocument;
+import org.emftext.language.owl.OwlFactory;
 import org.emftext.language.owl.reasoning.OwlReasoningBuilder;
+import org.emftext.language.owl.resource.owl.mopp.OwlPrinter;
+import org.emftext.language.owl.resource.owl.mopp.OwlPrinter2;
 import org.emftext.language.owl.resource.owl.mopp.OwlResource;
 import org.emftext.language.owl.resource.owl.mopp.OwlResourceFactory;
 import org.emftext.language.owl.resource.owl.util.OwlStreamUtil;
@@ -39,7 +51,6 @@ import org.owltext.feature.Annotation;
 import org.owltext.feature.Feature;
 import org.owltext.feature.FeaturePackage;
 import org.owltext.feature.OptionalFeature;
-import org.owltext.feature.resource.fea.mopp.FeaPrinter;
 import org.owltext.feature.resource.fea.mopp.FeaResource;
 import org.owltext.feature.resource.fea.mopp.FeaResourceFactory;
 
@@ -72,6 +83,69 @@ public class OWLTextTest {
 	// TODO implement test for removeAll
 	// TODO implement test for clear()
 
+	@Test
+	public void testPrinting() throws IOException, InterruptedException {
+		OwlFactory owlFactory = OwlFactory.eINSTANCE;
+		OntologyDocument od = owlFactory.createOntologyDocument();
+		Ontology ontology = owlFactory.createOntology();
+		od.setOntology(ontology);
+		
+		ontology.setUri("<test.ontotology>");
+		
+		Class exampleClass = owlFactory.createClass();
+		exampleClass.setIri("exampleClass");
+		ontology.getFrames().add(exampleClass);
+		
+
+		Individual i = owlFactory.createIndividual();
+		i.setIri("exampleIndividual");
+		ontology.getFrames().add(i);
+		
+		ClassAtomic classAtomic = owlFactory.createClassAtomic();
+		classAtomic.setClazz(exampleClass);
+		i.getTypes().add(classAtomic);
+		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+		OwlPrinter2 printer2 = new OwlPrinter2(outStream, null);
+		printer2.print(od);
+		String printedWith2 = outStream.toString();
+		System.out.println(printedWith2);
+		EObject parsedFromPrintedWith2 = parse(printedWith2);
+		
+		outStream = new ByteArrayOutputStream();
+		OwlPrinter printer = new OwlPrinter(outStream, null);
+		printer.print(od);
+		String printedWith1 = outStream.toString();
+		System.out.println(printedWith1);
+		EObject parsedFromPrintedWith1 = parse(printedWith1);
+		
+		File compareDiffFile = new File("./testInput/printerTest.diff");
+		checkDiff(compareDiffFile, parsedFromPrintedWith2, parsedFromPrintedWith1);
+	}
+	
+
+	private EObject parse(String inputString) {
+		InputStream inputStream = new ByteArrayInputStream(inputString.getBytes());
+		ResourceSet rs = new ResourceSetImpl();
+		Resource r = rs.createResource(URI.createURI("temp.owl"));
+		assertNotNull(r);
+		try {
+			r.load(inputStream, null);
+		} catch (IOException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+		List<Diagnostic> errors = r.getErrors();
+		for (Diagnostic error : errors) {
+			System.out.println("Error " + error.getMessage() + " at "
+					+ error.getLine() + "," + error.getColumn());
+		}
+		List<EObject> contents = r.getContents();
+		assertTrue(contents.size() > 0);
+		return contents.get(0);
+}
+	
+	
+	
 	@Test
 	public void testMinimum() throws Throwable {
 		String inFileName = "syntaxMinimum.fea";
@@ -523,6 +597,13 @@ public class OWLTextTest {
 		assertTrue("Owlified ontology is error free.", expectedOwlResource
 				.getErrors().size() == 0);
 
+		checkDiff(compareDiffFile, owlifiedOntologyRoot, expectedOntologyRoot);
+	}
+
+
+	private void checkDiff(File compareDiffFile, EObject owlifiedOntologyRoot,
+			EObject expectedOntologyRoot) throws InterruptedException,
+			IOException {
 		Map<String, Object> options = new LinkedHashMap<String, Object>();
 		options.put(MatchOptions.OPTION_IGNORE_ID, true);
 		options.put(MatchOptions.OPTION_IGNORE_XMI_ID, true);
