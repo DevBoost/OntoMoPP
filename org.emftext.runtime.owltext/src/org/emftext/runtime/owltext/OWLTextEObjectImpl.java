@@ -810,7 +810,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 
 		EList<Frame> frames = importedMetamodelOntology.getFrames();
 		for (Frame frame : frames) {
-			if (frame.getIri() != null && !frame.getIri().isEmpty()) {
+			if (frame.getIri() != null && frame.getIri().length() > 0) {
 				Frame declarationFrame = null;
 				if (frame instanceof Class) {
 					declarationFrame = factory.createClass();
