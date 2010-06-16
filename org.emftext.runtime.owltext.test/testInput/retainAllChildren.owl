@@ -1,6 +1,6 @@
-Prefix: : <http://transformed/retain.fea#> 
+Prefix: : <http://transformed/retainAllChildren.fea#> 
 	Prefix: feature: <http://org.owltext/feature#> 
-	Ontology: <http://transformed/retain.fea> 
+	Ontology: <http://transformed/retainAllChildren.fea> 
 	Import: <./feature.mm.owl> 
 	
 	Class: feature:Feature 

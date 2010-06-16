@@ -1,6 +1,6 @@
-Prefix: : <http://transformed/addTemp.fea#> 
+Prefix: : <http://transformed/addAllChildren.fea#> 
 	Prefix: feature: <http://org.owltext/feature#> 
-	Ontology: <http://transformed/addTemp.fea> 
+	Ontology: <http://transformed/addAllChildren.fea> 
 	Import: <./feature.mm.owl> 
 	
 	Class: feature:Feature 

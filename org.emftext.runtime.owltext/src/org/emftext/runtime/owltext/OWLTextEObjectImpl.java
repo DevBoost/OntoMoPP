@@ -268,19 +268,22 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 			for (Description description : descriptions) {
 				if (description instanceof NestedDescription) {
 					if (((NestedDescription) description).getDescription() instanceof ObjectPropertyValue) {
-						ObjectPropertyValue objectPropertyValue = (ObjectPropertyValue) ((NestedDescription) description)
-								.getDescription();
 						
-						if (o instanceof EReference) {
+						EStructuralFeature feature = eDynamicFeature(featureID);
+						
+						
+						if (feature instanceof EReference) {
 							Individual individual = ((OWLTextEObjectImpl) o)
 									.getIndividual();
-							if (objectPropertyValue.getIndividual().equals(
-									individual)) {
+							if(individual.getIri().equals(OWLTransformationHelper
+									.getFeatureIdentificationIRI(feature))){
 								toRemove = description;
 								break;
 							}
-
-						} else { // EAtrributes
+						} 
+						else { // EAtrributes
+							ObjectPropertyValue objectPropertyValue = (ObjectPropertyValue) ((NestedDescription) description)
+							.getDescription();
 							if (objectPropertyValue.getLiteral().equals(o)) {
 								toRemove = description;
 								break;

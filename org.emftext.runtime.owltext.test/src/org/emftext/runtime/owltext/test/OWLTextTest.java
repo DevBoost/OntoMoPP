@@ -231,14 +231,14 @@ public class OWLTextTest {
 		}
 		
 		//write to File	
-		String outFileName = "addTemp.fea";
+		String outFileName = "addChildrenWithAttribute.fea";
 		feaResourceToFile(loadResource, outFileName);
 		
 		//validate the modified RootFeature
 		//validateRootObjectAsOWLRepresentation(feature, false);		
 		
 		//checkCorrespondanceWithFile	
-		String expectedOutFileName = "add.owl";		
+		String expectedOutFileName = "addChildrenWithAttribute.owl";		
 		assertCorrespondance(outFileName, expectedOutFileName);	
 		
 	}
@@ -257,7 +257,7 @@ public class OWLTextTest {
 		}
 		
 		//write to File
-		String outFileName = "addTemp2.fea";
+		String outFileName = "addChildrenWithoutAttribute.fea";
 		feaResourceToFile(loadResource, outFileName);
 		
 		//validate the modified RootFeature
@@ -282,14 +282,14 @@ public class OWLTextTest {
 		feature.getChildren().addAll(childs);
 		
 		//write to File
-		String outFileName = "addTemp3.fea";
+		String outFileName = "addAllChildren.fea";
 		feaResourceToFile(loadResource, outFileName);
 		
 		//validate the modified RootFeature
 		//validateRootObjectAsOWLRepresentation(feature, false);		
 		
 		//checkCorrespondanceWithFile	
-		String expectedOutFileName = "add3.owl";			
+		String expectedOutFileName = "addAllChildren.owl";			
 		assertCorrespondance(outFileName, expectedOutFileName);			
 	}
 	
@@ -308,14 +308,14 @@ public class OWLTextTest {
 		feature.setAnnotation(a);
 		
 		//write to File		
-		String outFileName = "annotationTemp.fea";
+		String outFileName = "annotationWithAttribute.fea";
 		feaResourceToFile(loadResource, outFileName);
 		
 		//validate the modified RootFeature
 		//validateRootObjectAsOWLRepresentation(feature, false);		
 		
 		//checkCorrespondanceWithFile	
-		String expectedOutFileName = "annotation.owl";
+		String expectedOutFileName = "annotationWithAttribute.owl";
 		assertCorrespondance(outFileName, expectedOutFileName);			
 	}
 	
@@ -333,7 +333,7 @@ public class OWLTextTest {
 		feature.setAnnotation(a);		
 		
 		//write to File		
-		String outFileName = "annotationTemp2.fea";
+		String outFileName = "annotationWithoutAttribute.fea";
 		feaResourceToFile(loadResource, outFileName);	
 		
 		//validate the modified RootFeature
@@ -355,7 +355,7 @@ public class OWLTextTest {
 		}
 		
 		//write to File
-		String outFileName = "commentTemp1.fea";
+		String outFileName = "addComment.fea";
 		feaResourceToFile(loadResource, outFileName);
 		
 		//validate the modified RootFeature
@@ -363,14 +363,14 @@ public class OWLTextTest {
 		
 		//TODO need to check the syntax of corresponding owl-file 
 		//checkCorrespondanceWithFile	
-		String expectedOutFileName = "comment.owl";			
+		String expectedOutFileName = "addComment.owl";			
 		assertCorrespondance(outFileName, expectedOutFileName);			
 	}
 	
 	//test reference with bounds 0..-1
 	@Test
 	public void testRemoveIndexChildren() throws Throwable {
-		String inFileName = "remove.fea";		
+		String inFileName = "removeOrRetainChildren.fea";		
 		
 		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
 		EObject rootObject = loadResource.getContents().get(0);
@@ -382,21 +382,21 @@ public class OWLTextTest {
 		}
 		
 		//write to File	
-		String outFileName = "removeTemp.fea";
+		String outFileName = "removeIndexChildren.fea";
 		feaResourceToFile(loadResource, outFileName);
 		
 		//validate the modified RootFeature
 		//validateRootObjectAsOWLRepresentation(feature, false);		
 		
 		//checkCorrespondanceWithFile	
-		String expectedOutFileName = "remove.owl";		
+		String expectedOutFileName = "removeIndexChildren.owl";		
 		assertCorrespondance(outFileName, expectedOutFileName);	
 		
 	}
 	
 	@Test
 	public void testRemoveObjectChildren() throws Throwable {
-		String inFileName = "remove.fea";		
+		String inFileName = "removeOrRetainChildren.fea";		
 		
 		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
 		EObject rootObject = loadResource.getContents().get(0);
@@ -412,21 +412,21 @@ public class OWLTextTest {
 		}
 		
 		//write to File	
-		String outFileName = "removeTemp2.fea";
+		String outFileName = "removeObjectChildren.fea";
 		feaResourceToFile(loadResource, outFileName);
 		
 		//validate the modified RootFeature
 		//validateRootObjectAsOWLRepresentation(feature, false);		
 		
 		//checkCorrespondanceWithFile	
-		String expectedOutFileName = "remove.owl";		
+		String expectedOutFileName = "removeObjectChildren.owl";		
 		assertCorrespondance(outFileName, expectedOutFileName);	
 		
 	}
 	
 	@Test
 	public void testRemoveAllChildren() throws Throwable {
-		String inFileName = "remove.fea";		
+		String inFileName = "removeOrRetainChildren.fea";		
 		
 		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
 		EObject rootObject = loadResource.getContents().get(0);
@@ -440,21 +440,21 @@ public class OWLTextTest {
 		feature.getChildren().removeAll(childs);
 		
 		//write to File	
-		String outFileName = "removeTemp3.fea";
+		String outFileName = "removeAllChildren.fea";
 		feaResourceToFile(loadResource, outFileName);
 		
 		//validate the modified RootFeature
 		//validateRootObjectAsOWLRepresentation(feature, false);		
 		
 		//checkCorrespondanceWithFile	
-		String expectedOutFileName = "remove.owl";		
+		String expectedOutFileName = "removeAllChildren.owl";		
 		assertCorrespondance(outFileName, expectedOutFileName);	
 		
 	}
 	
 	@Test
 	public void testRetainAllChildren() throws Throwable {
-		String inFileName = "remove.fea";		
+		String inFileName = "removeOrRetainChildren.fea";		
 		
 		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
 		EObject rootObject = loadResource.getContents().get(0);
@@ -468,14 +468,14 @@ public class OWLTextTest {
 		
 		
 		//write to File	
-		String outFileName = "retainTemp.fea";
+		String outFileName = "retainAllChildren.fea";
 		feaResourceToFile(loadResource, outFileName);
 		
 		//validate the modified RootFeature
 		//validateRootObjectAsOWLRepresentation(feature, false);		
 		
 		//checkCorrespondanceWithFile	
-		String expectedOutFileName = "retain.owl";		
+		String expectedOutFileName = "retainAllChildren.owl";		
 		assertCorrespondance(outFileName, expectedOutFileName);	
 		
 	}

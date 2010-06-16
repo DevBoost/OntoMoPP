@@ -1,6 +1,6 @@
-Prefix: : <http://transformed/annotationTemp.fea#> 
+Prefix: : <http://transformed/annotationWithAttribute.fea#> 
 	Prefix: feature: <http://org.owltext/feature#> 
-	Ontology: <http://transformed/annotationTemp.fea> 
+	Ontology: <http://transformed/annotationWithAttribute.fea> 
 	Import: <./feature.mm.owl> 
 	
 	Class: feature:Feature 
