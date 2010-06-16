@@ -96,6 +96,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 			// We have!
 			// TODO refactor to reuse axiom adding and removing code...
 			// we have?
+			
 			OwlFactory factory = OwlFactory.eINSTANCE;
 			EStructuralFeature feature = eDynamicFeature(featureID);
 			ObjectPropertyValue objectPropertyValue = factory
@@ -128,7 +129,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 					.createNestedDescription();
 			nestedDescription.setDescription(objectPropertyValue);
 			owlIndividual.getTypes().add(nestedDescription);
-
+			
 			return original.add(e);
 		}
 
@@ -263,37 +264,63 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 			System.out.println("remove: "+ o.toString());
 			
 			EList<Description> descriptions = owlIndividual.getTypes();
-
 			Description toRemove = null;
-			for (Description description : descriptions) {
-				if (description instanceof NestedDescription) {
-					if (((NestedDescription) description).getDescription() instanceof ObjectPropertyValue) {
-						
-						EStructuralFeature feature = eDynamicFeature(featureID);
-						
-						
-						if (feature instanceof EReference) {
-							Individual individual = ((OWLTextEObjectImpl) o)
-									.getIndividual();
-							if(individual.getIri().equals(OWLTransformationHelper
-									.getFeatureIdentificationIRI(feature))){
-								toRemove = description;
-								break;
+			
+			EStructuralFeature feature = eDynamicFeature(featureID);	
+			
+			if (feature instanceof EReference) {
+				if(o instanceof OWLTextEObjectImpl){
+					Individual individual = ((OWLTextEObjectImpl) o)
+						.getIndividual();
+					System.out.println("remove OWLTextEObjectImpl: "+ individual);
+					
+					for (Description description : descriptions) {
+						if (description instanceof NestedDescription) {
+							if (((NestedDescription) description).getDescription() instanceof ObjectPropertyValue) {
+													
+								ObjectPropertyValue property = (ObjectPropertyValue) ((NestedDescription) description)
+									.getDescription();
+								
+								if (property.getIndividual() != null && property.getIndividual().equals(individual)){
+									toRemove = description;
+									break;
+								}
 							}
-						} 
-						else { // EAtrributes
-							ObjectPropertyValue objectPropertyValue = (ObjectPropertyValue) ((NestedDescription) description)
-							.getDescription();
-							if (objectPropertyValue.getLiteral().equals(o)) {
-								toRemove = description;
-								break;
+						}
+					}
+				}else{
+					System.out.println("remove: false input typ");
+					return false;
+				}
+				
+			} 
+			else { // EAtrributes
+				
+				if(o instanceof OWLTextEObjectImpl){
+					System.out.println("remove: false input typ");
+					return false;					
+				}else{
+					String literal = ((String) o);
+					System.out.println("remove Literal: "+ literal);
+					
+					for (Description description : descriptions) {
+						if (description instanceof NestedDescription) {
+							if (((NestedDescription) description).getDescription() instanceof ObjectPropertyValue) {
+													
+								ObjectPropertyValue property = (ObjectPropertyValue) ((NestedDescription) description)
+									.getDescription();
+								
+								if (property.getLiteral() != null && property.getLiteral().toString().equals(literal)){
+									toRemove = description;
+									break;
+								}
 							}
 						}
 					}
 				}
 			}
 			owlIndividual.getTypes().remove(toRemove);
-
+			
 			return original.remove(o);
 		}
 
@@ -329,24 +356,56 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 				toRemove.add(description);
 			}
 			
+			EStructuralFeature feature = eDynamicFeature(featureID);	
+			
 			//remove retain objects from delete-list 			
-			for (Object o : c) {
-				for (Description description : descriptions) {
-					if (description instanceof NestedDescription) {
-						if (((NestedDescription) description).getDescription() instanceof ObjectPropertyValue) {
-							ObjectPropertyValue objectPropertyValue = (ObjectPropertyValue) ((NestedDescription) description)
-									.getDescription();
-							
-							if (o instanceof EReference) {
-								Individual individual = ((OWLTextEObjectImpl) o)
-										.getIndividual();
-								if (objectPropertyValue.getIndividual().equals(
-										individual))
-									toRemove.remove(description);
+			for (Object o : c) {				
+				
+				if (feature instanceof EReference) {
+					if(o instanceof OWLTextEObjectImpl){
+						Individual individual = ((OWLTextEObjectImpl) o)
+							.getIndividual();
+						System.out.println("remove OWLTextEObjectImpl: "+ individual);
+						
+						for (Description description : descriptions) {
+							if (description instanceof NestedDescription) {
+								if (((NestedDescription) description).getDescription() instanceof ObjectPropertyValue) {
+														
+									ObjectPropertyValue property = (ObjectPropertyValue) ((NestedDescription) description)
+										.getDescription();
 									
-							} else { // EAtrributes
-								if (objectPropertyValue.getLiteral().equals(o))
-									toRemove.remove(description);
+									if (property.getIndividual() != null && property.getIndividual().equals(individual)){
+										toRemove.remove(description);
+									}
+								}
+							}
+						}
+					}else{
+						System.out.println("remove: false input typ");
+						return false;
+					}
+					
+				} 
+				else { // EAtrributes
+					
+					if(o instanceof OWLTextEObjectImpl){
+						System.out.println("remove: false input typ");
+						return false;					
+					}else{
+						String literal = ((String) o);
+						System.out.println("remove Literal: "+ literal);
+						
+						for (Description description : descriptions) {
+							if (description instanceof NestedDescription) {
+								if (((NestedDescription) description).getDescription() instanceof ObjectPropertyValue) {
+														
+									ObjectPropertyValue property = (ObjectPropertyValue) ((NestedDescription) description)
+										.getDescription();
+									
+									if (property.getLiteral() != null && property.getLiteral().toString().equals(literal)){
+										toRemove.remove(description);
+									}
+								}
 							}
 						}
 					}
@@ -457,7 +516,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		 */
 		public T remove(int index) {
 			// TODO remove corresponding axioms to ontology
-			System.out.println("remove at" + thisObject.eClass().getName()
+			System.out.println("remove at " + thisObject.eClass().getName()
 					+ "." + thisObject.eDynamicFeature(featureID).getName());
 			return original.remove(index);
 		}

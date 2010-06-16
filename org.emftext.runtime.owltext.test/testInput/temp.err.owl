@@ -33,30 +33,30 @@ Prefix: : <http://transformed/syntaxMinimum.fea#>
 	DataProperty: feature:Annotation_value 
 		
 		
-	Class: feature:__c__Feature0_min_1_name 
+	Class: feature:__c__Annotation0_min_1_value 
 		
 		
-	Class: feature:__c__Feature1_max_1_name 
+	Class: feature:__c__Annotation1_max_1_value 
 		
 		
-	Class: feature:__c__Feature2_max_1_annotation 
+	Class: feature:__c__Feature2_min_1_name 
 		
 		
-	Class: feature:__c__Feature3_max_1_parent 
+	Class: feature:__c__Feature3_max_1_name 
 		
 		
-	Class: feature:__c__Annotation4_min_1_value 
+	Class: feature:__c__Feature4_max_1_annotation 
 		
 		
-	Class: feature:__c__Annotation5_max_1_value 
+	Class: feature:__c__Feature5_max_1_parent 
 		
 		
-	Individual: individual_35 
-		Types:  feature:MandatoryFeature ,  (  feature:Feature_name value "testRootFeature" ) ,  (  feature:Feature_annotation value individual_36 ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_annotation exactly 1  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 0  feature:Feature ) 
+	Individual: individual_31 
+		Types:  feature:MandatoryFeature ,  (  feature:Feature_name value "testRootFeature" ) ,  (  feature:Feature_annotation value individual_32 ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_annotation exactly 1  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 0  feature:Feature ) 
 			
 		
-	Individual: individual_36 
+	Individual: individual_32 
 		Types:  feature:Annotation ,  (  feature:Annotation_value exactly 0  xsd:string ) 
 			
 		
-	DifferentIndividuals: individual_35 , individual_36
+	DifferentIndividuals: individual_31 , individual_32

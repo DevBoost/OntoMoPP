@@ -224,11 +224,9 @@ public class OWLTextTest {
 		assertTrue("Root object is a Feature", rootObject instanceof Feature);
 		Feature feature = (Feature)loadResource.getContents().get(0);
 
-		for (int i = 0; i < 3; i++) {
-			OptionalFeature f = FeaturePackage.eINSTANCE.getFeatureFactory().createOptionalFeature();
-			f.setName("Feature_" + i);
-			feature.getChildren().add(f);
-		}
+		OptionalFeature f = FeaturePackage.eINSTANCE.getFeatureFactory().createOptionalFeature();
+		f.setName("Feature_1");
+		feature.getChildren().add(f);
 		
 		//write to File	
 		String outFileName = "addChildrenWithAttribute.fea";
@@ -361,7 +359,6 @@ public class OWLTextTest {
 		//validate the modified RootFeature
 		//validateRootObjectAsOWLRepresentation(feature, false);		
 		
-		//TODO need to check the syntax of corresponding owl-file 
 		//checkCorrespondanceWithFile	
 		String expectedOutFileName = "addComment.owl";			
 		assertCorrespondance(outFileName, expectedOutFileName);			
@@ -403,13 +400,7 @@ public class OWLTextTest {
 		assertTrue("Root object is a Feature", rootObject instanceof Feature);
 		Feature feature = (Feature)loadResource.getContents().get(0);
 		
-		List<Feature> childs = new LinkedList<Feature>();
-		for (Feature child : feature.getChildren()) {
-			childs.add(child);
-		}
-		for (Feature child : childs) {
-			feature.getChildren().remove(child);
-		}
+		feature.getChildren().remove(feature.getChildren().get(0));
 		
 		//write to File	
 		String outFileName = "removeObjectChildren.fea";
@@ -453,6 +444,30 @@ public class OWLTextTest {
 	}
 	
 	@Test
+	public void testRemoveComment() throws Throwable {
+		String inFileName = "removeOrRetainComment.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		
+		feature.getComments().remove(feature.getComments().get(0));
+		
+		//write to File	
+		String outFileName = "removeComment.fea";
+		feaResourceToFile(loadResource, outFileName);
+		
+		//validate the modified RootFeature
+		//validateRootObjectAsOWLRepresentation(feature, false);		
+		
+		//checkCorrespondanceWithFile	
+		String expectedOutFileName = "removeComment.owl";		
+		assertCorrespondance(outFileName, expectedOutFileName);	
+		
+	}
+	
+	@Test
 	public void testRetainAllChildren() throws Throwable {
 		String inFileName = "removeOrRetainChildren.fea";		
 		
@@ -478,7 +493,7 @@ public class OWLTextTest {
 		String expectedOutFileName = "retainAllChildren.owl";		
 		assertCorrespondance(outFileName, expectedOutFileName);	
 		
-	}
+	}	
 	
 	private void feaResourceToFile(FeaResource loadResource, String outFileName)throws Throwable {
 		File outputFile = new File("./testInput/" + outFileName);
