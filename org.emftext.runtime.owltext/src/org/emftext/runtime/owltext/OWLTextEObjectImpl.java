@@ -474,7 +474,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		 */
 		public boolean addAll(int index, Collection<? extends T> c) {
 			// TODO add corresponding axioms to ontology
-			System.out.println("addAll at" + thisObject.eClass().getName()
+			System.out.println("addAll at " + thisObject.eClass().getName()
 					+ "." + thisObject.eDynamicFeature(featureID).getName());
 			return original.addAll(index, c);
 		}
@@ -485,7 +485,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		 */
 		public T get(int index) {
 			// TODO infer and read corresponding axioms to ontology
-			System.out.println("get at" + thisObject.eClass().getName() + "."
+			System.out.println("get at " + thisObject.eClass().getName() + "."
 					+ thisObject.eDynamicFeature(featureID).getName());
 			return original.get(index);
 		}

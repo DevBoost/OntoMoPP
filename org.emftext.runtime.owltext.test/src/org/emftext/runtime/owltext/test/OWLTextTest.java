@@ -524,6 +524,89 @@ public class OWLTextTest {
 		
 	}
 	
+	@Test
+	public void testContainsChildren() throws Throwable {
+		String inFileName = "containsOrContainsAllChildren.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		
+		assertTrue("Feature shoud contains the expected child.", feature.getChildren().contains(feature.getChildren().get(1)));		
+		
+	}
+	
+	@Test
+	public void testContainsAllChildren() throws Throwable {
+		String inFileName = "containsOrContainsAllChildren.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		
+		List<Feature> childs = new LinkedList<Feature>();
+		childs.add(feature.getChildren().get(0));
+		childs.add(feature.getChildren().get(1));
+		childs.add(feature.getChildren().get(2));
+		
+		assertTrue("Feature shoud contains all childs.", feature.getChildren().containsAll(childs));		
+		
+	}
+	
+	@Test
+	public void testIsEmptyChildren() throws Throwable {
+		String inFileName = "isEmptyChildrenAndComment.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		
+		assertTrue("Feature shoudn't contains any childs.", feature.getChildren().isEmpty());
+		
+	}
+	
+	@Test
+	public void testIsEmptyComment() throws Throwable {
+		String inFileName = "isEmptyChildrenAndComment.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		
+		assertTrue("Feature shoudn't contains any comments.", feature.getComments().isEmpty());
+		
+	}
+	
+	@Test
+	public void testSizeChildren() throws Throwable {
+		String inFileName = "sizeOrToArray.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		
+		assertTrue("wrong size.", feature.getComments().size() == 3);
+		
+	}
+	
+	@Test
+	public void testSizeComment() throws Throwable {
+		String inFileName = "sizeOrToArray.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		
+		assertTrue("wrong size.", feature.getComments().size() == 3);
+		
+	}
+	
 	private void feaResourceToFile(FeaResource loadResource, String outFileName)throws Throwable {
 		File outputFile = new File("./testInput/" + outFileName);
 		if (outputFile.exists())outputFile.delete();		
