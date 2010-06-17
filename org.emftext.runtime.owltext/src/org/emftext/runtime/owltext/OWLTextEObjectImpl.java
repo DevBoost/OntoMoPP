@@ -261,8 +261,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		public boolean remove(Object o) {
 			// TODO remove corresponding axioms to ontology
 			// unchecked
-			System.out.println("remove: "+ o.toString());
-			
+
 			EList<Description> descriptions = owlIndividual.getTypes();
 			Description toRemove = null;
 			
@@ -280,8 +279,9 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 													
 								ObjectPropertyValue property = (ObjectPropertyValue) ((NestedDescription) description)
 									.getDescription();
-								
-								if (property.getIndividual() != null && property.getIndividual().equals(individual)){
+								System.out.println("remove suche");
+								if (property.getIndividual() != null && property.getIndividual().equals(individual)){									
+									System.out.println("remove gefunden");
 									toRemove = description;
 									break;
 								}
@@ -300,8 +300,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 					System.out.println("remove: false input typ");
 					return false;					
 				}else{
-					String literal = ((String) o);
-					System.out.println("remove Literal: "+ literal);
+					System.out.println("remove EAtrributes: "+ o);
 					
 					for (Description description : descriptions) {
 						if (description instanceof NestedDescription) {
@@ -310,7 +309,8 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 								ObjectPropertyValue property = (ObjectPropertyValue) ((NestedDescription) description)
 									.getDescription();
 								
-								if (property.getLiteral() != null && property.getLiteral().toString().equals(literal)){
+								//TODO: Literal vergleich bisher nur über Zeichenketten
+								if (property.getLiteral() != null && property.getLiteral().toString().contains(o.toString())){
 									toRemove = description;
 									break;
 								}
@@ -365,7 +365,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 					if(o instanceof OWLTextEObjectImpl){
 						Individual individual = ((OWLTextEObjectImpl) o)
 							.getIndividual();
-						System.out.println("remove OWLTextEObjectImpl: "+ individual);
+						System.out.println("hold OWLTextEObjectImpl for retain list: "+ individual);
 						
 						for (Description description : descriptions) {
 							if (description instanceof NestedDescription) {
@@ -381,7 +381,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 							}
 						}
 					}else{
-						System.out.println("remove: false input typ");
+						System.out.println("remove: false input typ. Expect OWLTextEObjectImpl");
 						return false;
 					}
 					
@@ -389,11 +389,10 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 				else { // EAtrributes
 					
 					if(o instanceof OWLTextEObjectImpl){
-						System.out.println("remove: false input typ");
+						System.out.println("remove: false input typ. Expect EAtrributes");
 						return false;					
 					}else{
-						String literal = ((String) o);
-						System.out.println("remove Literal: "+ literal);
+						System.out.println("hold Literal for retain list: "+ o);
 						
 						for (Description description : descriptions) {
 							if (description instanceof NestedDescription) {
@@ -402,7 +401,8 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 									ObjectPropertyValue property = (ObjectPropertyValue) ((NestedDescription) description)
 										.getDescription();
 									
-									if (property.getLiteral() != null && property.getLiteral().toString().equals(literal)){
+									//TODO: Literal vergleich bisher nur über Zeichenketten
+									if (property.getLiteral() != null && property.getLiteral().toString().contains(o.toString())){
 										toRemove.remove(description);
 									}
 								}
