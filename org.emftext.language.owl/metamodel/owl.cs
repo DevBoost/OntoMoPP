@@ -95,8 +95,8 @@ RULES{
 		| ("Range:" (range ("," range)*)!1)
 		| ("Characteristics:" characteristic[CHARACTERISTICS] !1)
 		| ("SubPropertyOf:" (superProperties[IRI] ("," superProperties[IRI])*) !1)
-		| ("EquivalentTo:" (equivalentProperties[IRI] ("," equivalentProperties[IRI])*)!1)
-		| ("DisjointWith:" (disjointProperties[IRI] ("," disjointProperties[IRI])*)! 1)
+		| ("EquivalentTo:" (equivalentProperties[IRI] ("," equivalentProperties[IRI])*) !1)
+		| ("DisjointWith:" (disjointProperties[IRI] ("," disjointProperties[IRI])*) !1)
 	)*;
 	
 	// Annotation Property definition
