@@ -150,6 +150,19 @@ public class CrossResourceIRIResolver {
 
 	public String deResolve(IRIIdentified element, EObject container,
 			EStructuralFeature reference) {
+		if (element.eIsProxy()) {
+			java.lang.String fragment = ((org.eclipse.emf.ecore.InternalEObject) element)
+					.eProxyURI().fragment();
+			if (fragment != null
+					&& fragment
+							.startsWith(org.emftext.language.owl.resource.owl.IOwlContextDependentURIFragment.INTERNAL_URI_FRAGMENT_PREFIX)) {
+				fragment = fragment
+						.substring(org.emftext.language.owl.resource.owl.IOwlContextDependentURIFragment.INTERNAL_URI_FRAGMENT_PREFIX
+								.length());
+				fragment = fragment.substring(fragment.indexOf("_") + 1);
+			}
+			return fragment;
+		}
 		Ontology containingOntologyElement = getContainingOntology(element);
 		Ontology containingOntologyContainer = getContainingOntology(container);
 		if (containingOntologyContainer == containingOntologyElement) {
