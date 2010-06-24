@@ -78,7 +78,7 @@ public class EMFTextPelletReasoner implements
 				Node<OWLClass> unsatisfiableClasses = reasoner
 						.getUnsatisfiableClasses();
 				for (OWLClass owlClass : unsatisfiableClasses.getEntities()) {
-					inconsistentObjects.put(owlClass.getIRI().toString(),
+					inconsistentObjects.put(owlClass.getIRI().getFragment().toString(),
 							"Class is unsatisfiable.");
 				}
 

@@ -68,7 +68,7 @@ public class OwlReasoningBuilder extends IncrementalProjectBuilder implements
 			try {
 				inconsistentOWLObjects = reasoner
 						.getInconsistentFrames(content);
-			} catch (final ReasoningException e) {
+			} catch (final Exception e) {
 				resource.addProblem(new IOwlProblem() {
 
 					public OwlEProblemType getType() {
