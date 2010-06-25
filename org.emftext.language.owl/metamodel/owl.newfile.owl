@@ -1,16 +1,28 @@
 Prefix: pizza: <http://www.co-ode.org/ontologies/pizza/pizza.owl#>
-Prefix: : <http://www.semanticweb.org/ontologies/2009/7/manch.owl#>
+Prefix: : <http://www.emftext.org/ontologies/example.owl#>
 
-
-Ontology: <http://www.semanticweb.org/ontologies/2009/7/manch.owl>
+Ontology: <http://www.emftext.org/ontologies/example.owl>
 Import: <http://www.co-ode.org/ontologies/pizza/pizza.owl#>
 
-Class: FinePizza
-	SubClassOf: pizza:Pizza, not pizza:IceCream
-	
 Class: pizza:Pizza
- 
 Class: pizza:IceCream
 
-Individual: freshAndHot
-	Types: pizza:Pizza and not pizza:IceCream
+Class: GourmetPizza
+	SubClassOf: pizza:Pizza, not pizza:IceCream
+	
+Class: Gourmet	
+	
+DataProperty: gourmetStars
+	Domain: GourmetPizza
+	Range: xsd:integer
+	
+ObjectProperty: reviewingGourmet
+	Domain: GourmetPizza
+	Range: Gourmet
+
+Individual: Frederic
+	Types: Gourmet
+	
+Individual: Margherita
+	Types: GourmetPizza
+	Facts: gourmetStars 1, reviewingGourmet Frederic	
