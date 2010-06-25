@@ -1,6 +1,6 @@
-Prefix: : <http://transformed/addAllChildren.fea#> 
+Prefix: : <http://transformed/syntaxMinimum.fea#> 
 	Prefix: feature: <http://org.owltext/feature#> 
-	Ontology: <http://transformed/addAllChildren.fea> 
+	Ontology: <http://transformed/syntaxMinimum.fea> 
 	Import: <./feature.mm.owl> 
 	
 	Class: feature:Feature 

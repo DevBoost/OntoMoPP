@@ -1,6 +1,6 @@
-Prefix: : <http://transformed/retainAllChildren.fea#> 
+Prefix: : <http://transformed/clearOrRemoveOrRetainChildren.fea#> 
 	Prefix: feature: <http://org.owltext/feature#> 
-	Ontology: <http://transformed/retainAllChildren.fea> 
+	Ontology: <http://transformed/clearOrRemoveOrRetainChildren.fea> 
 	Import: <./feature.mm.owl> 
 	
 	Class: feature:Feature 
@@ -60,4 +60,3 @@ Prefix: : <http://transformed/retainAllChildren.fea#>
 					
 		
 	DifferentIndividuals: individual_0 , individual_1 
-		

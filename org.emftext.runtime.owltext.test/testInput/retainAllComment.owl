@@ -1,6 +1,6 @@
-Prefix: : <http://transformed/retainAllComment.fea#> 
+Prefix: : <http://transformed/clearOrRemoveOrRetainComment.fea#> 
 	Prefix: feature: <http://org.owltext/feature#> 
-	Ontology: <http://transformed/retainAllComment.fea> 
+	Ontology: <http://transformed/clearOrRemoveOrRetainComment.fea> 
 	Import: <./feature.mm.owl> 
 	
 	Class: feature:Feature 

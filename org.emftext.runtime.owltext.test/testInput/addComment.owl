@@ -1,6 +1,6 @@
-Prefix: : <http://transformed/addComment.fea#> 
+Prefix: : <http://transformed/syntaxMinimum.fea#> 
 	Prefix: feature: <http://org.owltext/feature#> 
-	Ontology: <http://transformed/addComment.fea> 
+	Ontology: <http://transformed/syntaxMinimum.fea> 
 	Import: <./feature.mm.owl> 
 	
 	Class: feature:Feature 

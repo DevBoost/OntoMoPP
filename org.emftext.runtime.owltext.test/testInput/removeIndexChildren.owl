@@ -1,6 +1,6 @@
-Prefix: : <http://transformed/removeIndexChildren.fea#> 
+Prefix: : <http://transformed/clearOrRemoveOrRetainChildren.fea#> 
 	Prefix: feature: <http://org.owltext/feature#> 
-	Ontology: <http://transformed/removeIndexChildren.fea> 
+	Ontology: <http://transformed/clearOrRemoveOrRetainChildren.fea> 
 	Import: <./feature.mm.owl> 
 	
 	Class: feature:Feature 
