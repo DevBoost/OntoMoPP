@@ -33,6 +33,8 @@ import org.emftext.language.owl.ObjectProperty;
 import org.emftext.language.owl.Ontology;
 import org.emftext.language.owl.OntologyDocument;
 import org.emftext.language.owl.OwlFactory;
+import org.emftext.language.owl.resource.owl.mopp.OwlResource;
+import org.emftext.language.owl.resource.owl.mopp.OwlResourceFactory;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAnnotationProperty;
@@ -52,9 +54,10 @@ public class RemoteLoader {
 	private Map<String, Map<String, Frame>> url2irimaps = new HashMap<String, Map<String, Frame>>();
 
 	static {
-
-		Ontology o = factory.createOntology();
 		String uri = "http://www.w3.org/2001/XMLSchema#";
+		Resource resource = new OwlResourceFactory().createResource(org.eclipse.emf.common.util.URI.createURI(uri));
+		Ontology o = factory.createOntology();
+		resource.getContents().add(o);
 		o.setUri(uri);
 		String[] types = new String[] { "string", "integer", "float",
 				"decimal", "double", "boolean", "long", "short", "byte",
