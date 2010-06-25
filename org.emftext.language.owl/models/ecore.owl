@@ -1,20 +1,22 @@
+Prefix: : <platform:/resource/org.emftext.language.owl/models/ecore.owl#>
+
 Ontology: <platform:/resource/org.emftext.language.owl/models/ecore.owl>
 
-Class: NamedElement
+Class: NamedElements
 		SubClassOf:
 		name  exactly 1 xsd:string
 		
 		
 	Class: EPackage
-		SubClassOf: NamedElement
+		SubClassOf: NamedElements
 		DisjointWith: EClass, EAttribute
 		
 	Class: EClass
-		SubClassOf: NamedElement
+		SubClassOf: NamedElements
 		DisjointWith: EPackage, EAttribute
 		
 	Class: EAttribute
-		SubClassOf: NamedElement and
+		SubClassOf: NamedElements and
 					(qualifiedName only xsd:string[minLength 1 ] )
 		DisjointWith: EPackage, EClass 
 		
@@ -22,9 +24,11 @@ Class: NamedElement
 		Domain: EAttribute
 		Range:  xsd:string 
 		Characteristics: Functional	
+	
+	DataProperty: y
 		
 	DataProperty: name 
-		Domain: NamedElement
+		Domain: NamedElements
 		Range:  xsd:string 
 		Characteristics: Functional 
 
@@ -37,4 +41,3 @@ Class: NamedElement
 		Domain:  EAttribute
 		Range:  EClass
 		InverseOf: eAttributes
-
