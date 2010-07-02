@@ -1,8 +1,6 @@
 package org.emftext.runtime.owltext.test;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
@@ -249,7 +247,25 @@ public class OWLTextTest {
 		//validate the modified RootFeature
 		validateRootObjectAsOWLRepresentation(feature, true);		
 	}
-
+	
+	//test attributes with bounds 0..-1
+	@Test
+	public void testAddComment() throws Throwable {
+		String inFileName = "syntaxMinimum.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		
+		for (int i = 0; i < 3; i++) {
+			feature.getComments().add("Comment_" + i);			
+		}
+		
+		assertCorrespondance(feature, "addComment");
+	}
+	
+	//test reference with bounds 0..-1
 	@Test
 	public void testAddAllChildren() throws Throwable {
 		String inFileName = "syntaxMinimum.fea";		
@@ -268,6 +284,106 @@ public class OWLTextTest {
 		feature.getChildren().addAll(childs);
 		
 		assertCorrespondance(feature, "addAllChildren");	
+	}
+	//test attributes with bounds 0..-1
+	@Test
+	public void testAddAllComment() throws Throwable {
+		String inFileName = "syntaxMinimum.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		
+		List<String> comments = new LinkedList<String>();
+		for (int i = 0; i < 3; i++) {
+			comments.add("Comment_" + i);			
+		}
+		feature.getComments().addAll(comments);
+		
+		assertCorrespondance(feature, "addAllComment");
+	}
+	
+	//test reference with bounds 0..-1
+	@Test
+	public void testAddIndexChildren() throws Throwable {
+		String inFileName = "syntaxMinimum.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+
+		for (int i = 0; i < 3; i++) {
+			OptionalFeature f = FeaturePackage.eINSTANCE.getFeatureFactory().createOptionalFeature();
+			f.setName("Feature_" + i);
+			feature.getChildren().add(0, f);		
+		}
+		assertCorrespondance(feature, "addIndexChildren");			
+	}
+	
+	
+	//test attributes with bounds 0..-1
+	@Test
+	public void testAddIndexComment() throws Throwable {
+		String inFileName = "syntaxMinimum.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		
+		for (int i = 0; i < 3; i++) {
+			feature.getComments().add(0, "Comment_" + i);			
+		}
+		
+		assertCorrespondance(feature, "addIndexComment");
+	}
+	
+	//test reference with bounds 0..-1
+	@Test
+	public void testAddAllIndexChildren() throws Throwable {
+		String inFileName = "syntaxMinimum.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+
+		OptionalFeature f = FeaturePackage.eINSTANCE.getFeatureFactory().createOptionalFeature();
+		f.setName("Feature_0");
+		feature.getChildren().add(f);
+		
+		List<Feature> childs = new LinkedList<Feature>();
+		for (int i = 1; i < 3; i++) {
+			OptionalFeature of = FeaturePackage.eINSTANCE.getFeatureFactory().createOptionalFeature();
+			of.setName("Feature_" + i);
+			childs.add(of);
+		}
+		feature.getChildren().addAll(0, childs);
+		
+		assertCorrespondance(feature, "addAllIndexChildren");			
+	}
+	
+	//test attributes with bounds 0..-1
+	@Test
+	public void testAddAllIndexComment() throws Throwable {
+		String inFileName = "syntaxMinimum.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		
+		feature.getComments().add("Comment_0");
+		
+		List<String> comments = new LinkedList<String>();
+		for (int i = 1; i < 3; i++) {
+			comments.add("Comment_" + i);			
+		}
+		feature.getComments().addAll(0, comments);
+		
+		assertCorrespondance(feature, "addAllIndexComment");
 	}
 	
 	//test reference with bounds 0..1
@@ -304,22 +420,6 @@ public class OWLTextTest {
 		validateRootObjectAsOWLRepresentation(feature, true);
 	}
 	
-	//test attributes with bounds 0..-1
-	@Test
-	public void testAddComment() throws Throwable {
-		String inFileName = "syntaxMinimum.fea";		
-		
-		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
-		EObject rootObject = loadResource.getContents().get(0);
-		assertTrue("Root object is a Feature", rootObject instanceof Feature);
-		Feature feature = (Feature)loadResource.getContents().get(0);
-		
-		for (int i = 0; i < 3; i++) {
-			feature.getComments().add("Comment_" + i);			
-		}
-		
-		assertCorrespondance(feature, "addComment");
-	}
 	
 	//test reference with bounds 0..-1
 	@Test
@@ -353,25 +453,9 @@ public class OWLTextTest {
 		
 	}
 	
-	//test reference with bounds 0..-1
+	//test reference with bounds 0..-1	
 	@Test
-	public void testRemoveIndexChildren() throws Throwable {
-		String inFileName = "clearOrRemoveOrRetainChildren.fea";		
-		
-		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
-		EObject rootObject = loadResource.getContents().get(0);
-		assertTrue("Root object is a Feature", rootObject instanceof Feature);
-		Feature feature = (Feature)loadResource.getContents().get(0);
-		
-		for (int i = 0; i < 3; i++) {
-			feature.getChildren().remove(0);
-		}
-		
-		assertCorrespondance(feature, "removeIndexChildren");
-	}
-	
-	@Test
-	public void testRemoveObjectChildren() throws Throwable {
+	public void testRemoveChildren() throws Throwable {
 		String inFileName = "clearOrRemoveOrRetainChildren.fea";		
 		
 		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
@@ -381,9 +465,24 @@ public class OWLTextTest {
 		
 		feature.getChildren().remove(feature.getChildren().get(0));
 		
-		assertCorrespondance(feature, "removeObjectChildren");
+		assertCorrespondance(feature, "removeChildren");
 	}
 	
+	//test attributes with bounds 0..-1
+	@Test
+	public void testRemoveComment() throws Throwable {
+		String inFileName = "clearOrRemoveOrRetainComment.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		
+		feature.getComments().remove(feature.getComments().get(0));
+		
+		assertCorrespondance(feature, "removeComment");		
+	}
+	//test reference with bounds 0..-1	
 	@Test
 	public void testRemoveAllChildren() throws Throwable {
 		String inFileName = "clearOrRemoveOrRetainChildren.fea";		
@@ -401,10 +500,43 @@ public class OWLTextTest {
 		
 		assertCorrespondance(feature, "removeAllChildren");
 	}
+	//test attributes with bounds 0..-1
+	@Test
+	public void testRemoveAllComment() throws Throwable {
+		String inFileName = "clearOrRemoveOrRetainComment.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+
+		List<String> comments = new LinkedList<String>();
+		for (String s : feature.getComments()) {
+			comments.add(s);
+		}
+		feature.getComments().removeAll(comments);
+		
+		assertCorrespondance(feature, "removeAllComment");
+	}
+	
+	//test reference with bounds 0..-1
+	@Test
+	public void testRemoveIndexChildren() throws Throwable {
+		String inFileName = "clearOrRemoveOrRetainChildren.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		
+		feature.getChildren().remove(1);
+		
+		assertCorrespondance(feature, "removeIndexChildren");
+	}
 	
 	//test attributes with bounds 0..-1
 	@Test
-	public void testRemoveComment() throws Throwable {
+	public void testRemoveIndexComment() throws Throwable {
 		String inFileName = "clearOrRemoveOrRetainComment.fea";		
 		
 		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
@@ -412,9 +544,9 @@ public class OWLTextTest {
 		assertTrue("Root object is a Feature", rootObject instanceof Feature);
 		Feature feature = (Feature)loadResource.getContents().get(0);
 		
-		feature.getComments().remove(feature.getComments().get(0));
+		feature.getComments().remove(1);
 		
-		assertCorrespondance(feature, "removeComment");		
+		assertCorrespondance(feature, "removeIndexComment");
 	}
 	
 	@Test
@@ -466,25 +598,6 @@ public class OWLTextTest {
 		assertTrue("Feature shoud contains the expected child.", feature.getChildren().contains(feature.getChildren().get(1)));		
 		
 	}
-	
-	@Test
-	public void testContainsAllChildren() throws Throwable {
-		String inFileName = "containsOrContainsAllChildren.fea";		
-		
-		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
-		EObject rootObject = loadResource.getContents().get(0);
-		assertTrue("Root object is a Feature", rootObject instanceof Feature);
-		Feature feature = (Feature)loadResource.getContents().get(0);
-		
-		List<Feature> childs = new LinkedList<Feature>();
-		childs.add(feature.getChildren().get(0));
-		childs.add(feature.getChildren().get(1));
-		childs.add(feature.getChildren().get(2));
-		
-		assertTrue("Feature shoud contains all childs.", feature.getChildren().containsAll(childs));		
-		
-	}
-	
 	//test attributes with bounds 0..-1
 	@Test
 	public void testContainsComment() throws Throwable {
@@ -499,6 +612,25 @@ public class OWLTextTest {
 		
 	}
 	
+	//test reference with bounds 0..-1
+	@Test
+	public void testContainsAllChildren() throws Throwable {
+		String inFileName = "containsOrContainsAllChildren.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		
+		List<Feature> childs = new LinkedList<Feature>();
+		childs.add(feature.getChildren().get(0));
+		childs.add(feature.getChildren().get(1));
+		childs.add(feature.getChildren().get(2));
+		
+		assertTrue("Feature shoud contains all childs.", feature.getChildren().containsAll(childs));			
+	}	
+	
+	//test attributes with bounds 0..-1
 	@Test
 	public void testContainsAllComment() throws Throwable {
 		String inFileName = "containsOrContainsAllComment.fea";		
@@ -548,29 +680,202 @@ public class OWLTextTest {
 	//test reference with bounds 0..-1
 	@Test
 	public void testSizeChildren() throws Throwable {
-		String inFileName = "sizeOrToArray.fea";		
+		String inFileName = "indexOrSizeOrToArray.fea";		
 		
 		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
 		EObject rootObject = loadResource.getContents().get(0);
 		assertTrue("Root object is a Feature", rootObject instanceof Feature);
 		Feature feature = (Feature)loadResource.getContents().get(0);
 		
-		assertTrue("wrong size.", feature.getComments().size() == 3);
+		assertEquals("wrong size.", 3, feature.getChildren().size());
 		
 	}
 	
 	//test attributes with bounds 0..-1
 	@Test
 	public void testSizeComment() throws Throwable {
-		String inFileName = "sizeOrToArray.fea";		
+		String inFileName = "indexOrSizeOrToArray.fea";		
 		
 		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
 		EObject rootObject = loadResource.getContents().get(0);
 		assertTrue("Root object is a Feature", rootObject instanceof Feature);
 		Feature feature = (Feature)loadResource.getContents().get(0);
 		
-		assertTrue("wrong size.", feature.getComments().size() == 3);
+		assertEquals("wrong size.", 3, feature.getComments().size());
 		
+	}
+	//test reference with bounds 0..-1
+	@Test
+	public void testToArrayChildren() throws Throwable {
+		String inFileName = "indexOrSizeOrToArray.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		Object[] array = feature.getChildren().toArray();
+		assertEquals("wrong size.", 3, array.length);
+		assertTrue("wrong typ", array[0] instanceof Feature);
+		assertEquals("wrong child", feature.getChildren().get(0), array[0]);		
+	}
+	//test attributes with bounds 0..-1
+	@Test
+	public void testToArrayComment() throws Throwable {
+		String inFileName = "indexOrSizeOrToArray.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		Object[] array = feature.getComments().toArray();
+		assertEquals("wrong size.", 3, array.length);
+		assertTrue("wrong typ", array[0] instanceof String);
+		assertEquals("wrong comment", feature.getComments().get(0), array[0]);		
+	}
+	
+	//test reference with bounds 0..-1
+	@Test
+	public void testIndexOfChildren() throws Throwable {
+		String inFileName = "indexOrSizeOrToArray.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		
+		assertEquals("wrong index.", 0, feature.getChildren().indexOf(feature.getChildren().get(0)));
+		assertEquals("wrong index.", 1, feature.getChildren().indexOf(feature.getChildren().get(1)));
+		assertEquals("wrong index.", 2, feature.getChildren().indexOf(feature.getChildren().get(2)));		
+	}
+	//test attributes with bounds 0..-1
+	@Test
+	public void testIndexOfComment() throws Throwable {
+		String inFileName = "indexOrSizeOrToArray.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		
+		assertEquals("wrong index.", 0, feature.getComments().indexOf(feature.getComments().get(0)));
+		assertEquals("wrong index.", 1, feature.getComments().indexOf(feature.getComments().get(1)));
+		assertEquals("wrong index.", 2, feature.getComments().indexOf(feature.getComments().get(2)));		
+	}
+	
+	//test reference with bounds 0..-1
+	@Test
+	public void testLastIndexOfChildren() throws Throwable {
+		String inFileName = "indexOrSizeOrToArray.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		
+		feature.getChildren().add(feature.getChildren().get(0));
+		assertEquals("wrong index.", 3, feature.getChildren().lastIndexOf(feature.getChildren().get(0)));	
+	}
+	//test attributes with bounds 0..-1
+	@Test
+	public void testLastIndexOfComment() throws Throwable {
+		String inFileName = "indexOrSizeOrToArray.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		
+		feature.getComments().add(feature.getComments().get(0));
+		assertEquals("wrong index.", 3, feature.getComments().lastIndexOf(feature.getComments().get(0)));	
+	}
+	
+	//test reference with bounds 0..-1
+	@Test
+	public void testMoveChildren() throws Throwable {
+		String inFileName = "moveOrSetChildren.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		
+		feature.getChildren().move(1, feature.getChildren().get(0));
+		
+		assertCorrespondance(feature, "moveChildren");
+	}
+	//test attributes with bounds 0..-1
+	@Test
+	public void testMoveComment() throws Throwable {
+		String inFileName = "moveOrSetComment.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		
+		feature.getComments().move(1, feature.getComments().get(0));
+		
+		assertCorrespondance(feature, "moveComment");
+	}
+	
+	//test reference with bounds 0..-1
+	@Test
+	public void testMoveIndexChildren() throws Throwable {
+		String inFileName = "moveOrSetChildren.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		
+		feature.getChildren().move(1, 0);
+		
+		assertCorrespondance(feature, "moveIndexChildren");
+	}
+	//test attributes with bounds 0..-1
+	@Test
+	public void testMoveIndexComment() throws Throwable {
+		String inFileName = "moveOrSetComment.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		
+		feature.getComments().move(1, 0);
+		
+		assertCorrespondance(feature, "moveIndexComment");
+	}
+	
+	//test reference with bounds 0..-1
+	@Test
+	public void testSetChildren() throws Throwable {
+		String inFileName = "moveOrSetChildren.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		
+		OptionalFeature f = FeaturePackage.eINSTANCE.getFeatureFactory().createOptionalFeature();
+		f.setName("Feature_new");
+		feature.getChildren().set(1, f);
+
+		assertCorrespondance(feature, "setChildren");
+	}
+	//test attributes with bounds 0..-1
+	@Test
+	public void testSetComment() throws Throwable {
+		String inFileName = "moveOrSetComment.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		
+		feature.getComments().set(1, "Comment_new");
+
+		assertCorrespondance(feature, "setComment");
 	}
 	
 	//usefull for debug
@@ -757,7 +1062,7 @@ public class OWLTextTest {
 		Map<String, Object> options = new LinkedHashMap<String, Object>();
 		options.put(MatchOptions.OPTION_IGNORE_ID, true);
 		options.put(MatchOptions.OPTION_IGNORE_XMI_ID, true);
-		options.put(MatchOptions.OPTION_SEARCH_WINDOW, Integer.valueOf(100));
+		options.put(MatchOptions.OPTION_SEARCH_WINDOW, Integer.valueOf(10));
 		MatchModel matchResult = MatchService.doContentMatch(
 				expectedOntologyRoot, owlifiedOntologyRoot, options);
 		DiffModel genDiff = DiffService.doDiff(matchResult, false);
