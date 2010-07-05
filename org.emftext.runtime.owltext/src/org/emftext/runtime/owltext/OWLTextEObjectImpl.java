@@ -125,9 +125,9 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 			NestedDescription nestedDescription = factory
 					.createNestedDescription();
 			nestedDescription.setDescription(objectPropertyValue);
-			owlIndividual.getTypes().add(nestedDescription);
+			return owlIndividual.getTypes().add(nestedDescription);
 			
-			return original.add(e);
+			//return original.add(e);
 		}
 
 		/**
