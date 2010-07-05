@@ -576,11 +576,11 @@ public class OWLTextTest {
 		assertTrue("Root object is a Feature", rootObject instanceof Feature);
 		Feature feature = (Feature)loadResource.getContents().get(0);
 
-		List<String> childs = new LinkedList<String>();
-		childs.add(feature.getComments().get(1));
-		childs.add(feature.getComments().get(2));
+		List<String> comments = new LinkedList<String>();
+		comments.add(feature.getComments().get(1));
+		comments.add(feature.getComments().get(2));
 		
-		feature.getComments().retainAll(childs);
+		feature.getComments().retainAll(comments);
 		
 		assertCorrespondance(feature, "retainAllComment");
 	}

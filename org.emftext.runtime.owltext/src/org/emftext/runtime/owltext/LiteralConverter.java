@@ -34,7 +34,7 @@ public class LiteralConverter {
 					.createAbbreviatedXSDStringLiteral();
 			textLiteral.setValue("The attribute value of type: "
 					+ newValue.getClass()
-					+ " could not be converted to an literal");
+					+ " could not be converted to a literal");
 			return textLiteral;
 		}
 	}
@@ -65,5 +65,38 @@ public class LiteralConverter {
 		textLiteral.setTheDatatype(xsdBoolean);
 		return textLiteral;
 	}
+	
+	public Object convert(Literal newValue) {
+		if (newValue == null)
+			return null;
+		if (newValue instanceof AbbreviatedXSDStringLiteral) {
+			return doConvert((AbbreviatedXSDStringLiteral) newValue);
+		} else if (newValue instanceof IntegerLiteral) {
+			return doConvert((IntegerLiteral) newValue);
+		} else if (newValue instanceof FloatingPointLiteral) {
+			return doConvert((FloatingPointLiteral) newValue);
+		} else if ((newValue instanceof TypedLiteral) && ((TypedLiteral)newValue).getTheDatatype().equals(xsdBoolean)) {
+			return doConvert((TypedLiteral) newValue);
+		} else {
+			return "The attribute value of type: "
+					+ newValue.getClass()
+					+ " could not be converted to a representation";
+		}
+	}
+	
+	public String doConvert(AbbreviatedXSDStringLiteral newValue) {
+		return newValue.getValue();
+	}
 
+	public Integer doConvert(IntegerLiteral newValue) {
+		return newValue.getValue();
+	}
+
+	public Float doConvert(FloatingPointLiteral newValue) {
+		return newValue.getLiteral();
+	}
+
+	public Boolean doConvert(TypedLiteral newValue) {
+		return Boolean.parseBoolean(newValue.getLexicalValue());
+	}
 }

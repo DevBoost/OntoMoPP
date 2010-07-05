@@ -371,7 +371,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 					if (((NestedDescription) description).getDescription() instanceof FeatureRestriction) {
 						Feature fea = ((FeatureRestriction)((NestedDescription)description).getDescription()).getFeatureReference().getFeature();
 						
-						if(fea.getIri().equals(OWLTransformationHelper.getFeatureIdentificationIRI(eDynamicFeature(this.featureID)))){
+						if(fea.getIri().equals(OWLTransformationHelper.getFeatureIdentificationIRI(feature))){
 							toRemove.add(description);						
 						}
 					}
@@ -556,7 +556,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 								.getIri()
 								.equals(
 										OWLTransformationHelper
-												.getFeatureIdentificationIRI(eDynamicFeature(this.featureID)))) {
+												.getFeatureIdentificationIRI(feature))) {
 							count++;//inkrementiere bei jeder gefundenen FeatureIRI
 							
 							if(count == index){	
@@ -594,11 +594,62 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		 * Intercepts the get calls on ELists and retrieves the according axioms
 		 * from the ontology
 		 */
+		@SuppressWarnings("unchecked")
 		public T get(int index) {
 			// TODO infer and read corresponding axioms to ontology
-			System.out.println("get at " + thisObject.eClass().getName() + "."
+			System.out.println("---get at " + thisObject.eClass().getName() + "."
 					+ thisObject.eDynamicFeature(featureID).getName());
-			return original.get(index);
+			//System.out.println(OWLTransformationHelper.getUniqueId((EObject)original.get(index)));
+			
+			
+			EList<Description> descriptions = owlIndividual.getTypes();			
+			EStructuralFeature feature = eDynamicFeature(featureID);	
+			
+			int count = -1;
+			for (Description description : descriptions) {
+				if (description instanceof NestedDescription) {
+					if (((NestedDescription) description).getDescription() instanceof FeatureRestriction) {
+						FeatureRestriction featureRestriction = (FeatureRestriction) ((NestedDescription) description)
+								.getDescription();
+						if (featureRestriction
+								.getFeatureReference()
+								.getFeature()
+								.getIri()
+								.equals(
+										OWLTransformationHelper
+												.getFeatureIdentificationIRI(feature))) {
+							count++;//inkrementiere bei jeder gefundenen FeatureIRI
+							
+							if(count == index){
+								//Pruefe ob es sich um aktuelles Object handelt
+								if (feature instanceof EReference) {
+									if (((NestedDescription) description).getDescription() instanceof ObjectPropertyValue) {
+																
+										ObjectPropertyValue property = (ObjectPropertyValue) ((NestedDescription) description)
+											.getDescription();
+										
+										if (property.getIndividual() != null)
+											return (T)OWLTransformationHelper.getEObjectFromIRI(property.getIndividual().getIri());	
+									}								
+								} 
+								else { // EAtrributes			
+									if (((NestedDescription) description).getDescription() instanceof ObjectPropertyValue) {
+																	
+										ObjectPropertyValue property = (ObjectPropertyValue) ((NestedDescription) description)
+											.getDescription();
+										if (property.getLiteral() != null)
+											return (T) new LiteralConverter().convert(property.getLiteral());
+									}								
+								}
+							}
+						}
+					}
+				}
+			}			
+			return null; //wenn nicht enthalten
+			
+			
+			//return original.get(index);
 		}
 
 		/**
@@ -621,7 +672,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 								.getIri()
 								.equals(
 										OWLTransformationHelper
-												.getFeatureIdentificationIRI(eDynamicFeature(this.featureID)))) {
+												.getFeatureIdentificationIRI(feature))) {
 							count++;//inkrementiere bei jeder gefundenen FeatureIRI
 							
 							//Pruefe ob es sich um aktuelles Object handelt

@@ -18,10 +18,22 @@ import org.emftext.language.owl.resource.owl.mopp.OwlResource;
 
 public class OWLTransformationHelper {
 
-	private static Map<EObject, Integer> uniqueIdMap = new HashMap<EObject, Integer>();
+	private static BidiHashMap<EObject, Integer> uniqueIdMap = new BidiHashMap<EObject, Integer>();
 	private static int counter = 0;
 	private static Map<EPackage, Ontology> packageOntologyMap = new HashMap<EPackage, Ontology>();
 	private static Map<String, String> datatypeMap;
+	
+
+	private static class BidiHashMap<K, V> extends HashMap<K, V> {
+		private static final long serialVersionUID = 1L;
+		private HashMap<V, K> reverseMap = new HashMap<V, K>();
+
+		public K getKey(V value) { return reverseMap.get(value); }
+		public V put(K key, V value) {		
+			reverseMap.put(value, key);
+			return super.put(key, value);
+		}
+	}
 
 	static {
 		datatypeMap = new HashMap<String, String>();
@@ -107,7 +119,11 @@ public class OWLTransformationHelper {
 		datatypeMap.put("EChar", "xsd:string");
 		datatypeMap.put("ECharacterObject", "xsd:string");
 	}
-
+	
+	public OWLTransformationHelper(){
+		
+	}
+	
 	public static String getNamespacePrefix(EPackage ePackage) {
 		return ePackage.getName();
 	}
@@ -130,9 +146,9 @@ public class OWLTransformationHelper {
 
 	public static String getObjectIdentificationIRI(EObject eObject) {
 		return "individual_" + getUniqueId(eObject);
-	}
+	}	
 
-	private static String getUniqueId(EObject eObject) {
+	public static String getUniqueId(EObject eObject) {
 		Integer id = uniqueIdMap.get(eObject);
 		if (id == null) {
 			id = counter++;
@@ -140,6 +156,12 @@ public class OWLTransformationHelper {
 		}
 		return id.toString();
 	}
+	
+	public static EObject getEObjectFromIRI(String iri) {
+		Integer id = Integer.parseInt(iri.replace("individual_", ""));
+		return uniqueIdMap.getKey(id);
+	}
+	
 
 	public static String getFeatureIdentificationIRI(EStructuralFeature feature) {
 		String iri = getClassIdentificationIRI(feature.getEContainingClass());
