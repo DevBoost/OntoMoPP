@@ -1,8 +1,14 @@
-Namespace: pd <./PD.owl>
- 
+Prefix: pd: <./pd.owl#>
+
+
 Ontology: <t>
+Import: <./pd.owl>
  
-      Class: Cisco7603
+  Class: pd:Hottie
+  
+  ObjectProperty: pd:containsCard
+ 	
+  Class: Cisco7603
        SubClassOf:
            (pd:containsCard some pd:Hottie)
    
