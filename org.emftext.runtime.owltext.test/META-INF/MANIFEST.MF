@@ -29,5 +29,7 @@ Require-Bundle: org.eclipse.core.resources,
  org.eclipse.emf.ecore.xmi
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Export-Package: org.owltext.feature.resource.fea.ui
+Export-Package: org.owltext.feature,
+ org.owltext.feature.resource.fea.ui,
+ org.owltext.feature.util
 Bundle-Activator: org.owltext.feature.resource.fea.ui.FeaUIPlugin

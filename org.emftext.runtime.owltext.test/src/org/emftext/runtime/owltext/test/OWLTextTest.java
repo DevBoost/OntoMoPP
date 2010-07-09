@@ -75,11 +75,6 @@ public class OWLTextTest {
 	// and upper bounds
 	// TODO implement test for eIsSet, EAttributes, EReferences, different lower
 	// and upper bounds
-	// TODO implement test for add
-	// TODO implement test for addAll
-	// TODO implement test for remove
-	// TODO implement test for removeAll
-	// TODO implement test for clear()
 
 	@Test
 	public void testPrinting() throws IOException, InterruptedException {
@@ -713,8 +708,10 @@ public class OWLTextTest {
 		EObject rootObject = loadResource.getContents().get(0);
 		assertTrue("Root object is a Feature", rootObject instanceof Feature);
 		Feature feature = (Feature)loadResource.getContents().get(0);
+		feature.getChildren().add(feature.getChildren().get(0));
+		
 		Object[] array = feature.getChildren().toArray();
-		assertEquals("wrong size.", 3, array.length);
+		assertEquals("wrong size.", 4, array.length);
 		assertTrue("wrong typ", array[0] instanceof Feature);
 		assertEquals("wrong child", feature.getChildren().get(0), array[0]);		
 	}
@@ -727,10 +724,62 @@ public class OWLTextTest {
 		EObject rootObject = loadResource.getContents().get(0);
 		assertTrue("Root object is a Feature", rootObject instanceof Feature);
 		Feature feature = (Feature)loadResource.getContents().get(0);
+		feature.getComments().add(feature.getComments().get(0));
+		
 		Object[] array = feature.getComments().toArray();
-		assertEquals("wrong size.", 3, array.length);
+		assertEquals("wrong size.", 4, array.length);
 		assertTrue("wrong typ", array[0] instanceof String);
 		assertEquals("wrong comment", feature.getComments().get(0), array[0]);		
+	}
+	
+	//test reference with bounds 0..-1
+	@Test
+	public void testToArraySpecifiedChildren() throws Throwable {
+		String inFileName = "indexOrSizeOrToArray.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		feature.getChildren().add(feature.getChildren().get(0));
+		
+		Feature[] array = feature.getChildren().toArray(new Feature[0]);
+		assertEquals("wrong size.", 4, array.length);
+		assertTrue("wrong typ", array[0] instanceof Feature);
+		assertEquals("wrong child", feature.getChildren().get(0), array[0]);	
+		
+		Feature[] array2 = new Feature[10];
+		for(int i=4; i<10; i++)
+			array2[i] = feature.getChildren().get(2);
+		array2 = feature.getChildren().toArray(array2);
+		assertEquals("wrong size.", 10, array2.length);
+		for(int i=4; i<10; i++)
+			assertNull("the unused space of the specified array should be cleared", array2[i]);
+	}
+	//test attributes with bounds 0..-1
+	@Test
+	public void testToArraySpecifiedComment() throws Throwable {
+		String inFileName = "indexOrSizeOrToArray.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		feature.getComments().add(feature.getComments().get(0));
+
+		
+		String[] array = feature.getComments().toArray(new String[0]);
+		assertEquals("wrong size.", 4, array.length);
+		assertTrue("wrong typ", array[0] instanceof String);
+		assertEquals("wrong child", feature.getComments().get(0), array[0]);	
+		
+		String[] array2 = new String[10];
+		for(int i=4; i<10; i++)
+			array2[i] = feature.getComments().get(2);
+		array2 = feature.getChildren().toArray(array2);
+		assertEquals("wrong size.", 10, array2.length);
+		for(int i=4; i<10; i++)
+			assertNull("the unused space of the specified array should be cleared", array2[i]);
 	}
 	
 	//test reference with bounds 0..-1
@@ -877,6 +926,7 @@ public class OWLTextTest {
 
 		assertCorrespondance(feature, "setComment");
 	}
+
 	
 	//usefull for debug
 	private void feaResourceToFile(FeaResource loadResource, String outFileName)throws Throwable {
