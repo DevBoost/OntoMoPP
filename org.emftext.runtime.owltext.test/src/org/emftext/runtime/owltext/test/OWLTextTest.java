@@ -12,9 +12,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
@@ -776,7 +778,7 @@ public class OWLTextTest {
 		String[] array2 = new String[10];
 		for(int i=4; i<10; i++)
 			array2[i] = feature.getComments().get(2);
-		array2 = feature.getChildren().toArray(array2);
+		array2 = feature.getComments().toArray(array2);
 		assertEquals("wrong size.", 10, array2.length);
 		for(int i=4; i<10; i++)
 			assertNull("the unused space of the specified array should be cleared", array2[i]);
@@ -926,7 +928,173 @@ public class OWLTextTest {
 
 		assertCorrespondance(feature, "setComment");
 	}
-
+	
+	//test reference with bounds 0..-1
+	@Test
+	public void testIteratorChildren() throws Throwable {
+		String inFileName = "iteratorOrSublist.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		feature.getChildren().add(feature.getChildren().get(0));
+		
+		Iterator<Feature> iter = feature.getChildren().iterator();
+		int count = 0;
+		while(iter.hasNext()){
+			Feature child = iter.next();
+			assertEquals("wrong order of childs", feature.getChildren().get(count), child);				
+			count++;			
+		}
+		assertEquals("iterator has wrong size", 4, count);	
+	}
+	//test attributes with bounds 0..-1
+	@Test
+	public void testIteratorComment() throws Throwable {
+		String inFileName = "iteratorOrSublist.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		feature.getComments().add(feature.getComments().get(0));
+		
+		Iterator<String> iter = feature.getComments().iterator();
+		int count = 0;
+		while(iter.hasNext()){
+			String comment = iter.next();
+			assertEquals("wrong order of comments", feature.getComments().get(count), comment);				
+			count++;			
+		}
+		assertEquals("iterator has wrong size", 4, count);		
+	}
+	
+	//test reference with bounds 0..-1
+	@Test
+	public void testListIteratorChildren() throws Throwable {
+		String inFileName = "iteratorOrSublist.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		feature.getChildren().add(feature.getChildren().get(0));
+		
+		ListIterator<Feature> iter = feature.getChildren().listIterator();
+		while(iter.hasNext()){
+			Feature child = iter.next();
+			//assertEquals("wrong order of childs", feature.getChildren().get(iter.nextIndex()-1), child);						
+		}
+		assertEquals("ListIterator has wrong index", 4, iter.nextIndex());	
+	}
+	//test attributes with bounds 0..-1
+	@Test
+	public void testListIteratorComment() throws Throwable {
+		String inFileName = "iteratorOrSublist.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		feature.getComments().add(feature.getComments().get(0));
+		
+		ListIterator<String> iter = feature.getComments().listIterator();
+		while(iter.hasNext()){
+			String comment = iter.next();
+			assertEquals("wrong order of comments", feature.getComments().get(iter.nextIndex()-1), comment);						
+		}
+		assertEquals("ListIterator has wrong index", 4, iter.nextIndex());		
+	}
+	
+	//test reference with bounds 0..-1
+	@Test
+	public void testListIteratorIndexChildren() throws Throwable {
+		String inFileName = "iteratorOrSublist.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		feature.getChildren().add(feature.getChildren().get(0));
+		
+		int count = 0;
+		ListIterator<Feature> iter = feature.getChildren().listIterator(1);
+		while(iter.hasNext()){
+			Feature child = iter.next();
+			assertEquals("wrong order of childs", feature.getChildren().get(iter.nextIndex()-1), child);	
+			count++;
+		}
+		assertEquals("ListIterator has wrong size", 3, count);	
+		assertEquals("ListIterator has wrong index", 4, iter.nextIndex());	
+	}
+	//test attributes with bounds 0..-1
+	@Test
+	public void testListIteratorIndexComment() throws Throwable {
+		String inFileName = "iteratorOrSublist.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		feature.getComments().add(feature.getComments().get(0));
+		
+		int count = 0;
+		ListIterator<String> iter = feature.getComments().listIterator(1);
+		while(iter.hasNext()){
+			String comment = iter.next();
+			assertEquals("wrong order of comments", feature.getComments().get(iter.nextIndex()-1), comment);
+			count++;
+		}
+		assertEquals("ListIterator has wrong size", 3, count);	
+		assertEquals("ListIterator has wrong index", 4, iter.nextIndex());		
+	}
+	
+	//test reference with bounds 0..-1
+	@Test
+	public void testSubListChildren() throws Throwable {
+		String inFileName = "iteratorOrSublist.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		feature.getChildren().add(feature.getChildren().get(0));
+		
+		int count = 2;
+		List<Feature> list = feature.getChildren().subList(2, 4);
+		assertEquals("SubList has wrong size", 2, list.size());	
+		for(Feature fea : list){
+			assertEquals("wrong order of childs", feature.getChildren().get(count), fea);	
+			fea.setName("test"+count);
+			count++;
+		}
+		assertEquals("child has wrong name", "test2", feature.getChildren().get(2).getName());
+		assertEquals("child has wrong name", "test3", feature.getChildren().get(3).getName());
+		
+	}
+	//test attributes with bounds 0..-1
+	@Test
+	public void testSubListComment() throws Throwable {
+		String inFileName = "iteratorOrSublist.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		feature.getComments().add(feature.getComments().get(0));
+		
+		int count = 2;
+		List<String> list = feature.getComments().subList(2, 4);
+		assertEquals("SubList has wrong size", 2, list.size());	
+		for(String fea : list){
+			assertEquals("wrong order of childs", feature.getComments().get(count), fea);
+			list.set(count-2, "test"+count);
+			count++;
+		}
+		assertEquals("comment has wrong content", "test2", feature.getComments().get(2));
+		assertEquals("comment has wrong content", "test3", feature.getComments().get(3));
+	}
 	
 	//usefull for debug
 	private void feaResourceToFile(FeaResource loadResource, String outFileName)throws Throwable {
@@ -957,7 +1125,7 @@ public class OWLTextTest {
 		validate(owlifiedModelOutputFile, errorsExpected);
 		
 		owlifiedModelOutputFile.delete();
-	}	
+	}
 	
 	private void validate(File outFile, boolean errorsExpected)
 			throws Exception {

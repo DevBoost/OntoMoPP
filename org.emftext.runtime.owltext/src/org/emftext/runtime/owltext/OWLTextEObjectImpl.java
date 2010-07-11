@@ -249,7 +249,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		 * iterator
 		 */
 		public Iterator<T> iterator() {
-			return original.iterator();
+			return (Iterator<T>)listIterator();
 		}
 
 		/**
@@ -565,7 +565,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		 */
 		
 		public T get(int index) {
-			System.out.println("---get at " + thisObject.eClass().getName() + "."
+			System.out.println("get at " + thisObject.eClass().getName() + "."
 					+ thisObject.eDynamicFeature(featureID).getName());			
 			
 			EList<Description> descriptions = owlIndividual.getTypes();			
@@ -697,11 +697,72 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		}
 
 		public ListIterator<T> listIterator() {
-			return original.listIterator();
+			final OWLTextEListDelegator<T> elist = this;
+			
+			ListIterator<T> iter = new ListIterator<T>() {				
+				
+				private int index = -1;
+				private int size = elist.size();
+				
+				public void add(T e) {
+					if(index == -1) index = 0;
+					elist.add(index, e);
+					size++;
+				}
+
+				public boolean hasNext() {
+					return (index + 1 < size);
+				}
+
+				public boolean hasPrevious() {
+					return (index - 1 > -1);
+				}
+
+				public T next() {	
+					index++;
+					T t = elist.get(index);					
+					return t;
+				}
+
+				public int nextIndex() {
+					int i = index + 1;
+					return i;
+				}
+
+				public T previous() {
+					index--;
+					T t = elist.get(index);					
+					return t;
+				}
+
+				public int previousIndex() {
+					int i = index - 1;
+					if(i == -1) i = 0;
+					return i;
+				}
+
+				public void remove() {
+					if(index == -1) index = 0;
+					elist.remove(index);
+					size--;					
+				}
+
+				public void set(T e) {
+					if(index == -1) index = 0;
+					elist.set(index, e);
+				}				
+			};
+			return iter;
 		}
 
 		public ListIterator<T> listIterator(int index) {
-			return original.listIterator(index);
+			if(index < 0 || index > size()) throw new IndexOutOfBoundsException();
+			
+			ListIterator<T> iter = listIterator();
+			for (int i = 0; i < index; i++)
+				iter.next();
+			
+			return iter;
 		}
 
 		/**
@@ -741,15 +802,27 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 			
 			return original.set(index, element);
 		}
-
-		public List<T> subList(int fromIndex, int toIndex) {
-			return original.subList(fromIndex, toIndex);
+		
+		/**
+		 * Intercepts the subList calls on ELists and adapts the according axioms
+		 * from the ontology. 
+		 * Only for non-structural changes of Objects, not for literals
+		 */
+		public List<T> subList(final int fromIndex, final int toIndex) {
+			if(fromIndex < 0 || toIndex > size() || fromIndex > toIndex) throw new IndexOutOfBoundsException();
+			
+			ArrayList<T> al = new ArrayList<T>();
+			for(int i = fromIndex; i < toIndex; i++){
+				al.add(get(i));
+			}
+			
+			return al;
 		}
 		
 		private boolean isSameFeatureIRI(NestedDescription description){
 			EStructuralFeature feature = eDynamicFeature(featureID);
 			
-			if (description.getDescription() instanceof FeatureRestriction) {
+			if (description.getDescription() instanceof FeatureRestriction && description.getDescription() instanceof ObjectPropertyValue) {
 				FeatureRestriction featureRestriction = (FeatureRestriction)description
 						.getDescription();
 				return (featureRestriction
