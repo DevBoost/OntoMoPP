@@ -274,7 +274,6 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 									.getDescription();
 								if (property.getIndividual() != null && property.getIndividual().equals(individual)){									
 									toRemove = description;
-									break;
 								}
 							}
 						}

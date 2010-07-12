@@ -1087,8 +1087,8 @@ public class OWLTextTest {
 		int count = 2;
 		List<String> list = feature.getComments().subList(2, 4);
 		assertEquals("SubList has wrong size", 2, list.size());	
-		for(String fea : list){
-			assertEquals("wrong order of childs", feature.getComments().get(count), fea);
+		for(String str : list){
+			assertEquals("wrong order of childs", feature.getComments().get(count), str);
 			list.set(count-2, "test"+count);
 			count++;
 		}
