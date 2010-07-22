@@ -808,14 +808,8 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		 * Only for non-structural changes of Objects, not for literals
 		 */
 		public List<T> subList(final int fromIndex, final int toIndex) {
-			if(fromIndex < 0 || toIndex > size() || fromIndex > toIndex) throw new IndexOutOfBoundsException();
-			
-			ArrayList<T> al = new ArrayList<T>();
-			for(int i = fromIndex; i < toIndex; i++){
-				al.add(get(i));
-			}
-			
-			return al;
+		
+			return encapsulate((EList<T>) original.subList(fromIndex, toIndex), this.thisObject, this.featureID);
 		}
 		
 		private boolean isSameFeatureIRI(NestedDescription description){

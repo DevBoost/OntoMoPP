@@ -67,17 +67,6 @@ public class OWLTextTest {
 				"owl", owlResourceFactory);
 	}
 	
-	// TODO Test owlification and retrieval for various attribute types EString, EInt, EFloat, etc.
-	//
-	// TODO implement test for eSet, EAttributes, EReferences, different lower
-	// and upper bounds
-	// TODO implement test for eGet, EAttributes, EReferences, different lower
-	// and upper bounds
-	// TODO implement test for eUnset, EAttributes, EReferences, different lower
-	// and upper bounds
-	// TODO implement test for eIsSet, EAttributes, EReferences, different lower
-	// and upper bounds
-
 	@Test
 	public void testPrinting() throws IOException, InterruptedException {
 		OwlFactory owlFactory = OwlFactory.eINSTANCE;
