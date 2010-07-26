@@ -1,0 +1,5 @@
++Feature "testRootFeature"
+{ 
+	+Feature "Feature_0" <comment_1> { -Feature "Feature_2" }
+	+Feature "Feature_1" 	
+} 

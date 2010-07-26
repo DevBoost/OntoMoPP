@@ -12,8 +12,12 @@
     <genClasses image="false" ecoreClass="owlTextTestLanguage.text.ecore#//Feature">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owlTextTestLanguage.text.ecore#//Feature/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owlTextTestLanguage.text.ecore#//Feature/comments"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owlTextTestLanguage.text.ecore#//Feature/anyFloat"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owlTextTestLanguage.text.ecore#//Feature/anyBoolean"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference owlTextTestLanguage.text.ecore#//Feature/annotation"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference owlTextTestLanguage.text.ecore#//Feature/children"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owlTextTestLanguage.text.ecore#//Feature/uniqueRelations"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owlTextTestLanguage.text.ecore#//Feature/nonUniqueRelations"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference owlTextTestLanguage.text.ecore#//Feature/parent"/>
     </genClasses>
     <genClasses ecoreClass="owlTextTestLanguage.text.ecore#//MandatoryFeature"/>

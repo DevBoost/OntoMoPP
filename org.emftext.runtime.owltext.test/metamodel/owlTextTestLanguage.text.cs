@@ -10,8 +10,11 @@ OPTIONS {
 }
 TOKENS{
 	DEFINE COMMENT$'//'(~('\n'|'\r'|'\uffff'))*$;
-	DEFINE INTEGER$('-')?('1'..'9')('0'..'9')*|'0'$;
-	DEFINE FLOAT$('-')?(('1'..'9') ('0'..'9')* | '0') '.' ('0'..'9')+ $;
+	DEFINE OPERATOR$'+'|'-'|'*'|'/'$;
+	
+	//DEFINE INTEGER$('-')?('1'..'9')('0'..'9')*|'0'$;
+	//DEFINE FLOAT$('-')?(('1'..'9') ('0'..'9')* | '0') '.' ('0'..'9')+ $;
+	
 }
 
 TOKENSTYLES{
@@ -21,9 +24,16 @@ TOKENSTYLES{
 
 RULES{
 	
-	MandatoryFeature ::= "+Feature"   name['"','"'] annotation? comments['<','>']* ("{" children* "}")?;
+	MandatoryFeature ::= "+Feature"   name['"','"'] annotation? 
+		(comments['<','>'] | anyBoolean['&','&'] | anyFloat['%','%'])* //| anyInteger['$','$'])* 
+		("{" children* "}")?;
 	
-	OptionalFeature ::= "-Feature"   name['"','"'] ("{" children* "}")?;
+	OptionalFeature ::= "-Feature"   name['"','"'] 
+		("{" children* "}")? 
+		//("("  () operator[OPERATOR] )* ")")?
+		;
 	
 	Annotation ::=	value['[',']'];
+	
+	
 }

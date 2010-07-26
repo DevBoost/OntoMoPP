@@ -1,0 +1,76 @@
+Prefix: : <http://transformed/notification.fea#> 
+	Prefix: feature: <http://org.owltext/feature#> 
+	Ontology: <http://transformed/notification.fea> 
+	Import: <./feature.mm.owl> 
+	
+	Class: feature:Feature 
+		
+		
+	Class: feature:MandatoryFeature 
+		
+		
+	Class: feature:OptionalFeature 
+		
+		
+	Class: feature:Annotation 
+		
+		
+	DataProperty: feature:Feature_name 
+		
+		
+	DataProperty: feature:Feature_comments 
+		
+		
+	DataProperty: feature:Feature_anyFloat 
+		
+		
+	DataProperty: feature:Feature_anyBoolean 
+		
+		
+	ObjectProperty: feature:Feature_annotation 
+		
+		
+	ObjectProperty: feature:Feature_children 
+		
+		
+	ObjectProperty: feature:Feature_parent 
+		
+		
+	DataProperty: feature:Annotation_value 
+		
+		
+	Class: feature:__c__Annotation0_min_1_value 
+		
+		
+	Class: feature:__c__Annotation1_max_1_value 
+		
+		
+	Class: feature:__c__Feature2_min_1_name 
+		
+		
+	Class: feature:__c__Feature3_max_1_name 
+		
+		
+	Class: feature:__c__Feature4_max_1_annotation 
+		
+		
+	Class: feature:__c__Feature5_max_1_parent 
+		
+		
+	Individual: individual_163 
+		Types:  feature:MandatoryFeature ,  (  feature:Feature_name value "testRootFeature" ) ,  (  feature:Feature_children value individual_164 ) ,  (  feature:Feature_children value individual_166 ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_anyFloat exactly 0  xsd:float ) ,  (  feature:Feature_anyBoolean exactly 0  xsd:boolean ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 2  feature:Feature ) ,  (  feature:Feature_parent exactly 0  feature:Feature ) 
+			
+		
+	Individual: individual_164 
+		Types:  feature:MandatoryFeature ,  (  feature:Feature_name value "Feature_0" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_anyFloat exactly 0  xsd:float ) ,  (  feature:Feature_anyBoolean exactly 0  xsd:boolean ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_166 
+		Types:  feature:MandatoryFeature ,  (  feature:Feature_name value "Feature_1" ) ,  (  feature:Feature_children value individual_165 ) ,  (  feature:Feature_comments value "comment_1" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 1  xsd:string ) ,  (  feature:Feature_anyFloat exactly 0  xsd:float ) ,  (  feature:Feature_anyBoolean exactly 0  xsd:boolean ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 1  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	Individual: individual_165 
+		Types:  feature:OptionalFeature ,  (  feature:Feature_name value "Feature_2" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_anyFloat exactly 0  xsd:float ) ,  (  feature:Feature_anyBoolean exactly 0  xsd:boolean ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+			
+		
+	DifferentIndividuals: individual_163 , individual_164 , individual_166 , individual_165

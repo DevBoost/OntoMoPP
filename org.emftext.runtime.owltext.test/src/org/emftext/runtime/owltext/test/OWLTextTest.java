@@ -699,10 +699,9 @@ public class OWLTextTest {
 		EObject rootObject = loadResource.getContents().get(0);
 		assertTrue("Root object is a Feature", rootObject instanceof Feature);
 		Feature feature = (Feature)loadResource.getContents().get(0);
-		feature.getChildren().add(feature.getChildren().get(0));
 		
 		Object[] array = feature.getChildren().toArray();
-		assertEquals("wrong size.", 4, array.length);
+		assertEquals("wrong size.", 3, array.length);
 		assertTrue("wrong typ", array[0] instanceof Feature);
 		assertEquals("wrong child", feature.getChildren().get(0), array[0]);		
 	}
@@ -715,10 +714,9 @@ public class OWLTextTest {
 		EObject rootObject = loadResource.getContents().get(0);
 		assertTrue("Root object is a Feature", rootObject instanceof Feature);
 		Feature feature = (Feature)loadResource.getContents().get(0);
-		feature.getComments().add(feature.getComments().get(0));
 		
 		Object[] array = feature.getComments().toArray();
-		assertEquals("wrong size.", 4, array.length);
+		assertEquals("wrong size.", 3, array.length);
 		assertTrue("wrong typ", array[0] instanceof String);
 		assertEquals("wrong comment", feature.getComments().get(0), array[0]);		
 	}
@@ -732,19 +730,18 @@ public class OWLTextTest {
 		EObject rootObject = loadResource.getContents().get(0);
 		assertTrue("Root object is a Feature", rootObject instanceof Feature);
 		Feature feature = (Feature)loadResource.getContents().get(0);
-		feature.getChildren().add(feature.getChildren().get(0));
 		
 		Feature[] array = feature.getChildren().toArray(new Feature[0]);
-		assertEquals("wrong size.", 4, array.length);
+		assertEquals("wrong size.", 3, array.length);
 		assertTrue("wrong typ", array[0] instanceof Feature);
 		assertEquals("wrong child", feature.getChildren().get(0), array[0]);	
 		
 		Feature[] array2 = new Feature[10];
-		for(int i=4; i<10; i++)
+		for(int i=3; i<10; i++)
 			array2[i] = feature.getChildren().get(2);
 		array2 = feature.getChildren().toArray(array2);
 		assertEquals("wrong size.", 10, array2.length);
-		for(int i=4; i<10; i++)
+		for(int i=3; i<10; i++)
 			assertNull("the unused space of the specified array should be cleared", array2[i]);
 	}
 	//test attributes with bounds 0..-1
@@ -756,20 +753,18 @@ public class OWLTextTest {
 		EObject rootObject = loadResource.getContents().get(0);
 		assertTrue("Root object is a Feature", rootObject instanceof Feature);
 		Feature feature = (Feature)loadResource.getContents().get(0);
-		feature.getComments().add(feature.getComments().get(0));
-
 		
 		String[] array = feature.getComments().toArray(new String[0]);
-		assertEquals("wrong size.", 4, array.length);
+		assertEquals("wrong size.", 3, array.length);
 		assertTrue("wrong typ", array[0] instanceof String);
 		assertEquals("wrong child", feature.getComments().get(0), array[0]);	
 		
 		String[] array2 = new String[10];
-		for(int i=4; i<10; i++)
+		for(int i=3; i<10; i++)
 			array2[i] = feature.getComments().get(2);
 		array2 = feature.getComments().toArray(array2);
 		assertEquals("wrong size.", 10, array2.length);
-		for(int i=4; i<10; i++)
+		for(int i=3; i<10; i++)
 			assertNull("the unused space of the specified array should be cleared", array2[i]);
 	}
 	
@@ -800,33 +795,6 @@ public class OWLTextTest {
 		assertEquals("wrong index.", 0, feature.getComments().indexOf(feature.getComments().get(0)));
 		assertEquals("wrong index.", 1, feature.getComments().indexOf(feature.getComments().get(1)));
 		assertEquals("wrong index.", 2, feature.getComments().indexOf(feature.getComments().get(2)));		
-	}
-	
-	//test reference with bounds 0..-1
-	@Test
-	public void testLastIndexOfChildren() throws Throwable {
-		String inFileName = "indexOrSizeOrToArray.fea";		
-		
-		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
-		EObject rootObject = loadResource.getContents().get(0);
-		assertTrue("Root object is a Feature", rootObject instanceof Feature);
-		Feature feature = (Feature)loadResource.getContents().get(0);
-		
-		feature.getChildren().add(feature.getChildren().get(0));
-		assertEquals("wrong index.", 3, feature.getChildren().lastIndexOf(feature.getChildren().get(0)));	
-	}
-	//test attributes with bounds 0..-1
-	@Test
-	public void testLastIndexOfComment() throws Throwable {
-		String inFileName = "indexOrSizeOrToArray.fea";		
-		
-		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
-		EObject rootObject = loadResource.getContents().get(0);
-		assertTrue("Root object is a Feature", rootObject instanceof Feature);
-		Feature feature = (Feature)loadResource.getContents().get(0);
-		
-		feature.getComments().add(feature.getComments().get(0));
-		assertEquals("wrong index.", 3, feature.getComments().lastIndexOf(feature.getComments().get(0)));	
 	}
 	
 	//test reference with bounds 0..-1
@@ -927,7 +895,6 @@ public class OWLTextTest {
 		EObject rootObject = loadResource.getContents().get(0);
 		assertTrue("Root object is a Feature", rootObject instanceof Feature);
 		Feature feature = (Feature)loadResource.getContents().get(0);
-		feature.getChildren().add(feature.getChildren().get(0));
 		
 		Iterator<Feature> iter = feature.getChildren().iterator();
 		int count = 0;
@@ -936,7 +903,7 @@ public class OWLTextTest {
 			assertEquals("wrong order of childs", feature.getChildren().get(count), child);				
 			count++;			
 		}
-		assertEquals("iterator has wrong size", 4, count);	
+		assertEquals("iterator has wrong size", 3, count);	
 	}
 	//test attributes with bounds 0..-1
 	@Test
@@ -947,7 +914,6 @@ public class OWLTextTest {
 		EObject rootObject = loadResource.getContents().get(0);
 		assertTrue("Root object is a Feature", rootObject instanceof Feature);
 		Feature feature = (Feature)loadResource.getContents().get(0);
-		feature.getComments().add(feature.getComments().get(0));
 		
 		Iterator<String> iter = feature.getComments().iterator();
 		int count = 0;
@@ -956,7 +922,7 @@ public class OWLTextTest {
 			assertEquals("wrong order of comments", feature.getComments().get(count), comment);				
 			count++;			
 		}
-		assertEquals("iterator has wrong size", 4, count);		
+		assertEquals("iterator has wrong size", 3, count);		
 	}
 	
 	//test reference with bounds 0..-1
@@ -968,14 +934,13 @@ public class OWLTextTest {
 		EObject rootObject = loadResource.getContents().get(0);
 		assertTrue("Root object is a Feature", rootObject instanceof Feature);
 		Feature feature = (Feature)loadResource.getContents().get(0);
-		feature.getChildren().add(feature.getChildren().get(0));
 		
 		ListIterator<Feature> iter = feature.getChildren().listIterator();
 		while(iter.hasNext()){
 			Feature child = iter.next();
 			//assertEquals("wrong order of childs", feature.getChildren().get(iter.nextIndex()-1), child);						
 		}
-		assertEquals("ListIterator has wrong index", 4, iter.nextIndex());	
+		assertEquals("ListIterator has wrong index", 3, iter.nextIndex());	
 	}
 	//test attributes with bounds 0..-1
 	@Test
@@ -986,14 +951,13 @@ public class OWLTextTest {
 		EObject rootObject = loadResource.getContents().get(0);
 		assertTrue("Root object is a Feature", rootObject instanceof Feature);
 		Feature feature = (Feature)loadResource.getContents().get(0);
-		feature.getComments().add(feature.getComments().get(0));
 		
 		ListIterator<String> iter = feature.getComments().listIterator();
 		while(iter.hasNext()){
 			String comment = iter.next();
 			assertEquals("wrong order of comments", feature.getComments().get(iter.nextIndex()-1), comment);						
 		}
-		assertEquals("ListIterator has wrong index", 4, iter.nextIndex());		
+		assertEquals("ListIterator has wrong index", 3, iter.nextIndex());		
 	}
 	
 	//test reference with bounds 0..-1
@@ -1005,7 +969,6 @@ public class OWLTextTest {
 		EObject rootObject = loadResource.getContents().get(0);
 		assertTrue("Root object is a Feature", rootObject instanceof Feature);
 		Feature feature = (Feature)loadResource.getContents().get(0);
-		feature.getChildren().add(feature.getChildren().get(0));
 		
 		int count = 0;
 		ListIterator<Feature> iter = feature.getChildren().listIterator(1);
@@ -1014,8 +977,8 @@ public class OWLTextTest {
 			assertEquals("wrong order of childs", feature.getChildren().get(iter.nextIndex()-1), child);	
 			count++;
 		}
-		assertEquals("ListIterator has wrong size", 3, count);	
-		assertEquals("ListIterator has wrong index", 4, iter.nextIndex());	
+		assertEquals("ListIterator has wrong size", 2, count);	
+		assertEquals("ListIterator has wrong index", 3, iter.nextIndex());	
 	}
 	//test attributes with bounds 0..-1
 	@Test
@@ -1026,7 +989,6 @@ public class OWLTextTest {
 		EObject rootObject = loadResource.getContents().get(0);
 		assertTrue("Root object is a Feature", rootObject instanceof Feature);
 		Feature feature = (Feature)loadResource.getContents().get(0);
-		feature.getComments().add(feature.getComments().get(0));
 		
 		int count = 0;
 		ListIterator<String> iter = feature.getComments().listIterator(1);
@@ -1035,8 +997,8 @@ public class OWLTextTest {
 			assertEquals("wrong order of comments", feature.getComments().get(iter.nextIndex()-1), comment);
 			count++;
 		}
-		assertEquals("ListIterator has wrong size", 3, count);	
-		assertEquals("ListIterator has wrong index", 4, iter.nextIndex());		
+		assertEquals("ListIterator has wrong size", 2, count);	
+		assertEquals("ListIterator has wrong index", 3, iter.nextIndex());		
 	}
 	
 	//test reference with bounds 0..-1
@@ -1048,18 +1010,17 @@ public class OWLTextTest {
 		EObject rootObject = loadResource.getContents().get(0);
 		assertTrue("Root object is a Feature", rootObject instanceof Feature);
 		Feature feature = (Feature)loadResource.getContents().get(0);
-		feature.getChildren().add(feature.getChildren().get(0));
 		
-		int count = 2;
-		List<Feature> list = feature.getChildren().subList(2, 4);
+		int count = 1;
+		List<Feature> list = feature.getChildren().subList(1, 3);
 		assertEquals("SubList has wrong size", 2, list.size());	
 		for(Feature fea : list){
 			assertEquals("wrong order of childs", feature.getChildren().get(count), fea);	
 			fea.setName("test"+count);
 			count++;
 		}
-		assertEquals("child has wrong name", "test2", feature.getChildren().get(2).getName());
-		assertEquals("child has wrong name", "test3", feature.getChildren().get(3).getName());
+		assertEquals("child has wrong name", "test1", feature.getChildren().get(2).getName());
+		assertEquals("child has wrong name", "test2", feature.getChildren().get(3).getName());
 		
 	}
 	//test attributes with bounds 0..-1
@@ -1073,16 +1034,115 @@ public class OWLTextTest {
 		Feature feature = (Feature)loadResource.getContents().get(0);
 		feature.getComments().add(feature.getComments().get(0));
 		
-		int count = 2;
-		List<String> list = feature.getComments().subList(2, 4);
+		int count = 1;
+		List<String> list = feature.getComments().subList(1, 3);
 		assertEquals("SubList has wrong size", 2, list.size());	
 		for(String str : list){
 			assertEquals("wrong order of childs", feature.getComments().get(count), str);
-			list.set(count-2, "test"+count);
+			list.set(count-1, "test"+count);
 			count++;
 		}
-		assertEquals("comment has wrong content", "test2", feature.getComments().get(2));
-		assertEquals("comment has wrong content", "test3", feature.getComments().get(3));
+		assertEquals("comment has wrong content", "test1", feature.getComments().get(2));
+		assertEquals("comment has wrong content", "test2", feature.getComments().get(3));
+	}
+	
+	//test attributes with bounds 0..-1
+	@Test
+	public void testAddLiteral() throws Throwable {
+		String inFileName = "syntaxMinimum.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);		
+		
+		feature.getComments().add("Test");
+		feature.getComments().add("asd");
+		feature.getComments().add("Test");
+		
+		feature.getAnyBoolean().add(true);		
+		feature.getAnyBoolean().add(false);
+		//feature.getAnyBoolean().add(true);
+		/*
+		feature.getAnyFloat().add(0.001f);
+		feature.getAnyFloat().add(-123.45f);
+		feature.getAnyFloat().add(0.001f);
+		*/
+		/*
+		feature.getAnyInteger().add(0);
+		feature.getAnyInteger().add(-123);
+		feature.getAnyInteger().add(0);
+		*/
+		assertCorrespondance(feature, "addLiteral");
+	}
+	
+	//test reference with bounds 0..-1
+	@Test
+	public void testNotification() throws Throwable {
+		String inFileName = "notification.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		
+		Feature f0 = feature.getChildren().get(0);
+		Feature f1 = feature.getChildren().get(1);
+		f1.getChildren().add(f0.getChildren().get(0));
+		f1.getComments().add(f0.getComments().get(0));
+		
+		assertCorrespondance(feature, "notification");
+	}
+	
+	//test reference with bounds 0..-1
+	@Test
+	public void testUnique() throws Throwable {
+		String inFileName = "uniqueRelation.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		
+		for(Feature fea : feature.getChildren())
+			feature.getUniqueRelations().add(fea);
+		
+		feature.getUniqueRelations().add(feature.getChildren().get(0));
+		
+		assertEquals("wrong size.", 3, feature.getUniqueRelations().size());
+	}
+	@Test
+	public void testNonUnique() throws Throwable {
+		String inFileName = "uniqueRelation.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		
+		for(Feature fea : feature.getChildren())
+			feature.getNonUniqueRelations().add(fea);
+		
+		feature.getNonUniqueRelations().add(feature.getChildren().get(0));
+		
+		assertEquals("wrong size.", 4, feature.getNonUniqueRelations().size());
+	}
+	
+	//test reference with bounds 0..-1
+	@Test
+	public void testLastIndexOfNonUniqueRelations() throws Throwable {
+		String inFileName = "indexOrSizeOrToArray.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);
+		
+		for(Feature fea : feature.getChildren())
+			feature.getNonUniqueRelations().add(fea);
+		
+		feature.getNonUniqueRelations().add(feature.getChildren().get(0));
+		assertEquals("wrong index.", 3, feature.getNonUniqueRelations().lastIndexOf(feature.getChildren().get(0)));	
 	}
 	
 	//usefull for debug

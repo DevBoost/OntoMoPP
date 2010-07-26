@@ -6,8 +6,17 @@ package feature // this is the package name
 	abstract class Feature {
 		attribute EString name (1..1);
 		attribute EString comments (0..-1);
+		
+		attribute EFloat anyFloat (0..-1);
+		attribute EBoolean anyBoolean (0..-1);
+		//attribute EInt anyInteger (0..-1);
+		
 		containment reference Annotation annotation(0..1);
 		containment reference Feature children (0..-1) opposite parent;
+		
+		unique reference Feature uniqueRelations (0..-1);
+		reference Feature nonUniqueRelations (0..-1);
+		
 		reference Feature parent (0..1) opposite children;
 	}
 	
@@ -15,11 +24,19 @@ package feature // this is the package name
 	}
 	
 	class OptionalFeature extends Feature {
+		//unique attribute Operator operator (0..-1);
 	}
-	
+		
 	class Annotation {
 		attribute EString value (1..1);
 	}
 	
-
+	/*
+	serializable enum Operator {
+			1 : ADD = "+";
+			2 : SUB = "-";
+			3 : MUL = "*";
+			4 : DIV = "/";
+	}
+	*/
 }
