@@ -21,7 +21,7 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
-			<name>org.emftext.language.owl.resource.owl.builder</name>
+			<name>org.emftext.language.ecore.resource.text.builder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
@@ -29,6 +29,6 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.pde.PluginNature</nature>
-		<nature>org.emftext.language.owl.resource.owl.nature</nature>
+		<nature>org.emftext.language.ecore.resource.text.nature</nature>
 	</natures>
 </projectDescription>

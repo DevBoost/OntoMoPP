@@ -48,7 +48,7 @@
     </genClasses>
     <genClasses ecoreClass="owl.text.ecore#//Annotation">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owl.text.ecore#//Annotation/annotationProperty"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.text.ecore#//Annotation/target"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//Annotation/target"/>
     </genClasses>
     <genClasses image="false" ecoreClass="owl.text.ecore#//Target"/>
     <genClasses ecoreClass="owl.text.ecore#//IRITarget">
@@ -72,7 +72,7 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owl.text.ecore#//DataProperty/disjointProperties"/>
     </genClasses>
     <genClasses ecoreClass="owl.text.ecore#//AnnotationProperty">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//AnnotationProperty/domains"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owl.text.ecore#//AnnotationProperty/domains"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owl.text.ecore#//AnnotationProperty/ranges"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owl.text.ecore#//AnnotationProperty/superAnnotationProperties"/>
     </genClasses>
@@ -98,10 +98,10 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owl.text.ecore#//Individual/sameAs"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owl.text.ecore#//Individual/differentFrom"/>
     </genClasses>
-    <genClasses image="false" ecoreClass="owl.text.ecore#//Datatype">
+    <genClasses ecoreClass="owl.text.ecore#//Datatype">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//Datatype/dataRange"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//Misc"/>
+    <genClasses image="false" ecoreClass="owl.text.ecore#//Misc"/>
     <genClasses ecoreClass="owl.text.ecore#//EquivalentClasses">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//EquivalentClasses/descriptions"/>
     </genClasses>
@@ -122,7 +122,7 @@
     </genClasses>
     <genClasses ecoreClass="owl.text.ecore#//HasKey">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//HasKey/description"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owl.text.ecore#//HasKey/featureReferences"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//HasKey/featureReferences"/>
     </genClasses>
     <genClasses ecoreClass="owl.text.ecore#//DataRange">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//DataRange/dataConjunctions"/>
@@ -156,9 +156,9 @@
     </genClasses>
     <genClasses ecoreClass="owl.text.ecore#//DataPropertyFact">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owl.text.ecore#//DataPropertyFact/dataProperty"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owl.text.ecore#//DataPropertyFact/literal"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//DataPropertyFact/literal"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//Description"/>
+    <genClasses image="false" ecoreClass="owl.text.ecore#//Description"/>
     <genClasses ecoreClass="owl.text.ecore#//Disjunction">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//Disjunction/conjunctions"/>
     </genClasses>
@@ -182,14 +182,14 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//FeatureRestriction/featureReference"/>
     </genClasses>
     <genClasses image="false" ecoreClass="owl.text.ecore#//ObjectPropertyRestriction">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owl.text.ecore#//ObjectPropertyRestriction/objectPropertyReference"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//ObjectPropertyRestriction/objectPropertyReference"/>
     </genClasses>
     <genClasses ecoreClass="owl.text.ecore#//FeatureReference">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owl.text.ecore#//FeatureReference/feature"/>
     </genClasses>
     <genClasses ecoreClass="owl.text.ecore#//InverseFeatureReference"/>
     <genClasses ecoreClass="owl.text.ecore#//OwlApiInverseFeatureReference"/>
-    <genClasses image="false" ecoreClass="owl.text.ecore#//ObjectPropertyReference">
+    <genClasses ecoreClass="owl.text.ecore#//ObjectPropertyReference">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owl.text.ecore#//ObjectPropertyReference/objectProperty"/>
     </genClasses>
     <genClasses ecoreClass="owl.text.ecore#//InverseObjectPropertyReference"/>

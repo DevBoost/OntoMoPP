@@ -14,8 +14,8 @@ package feature // this is the package name
 		containment reference Annotation annotation(0..1);
 		containment reference Feature children (0..-1) opposite parent;
 		
-		unique reference Feature uniqueRelations (0..-1);
-		reference Feature nonUniqueRelations (0..-1);
+		reference Feature uniqueRelations (0..-1);
+		ununique reference Feature nonUniqueRelations (0..-1);
 		
 		reference Feature parent (0..1) opposite children;
 	}
