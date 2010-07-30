@@ -8,6 +8,7 @@
 	
 	<extension point="org.eclipse.ui.editors">
 		<editor class="org.emftext.language.owl.resource.owl.ui.OwlEditor" contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor" extensions="owl" icon="icons/editor_icon.gif" id="org.emftext.language.owl.resource.owl.ui.OwlEditor" name="EMFText owl Editor">
+			<contentTypeBinding contentTypeId="org.emftext.language.owl.resource.owl"/>
 		</editor>
 	</extension>
 	
@@ -41,6 +42,18 @@
 		</category>
 		<wizard category="org.emftext.runtime.ui.EMFTextFileCategory" icon="/icons/default_new_icon.gif" class="org.emftext.language.owl.resource.owl.ui.OwlNewFileWizard" id="org.emftext.language.owl.resource.owl.ui.OwlNewFileWizard" name="EMFText .owl file">
 		</wizard>
+	</extension>
+	
+	<extension point="org.eclipse.core.filebuffers.annotationModelCreation">
+		<factory class="org.emftext.language.owl.resource.owl.ui.OwlAnnotationModelFactory" extensions="owl" />
+	</extension>
+	
+	<extension point="org.eclipse.core.contenttype.contentTypes">
+		<content-type id="org.emftext.language.owl.resource.owl" name=".owl File" base-type="org.eclipse.core.runtime.text" file-extensions="owl"/>
+	</extension>
+	
+	<extension point="org.eclipse.ui.editors.documentProviders">
+		<provider class="org.eclipse.ui.editors.text.TextFileDocumentProvider" extensions="owl" id="org.emftext.language.owl.resource.owl.ui.provider" />
 	</extension>
 	
 </plugin>

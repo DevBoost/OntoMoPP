@@ -18,6 +18,7 @@ import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
 import org.emftext.language.owl.IRIIdentified;
 import org.emftext.language.owl.resource.owl.IOwlBuilder;
 import org.emftext.language.owl.resource.owl.IOwlProblem;
+import org.emftext.language.owl.resource.owl.IOwlQuickFix;
 import org.emftext.language.owl.resource.owl.OwlEProblemType;
 import org.emftext.language.owl.resource.owl.mopp.OwlBuilderAdapter;
 import org.emftext.language.owl.resource.owl.mopp.OwlResource;
@@ -78,6 +79,10 @@ public class OwlReasoningBuilder extends IncrementalProjectBuilder implements
 					public String getMessage() {
 						return e.getMessage();
 					}
+
+					public IOwlQuickFix getQuickFix() {
+						return null;
+					}
 				}, resource.getContents().get(0));
 
 				return;
@@ -98,6 +103,10 @@ public class OwlReasoningBuilder extends IncrementalProjectBuilder implements
 							public String getMessage() {
 								return " '" + c.getIri()
 										+ "' is inconsistent: " + error;
+							}
+
+							public IOwlQuickFix getQuickFix() {
+								return null;
 							}
 						}, next);
 					}

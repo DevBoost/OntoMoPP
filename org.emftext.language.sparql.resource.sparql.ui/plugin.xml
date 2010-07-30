@@ -8,6 +8,7 @@
 	
 	<extension point="org.eclipse.ui.editors">
 		<editor class="org.emftext.language.sparql.resource.sparql.ui.RqEditor" contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor" extensions="rq" icon="icons/editor_icon.gif" id="org.emftext.language.sparql.resource.sparql.ui.RqEditor" name="EMFText rq Editor">
+			<contentTypeBinding contentTypeId="org.emftext.language.sparql.resource.sparql"/>
 		</editor>
 	</extension>
 	
@@ -41,6 +42,18 @@
 		</category>
 		<wizard category="org.emftext.runtime.ui.EMFTextFileCategory" icon="/icons/default_new_icon.gif" class="org.emftext.language.sparql.resource.sparql.ui.RqNewFileWizard" id="org.emftext.language.sparql.resource.sparql.ui.RqNewFileWizard" name="EMFText .rq file">
 		</wizard>
+	</extension>
+	
+	<extension point="org.eclipse.core.filebuffers.annotationModelCreation">
+		<factory class="org.emftext.language.sparql.resource.sparql.ui.RqAnnotationModelFactory" extensions="rq" />
+	</extension>
+	
+	<extension point="org.eclipse.core.contenttype.contentTypes">
+		<content-type id="org.emftext.language.sparql.resource.sparql" name=".rq File" base-type="org.eclipse.core.runtime.text" file-extensions="rq"/>
+	</extension>
+	
+	<extension point="org.eclipse.ui.editors.documentProviders">
+		<provider class="org.eclipse.ui.editors.text.TextFileDocumentProvider" extensions="rq" id="org.emftext.language.sparql.resource.sparql.ui.provider" />
 	</extension>
 	
 </plugin>
