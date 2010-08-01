@@ -26,7 +26,7 @@ public class OwlFLOATTokenResolver implements IOwlTokenResolver {
 			org.eclipse.emf.ecore.EStructuralFeature feature,
 			org.eclipse.emf.ecore.EObject container) {
 		java.lang.String result = defaultResolver.deResolve(value, feature,
-				container);
+				container) + "f";
 		return result;
 	}
 

@@ -50,6 +50,7 @@ public class OWLTransformationHelper {
 		datatypeMap.put("EIntegerObject", "xsd:integer");
 		datatypeMap.put("EBigInteger", "xsd:integer");
 		datatypeMap.put("integer", "xsd:integer");
+		datatypeMap.put("int", "xsd:integer");
 		// # xsd:nonNegativeInteger
 		// # xsd:nonPositiveInteger
 		// # xsd:positiveInteger
@@ -60,8 +61,7 @@ public class OWLTransformationHelper {
 		datatypeMap.put("ELong", "xsd:long");
 		datatypeMap.put("ELongObject", "xsd:long");
 
-		// # xsd:int
-		datatypeMap.put("int", "xsd:int");
+		
 		// # xsd:short
 		datatypeMap.put("short", "xsd:short");
 		datatypeMap.put("java.lang.Short", "xsd:short");

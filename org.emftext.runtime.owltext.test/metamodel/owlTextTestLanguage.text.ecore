@@ -9,7 +9,7 @@ package feature // this is the package name
 		
 		attribute EFloat anyFloat (0..-1);
 		attribute EBoolean anyBoolean (0..-1);
-		//attribute EInt anyInteger (0..-1);
+		attribute EInt anyInteger (0..-1);
 		
 		containment reference Annotation annotation(0..1);
 		containment reference Feature children (0..-1) opposite parent;

@@ -1062,17 +1062,17 @@ public class OWLTextTest {
 		
 		feature.getAnyBoolean().add(true);		
 		feature.getAnyBoolean().add(false);
-		//feature.getAnyBoolean().add(true);
-		/*
+		feature.getAnyBoolean().add(true);
+		
 		feature.getAnyFloat().add(0.001f);
 		feature.getAnyFloat().add(-123.45f);
 		feature.getAnyFloat().add(0.001f);
-		*/
-		/*
+		
+		
 		feature.getAnyInteger().add(0);
 		feature.getAnyInteger().add(-123);
 		feature.getAnyInteger().add(0);
-		*/
+		
 		assertCorrespondance(feature, "addLiteral");
 	}
 	
@@ -1227,6 +1227,9 @@ public class OWLTextTest {
 				owlifiedModelOutputFile));
 		out.write(owlRepresentation);
 		out.close();
+		
+		validate(owlifiedModelOutputFile, false);
+		
 		OwlResource owlifiedOutputResource = loadResource(owlifiedModelOutputFile);
 		EObject owlifiedOntologyRoot = owlifiedOutputResource.getContents()
 				.get(0);
@@ -1234,8 +1237,6 @@ public class OWLTextTest {
 				"The root element of the owlified output resource not instanceOf OntologyDocument",
 				owlifiedOntologyRoot instanceof OntologyDocument);
 		owlifiedOutputResource.save(Collections.EMPTY_MAP);
-		
-		validate(owlifiedModelOutputFile, false);		
 		
 		OwlReasoningBuilder builder = new OwlReasoningBuilder();
 		builder.validateOWL(owlRepresentation, owlifiedOutputResource);

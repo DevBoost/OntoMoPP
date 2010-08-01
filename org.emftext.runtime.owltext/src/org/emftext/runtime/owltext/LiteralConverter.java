@@ -12,10 +12,18 @@ public class LiteralConverter {
 
 	private OwlFactory factory = OwlFactory.eINSTANCE;
 	private Datatype xsdBoolean;
+	private Datatype xsdFloat;
+	private Datatype xsdInteger;
 
 	public LiteralConverter() {
 		xsdBoolean = factory.createDatatype();
 		xsdBoolean.setIri("xsd:boolean");
+		
+		xsdFloat = factory.createDatatype();
+		xsdFloat.setIri("xsd:float");
+		
+		xsdInteger = factory.createDatatype();
+		xsdInteger.setIri("xsd:float");
 	}
 
 	public Literal convert(Object newValue) {
@@ -49,19 +57,20 @@ public class LiteralConverter {
 	public Literal doConvert(Integer newValue) {
 		IntegerLiteral textLiteral = factory.createIntegerLiteral();
 		textLiteral.setValue(newValue);
+		
 		return textLiteral;
 	}
 
 	public Literal doConvert(Float newValue) {
 		FloatingPointLiteral textLiteral = factory.createFloatingPointLiteral();
 		textLiteral.setLiteral(newValue);
+
 		return textLiteral;
 	}
 
 	public Literal doConvert(Boolean newValue) {
 		TypedLiteral textLiteral = factory.createTypedLiteral();
 		textLiteral.setLexicalValue(newValue.toString());
-
 		textLiteral.setTheDatatype(xsdBoolean);
 		return textLiteral;
 	}
