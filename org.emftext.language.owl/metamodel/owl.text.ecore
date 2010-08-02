@@ -304,8 +304,7 @@ package owl owl "http://org.emftext/owl.ecore" {
 	}
 	
 	class DecimalLiteral extends Literal {
-			attribute EInt preComma (1..1);
-			attribute EInt postComma (1..1);
+			attribute EBigDecimal value (1..1);
 	}
 	
 	class FloatingPointLiteral extends Literal {

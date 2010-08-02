@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -19,7 +20,10 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
+import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.emf.compare.diff.service.DiffService;
@@ -27,7 +31,10 @@ import org.eclipse.emf.compare.match.MatchOptions;
 import org.eclipse.emf.compare.match.metamodel.MatchModel;
 import org.eclipse.emf.compare.match.service.MatchService;
 import org.eclipse.emf.compare.util.ModelUtils;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.Resource.Diagnostic;
@@ -48,6 +55,11 @@ import org.emftext.runtime.owltext.OWLTextEObjectImpl;
 import org.emftext.runtime.owltext.OWLTextEObjectPrinter;
 import org.junit.Test;
 import org.owltext.feature.Annotation;
+import org.owltext.feature.AnyBigDecimal;
+import org.owltext.feature.AnyBoolean;
+import org.owltext.feature.AnyChar;
+import org.owltext.feature.AnyFloat;
+import org.owltext.feature.AnyInt;
 import org.owltext.feature.Feature;
 import org.owltext.feature.FeaturePackage;
 import org.owltext.feature.OptionalFeature;
@@ -1058,20 +1070,45 @@ public class OWLTextTest {
 		
 		feature.getComments().add("Test");
 		feature.getComments().add("asd");
-		feature.getComments().add("Test");
 		
-		feature.getAnyBoolean().add(true);		
-		feature.getAnyBoolean().add(false);
-		feature.getAnyBoolean().add(true);
+		feature.getComments().add("Test"); //unique Test
 		
-		feature.getAnyFloat().add(0.001f);
-		feature.getAnyFloat().add(-123.45f);
-		feature.getAnyFloat().add(0.001f);
+		AnyBoolean b1 = FeaturePackage.eINSTANCE.getFeatureFactory().createAnyBoolean();
+		AnyBoolean b2 = FeaturePackage.eINSTANCE.getFeatureFactory().createAnyBoolean();
+		b1.setLiteral(true);
+		b2.setLiteral(false);		
+		feature.getAnyLiterals().add(b1);		
+		feature.getAnyLiterals().add(b2);		
+		
+		AnyFloat f1 = FeaturePackage.eINSTANCE.getFeatureFactory().createAnyFloat();
+		AnyFloat f2 = FeaturePackage.eINSTANCE.getFeatureFactory().createAnyFloat();
+		f1.setLiteral(0.001f);
+		f2.setLiteral(-123.45f);		
+		feature.getAnyLiterals().add(f1);		
+		feature.getAnyLiterals().add(f2);		
+		
+		AnyInt i1 = FeaturePackage.eINSTANCE.getFeatureFactory().createAnyInt();
+		AnyInt i2 = FeaturePackage.eINSTANCE.getFeatureFactory().createAnyInt();
+		i1.setLiteral(0);
+		i2.setLiteral(-123);		
+		feature.getAnyLiterals().add(i1);		
+		feature.getAnyLiterals().add(i2);
 		
 		
-		feature.getAnyInteger().add(0);
-		feature.getAnyInteger().add(-123);
-		feature.getAnyInteger().add(0);
+		AnyBigDecimal bd1 = FeaturePackage.eINSTANCE.getFeatureFactory().createAnyBigDecimal();
+		AnyBigDecimal bd2 = FeaturePackage.eINSTANCE.getFeatureFactory().createAnyBigDecimal();
+		bd1.setLiteral(new BigDecimal(78.90));
+		bd2.setLiteral(new BigDecimal(-123.456));		
+		feature.getAnyLiterals().add(bd1);		
+		feature.getAnyLiterals().add(bd2);	
+		
+		
+		AnyChar c1 = FeaturePackage.eINSTANCE.getFeatureFactory().createAnyChar();
+		AnyChar c2 = FeaturePackage.eINSTANCE.getFeatureFactory().createAnyChar();
+		c1.setLiteral('a');
+		c2.setLiteral('b');		
+		feature.getAnyLiterals().add(c1);		
+		feature.getAnyLiterals().add(c2);
 		
 		assertCorrespondance(feature, "addLiteral");
 	}

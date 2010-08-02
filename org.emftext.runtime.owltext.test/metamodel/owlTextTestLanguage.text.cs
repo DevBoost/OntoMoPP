@@ -25,8 +25,7 @@ TOKENSTYLES{
 RULES{
 	
 	MandatoryFeature ::= "+Feature"   name['"','"'] annotation? 
-		(comments['<','>'] | anyBoolean['&','&'] | anyFloat['%','%'])* //| anyInteger['$','$'])* 
-		("{" children* "}")?;
+		comments['<','>']* anyLiterals* ("{" children* "}")?;
 	
 	OptionalFeature ::= "-Feature"   name['"','"'] 
 		("{" children* "}")? 
@@ -35,5 +34,10 @@ RULES{
 	
 	Annotation ::=	value['[',']'];
 	
+	AnyInt ::= literal['$','$'];
+	AnyFloat ::= literal['%','%'];
+	AnyBoolean ::= literal['&','&'];
+	AnyBigDecimal ::= literal['d','d'];
+	AnyChar ::= literal['c','c'];
 	
 }

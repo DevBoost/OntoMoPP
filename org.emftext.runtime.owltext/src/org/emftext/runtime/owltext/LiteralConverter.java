@@ -1,7 +1,10 @@
 package org.emftext.runtime.owltext;
 
+import java.math.BigDecimal;
+
 import org.emftext.language.owl.AbbreviatedXSDStringLiteral;
 import org.emftext.language.owl.Datatype;
+import org.emftext.language.owl.DecimalLiteral;
 import org.emftext.language.owl.FloatingPointLiteral;
 import org.emftext.language.owl.IntegerLiteral;
 import org.emftext.language.owl.Literal;
@@ -12,29 +15,23 @@ public class LiteralConverter {
 
 	private OwlFactory factory = OwlFactory.eINSTANCE;
 	private Datatype xsdBoolean;
-	private Datatype xsdFloat;
-	private Datatype xsdInteger;
 
 	public LiteralConverter() {
 		xsdBoolean = factory.createDatatype();
 		xsdBoolean.setIri("xsd:boolean");
-		
-		xsdFloat = factory.createDatatype();
-		xsdFloat.setIri("xsd:float");
-		
-		xsdInteger = factory.createDatatype();
-		xsdInteger.setIri("xsd:float");
 	}
 
 	public Literal convert(Object newValue) {
 		if (newValue == null)
 			return null;
-		if (newValue instanceof String) {
-			return doConvert((String) newValue);
+		if (newValue instanceof String || newValue instanceof char[] || newValue instanceof Character) {
+			return doConvert(newValue.toString());
 		} else if (newValue instanceof Integer) {
 			return doConvert((Integer) newValue);
 		} else if (newValue instanceof Float) {
 			return doConvert((Float) newValue);
+		} else if (newValue instanceof BigDecimal) {
+			return doConvert((BigDecimal) newValue);
 		} else if (newValue instanceof Boolean) {
 			return doConvert((Boolean) newValue);
 		} else {
@@ -65,6 +62,13 @@ public class LiteralConverter {
 		FloatingPointLiteral textLiteral = factory.createFloatingPointLiteral();
 		textLiteral.setLiteral(newValue);
 
+		return textLiteral;
+	}
+	
+	public Literal doConvert(BigDecimal newValue) {
+		DecimalLiteral textLiteral = factory.createDecimalLiteral();
+		textLiteral.setValue(newValue);
+		
 		return textLiteral;
 	}
 
@@ -103,6 +107,10 @@ public class LiteralConverter {
 
 	public Float doConvert(FloatingPointLiteral newValue) {
 		return newValue.getLiteral();
+	}
+	
+	public BigDecimal doConvert(DecimalLiteral newValue) {
+		return newValue.getValue();
 	}
 
 	public Boolean doConvert(TypedLiteral newValue) {

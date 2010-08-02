@@ -238,8 +238,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.text.ecore#//IntegerLiteral/value"/>
     </genClasses>
     <genClasses ecoreClass="owl.text.ecore#//DecimalLiteral">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.text.ecore#//DecimalLiteral/preComma"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.text.ecore#//DecimalLiteral/postComma"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.text.ecore#//DecimalLiteral/value"/>
     </genClasses>
     <genClasses ecoreClass="owl.text.ecore#//FloatingPointLiteral">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.text.ecore#//FloatingPointLiteral/literal"/>

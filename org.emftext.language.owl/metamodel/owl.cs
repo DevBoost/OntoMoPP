@@ -39,6 +39,7 @@ TOKENS {
 	DEFINE NOT $'not'$;
 	//DEFINE INVERSE $'inverse'|'inv'$;
 	DEFINE INT $('+'|'-')?('0'..'9')+$;
+	DEFINE DECIMAL $('+'|'-')?('0'..'9')+ '.' ('0'..'9')+$;
 	DEFINE FLOAT $('+'|'-')?( ('0'..'9')+ '.' ('0'..'9')* (('e'|'E'|'p'|'P') ('+'|'-')? ('0'..'9')+)? ('f'|'F') 
 				| ('.' ('0'..'9')+ (('e'|'E'|'p'|'P') ('+'|'-')? ('0'..'9')+)?) ('f'|'F') 
 				| (('0'..'9')+ (('e'|'E'|'p'|'P') ('+'|'-')? ('0'..'9')+) ('f'|'F') 
@@ -180,7 +181,7 @@ RULES{
 	TypedLiteral ::= lexicalValue['"','"'] "^^" theDatatype[IRI];
 	AbbreviatedRDFTextLiteral ::= value['"','"'] "@" languageTag[IRI];
 	AbbreviatedXSDStringLiteral ::= value['"','"'];
-	DecimalLiteral ::= preComma[INT] "." postComma[INT];
+	DecimalLiteral ::=value[DECIMAL];
 	FloatingPointLiteral ::= literal[FLOAT];
 	IntegerLiteral ::= value[INT];
 	
