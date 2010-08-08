@@ -6,6 +6,15 @@
 		</metaInformationProvider>
 	</extension>
 	
+	<extension id="org.emftext.language.owl.resource.owl.problem" name="EMFText Problem" point="org.eclipse.core.resources.markers">
+		<persistent value="true">
+		</persistent>
+		<super type="org.eclipse.core.resources.problemmarker">
+		</super>
+		<super type="org.eclipse.core.resources.textmarker">
+		</super>
+	</extension>
+	
 	<extension id="org.emftext.language.owl.resource.owl.nature" name="owl nature" point="org.eclipse.core.resources.natures">
 		<runtime>
 			<run class="org.emftext.language.owl.resource.owl.mopp.OwlNature" />
@@ -13,6 +22,11 @@
 		<builder id="org.emftext.language.owl.resource.owl.builder" />
 	</extension>
 	
+	<extension point="org.eclipse.core.resources.builders" id="org.emftext.language.owl.resource.owl.builder" name="owl Builder">
+		<builder hasNature="true">
+			<run class="org.emftext.language.owl.resource.owl.mopp.OwlBuilderAdapter" />
+		</builder>
+	</extension>
 	
 	<extension-point id="org.emftext.language.owl.resource.owl.default_load_options" name="Default Load Options" schema="schema/default_load_options.exsd"/>
 	
