@@ -27,12 +27,9 @@ import junit.framework.TestCase;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.Resource.Diagnostic;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.emftext.language.owl.Ontology;
-import org.emftext.language.owl.OntologyDocument;
-import org.emftext.language.owl.OwlFactory;
 import org.emftext.language.owl.resource.owl.mopp.OwlMetaInformation;
 
 public class OWLTest extends TestCase {
