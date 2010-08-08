@@ -2,6 +2,7 @@ package org.emftext.language.owl.reasoning;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
 import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
@@ -11,18 +12,21 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource.Diagnostic;
 import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
 import org.emftext.language.owl.IRIIdentified;
 import org.emftext.language.owl.resource.owl.IOwlBuilder;
 import org.emftext.language.owl.resource.owl.IOwlProblem;
 import org.emftext.language.owl.resource.owl.IOwlQuickFix;
+import org.emftext.language.owl.resource.owl.IOwlTextDiagnostic;
 import org.emftext.language.owl.resource.owl.OwlEProblemType;
 import org.emftext.language.owl.resource.owl.mopp.OwlBuilderAdapter;
+import org.emftext.language.owl.resource.owl.mopp.OwlMarkerHelper;
 import org.emftext.language.owl.resource.owl.mopp.OwlResource;
-import org.emftext.language.owl.resource.owl.ui.OwlMarkerHelper;
 import org.emftext.language.owl.resource.owl.util.OwlStreamUtil;
 
 public class OwlReasoningBuilder extends IncrementalProjectBuilder implements
@@ -35,7 +39,7 @@ public class OwlReasoningBuilder extends IncrementalProjectBuilder implements
 		this.reasoner = new EMFTextPelletReasoner();
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	@Override
 	protected IProject[] build(int kind, Map args, IProgressMonitor monitor)
 			throws CoreException {
@@ -50,7 +54,7 @@ public class OwlReasoningBuilder extends IncrementalProjectBuilder implements
 			stream = file.getContents();
 			String content = OwlStreamUtil.getContent(stream);
 			validateOWL(content, resource);
-			OwlMarkerHelper.mark(resource);
+			mark(resource);
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -59,6 +63,19 @@ public class OwlReasoningBuilder extends IncrementalProjectBuilder implements
 			e.printStackTrace();
 		}
 		return Status.OK_STATUS;
+	}
+
+	private void mark(OwlResource resource) {
+		mark(resource, resource.getErrors());
+		mark(resource, resource.getWarnings());
+	}
+
+	private void mark(OwlResource resource, EList<Diagnostic> diagnostics) {
+		for (Diagnostic diagnostic : diagnostics) {
+			if (diagnostic instanceof IOwlTextDiagnostic) {
+				OwlMarkerHelper.mark(resource, (IOwlTextDiagnostic) diagnostic);
+			}
+		}
 	}
 
 	public void validateOWL(String content, OwlResource resource) {
@@ -80,7 +97,7 @@ public class OwlReasoningBuilder extends IncrementalProjectBuilder implements
 						return e.getMessage();
 					}
 
-					public IOwlQuickFix getQuickFix() {
+					public Collection<IOwlQuickFix> getQuickFixes() {
 						return null;
 					}
 				}, resource.getContents().get(0));
@@ -105,7 +122,7 @@ public class OwlReasoningBuilder extends IncrementalProjectBuilder implements
 										+ "' is inconsistent: " + error;
 							}
 
-							public IOwlQuickFix getQuickFix() {
+							public Collection<IOwlQuickFix> getQuickFixes() {
 								return null;
 							}
 						}, next);
