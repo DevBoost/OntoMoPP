@@ -25,20 +25,35 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owlTextTestLanguage.text.ecore#//Annotation/value"/>
     </genClasses>
     <genClasses image="false" ecoreClass="owlTextTestLanguage.text.ecore#//AnyLiteral"/>
-    <genClasses ecoreClass="owlTextTestLanguage.text.ecore#//AnyFloat">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owlTextTestLanguage.text.ecore#//AnyFloat/literal"/>
-    </genClasses>
     <genClasses ecoreClass="owlTextTestLanguage.text.ecore#//AnyBoolean">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owlTextTestLanguage.text.ecore#//AnyBoolean/literal"/>
     </genClasses>
     <genClasses ecoreClass="owlTextTestLanguage.text.ecore#//AnyInt">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owlTextTestLanguage.text.ecore#//AnyInt/literal"/>
     </genClasses>
+    <genClasses ecoreClass="owlTextTestLanguage.text.ecore#//AnyBigInteger">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owlTextTestLanguage.text.ecore#//AnyBigInteger/literal"/>
+    </genClasses>
+    <genClasses ecoreClass="owlTextTestLanguage.text.ecore#//AnyLong">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owlTextTestLanguage.text.ecore#//AnyLong/literal"/>
+    </genClasses>
+    <genClasses ecoreClass="owlTextTestLanguage.text.ecore#//AnyShort">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owlTextTestLanguage.text.ecore#//AnyShort/literal"/>
+    </genClasses>
     <genClasses ecoreClass="owlTextTestLanguage.text.ecore#//AnyBigDecimal">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owlTextTestLanguage.text.ecore#//AnyBigDecimal/literal"/>
     </genClasses>
+    <genClasses ecoreClass="owlTextTestLanguage.text.ecore#//AnyFloat">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owlTextTestLanguage.text.ecore#//AnyFloat/literal"/>
+    </genClasses>
+    <genClasses ecoreClass="owlTextTestLanguage.text.ecore#//AnyDouble">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owlTextTestLanguage.text.ecore#//AnyDouble/literal"/>
+    </genClasses>
     <genClasses ecoreClass="owlTextTestLanguage.text.ecore#//AnyChar">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owlTextTestLanguage.text.ecore#//AnyChar/literal"/>
+    </genClasses>
+    <genClasses ecoreClass="owlTextTestLanguage.text.ecore#//AnyByte">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owlTextTestLanguage.text.ecore#//AnyByte/literal"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

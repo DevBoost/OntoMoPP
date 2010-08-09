@@ -12,6 +12,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -56,10 +57,15 @@ import org.emftext.runtime.owltext.OWLTextEObjectPrinter;
 import org.junit.Test;
 import org.owltext.feature.Annotation;
 import org.owltext.feature.AnyBigDecimal;
+import org.owltext.feature.AnyBigInteger;
 import org.owltext.feature.AnyBoolean;
+import org.owltext.feature.AnyByte;
 import org.owltext.feature.AnyChar;
+import org.owltext.feature.AnyDouble;
 import org.owltext.feature.AnyFloat;
 import org.owltext.feature.AnyInt;
+import org.owltext.feature.AnyLong;
+import org.owltext.feature.AnyShort;
 import org.owltext.feature.Feature;
 import org.owltext.feature.FeaturePackage;
 import org.owltext.feature.OptionalFeature;
@@ -1031,8 +1037,9 @@ public class OWLTextTest {
 			fea.setName("test"+count);
 			count++;
 		}
-		assertEquals("child has wrong name", "test1", feature.getChildren().get(2).getName());
-		assertEquals("child has wrong name", "test2", feature.getChildren().get(3).getName());
+		
+		assertEquals("child has wrong name", "test1", feature.getChildren().get(1).getName());
+		assertEquals("child has wrong name", "test2", feature.getChildren().get(2).getName());
 		
 	}
 	//test attributes with bounds 0..-1
@@ -1054,38 +1061,19 @@ public class OWLTextTest {
 			list.set(count-1, "test"+count);
 			count++;
 		}
-		assertEquals("comment has wrong content", "test1", feature.getComments().get(2));
-		assertEquals("comment has wrong content", "test2", feature.getComments().get(3));
+		assertEquals("comment has wrong content", "test1", feature.getComments().get(1));
+		assertEquals("comment has wrong content", "test2", feature.getComments().get(2));
 	}
 	
 	//test attributes with bounds 0..-1
 	@Test
-	public void testAddLiteral() throws Throwable {
+	public void testAddLiteralInteger() throws Throwable {
 		String inFileName = "syntaxMinimum.fea";		
 		
 		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
 		EObject rootObject = loadResource.getContents().get(0);
 		assertTrue("Root object is a Feature", rootObject instanceof Feature);
-		Feature feature = (Feature)loadResource.getContents().get(0);		
-		
-		feature.getComments().add("Test");
-		feature.getComments().add("asd");
-		
-		feature.getComments().add("Test"); //unique Test
-		
-		AnyBoolean b1 = FeaturePackage.eINSTANCE.getFeatureFactory().createAnyBoolean();
-		AnyBoolean b2 = FeaturePackage.eINSTANCE.getFeatureFactory().createAnyBoolean();
-		b1.setLiteral(true);
-		b2.setLiteral(false);		
-		feature.getAnyLiterals().add(b1);		
-		feature.getAnyLiterals().add(b2);		
-		
-		AnyFloat f1 = FeaturePackage.eINSTANCE.getFeatureFactory().createAnyFloat();
-		AnyFloat f2 = FeaturePackage.eINSTANCE.getFeatureFactory().createAnyFloat();
-		f1.setLiteral(0.001f);
-		f2.setLiteral(-123.45f);		
-		feature.getAnyLiterals().add(f1);		
-		feature.getAnyLiterals().add(f2);		
+		Feature feature = (Feature)loadResource.getContents().get(0);				
 		
 		AnyInt i1 = FeaturePackage.eINSTANCE.getFeatureFactory().createAnyInt();
 		AnyInt i2 = FeaturePackage.eINSTANCE.getFeatureFactory().createAnyInt();
@@ -1094,6 +1082,64 @@ public class OWLTextTest {
 		feature.getAnyLiterals().add(i1);		
 		feature.getAnyLiterals().add(i2);
 		
+		AnyBigInteger bi1 = FeaturePackage.eINSTANCE.getFeatureFactory().createAnyBigInteger();
+		AnyBigInteger bi2 = FeaturePackage.eINSTANCE.getFeatureFactory().createAnyBigInteger();
+		bi1.setLiteral(new BigInteger("0"));
+		bi2.setLiteral(new BigInteger("-123"));		
+		feature.getAnyLiterals().add(bi1);		
+		feature.getAnyLiterals().add(bi2);
+		
+		AnyLong l1 = FeaturePackage.eINSTANCE.getFeatureFactory().createAnyLong();
+		AnyLong l2 = FeaturePackage.eINSTANCE.getFeatureFactory().createAnyLong();
+		l1.setLiteral(0L);
+		l2.setLiteral(-123L);		
+		feature.getAnyLiterals().add(l1);		
+		feature.getAnyLiterals().add(l2);
+		
+		AnyShort s1 = FeaturePackage.eINSTANCE.getFeatureFactory().createAnyShort();
+		AnyShort s2 = FeaturePackage.eINSTANCE.getFeatureFactory().createAnyShort();
+		s1.setLiteral((short)0);
+		s2.setLiteral((short)-123);		
+		feature.getAnyLiterals().add(s1);		
+		feature.getAnyLiterals().add(s2);	
+		
+		assertCorrespondance(feature, "addLiteralInteger");
+	}
+	
+	@Test
+	public void testAddLiteralFloatDouble() throws Throwable {
+		String inFileName = "syntaxMinimum.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);		
+		
+		AnyFloat f1 = FeaturePackage.eINSTANCE.getFeatureFactory().createAnyFloat();
+		AnyFloat f2 = FeaturePackage.eINSTANCE.getFeatureFactory().createAnyFloat();
+		f1.setLiteral(0.001f);
+		f2.setLiteral(-123.45f);		
+		feature.getAnyLiterals().add(f1);		
+		feature.getAnyLiterals().add(f2);		
+		
+		AnyDouble d1 = FeaturePackage.eINSTANCE.getFeatureFactory().createAnyDouble();
+		AnyDouble d2 = FeaturePackage.eINSTANCE.getFeatureFactory().createAnyDouble();
+		d1.setLiteral(0.001);
+		d2.setLiteral(-123.45);		
+		feature.getAnyLiterals().add(d1);		
+		feature.getAnyLiterals().add(d2);			
+		
+		assertCorrespondance(feature, "addLiteralFloatDouble");
+	}
+	
+	@Test
+	public void testAddLiteralBigDecimal() throws Throwable {
+		String inFileName = "syntaxMinimum.fea";		
+		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);				
 		
 		AnyBigDecimal bd1 = FeaturePackage.eINSTANCE.getFeatureFactory().createAnyBigDecimal();
 		AnyBigDecimal bd2 = FeaturePackage.eINSTANCE.getFeatureFactory().createAnyBigDecimal();
@@ -1101,16 +1147,41 @@ public class OWLTextTest {
 		bd2.setLiteral(new BigDecimal(-123.456));		
 		feature.getAnyLiterals().add(bd1);		
 		feature.getAnyLiterals().add(bd2);	
+			
+		assertCorrespondance(feature, "addLiteralBigDecimal");
+	}
+	
+	@Test
+	public void testAddLiteralMisc() throws Throwable {
+		String inFileName = "syntaxMinimum.fea";		
 		
+		FeaResource loadResource = loadResource(new File("./testInput/"+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+		Feature feature = (Feature)loadResource.getContents().get(0);		
+		
+		AnyBoolean b1 = FeaturePackage.eINSTANCE.getFeatureFactory().createAnyBoolean();
+		AnyBoolean b2 = FeaturePackage.eINSTANCE.getFeatureFactory().createAnyBoolean();
+		b1.setLiteral(true);
+		b2.setLiteral(false);		
+		feature.getAnyLiterals().add(b1);		
+		feature.getAnyLiterals().add(b2);	
 		
 		AnyChar c1 = FeaturePackage.eINSTANCE.getFeatureFactory().createAnyChar();
 		AnyChar c2 = FeaturePackage.eINSTANCE.getFeatureFactory().createAnyChar();
 		c1.setLiteral('a');
 		c2.setLiteral('b');		
 		feature.getAnyLiterals().add(c1);		
-		feature.getAnyLiterals().add(c2);
+		feature.getAnyLiterals().add(c2);		
 		
-		assertCorrespondance(feature, "addLiteral");
+		AnyByte byte1 = FeaturePackage.eINSTANCE.getFeatureFactory().createAnyByte();
+		AnyByte byte2 = FeaturePackage.eINSTANCE.getFeatureFactory().createAnyByte();
+		byte1.setLiteral((byte)0x0000);
+		byte2.setLiteral((byte)0xFF85);		
+		feature.getAnyLiterals().add(byte1);		
+		feature.getAnyLiterals().add(byte2);			
+		
+		assertCorrespondance(feature, "addLiteralMisc");
 	}
 	
 	//test reference with bounds 0..-1
@@ -1367,7 +1438,7 @@ public class OWLTextTest {
 		Map<String, Object> options = new LinkedHashMap<String, Object>();
 		options.put(MatchOptions.OPTION_IGNORE_ID, true);
 		options.put(MatchOptions.OPTION_IGNORE_XMI_ID, true);
-		options.put(MatchOptions.OPTION_SEARCH_WINDOW, Integer.valueOf(10));
+		options.put(MatchOptions.OPTION_SEARCH_WINDOW, Integer.valueOf(30)); //Toleranzwert für die Zahlen!!!
 		MatchModel matchResult = MatchService.doContentMatch(
 				expectedOntologyRoot, owlifiedOntologyRoot, options);
 		DiffModel genDiff = DiffService.doDiff(matchResult, false);

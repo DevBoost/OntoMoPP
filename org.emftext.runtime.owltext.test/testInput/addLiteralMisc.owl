@@ -184,4 +184,31 @@ Prefix: : <http://transformed/syntaxMinimum.fea#>
 		
 		
 	Individual: individual_0 
-		Types:  feature:MandatoryFeature ,  (  feature:Feature_name value "testRootFeature" ) ,  (  feature:Feature_comments value "Comment_1" ) ,  (  feature:Feature_comments value "Comment_2" ) ,  (  feature:Feature_comments value "Comment_0" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 3  xsd:string ) ,  (  feature:Feature_anyLiterals exactly 0  feature:AnyLiteral ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_uniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_nonUniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 0  feature:Feature )	
+		Types:  feature:MandatoryFeature ,  (  feature:Feature_name value "testRootFeature" ) ,  (  feature:Feature_anyLiterals value individual_1 ) ,  (  feature:Feature_anyLiterals value individual_2 ) ,  (  feature:Feature_anyLiterals value individual_3 ) ,  (  feature:Feature_anyLiterals value individual_4 ) ,  (  feature:Feature_anyLiterals value individual_5 ) ,  (  feature:Feature_anyLiterals value individual_6 ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_anyLiterals exactly 6  feature:AnyLiteral ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_uniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_nonUniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 0  feature:Feature ) 
+			
+		
+	Individual: individual_1 
+		Types:  feature:AnyBoolean ,  (  feature:AnyBoolean_literal value "true" ^^ xsd:boolean ) ,  (  feature:AnyBoolean_literal exactly 1  xsd:boolean ) 
+			
+		
+	Individual: individual_2 
+		Types:  feature:AnyBoolean ,  (  feature:AnyBoolean_literal value "false" ^^ xsd:boolean ) ,  (  feature:AnyBoolean_literal exactly 1  xsd:boolean ) 
+			
+		
+	Individual: individual_3 
+		Types:  feature:AnyChar ,  (  feature:AnyChar_literal value "a" ) ,  (  feature:AnyChar_literal exactly 1  xsd:string ) 
+			
+		
+	Individual: individual_4 
+		Types:  feature:AnyChar ,  (  feature:AnyChar_literal value "b" ) ,  (  feature:AnyChar_literal exactly 1  xsd:string ) 
+			
+		
+	Individual: individual_5 
+		Types:  feature:AnyByte ,  (  feature:AnyByte_literal value "0" ^^ xsd:byte ) ,  (  feature:AnyByte_literal exactly 1  xsd:byte ) 
+			
+		
+	Individual: individual_6 
+		Types:  feature:AnyByte ,  (  feature:AnyByte_literal value "-123" ^^ xsd:byte ) ,  (  feature:AnyByte_literal exactly 1  xsd:byte ) 
+			
+		
+	DifferentIndividuals: individual_0 , individual_1 , individual_2 , individual_3 , individual_4 , individual_5 , individual_6	

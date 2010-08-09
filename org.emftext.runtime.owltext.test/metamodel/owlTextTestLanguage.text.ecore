@@ -8,6 +8,7 @@ package feature // this is the package name
 		attribute EString comments (0..-1);		
 		
 		containment reference AnyLiteral anyLiterals (0..-1);
+		//attribute Operator operator (0..-1);
 		
 		containment reference Annotation annotation(0..1);
 		containment reference Feature children (0..-1) opposite parent;
@@ -22,7 +23,6 @@ package feature // this is the package name
 	}
 	
 	class OptionalFeature extends Feature {
-		//unique attribute Operator operator (0..-1);
 	}
 		
 	class Annotation {
@@ -30,24 +30,43 @@ package feature // this is the package name
 	}
 	
 	abstract class AnyLiteral {		
-	}
+	}	
 	
-	class AnyFloat extends AnyLiteral{
-		attribute EFloat literal (1..1);
-	}
 	class AnyBoolean extends AnyLiteral{
 		attribute EBoolean literal (1..1);
 	}
 	class AnyInt extends AnyLiteral{
 		attribute EInt literal (1..1);
 	}
+	class AnyBigInteger extends AnyLiteral{
+		attribute EBigInteger literal (1..1);
+	}
+	class AnyLong extends AnyLiteral{
+		attribute ELong literal (1..1);
+	}
+	class AnyShort extends AnyLiteral{
+		attribute EShort literal (1..1);
+	}
 	class AnyBigDecimal extends AnyLiteral{
 		attribute EBigDecimal literal (1..1);
 	}
+	class AnyFloat extends AnyLiteral{
+		attribute EFloat literal (1..1);
+	}
+	class AnyDouble extends AnyLiteral{
+		attribute EDouble literal (1..1);
+	}
 	class AnyChar extends AnyLiteral{
 		attribute EChar literal (1..1);
+	}	
+	class AnyByte extends AnyLiteral{
+		attribute EByte literal (1..1);
 	}
-	
+	/*
+	class AnyDate extends AnyLiteral{
+		attribute EDate literal (1..1);
+	}
+	*/	
 	/*
 	serializable enum Operator {
 			1 : ADD = "+";

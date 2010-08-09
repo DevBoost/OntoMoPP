@@ -25,19 +25,23 @@ TOKENSTYLES{
 RULES{
 	
 	MandatoryFeature ::= "+Feature"   name['"','"'] annotation? 
-		comments['<','>']* anyLiterals* ("{" children* "}")?;
+		comments['<','>']* anyLiterals*   ("{" children* "}")?; // operator[OPERATOR]?
 	
 	OptionalFeature ::= "-Feature"   name['"','"'] 
 		("{" children* "}")? 
-		//("("  () operator[OPERATOR] )* ")")?
 		;
 	
 	Annotation ::=	value['[',']'];
 	
 	AnyInt ::= literal['$','$'];
+	AnyBigInteger ::= literal['$b','$b'];
+	AnyLong ::= literal['$l','$l'];
+	AnyShort ::= literal['$s','$s'];
+	AnyBigDecimal ::= literal['$d','$d'];
 	AnyFloat ::= literal['%','%'];
+	AnyDouble ::= literal['%d','%d'];
 	AnyBoolean ::= literal['&','&'];
-	AnyBigDecimal ::= literal['d','d'];
 	AnyChar ::= literal['c','c'];
-	
+	AnyByte ::= literal['b','b'];
+	//AnyDate ::= literal['_','_'];	
 }

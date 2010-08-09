@@ -562,17 +562,11 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		 * from the ontology
 		 */
 		public boolean addAll(int index, Collection<? extends T> c) {
-			/*
-			//if(original.addAll(index, c)){
-				int i = 0;
-				for (T t : c) {
-					add(index + i, t);
-					i++;
-				}			
-			//	return true;
-			//}
-			//else return false;
-				*/
+			int i = 0;
+			for (T t : c) {
+				add(index + i, t);
+				i++;
+			}			
 			return original.addAll(index, c);
 		}
 
@@ -831,8 +825,8 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		 * Only for non-structural changes of Objects, not for literals
 		 */
 		public List<T> subList(final int fromIndex, final int toIndex) {
-		
-			return encapsulate((EList<T>) original.subList(fromIndex, toIndex), this.thisObject, this.featureID);
+			return original.subList(fromIndex, toIndex);
+			//return encapsulate((EList<T>) original.subList(fromIndex, toIndex), this.thisObject, this.featureID);
 		}
 		
 		private boolean isSameFeatureIRI(NestedDescription description){

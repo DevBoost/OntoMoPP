@@ -1,6 +1,6 @@
-Prefix: : <http://transformed/clearOrRemoveOrRetainComment.fea#> 
+Prefix: : <http://transformed/syntaxMinimum.fea#> 
 	Prefix: feature: <http://org.owltext/feature#> 
-	Ontology: <http://transformed/clearOrRemoveOrRetainComment.fea> 
+	Ontology: <http://transformed/syntaxMinimum.fea> 
 	Import: <./feature.mm.owl> 
 	
 	Class: feature:Feature 
@@ -184,4 +184,39 @@ Prefix: : <http://transformed/clearOrRemoveOrRetainComment.fea#>
 		
 		
 	Individual: individual_0 
-		Types:  feature:MandatoryFeature ,  (  feature:Feature_name value "testRootFeature" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_anyLiterals exactly 0  feature:AnyLiteral ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_uniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_nonUniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 0  feature:Feature )
+		Types:  feature:MandatoryFeature ,  (  feature:Feature_name value "testRootFeature" ) ,  (  feature:Feature_anyLiterals value individual_1 ) ,  (  feature:Feature_anyLiterals value individual_2 ) ,  (  feature:Feature_anyLiterals value individual_3 ) ,  (  feature:Feature_anyLiterals value individual_4 ) ,  (  feature:Feature_anyLiterals value individual_5 ) ,  (  feature:Feature_anyLiterals value individual_6 ) ,  (  feature:Feature_anyLiterals value individual_7 ) ,  (  feature:Feature_anyLiterals value individual_8 ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_anyLiterals exactly 8  feature:AnyLiteral ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_uniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_nonUniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 0  feature:Feature ) 
+			
+		
+	Individual: individual_1 
+		Types:  feature:AnyInt ,  (  feature:AnyInt_literal value 0 ) ,  (  feature:AnyInt_literal exactly 1  xsd:integer ) 
+			
+		
+	Individual: individual_2 
+		Types:  feature:AnyInt ,  (  feature:AnyInt_literal value -123 ) ,  (  feature:AnyInt_literal exactly 1  xsd:integer ) 
+			
+		
+	Individual: individual_3 
+		Types:  feature:AnyBigInteger ,  (  feature:AnyBigInteger_literal value 0 ) ,  (  feature:AnyBigInteger_literal exactly 1  xsd:integer ) 
+			
+		
+	Individual: individual_4 
+		Types:  feature:AnyBigInteger ,  (  feature:AnyBigInteger_literal value -123 ) ,  (  feature:AnyBigInteger_literal exactly 1  xsd:integer ) 
+			
+		
+	Individual: individual_5 
+		Types:  feature:AnyLong ,  (  feature:AnyLong_literal value "0" ^^ xsd:long ) ,  (  feature:AnyLong_literal exactly 1  xsd:long ) 
+			
+		
+	Individual: individual_6 
+		Types:  feature:AnyLong ,  (  feature:AnyLong_literal value "-123" ^^ xsd:long ) ,  (  feature:AnyLong_literal exactly 1  xsd:long ) 
+			
+		
+	Individual: individual_7 
+		Types:  feature:AnyShort ,  (  feature:AnyShort_literal value "0" ^^ xsd:short ) ,  (  feature:AnyShort_literal exactly 1  xsd:short ) 
+			
+		
+	Individual: individual_8 
+		Types:  feature:AnyShort ,  (  feature:AnyShort_literal value "-123" ^^ xsd:short ) ,  (  feature:AnyShort_literal exactly 1  xsd:short ) 
+			
+		
+	DifferentIndividuals: individual_0 , individual_1 , individual_2 , individual_3 , individual_4 , individual_5 , individual_6 , individual_7 , individual_8	

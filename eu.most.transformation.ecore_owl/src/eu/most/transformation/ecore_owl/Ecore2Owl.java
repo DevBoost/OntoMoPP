@@ -254,140 +254,151 @@ public class Ecore2Owl {
 			Class constrainedClass) {
 		EList<EAttribute> attributes = eclass.getEAttributes();
 		for (EAttribute attribute : attributes) {
-			DataProperty dataProperty = (DataProperty) references2objectProperties
-					.get(attribute);
-
-			if (attribute.getLowerBound() != 0) {
-				ObjectPropertyMin minRestriction = owlFactory
-						.createObjectPropertyMin();
-				setFeature(minRestriction, dataProperty);
-				minRestriction.setValue(attribute.getLowerBound());
-				DatatypeReference primary = owlFactory
-						.createDatatypeReference();
-
-				Datatype dataType = (Datatype) etype2oclass.get(attribute
-						.getEType());
-				primary.setTheDatatype(dataType);
-				minRestriction.setDataPrimary(primary);
-
-				NestedDescription nestedDescription = owlFactory
-						.createNestedDescription();
-				nestedDescription.setDescription(minRestriction);
-				nestedDescription.setNot(true);
-
-				String constraintID = "_min_" + attribute.getLowerBound() + "_"
-						+ attribute.getName();
-				String errorMsg = "The minimal cardinality of '"
-						+ attribute.getLowerBound() + "' for attribute '"
-						+ attribute.getName() + "' is not satisfied.";
-
-				createConstraintClass(constrainedClass, constraintID, errorMsg,
-						nestedDescription);
-			}
-
-			if (attribute.getUpperBound() != -1) {
-				ObjectPropertyMax maxRestriction = owlFactory
-						.createObjectPropertyMax();
-				setFeature(maxRestriction, dataProperty);
-				maxRestriction.setValue(attribute.getUpperBound());
-				DatatypeReference primary = owlFactory
-						.createDatatypeReference();
-
-				Datatype dataType = (Datatype) etype2oclass.get(attribute
-						.getEType());
-				primary.setTheDatatype(dataType);
-				maxRestriction.setDataPrimary(primary);
-
-				NestedDescription nestedDescription = owlFactory
-						.createNestedDescription();
-				nestedDescription.setDescription(maxRestriction);
-				nestedDescription.setNot(true);
-
-				String iri = "_max_" + attribute.getUpperBound() + "_"
-						+ attribute.getName();
-				String errorMsg = "The maximal cardinality of '"
-						+ attribute.getUpperBound() + "' for attribute '"
-						+ attribute.getName() + "' is not satisfied.";
-
-				createConstraintClass(constrainedClass, iri, errorMsg,
-						nestedDescription);
-
-			}
+			//DataProperty dataProperty = (DataProperty) 
+			Feature f = references2objectProperties	.get(attribute);
+			if (f instanceof DataProperty)//EAttributes
+				addCardinalityConstraintsClassesForEAttributes(attribute, (DataProperty)f, constrainedClass);
+			if (f instanceof ObjectProperty)//EEnum		
+				addCardinalityConstraintsClassesForEReferenceAndEEnum(attribute, (ObjectProperty)f, constrainedClass);
 		}
+				
 		EList<EReference> references = eclass.getEReferences();
 		for (EReference reference : references) {
 			ObjectProperty objectProperty = (ObjectProperty) references2objectProperties
 					.get(reference);
 
-			if (reference.getLowerBound() != 0) {
-				ObjectPropertyMin minRestriction = owlFactory
-						.createObjectPropertyMin();
-				setFeature(minRestriction, objectProperty);
-				ClassAtomic classAtomic = owlFactory.createClassAtomic();
-				classAtomic.setClazz((Class) etype2oclass.get(reference
-						.getEType()));
-				minRestriction.setPrimary(classAtomic);
-				minRestriction.setValue(reference.getLowerBound());
-
-				NestedDescription nestedDescription = owlFactory
-						.createNestedDescription();
-				nestedDescription.setDescription(minRestriction);
-				nestedDescription.setNot(true);
-				String iri = "_min_" + reference.getLowerBound() + "_"
-						+ reference.getName();
-
-				String errorMsg = "The minimal cardinality of '"
-						+ reference.getLowerBound() + "' for reference '"
-						+ reference.getName() + "' is not satisfied.";
-
-				createConstraintClass(constrainedClass, iri, errorMsg,
-						nestedDescription);
-			}
-
-			if (reference.getUpperBound() != -1) {
-				ObjectPropertyMax maxRestriction = owlFactory
-						.createObjectPropertyMax();
-				setFeature(maxRestriction, objectProperty);
-				ClassAtomic classAtomic = owlFactory.createClassAtomic();
-				classAtomic.setClazz((Class) etype2oclass.get(reference
-						.getEType()));
-				maxRestriction.setPrimary(classAtomic);
-
-				maxRestriction.setValue(reference.getUpperBound());
-
-				NestedDescription nestedDescription = owlFactory
-						.createNestedDescription();
-				nestedDescription.setDescription(maxRestriction);
-				nestedDescription.setNot(true);
-
-				String iri = "_max_" + reference.getUpperBound() + "_"
-						+ reference.getName();
-				String errorMsg = "The maximal cardinality of '"
-						+ reference.getUpperBound() + "' for reference '"
-						+ reference.getName() + "' is not satisfied.";
-
-				createConstraintClass(constrainedClass, iri, errorMsg,
-						nestedDescription);
-			}
-			if (reference.getEOpposite() != null) {
-				EReference eOpposite = reference.getEOpposite();
-				ObjectProperty oppositeProperty = (ObjectProperty) references2objectProperties
-						.get(eOpposite);
-				ObjectPropertyReference ref = owlFactory
-						.createObjectPropertyReference();
-				ref.setObjectProperty(oppositeProperty);
-				objectProperty.getInverseProperties().add(ref);
-
-				ObjectPropertyReference oppRef = owlFactory
-						.createObjectPropertyReference();
-				oppRef.setObjectProperty(objectProperty);
-				oppositeProperty.getInverseProperties().add(oppRef);
-
-			}
+			addCardinalityConstraintsClassesForEReferenceAndEEnum(reference, objectProperty, constrainedClass);
 
 		}
 	}
 
+	private void addCardinalityConstraintsClassesForEAttributes(EAttribute attribute, DataProperty dataProperty, Class constrainedClass){
+		if (attribute.getLowerBound() != 0) {
+			ObjectPropertyMin minRestriction = owlFactory
+					.createObjectPropertyMin();
+			setFeature(minRestriction, dataProperty);
+			minRestriction.setValue(attribute.getLowerBound());
+			DatatypeReference primary = owlFactory
+					.createDatatypeReference();
+
+			Datatype dataType = (Datatype) etype2oclass.get(attribute
+					.getEType());
+			primary.setTheDatatype(dataType);
+			minRestriction.setDataPrimary(primary);
+
+			NestedDescription nestedDescription = owlFactory
+					.createNestedDescription();
+			nestedDescription.setDescription(minRestriction);
+			nestedDescription.setNot(true);
+
+			String constraintID = "_min_" + attribute.getLowerBound() + "_"
+					+ attribute.getName();
+			String errorMsg = "The minimal cardinality of '"
+					+ attribute.getLowerBound() + "' for attribute '"
+					+ attribute.getName() + "' is not satisfied.";
+
+			createConstraintClass(constrainedClass, constraintID, errorMsg,
+					nestedDescription);
+		}
+
+		if (attribute.getUpperBound() != -1) {
+			ObjectPropertyMax maxRestriction = owlFactory
+					.createObjectPropertyMax();
+			setFeature(maxRestriction, dataProperty);
+			maxRestriction.setValue(attribute.getUpperBound());
+			DatatypeReference primary = owlFactory
+					.createDatatypeReference();
+
+			Datatype dataType = (Datatype) etype2oclass.get(attribute
+					.getEType());
+			primary.setTheDatatype(dataType);
+			maxRestriction.setDataPrimary(primary);
+
+			NestedDescription nestedDescription = owlFactory
+					.createNestedDescription();
+			nestedDescription.setDescription(maxRestriction);
+			nestedDescription.setNot(true);
+
+			String iri = "_max_" + attribute.getUpperBound() + "_"
+					+ attribute.getName();
+			String errorMsg = "The maximal cardinality of '"
+					+ attribute.getUpperBound() + "' for attribute '"
+					+ attribute.getName() + "' is not satisfied.";
+
+			createConstraintClass(constrainedClass, iri, errorMsg,
+					nestedDescription);
+		}	
+	}
+	
+	private void addCardinalityConstraintsClassesForEReferenceAndEEnum(EStructuralFeature structuralFeature, ObjectProperty objectProperty, Class constrainedClass){
+		if (structuralFeature.getLowerBound() != 0) {
+			ObjectPropertyMin minRestriction = owlFactory
+					.createObjectPropertyMin();
+			setFeature(minRestriction, objectProperty);
+			ClassAtomic classAtomic = owlFactory.createClassAtomic();
+			classAtomic.setClazz((Class) etype2oclass.get(structuralFeature
+					.getEType()));
+			minRestriction.setPrimary(classAtomic);
+			minRestriction.setValue(structuralFeature.getLowerBound());
+
+			NestedDescription nestedDescription = owlFactory
+					.createNestedDescription();
+			nestedDescription.setDescription(minRestriction);
+			nestedDescription.setNot(true);
+			String iri = "_min_" + structuralFeature.getLowerBound() + "_"
+					+ structuralFeature.getName();
+
+			String errorMsg = "The minimal cardinality of '"
+					+ structuralFeature.getLowerBound() + "' for reference '"
+					+ structuralFeature.getName() + "' is not satisfied.";
+
+			createConstraintClass(constrainedClass, iri, errorMsg,
+					nestedDescription);
+		}
+
+		if (structuralFeature.getUpperBound() != -1) {
+			ObjectPropertyMax maxRestriction = owlFactory
+					.createObjectPropertyMax();
+			setFeature(maxRestriction, objectProperty);
+			ClassAtomic classAtomic = owlFactory.createClassAtomic();
+			classAtomic.setClazz((Class) etype2oclass.get(structuralFeature
+					.getEType()));
+			maxRestriction.setPrimary(classAtomic);
+
+			maxRestriction.setValue(structuralFeature.getUpperBound());
+
+			NestedDescription nestedDescription = owlFactory
+					.createNestedDescription();
+			nestedDescription.setDescription(maxRestriction);
+			nestedDescription.setNot(true);
+
+			String iri = "_max_" + structuralFeature.getUpperBound() + "_"
+					+ structuralFeature.getName();
+			String errorMsg = "The maximal cardinality of '"
+					+ structuralFeature.getUpperBound() + "' for reference '"
+					+ structuralFeature.getName() + "' is not satisfied.";
+
+			createConstraintClass(constrainedClass, iri, errorMsg,
+					nestedDescription);
+		}
+		
+		if ((structuralFeature instanceof EReference)&&(((EReference)structuralFeature).getEOpposite() != null)) {
+			EReference eOpposite = ((EReference)structuralFeature).getEOpposite();
+			ObjectProperty oppositeProperty = (ObjectProperty) references2objectProperties
+					.get(eOpposite);
+			ObjectPropertyReference ref = owlFactory
+					.createObjectPropertyReference();
+			ref.setObjectProperty(oppositeProperty);
+			objectProperty.getInverseProperties().add(ref);
+
+			ObjectPropertyReference oppRef = owlFactory
+					.createObjectPropertyReference();
+			oppRef.setObjectProperty(objectProperty);
+			oppositeProperty.getInverseProperties().add(oppRef);
+
+		}
+	}
+	
 	private void createConstraintClass(Class constrainedClass,
 			String iriSuffix, String errorMsg, Description constraintDescription) {
 
@@ -423,29 +434,54 @@ public class Ecore2Owl {
 		restriction.setFeatureReference(reference);
 	}
 
-	private void transformEAttribute(EAttribute elem) {
-		DataProperty d = owlFactory.createDataProperty();
-		ontology.getFrames().add(d);
-		d.setIri(OWLTransformationHelper
-				.getSimpleFeatureIdentificationIRI(elem));
-		Class domainClass = (Class) etype2oclass
-				.get(elem.getEContainingClass());
-		ClassAtomic domainClassAtomic = owlFactory.createClassAtomic();
-		domainClassAtomic.setClazz(domainClass);
-		d.getDomain().add(domainClassAtomic);
+	private void transformEAttribute(EAttribute elem) {		
+		if(elem.getEAttributeType() instanceof EEnum){ //EEnum			
+			ObjectProperty o = owlFactory.createObjectProperty();
+			o.setIri(OWLTransformationHelper
+					.getSimpleFeatureIdentificationIRI(elem));
+			ontology.getFrames().add(o);
 
-		elem.getEAttributeType();
-		DatatypeReference dtr = owlFactory.createDatatypeReference();
-		Datatype dataType = (Datatype) etype2oclass.get(elem
-				.getEAttributeType());
-		dtr.setTheDatatype(dataType);
-		d.getRange().add(dtr);
+			Class rangeClass = (Class) etype2oclass.get(elem.getEType());
+			ClassAtomic rangeClassAtomic = owlFactory.createClassAtomic();
+			rangeClassAtomic.setClazz(rangeClass);
+			o.getPropertyRange().add(rangeClassAtomic);
 
-		// is checked using cardinality constraints
-		// if (elem.getUpperBound() == 1)
-		//d.setCharacteristic(Characteristic.FUNCTIONAL);
-		references2objectProperties.put(elem, d);
+			Class domainClass = (Class) etype2oclass
+					.get(elem.getEContainingClass());
+			ClassAtomic domainClassAtomic = owlFactory.createClassAtomic();
+			domainClassAtomic.setClazz(domainClass);
+			o.getPropertyDomain().add(domainClassAtomic);
 
+			// is checked using cardinality constraints
+			// if (elem.getUpperBound() == 1)
+			// o.getCharacteristics().add(Characteristic.FUNCTIONAL);
+
+			references2objectProperties.put(elem, o);
+			
+		}
+		else{//EAttribute
+			DataProperty d = owlFactory.createDataProperty();
+			ontology.getFrames().add(d);
+			d.setIri(OWLTransformationHelper
+					.getSimpleFeatureIdentificationIRI(elem));
+			Class domainClass = (Class) etype2oclass
+					.get(elem.getEContainingClass());
+			ClassAtomic domainClassAtomic = owlFactory.createClassAtomic();
+			domainClassAtomic.setClazz(domainClass);
+			d.getDomain().add(domainClassAtomic);
+	
+			elem.getEAttributeType();
+			DatatypeReference dtr = owlFactory.createDatatypeReference();
+			Datatype dataType = (Datatype) etype2oclass.get(elem
+					.getEAttributeType());
+			dtr.setTheDatatype(dataType);
+			d.getRange().add(dtr);
+	
+			// is checked using cardinality constraints
+			// if (elem.getUpperBound() == 1)
+			//d.setCharacteristic(Characteristic.FUNCTIONAL);
+			references2objectProperties.put(elem, d);
+		}
 	}
 
 	private void transformEReference(EReference elem) {
@@ -473,11 +509,12 @@ public class Ecore2Owl {
 	}
 
 	private void transformEEnum(EEnum elem) {
+		
 		Class d = owlFactory.createClass();
 		ontology.getFrames().add(d);
 		d.setIri(OWLTransformationHelper.getSimpleClassIdentificationIRI(elem));
 		etype2oclass.put(elem, d);
-
+		
 		IndividualsAtomic description = owlFactory.createIndividualsAtomic();
 		d.getEquivalentClassesDescriptions().add(description);
 		EList<EEnumLiteral> literals = elem.getELiterals();
@@ -486,7 +523,7 @@ public class Ecore2Owl {
 			Individual individual = (Individual) etype2oclass.get(eEnumLiteral);
 			description.getIndividuals().add(individual);
 		}
-
+		
 	}
 
 	private void transformEEnumLiteral(EEnumLiteral eEnumLiteral) {

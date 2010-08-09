@@ -1,6 +1,6 @@
-Prefix: : <http://transformed/moveOrSetComment.fea#> 
+Prefix: : <http://transformed/syntaxMinimum.fea#> 
 	Prefix: feature: <http://org.owltext/feature#> 
-	Ontology: <http://transformed/moveOrSetComment.fea> 
+	Ontology: <http://transformed/syntaxMinimum.fea> 
 	Import: <./feature.mm.owl> 
 	
 	Class: feature:Feature 
@@ -184,4 +184,23 @@ Prefix: : <http://transformed/moveOrSetComment.fea#>
 		
 		
 	Individual: individual_0 
-		Types:  feature:MandatoryFeature ,  (  feature:Feature_name value "testRootFeature" ) ,  (  feature:Feature_comments value "comment_1" ) ,  (  feature:Feature_comments value "comment_0" ) ,  (  feature:Feature_comments value "comment_2" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 3  xsd:string ) ,  (  feature:Feature_anyLiterals exactly 0  feature:AnyLiteral ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_uniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_nonUniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 0  feature:Feature )
+		Types:  feature:MandatoryFeature ,  (  feature:Feature_name value "testRootFeature" ) ,  (  feature:Feature_anyLiterals value individual_1 ) ,  (  feature:Feature_anyLiterals value individual_2 ) ,  (  feature:Feature_anyLiterals value individual_3 ) ,  (  feature:Feature_anyLiterals value individual_4 ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_anyLiterals exactly 4  feature:AnyLiteral ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_uniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_nonUniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 0  feature:Feature ) 
+			
+		
+	Individual: individual_1 
+		Types:  feature:AnyFloat ,  (  feature:AnyFloat_literal value 0.0010f ) ,  (  feature:AnyFloat_literal exactly 1  xsd:float ) 
+			
+		
+	Individual: individual_2 
+		Types:  feature:AnyFloat ,  (  feature:AnyFloat_literal value -123.45f ) ,  (  feature:AnyFloat_literal exactly 1  xsd:float ) 
+			
+		
+	Individual: individual_3 
+		Types:  feature:AnyDouble ,  (  feature:AnyDouble_literal value "0.0010" ^^ xsd:double ) ,  (  feature:AnyDouble_literal exactly 1  xsd:double ) 
+			
+		
+	Individual: individual_4 
+		Types:  feature:AnyDouble ,  (  feature:AnyDouble_literal value "-123.45" ^^ xsd:double ) ,  (  feature:AnyDouble_literal exactly 1  xsd:double ) 
+			
+		
+	DifferentIndividuals: individual_0 , individual_1 , individual_2 , individual_3 , individual_4	
