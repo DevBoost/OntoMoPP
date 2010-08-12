@@ -24,8 +24,6 @@
 		</page>
 		<page name="Brackets" id="org.emftext.language.owl.resource.owl.ui.OwlBracketPreferencePage" class="org.emftext.language.owl.resource.owl.ui.OwlBracketPreferencePage" category="org.emftext.language.owl.resource.owl.ui.OwlPreferencePage">
 		</page>
-		<page name="Occurrence" id="org.emftext.language.owl.resource.owl.ui.OwlOccurrencePreferencePage" class="org.emftext.language.owl.resource.owl.ui.OwlOccurrencePreferencePage" category="org.emftext.language.owl.resource.owl.ui.OwlPreferencePage">
-		</page>
 	</extension>
 	
 	<extension point="org.eclipse.ui.newWizards">
@@ -49,6 +47,16 @@
 	
 	<extension point="org.eclipse.ui.editors.documentProviders">
 		<provider class="org.eclipse.ui.editors.text.TextFileDocumentProvider" extensions="owl" id="org.emftext.language.owl.resource.owl.ui.provider" />
+	</extension>
+	
+	<extension point="org.eclipse.ui.editors.annotationTypes">
+		<type name="org.emftext.language.owl.resource.owl.ui.occurences" />
+		<type name="org.emftext.language.owl.resource.owl.ui.occurences.declaration" super="org.emftext.language.owl.resource.owl.ui.occurences" />
+	</extension>
+	
+	<extension point="org.eclipse.ui.editors.markerAnnotationSpecification">
+		<specification annotationType="org.emftext.language.owl.resource.owl.ui.occurences" label="Occurrences (in .owl files)" icon="/icons/occurrence_icon.gif" textPreferenceKey="owl.occurrenceIndication" textPreferenceValue="false" highlightPreferenceKey="owl.occurrenceHighlighting" highlightPreferenceValue="true" contributesToHeader="false" overviewRulerPreferenceKey="owl.occurrenceIndicationInOverviewRuler" overviewRulerPreferenceValue="true" verticalRulerPreferenceKey="owl.occurrenceIndicationInVerticalRuler" verticalRulerPreferenceValue="false" colorPreferenceKey="owl.occurrenceIndicationColor" colorPreferenceValue="212,212,212" presentationLayer="4" showInNextPrevDropdownToolbarActionKey="owl.showOccurrenceInNextPrevDropdownToolbarAction" showInNextPrevDropdownToolbarAction="true" isGoToNextNavigationTargetKey="owl.isOccurrenceGoToNextNavigationTarget" isGoToNextNavigationTarget="false" isGoToPreviousNavigationTargetKey="owl.isOccurrenceGoToPreviousNavigationTarget" isGoToPreviousNavigationTarget="false" textStylePreferenceKey="owl.occurrenceTextStyle" textStylePreferenceValue="NONE" />
+		<specification annotationType="org.emftext.language.owl.resource.owl.ui.occurences.declaration" label="Declarations (in .owl files)" textPreferenceKey="owl.declarationIndication" textPreferenceValue="false" highlightPreferenceKey="owl.declarationHighlighting" highlightPreferenceValue="true" overviewRulerPreferenceKey="owl.declarationIndicationInOverviewRuler" overviewRulerPreferenceValue="true" verticalRulerPreferenceKey="owl.declarationIndicationInVerticalRuler" verticalRulerPreferenceValue="false" colorPreferenceKey="owl.declarationIndicationColor" colorPreferenceValue="240,216,168" presentationLayer="4" textStylePreferenceKey="owl.declarationTextStyle" textStylePreferenceValue="NONE" />
 	</extension>
 	
 </plugin>
