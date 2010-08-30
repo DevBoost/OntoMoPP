@@ -100,6 +100,7 @@ public class OwlReasoningBuilder extends IncrementalProjectBuilder implements
 					public Collection<IOwlQuickFix> getQuickFixes() {
 						return null;
 					}
+
 				}, resource.getContents().get(0));
 
 				return;
@@ -125,6 +126,7 @@ public class OwlReasoningBuilder extends IncrementalProjectBuilder implements
 							public Collection<IOwlQuickFix> getQuickFixes() {
 								return null;
 							}
+
 						}, next);
 					}
 				}

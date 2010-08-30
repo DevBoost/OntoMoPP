@@ -13,7 +13,9 @@
 package org.emftext.language.owl.reasoning;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -40,6 +42,7 @@ import org.semanticweb.owlapi.reasoner.NodeSet;
 
 import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
 import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
+import com.hp.hpl.jena.ontology.Ontology;
 
 public class EMFTextPelletReasoner implements
 		org.emftext.language.owl.reasoning.EMFTextOWLReasoner {
@@ -198,5 +201,37 @@ public class EMFTextPelletReasoner implements
 		// reasoner.loadOntologies(importsClosure);
 		return reasoner;
 	}
+
+	public List<String> getInferredSuperframes(String owlRepresentation, org.emftext.language.owl.Ontology ontology, String completionClassIri) {
+		List<String> superFrames = new ArrayList<String>();
+		PelletReasoner reasoner;
+		try {
+			reasoner = loadOntology(owlRepresentation);
+			reasoner.prepareReasoner();
+			if (!reasoner.isConsistent()) {
+
+				String message = "The ontologies fact base is inconsistent. ";
+				throw new ReasoningException(message);
+
+		
+			} else {
+				IRI  iri = IRI.create(ontology.getUri() + "#" + completionClassIri);
+				OWLClass c = reasoner.getManager().getOWLDataFactory().getOWLClass(iri);
+				NodeSet<OWLClass> superClasses = reasoner.getSuperClasses(c, false);
+				Set<OWLClass> set = superClasses.getFlattened();
+				for (OWLClass owlClass : set) {
+					System.out.println(owlClass.getIRI());
+				}
+			}
+		} catch (ReasoningException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	
+		return superFrames;
+	}
+
+	
 
 }
