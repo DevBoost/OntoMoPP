@@ -42,7 +42,6 @@ import org.semanticweb.owlapi.reasoner.NodeSet;
 
 import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
 import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
-import com.hp.hpl.jena.ontology.Ontology;
 
 public class EMFTextPelletReasoner implements
 		org.emftext.language.owl.reasoning.EMFTextOWLReasoner {
