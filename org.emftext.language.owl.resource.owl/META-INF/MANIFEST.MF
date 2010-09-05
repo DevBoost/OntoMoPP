@@ -44,6 +44,7 @@ Export-Package: com.clarkparsia.owlapi.explanation,
  org.emftext.language.owl.resource.owl,
  org.emftext.language.owl.resource.owl.analysis,
  org.emftext.language.owl.resource.owl.analysis.custom,
+ org.emftext.language.owl.resource.owl.grammar,
  org.emftext.language.owl.resource.owl.mopp,
  org.emftext.language.owl.resource.owl.util,
  org.semanticweb.owlapi,
@@ -71,5 +72,4 @@ Export-Package: com.clarkparsia.owlapi.explanation,
  uk.ac.manchester.cs.owlapi.dlsyntax,
  uk.ac.manchester.cs.owlapi.dlsyntax.parser,
  uk.ac.manchester.cs.owlapi.modularity
- 
 
