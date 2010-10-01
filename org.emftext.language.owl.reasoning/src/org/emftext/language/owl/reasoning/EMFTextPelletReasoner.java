@@ -70,48 +70,52 @@ public class EMFTextPelletReasoner implements
 				// PelletExplanation pe = new PelletExplanation(reasoner);
 				// Set<Set<OWLAxiom>> inconsistencyExplanations =
 				// pe.getInconsistencyExplanations();
-				//				
+				//
 				// for (Set<OWLAxiom> set : inconsistencyExplanations) {
-				//					
+				//
 				// }
-				//			
+				//
 			} else {
 				// reasoner.realise();
 				Node<OWLClass> unsatisfiableClasses = reasoner
 						.getUnsatisfiableClasses();
 				for (OWLClass owlClass : unsatisfiableClasses.getEntities()) {
-					inconsistentObjects.put(owlClass.getIRI().getFragment().toString(),
-							"Class is unsatisfiable.");
+					inconsistentObjects.put(owlClass.getIRI().getFragment()
+							.toString(), "Class is unsatisfiable.");
 				}
 
 				OWLOntology rootOntology = reasoner.getRootOntology();
 				HashMap<String, String> class2errorMsg = new HashMap<String, String>();
 				for (OWLOntology ontology : rootOntology.getImports()) {
-					Set<OWLAnnotationAssertionAxiom> annotations = ontology.getAxioms(AxiomType.ANNOTATION_ASSERTION);
+					Set<OWLAnnotationAssertionAxiom> annotations = ontology
+							.getAxioms(AxiomType.ANNOTATION_ASSERTION);
 					for (OWLAnnotationAssertionAxiom owlAnnotation : annotations) {
 						String iri = owlAnnotation.getSubject().toString();
 						OWLAnnotationValue error = owlAnnotation.getValue();
-						String propertyIri = owlAnnotation.getProperty().toString();
-						if (propertyIri.equals(CONSTRAINT_PROPERTY_NAME) && error instanceof OWLLiteral) {
-							class2errorMsg.put(iri, ((OWLLiteral) error).getLiteral());
-						
+						String propertyIri = owlAnnotation.getProperty()
+								.toString();
+						if (propertyIri.equals(CONSTRAINT_PROPERTY_NAME)
+								&& error instanceof OWLLiteral) {
+							class2errorMsg.put(iri,
+									((OWLLiteral) error).getLiteral());
+
 						}
 					}
 				}
 				Set<OWLClass> classesInSignature = rootOntology
 						.getClassesInSignature();
-				
+
 				for (OWLClass clazz : classesInSignature) {
-					if (clazz.getIRI().getFragment().startsWith(
-							CONSTRAINT_CLASS_PREFIX)) {
-						String error = class2errorMsg.get(clazz.getIRI().toString());
-						
+					if (clazz.getIRI().getFragment()
+							.startsWith(CONSTRAINT_CLASS_PREFIX)) {
+						String error = class2errorMsg.get(clazz.getIRI()
+								.toString());
+
 						NodeSet<OWLNamedIndividual> instances = reasoner
 								.getInstances(clazz, true);
 						for (OWLNamedIndividual individual : instances
 								.getFlattened()) {
-							String iri = individual.getIRI()
-											.getFragment();
+							String iri = individual.getIRI().getFragment();
 							inconsistentObjects.put(iri, error);
 
 						}
@@ -201,36 +205,31 @@ public class EMFTextPelletReasoner implements
 		return reasoner;
 	}
 
-	public List<String> getInferredSuperframes(String owlRepresentation, org.emftext.language.owl.Ontology ontology, String completionClassIri) {
+	public List<String> getAllSuperframes(String owlRepresentation,
+			org.emftext.language.owl.Ontology ontology,
+			String completionClassIri) throws ReasoningException {
 		List<String> superFrames = new ArrayList<String>();
 		PelletReasoner reasoner;
-		try {
-			reasoner = loadOntology(owlRepresentation);
-			reasoner.prepareReasoner();
-			if (!reasoner.isConsistent()) {
+		reasoner = loadOntology(owlRepresentation);
+		reasoner.prepareReasoner();
+		if (!reasoner.isConsistent()) {
 
-				String message = "The ontologies fact base is inconsistent. ";
-				throw new ReasoningException(message);
+			String message = "The ontologies fact base is inconsistent. ";
+			throw new ReasoningException(message);
 
-		
-			} else {
-				IRI  iri = IRI.create(ontology.getUri() + "#" + completionClassIri);
-				OWLClass c = reasoner.getManager().getOWLDataFactory().getOWLClass(iri);
-				NodeSet<OWLClass> superClasses = reasoner.getSuperClasses(c, false);
-				Set<OWLClass> set = superClasses.getFlattened();
-				for (OWLClass owlClass : set) {
-					System.out.println(owlClass.getIRI());
-				}
+		} else {
+
+			IRI iri = IRI.create(ontology.getUri() + "#" + completionClassIri);
+			OWLClass c = reasoner.getManager().getOWLDataFactory()
+					.getOWLClass(iri);
+			NodeSet<OWLClass> superClasses = reasoner.getSuperClasses(c, false);
+			Set<OWLClass> set = superClasses.getFlattened();
+			for (OWLClass owlClass : set) {
+				superFrames.add(owlClass.getIRI().toString());
 			}
-		} catch (ReasoningException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-		
-	
+
 		return superFrames;
 	}
-
-	
 
 }

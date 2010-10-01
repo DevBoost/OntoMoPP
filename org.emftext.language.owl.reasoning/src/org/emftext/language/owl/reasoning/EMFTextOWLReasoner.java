@@ -22,6 +22,6 @@ public interface EMFTextOWLReasoner {
 	public Map<String, String> getInconsistentFrames(String content)
 			throws ReasoningException;
 
-	public List<String> getInferredSuperframes(String ontologyString, Ontology ontology, String completionClassIri);
+	public List<String> getAllSuperframes(String ontologyString, Ontology ontology, String completionClassIri) throws ReasoningException;
 
 }
