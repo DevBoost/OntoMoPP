@@ -1,7 +1,7 @@
 Prefix: : <http://transformed/syntaxMinimum.fea#> 
 	Prefix: feature: <http://org.owltext/feature#> 
 	Ontology: <http://transformed/syntaxMinimum.fea> 
-	Import: <./feature.mm.owl> 
+	Import: <file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/testInput/feature.mm.owl> 
 	
 	Class: feature:Feature 
 		
@@ -105,102 +105,102 @@ Prefix: : <http://transformed/syntaxMinimum.fea#>
 	DataProperty: feature:AnyByte_literal 
 		
 		
-	Class: feature:__c__Annotation0_min_1_value 
+	Class: feature:__c__AnyFloat0_min_1_literal 
 		
 		
-	Class: feature:__c__Annotation1_max_1_value 
+	Class: feature:__c__AnyFloat1_max_1_literal 
 		
 		
-	Class: feature:__c__Feature2_min_1_name 
+	Class: feature:__c__Annotation2_min_1_value 
 		
 		
-	Class: feature:__c__Feature3_max_1_name 
+	Class: feature:__c__Annotation3_max_1_value 
 		
 		
-	Class: feature:__c__Feature4_max_1_annotation 
+	Class: feature:__c__AnyDouble4_min_1_literal 
 		
 		
-	Class: feature:__c__Feature5_max_1_parent 
+	Class: feature:__c__AnyDouble5_max_1_literal 
 		
 		
-	Class: feature:__c__AnyBigInteger6_min_1_literal 
+	Class: feature:__c__AnyBigDecimal6_min_1_literal 
 		
 		
-	Class: feature:__c__AnyBigInteger7_max_1_literal 
+	Class: feature:__c__AnyBigDecimal7_max_1_literal 
 		
 		
-	Class: feature:__c__AnyShort8_min_1_literal 
+	Class: feature:__c__AnyInt8_min_1_literal 
 		
 		
-	Class: feature:__c__AnyShort9_max_1_literal 
+	Class: feature:__c__AnyInt9_max_1_literal 
 		
 		
-	Class: feature:__c__AnyLong10_min_1_literal 
+	Class: feature:__c__AnyBoolean10_min_1_literal 
 		
 		
-	Class: feature:__c__AnyLong11_max_1_literal 
+	Class: feature:__c__AnyBoolean11_max_1_literal 
 		
 		
-	Class: feature:__c__AnyFloat12_min_1_literal 
+	Class: feature:__c__AnyShort12_min_1_literal 
 		
 		
-	Class: feature:__c__AnyFloat13_max_1_literal 
+	Class: feature:__c__AnyShort13_max_1_literal 
 		
 		
-	Class: feature:__c__AnyBigDecimal14_min_1_literal 
+	Class: feature:__c__AnyBigInteger14_min_1_literal 
 		
 		
-	Class: feature:__c__AnyBigDecimal15_max_1_literal 
+	Class: feature:__c__AnyBigInteger15_max_1_literal 
 		
 		
-	Class: feature:__c__AnyByte16_min_1_literal 
+	Class: feature:__c__Feature16_min_1_name 
 		
 		
-	Class: feature:__c__AnyByte17_max_1_literal 
+	Class: feature:__c__Feature17_max_1_name 
 		
 		
-	Class: feature:__c__AnyInt18_min_1_literal 
+	Class: feature:__c__Feature18_max_1_annotation 
 		
 		
-	Class: feature:__c__AnyInt19_max_1_literal 
+	Class: feature:__c__Feature19_max_1_parent 
 		
 		
-	Class: feature:__c__AnyBoolean20_min_1_literal 
+	Class: feature:__c__AnyChar20_min_1_literal 
 		
 		
-	Class: feature:__c__AnyBoolean21_max_1_literal 
+	Class: feature:__c__AnyChar21_max_1_literal 
 		
 		
-	Class: feature:__c__AnyDouble22_min_1_literal 
+	Class: feature:__c__AnyByte22_min_1_literal 
 		
 		
-	Class: feature:__c__AnyDouble23_max_1_literal 
+	Class: feature:__c__AnyByte23_max_1_literal 
 		
 		
-	Class: feature:__c__AnyChar24_min_1_literal 
+	Class: feature:__c__AnyLong24_min_1_literal 
 		
 		
-	Class: feature:__c__AnyChar25_max_1_literal 
+	Class: feature:__c__AnyLong25_max_1_literal 
 		
 		
-	Individual: individual_0 
-		Types:  feature:MandatoryFeature ,  (  feature:Feature_name value "testRootFeature" ) ,  (  feature:Feature_anyLiterals value individual_1 ) ,  (  feature:Feature_anyLiterals value individual_2 ) ,  (  feature:Feature_anyLiterals value individual_3 ) ,  (  feature:Feature_anyLiterals value individual_4 ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_anyLiterals exactly 4  feature:AnyLiteral ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_uniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_nonUniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 0  feature:Feature ) 
+	Class: individual_163 
+		SubClassOf:  feature:MandatoryFeature ,  (  feature:Feature_name value "testRootFeature" ) ,  (  feature:Feature_anyLiterals some  individual_164 ) ,  (  feature:Feature_anyLiterals some  individual_165 ) ,  (  feature:Feature_anyLiterals some  individual_166 ) ,  (  feature:Feature_anyLiterals some  individual_167 ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_anyLiterals exactly 4  feature:AnyLiteral ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_uniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_nonUniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 0  feature:Feature ) 
 			
 		
-	Individual: individual_1 
-		Types:  feature:AnyFloat ,  (  feature:AnyFloat_literal value 0.0010f ) ,  (  feature:AnyFloat_literal exactly 1  xsd:float ) 
+	Class: individual_164 
+		SubClassOf:  feature:AnyFloat ,  (  feature:AnyFloat_literal value 0.0010f ) ,  (  feature:AnyFloat_literal exactly 1  xsd:float ) 
 			
 		
-	Individual: individual_2 
-		Types:  feature:AnyFloat ,  (  feature:AnyFloat_literal value -123.45f ) ,  (  feature:AnyFloat_literal exactly 1  xsd:float ) 
+	Class: individual_165 
+		SubClassOf:  feature:AnyFloat ,  (  feature:AnyFloat_literal value -123.45f ) ,  (  feature:AnyFloat_literal exactly 1  xsd:float ) 
 			
 		
-	Individual: individual_3 
-		Types:  feature:AnyDouble ,  (  feature:AnyDouble_literal value "0.0010" ^^ xsd:double ) ,  (  feature:AnyDouble_literal exactly 1  xsd:double ) 
+	Class: individual_166 
+		SubClassOf:  feature:AnyDouble ,  (  feature:AnyDouble_literal value "0.0010" ^^ xsd:double ) ,  (  feature:AnyDouble_literal exactly 1  xsd:double ) 
 			
 		
-	Individual: individual_4 
-		Types:  feature:AnyDouble ,  (  feature:AnyDouble_literal value "-123.45" ^^ xsd:double ) ,  (  feature:AnyDouble_literal exactly 1  xsd:double ) 
+	Class: individual_167 
+		SubClassOf:  feature:AnyDouble ,  (  feature:AnyDouble_literal value "-123.45" ^^ xsd:double ) ,  (  feature:AnyDouble_literal exactly 1  xsd:double ) 
 			
 		
-	DifferentIndividuals: individual_0 , individual_1 , individual_2 , individual_3 , individual_4	
+	DisjointClasses:  individual_163 ,  individual_164 ,  individual_165 ,  individual_166 ,  individual_167

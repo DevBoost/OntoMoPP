@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.emftext.language.owl.Ontology;
 import org.emftext.language.owl.OntologyDocument;
 import org.emftext.language.owl.loading.OntologyLoadExeption;
@@ -19,7 +20,7 @@ import org.emftext.language.owl.resource.owl.mopp.OwlResource;
 public class OWLTransformationHelper {
 
 	private static BidiHashMap<EObject, Integer> uniqueIdMap = new BidiHashMap<EObject, Integer>();
-	private static int counter = 0;
+	private static HashMap<Resource, Integer> counters = new HashMap<Resource, Integer>();
 	private static Map<EPackage, Ontology> packageOntologyMap = new HashMap<EPackage, Ontology>();
 	private static Map<String, String> datatypeMap;
 	
@@ -151,12 +152,27 @@ public class OWLTransformationHelper {
 	public static String getUniqueId(EObject eObject) {
 		Integer id = uniqueIdMap.get(eObject);
 		if (id == null) {
+			int counter = getCounter(eObject.eResource());
 			id = counter++;
+			updateCounter(eObject.eResource(), counter);
 			uniqueIdMap.put(eObject, id);
 		}
 		return id.toString();
 	}
 	
+	private static void updateCounter(Resource eResource, int counter) {
+		counters.put(eResource, counter);
+	}
+
+	private static int getCounter(Resource eResource) {
+		Integer counter = counters.get(eResource);
+		if (counter == null) {
+			counter = new Integer(0);
+			counters.put(eResource, counter);
+		}
+		return counter;
+	}
+
 	public static EObject getEObjectFromIRI(String iri) {
 		Integer id = Integer.parseInt(iri.replace("individual_", ""));
 		return uniqueIdMap.getKey(id);

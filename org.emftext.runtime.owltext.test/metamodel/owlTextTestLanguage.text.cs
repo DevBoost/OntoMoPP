@@ -4,7 +4,7 @@ START MandatoryFeature
 
 OPTIONS {
 	resourcePluginID="org.emftext.runtime.owltext.test";
-	resourceUIPluginID="org.emftext.runtime.owltext.test";
+	resourceUIPluginID="org.emftext.runtime.owltext.ui.test";
 	overrideManifest="false";
 	overrideUIManifest="false";
 }

@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.2"?>
 <plugin>
-	<extension point="org.emftext.access.syntax.ui">
-		<metaInformationProvider class="org.owltext.feature.resource.fea.ui.FeaUIMetaInformation" id="org.owltext.feature.resource.fea.ui.FeaUIMetaInformation">
+	<extension point="org.emftext.access.syntax">
+		<metaInformationProvider class="org.owltext.feature.resource.fea.mopp.FeaMetaInformation" id="org.owltext.feature.resource.fea.mopp.FeaMetaInformation">
 		</metaInformationProvider>
-	</extension>
-	
-	<extension point="org.eclipse.ui.editors">
-		<editor class="org.owltext.feature.resource.fea.ui.FeaEditor" contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor" extensions="fea" icon="icons/editor_icon.gif" id="org.owltext.feature.resource.fea.ui.FeaEditor" name="EMFText fea Editor">
-		</editor>
 	</extension>
 	
 	<extension id="org.emftext.runtime.owltext.test.problem" name="EMFText Problem" point="org.eclipse.core.resources.markers">
@@ -20,27 +15,26 @@
 		</super>
 	</extension>
 	
-	<extension point="org.eclipse.core.runtime.preferences">
-		<initializer class="org.owltext.feature.resource.fea.ui.FeaPreferenceInitializer">
-		</initializer>
+	<extension id="org.emftext.runtime.owltext.test.nature" name="fea nature" point="org.eclipse.core.resources.natures">
+		<runtime>
+			<run class="org.owltext.feature.resource.fea.mopp.FeaNature" />
+		</runtime>
+		<builder id="org.emftext.runtime.owltext.test.builder" />
 	</extension>
 	
-	<extension point="org.eclipse.ui.preferencePages">
-		<page name="Fea Text Editor" id="org.owltext.feature.resource.fea.ui.FeaPreferencePage" class="org.owltext.feature.resource.fea.ui.FeaPreferencePage" category="org.eclipse.ui.preferencePages.GeneralTextEditor">
-		</page>
-		<page name="Syntax Coloring" id="org.owltext.feature.resource.fea.ui.FeaSyntaxColoringPreferencePage" class="org.owltext.feature.resource.fea.ui.FeaSyntaxColoringPreferencePage" category="org.owltext.feature.resource.fea.ui.FeaPreferencePage">
-		</page>
-		<page name="Brackets" id="org.owltext.feature.resource.fea.ui.FeaBracketPreferencePage" class="org.owltext.feature.resource.fea.ui.FeaBracketPreferencePage" category="org.owltext.feature.resource.fea.ui.FeaPreferencePage">
-		</page>
-		<page name="Occurrence" id="org.owltext.feature.resource.fea.ui.FeaOccurrencePreferencePage" class="org.owltext.feature.resource.fea.ui.FeaOccurrencePreferencePage" category="org.owltext.feature.resource.fea.ui.FeaPreferencePage">
-		</page>
+	<extension point="org.eclipse.core.resources.builders" id="org.emftext.runtime.owltext.test.builder" name="fea Builder">
+		<builder hasNature="true">
+			<run class="org.owltext.feature.resource.fea.mopp.FeaBuilderAdapter" />
+		</builder>
 	</extension>
 	
-	<extension point="org.eclipse.ui.newWizards">
-		<category id="org.emftext.runtime.ui.EMFTextFileCategory" name="EMFText File">
-		</category>
-		<wizard category="org.emftext.runtime.ui.EMFTextFileCategory" icon="/icons/default_new_icon.gif" class="org.owltext.feature.resource.fea.ui.FeaNewFileWizard" id="org.owltext.feature.resource.fea.ui.FeaNewFileWizard" name="EMFText .fea file">
-		</wizard>
+	<extension-point id="org.emftext.runtime.owltext.test.default_load_options" name="Default Load Options" schema="schema/default_load_options.exsd"/>
+	
+	<extension point="org.eclipse.emf.ecore.extension_parser">
+		<parser class="org.owltext.feature.resource.fea.mopp.FeaResourceFactoryDelegator" type="fea">
+		</parser>
 	</extension>
+	
+	<extension-point id="org.emftext.runtime.owltext.test.additional_extension_parser" name="Additional Extension Parser" schema="schema/additional_extension_parser.exsd"/>
 	
 </plugin>

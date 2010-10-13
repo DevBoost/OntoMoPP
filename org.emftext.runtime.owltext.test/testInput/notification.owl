@@ -1,7 +1,7 @@
 Prefix: : <http://transformed/notification.fea#> 
 	Prefix: feature: <http://org.owltext/feature#> 
 	Ontology: <http://transformed/notification.fea> 
-	Import: <./feature.mm.owl> 
+	Import: <file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/testInput/feature.mm.owl> 
 	
 	Class: feature:Feature 
 		
@@ -15,16 +15,46 @@ Prefix: : <http://transformed/notification.fea#>
 	Class: feature:Annotation 
 		
 		
+	Class: feature:AnyLiteral 
+		
+		
+	Class: feature:AnyBoolean 
+		
+		
+	Class: feature:AnyInt 
+		
+		
+	Class: feature:AnyBigInteger 
+		
+		
+	Class: feature:AnyLong 
+		
+		
+	Class: feature:AnyShort 
+		
+		
+	Class: feature:AnyBigDecimal 
+		
+		
+	Class: feature:AnyFloat 
+		
+		
+	Class: feature:AnyDouble 
+		
+		
+	Class: feature:AnyChar 
+		
+		
+	Class: feature:AnyByte 
+		
+		
 	DataProperty: feature:Feature_name 
 		
 		
 	DataProperty: feature:Feature_comments 
 		
 		
-	DataProperty: feature:Feature_anyFloat 
-		
-		
-	DataProperty: feature:Feature_anyBoolean 
+	ObjectProperty: feature:Feature_anyLiterals 
 		
 		
 	ObjectProperty: feature:Feature_annotation 
@@ -33,44 +63,140 @@ Prefix: : <http://transformed/notification.fea#>
 	ObjectProperty: feature:Feature_children 
 		
 		
+	ObjectProperty: feature:Feature_uniqueRelations 
+		
+		
+	ObjectProperty: feature:Feature_nonUniqueRelations 
+		
+		
 	ObjectProperty: feature:Feature_parent 
 		
 		
 	DataProperty: feature:Annotation_value 
 		
 		
-	Class: feature:__c__Annotation0_min_1_value 
+	DataProperty: feature:AnyBoolean_literal 
 		
 		
-	Class: feature:__c__Annotation1_max_1_value 
+	DataProperty: feature:AnyInt_literal 
 		
 		
-	Class: feature:__c__Feature2_min_1_name 
+	DataProperty: feature:AnyBigInteger_literal 
 		
 		
-	Class: feature:__c__Feature3_max_1_name 
+	DataProperty: feature:AnyLong_literal 
 		
 		
-	Class: feature:__c__Feature4_max_1_annotation 
+	DataProperty: feature:AnyShort_literal 
 		
 		
-	Class: feature:__c__Feature5_max_1_parent 
+	DataProperty: feature:AnyBigDecimal_literal 
 		
 		
-	Individual: individual_163 
-		Types:  feature:MandatoryFeature ,  (  feature:Feature_name value "testRootFeature" ) ,  (  feature:Feature_children value individual_164 ) ,  (  feature:Feature_children value individual_166 ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_anyFloat exactly 0  xsd:float ) ,  (  feature:Feature_anyBoolean exactly 0  xsd:boolean ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 2  feature:Feature ) ,  (  feature:Feature_parent exactly 0  feature:Feature ) 
+	DataProperty: feature:AnyFloat_literal 
+		
+		
+	DataProperty: feature:AnyDouble_literal 
+		
+		
+	DataProperty: feature:AnyChar_literal 
+		
+		
+	DataProperty: feature:AnyByte_literal 
+		
+		
+	Class: feature:__c__AnyBigInteger0_min_1_literal 
+		
+		
+	Class: feature:__c__AnyBigInteger1_max_1_literal 
+		
+		
+	Class: feature:__c__AnyByte2_min_1_literal 
+		
+		
+	Class: feature:__c__AnyByte3_max_1_literal 
+		
+		
+	Class: feature:__c__AnyShort4_min_1_literal 
+		
+		
+	Class: feature:__c__AnyShort5_max_1_literal 
+		
+		
+	Class: feature:__c__Annotation6_min_1_value 
+		
+		
+	Class: feature:__c__Annotation7_max_1_value 
+		
+		
+	Class: feature:__c__AnyInt8_min_1_literal 
+		
+		
+	Class: feature:__c__AnyInt9_max_1_literal 
+		
+		
+	Class: feature:__c__AnyLong10_min_1_literal 
+		
+		
+	Class: feature:__c__AnyLong11_max_1_literal 
+		
+		
+	Class: feature:__c__AnyFloat12_min_1_literal 
+		
+		
+	Class: feature:__c__AnyFloat13_max_1_literal 
+		
+		
+	Class: feature:__c__AnyBoolean14_min_1_literal 
+		
+		
+	Class: feature:__c__AnyBoolean15_max_1_literal 
+		
+		
+	Class: feature:__c__AnyDouble16_min_1_literal 
+		
+		
+	Class: feature:__c__AnyDouble17_max_1_literal 
+		
+		
+	Class: feature:__c__AnyChar18_min_1_literal 
+		
+		
+	Class: feature:__c__AnyChar19_max_1_literal 
+		
+		
+	Class: feature:__c__Feature20_min_1_name 
+		
+		
+	Class: feature:__c__Feature21_max_1_name 
+		
+		
+	Class: feature:__c__Feature22_max_1_annotation 
+		
+		
+	Class: feature:__c__Feature23_max_1_parent 
+		
+		
+	Class: feature:__c__AnyBigDecimal24_min_1_literal 
+		
+		
+	Class: feature:__c__AnyBigDecimal25_max_1_literal 
+		
+		
+	Class: individual_178 
+		SubClassOf:  feature:MandatoryFeature ,  (  feature:Feature_name value "testRootFeature" ) ,  (  feature:Feature_children some  individual_179 ) ,  (  feature:Feature_children some  individual_181 ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_anyLiterals exactly 0  feature:AnyLiteral ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 2  feature:Feature ) ,  (  feature:Feature_uniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_nonUniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 0  feature:Feature ) 
 			
 		
-	Individual: individual_164 
-		Types:  feature:MandatoryFeature ,  (  feature:Feature_name value "Feature_0" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_anyFloat exactly 0  xsd:float ) ,  (  feature:Feature_anyBoolean exactly 0  xsd:boolean ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+	Class: individual_179 
+		SubClassOf:  feature:MandatoryFeature ,  (  feature:Feature_name value "Feature_0" ) ,  (  feature:Feature_comments value "comment_1" ) ,  (  feature:Feature_parent some  individual_178 ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 1  xsd:string ) ,  (  feature:Feature_anyLiterals exactly 0  feature:AnyLiteral ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_uniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_nonUniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
 			
 		
-	Individual: individual_166 
-		Types:  feature:MandatoryFeature ,  (  feature:Feature_name value "Feature_1" ) ,  (  feature:Feature_children value individual_165 ) ,  (  feature:Feature_comments value "comment_1" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 1  xsd:string ) ,  (  feature:Feature_anyFloat exactly 0  xsd:float ) ,  (  feature:Feature_anyBoolean exactly 0  xsd:boolean ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 1  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+	Class: individual_181 
+		SubClassOf:  feature:MandatoryFeature ,  (  feature:Feature_name value "Feature_1" ) ,  (  feature:Feature_parent some  individual_178 ) ,  (  feature:Feature_children some  individual_180 ) ,  (  feature:Feature_comments value "comment_1" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 1  xsd:string ) ,  (  feature:Feature_anyLiterals exactly 0  feature:AnyLiteral ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 1  feature:Feature ) ,  (  feature:Feature_uniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_nonUniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
 			
 		
-	Individual: individual_165 
-		Types:  feature:OptionalFeature ,  (  feature:Feature_name value "Feature_2" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_anyFloat exactly 0  xsd:float ) ,  (  feature:Feature_anyBoolean exactly 0  xsd:boolean ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+	Class: individual_180 
+		SubClassOf:  feature:OptionalFeature ,  (  feature:Feature_name value "Feature_2" ) ,  (  feature:Feature_parent some  individual_181 ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_anyLiterals exactly 0  feature:AnyLiteral ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_uniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_nonUniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
 			
 		
-	DifferentIndividuals: individual_163 , individual_164 , individual_166 , individual_165
+	DisjointClasses:  individual_178 ,  individual_179 ,  individual_181 ,  individual_180

@@ -22,7 +22,8 @@ public class LiteralConverter {
 	private Datatype xsdDouble;
 	private Datatype xsdByte;
 	private Datatype xsdDate;
-
+	private Datatype xsdDecimal;
+	
 	public LiteralConverter() {
 		xsdBoolean = factory.createDatatype();
 		xsdBoolean.setIri("xsd:boolean");
@@ -38,6 +39,9 @@ public class LiteralConverter {
 		
 		xsdByte = factory.createDatatype();
 		xsdByte.setIri("xsd:byte");
+		
+		xsdDecimal = factory.createDatatype();
+		xsdDecimal.setIri("xsd:decimal");
 		
 		xsdDate = factory.createDatatype();
 		xsdDate.setIri("xsd:dateTime");
@@ -107,9 +111,10 @@ public class LiteralConverter {
 	}
 	
 	public Literal doConvert(BigDecimal newValue) {
-		DecimalLiteral textLiteral = factory.createDecimalLiteral();
-		textLiteral.setValue(newValue);
-		
+		TypedLiteral textLiteral = factory.createTypedLiteral();
+		textLiteral.setLexicalValue(newValue.toString());
+		textLiteral.setTheDatatype(xsdDecimal);
+			
 		return textLiteral;
 	}
 

@@ -48,16 +48,17 @@ public class EMFTextPelletReasoner implements
 
 	public static final String CONSTRAINT_CLASS_PREFIX = "__c__";
 	public static final String CONSTRAINT_PROPERTY_NAME = "rdfs:comment";
+	private PelletReasoner reasoner;
+	private String ontologyString;
 
 	public Map<String, String> getInconsistentFrames(String owlRepresentation)
 			throws ReasoningException {
-
 		HashMap<String, String> inconsistentObjects = new HashMap<String, String>();
 
 		try {
 			// prepare infrastructure
 			PelletReasoner reasoner = loadOntology(owlRepresentation);
-			reasoner.prepareReasoner();
+			
 
 			// // derive inconsistent individuals
 
@@ -138,6 +139,10 @@ public class EMFTextPelletReasoner implements
 
 	private PelletReasoner loadOntology(String owlRepresentation)
 			throws ReasoningException {
+		if (owlRepresentation.equals(this.ontologyString)) {
+			return reasoner;
+		}
+		this.ontologyString = owlRepresentation;
 		OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 		StringDocumentSource inputSource = new StringDocumentSource(
 				owlRepresentation);
@@ -153,7 +158,6 @@ public class EMFTextPelletReasoner implements
 		// load and parse ontology in manchester syntax
 
 		OWLOntology ontology;
-		PelletReasoner reasoner;
 		try {
 
 			ontology = manager.loadOntologyFromOntologyDocument(inputSource);
@@ -188,6 +192,7 @@ public class EMFTextPelletReasoner implements
 			});
 			reasoner = PelletReasonerFactory.getInstance().createReasoner(
 					ontology);
+			reasoner.prepareReasoner();
 			// reasoner.loadOntology(ontology);
 			// parser.setOWLOntologyManager(manager);
 
@@ -206,12 +211,12 @@ public class EMFTextPelletReasoner implements
 	}
 
 	public List<String> getAllSuperframes(String owlRepresentation,
-			org.emftext.language.owl.Ontology ontology,
-			String completionClassIri) throws ReasoningException {
+			String ontologyUri,
+			String givenIri) throws ReasoningException {
 		List<String> superFrames = new ArrayList<String>();
 		PelletReasoner reasoner;
 		reasoner = loadOntology(owlRepresentation);
-		reasoner.prepareReasoner();
+	
 		if (!reasoner.isConsistent()) {
 
 			String message = "The ontologies fact base is inconsistent. ";
@@ -219,7 +224,7 @@ public class EMFTextPelletReasoner implements
 
 		} else {
 
-			IRI iri = IRI.create(ontology.getUri() + "#" + completionClassIri);
+			IRI iri = IRI.create(ontologyUri + "#" + givenIri);
 			OWLClass c = reasoner.getManager().getOWLDataFactory()
 					.getOWLClass(iri);
 			NodeSet<OWLClass> superClasses = reasoner.getSuperClasses(c, false);
@@ -231,5 +236,7 @@ public class EMFTextPelletReasoner implements
 
 		return superFrames;
 	}
+	
+	
 
 }

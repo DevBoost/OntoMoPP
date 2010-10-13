@@ -183,48 +183,48 @@ Prefix: : <http://transformed/syntaxMinimum.fea#>
 	Class: feature:__c__AnyByte25_max_1_literal 
 		
 		
-	Individual: individual_0 
-		Types:  feature:MandatoryFeature ,  (  feature:Feature_name value "testRootFeature" ) ,  (  feature:Feature_anyLiterals value individual_1 ) ,  (  feature:Feature_anyLiterals value individual_2 ) ,  (  feature:Feature_anyLiterals value individual_3 ) ,  (  feature:Feature_anyLiterals value individual_4 ) ,  (  feature:Feature_anyLiterals value individual_5 ) ,  (  feature:Feature_anyLiterals value individual_6 ) ,  (  feature:Feature_anyLiterals value individual_7 ) ,  (  feature:Feature_anyLiterals value individual_8 ) ,  (  feature:Feature_anyLiterals value individual_9 ) ,  (  feature:Feature_anyLiterals value individual_10 ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_anyLiterals exactly 10  feature:AnyLiteral ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_uniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_nonUniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 0  feature:Feature ) 
+	Class: individual_0 
+		SubClassOf:  feature:MandatoryFeature ,  (  feature:Feature_name value "testRootFeature" ) ,  (  feature:Feature_anyLiterals value individual_1 ) ,  (  feature:Feature_anyLiterals value individual_2 ) ,  (  feature:Feature_anyLiterals value individual_3 ) ,  (  feature:Feature_anyLiterals value individual_4 ) ,  (  feature:Feature_anyLiterals value individual_5 ) ,  (  feature:Feature_anyLiterals value individual_6 ) ,  (  feature:Feature_anyLiterals value individual_7 ) ,  (  feature:Feature_anyLiterals value individual_8 ) ,  (  feature:Feature_anyLiterals value individual_9 ) ,  (  feature:Feature_anyLiterals value individual_10 ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_anyLiterals exactly 10  feature:AnyLiteral ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_uniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_nonUniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 0  feature:Feature ) 
 			
 		
-	Individual: individual_1 
-		Types:  feature:AnyBoolean ,  (  feature:AnyBoolean_literal value "true" ^^ xsd:boolean ) ,  (  feature:AnyBoolean_literal exactly 1  xsd:boolean ) 
+	Class: individual_1 
+		SubClassOf:  feature:AnyBoolean ,  (  feature:AnyBoolean_literal value "true" ^^ xsd:boolean ) ,  (  feature:AnyBoolean_literal exactly 1  xsd:boolean ) 
 			
 		
-	Individual: individual_2 
-		Types:  feature:AnyBoolean ,  (  feature:AnyBoolean_literal value "false" ^^ xsd:boolean ) ,  (  feature:AnyBoolean_literal exactly 1  xsd:boolean ) 
+	Class: individual_2 
+		SubClassOf:  feature:AnyBoolean ,  (  feature:AnyBoolean_literal value "false" ^^ xsd:boolean ) ,  (  feature:AnyBoolean_literal exactly 1  xsd:boolean ) 
 			
 		
-	Individual: individual_3 
-		Types:  feature:AnyFloat ,  (  feature:AnyFloat_literal value 0.0010f ) ,  (  feature:AnyFloat_literal exactly 1  xsd:float ) 
+	Class: individual_3 
+		SubClassOf:  feature:AnyFloat ,  (  feature:AnyFloat_literal value 0.0010f ) ,  (  feature:AnyFloat_literal exactly 1  xsd:float ) 
 			
 		
-	Individual: individual_4 
-		Types:  feature:AnyFloat ,  (  feature:AnyFloat_literal value -123.45f ) ,  (  feature:AnyFloat_literal exactly 1  xsd:float ) 
+	Class: individual_4 
+		SubClassOf:  feature:AnyFloat ,  (  feature:AnyFloat_literal value -123.45f ) ,  (  feature:AnyFloat_literal exactly 1  xsd:float ) 
 			
 		
-	Individual: individual_5 
-		Types:  feature:AnyDouble ,  (  feature:AnyDouble_literal value "0.0010" ^^ xsd:double ) ,  (  feature:AnyDouble_literal exactly 1  xsd:double ) 
+	Class: individual_5 
+		SubClassOf:  feature:AnyDouble ,  (  feature:AnyDouble_literal value "0.0010" ^^ xsd:double ) ,  (  feature:AnyDouble_literal exactly 1  xsd:double ) 
 			
 		
-	Individual: individual_6 
-		Types:  feature:AnyDouble ,  (  feature:AnyDouble_literal value "-123.45" ^^ xsd:double ) ,  (  feature:AnyDouble_literal exactly 1  xsd:double ) 
+	Class: individual_6 
+		SubClassOf:  feature:AnyDouble ,  (  feature:AnyDouble_literal value "-123.45" ^^ xsd:double ) ,  (  feature:AnyDouble_literal exactly 1  xsd:double ) 
 			
 		
-	Individual: individual_7 
-		Types:  feature:AnyChar ,  (  feature:AnyChar_literal value "a" ) ,  (  feature:AnyChar_literal exactly 1  xsd:string ) 
+	Class: individual_7 
+		SubClassOf:  feature:AnyChar ,  (  feature:AnyChar_literal value "a" ) ,  (  feature:AnyChar_literal exactly 1  xsd:string ) 
 			
 		
-	Individual: individual_8 
-		Types:  feature:AnyChar ,  (  feature:AnyChar_literal value "b" ) ,  (  feature:AnyChar_literal exactly 1  xsd:string ) 
+	Class: individual_8 
+		SubClassOf:  feature:AnyChar ,  (  feature:AnyChar_literal value "b" ) ,  (  feature:AnyChar_literal exactly 1  xsd:string ) 
 			
 		
-	Individual: individual_9 
-		Types:  feature:AnyByte ,  (  feature:AnyByte_literal value "0" ^^ xsd:byte ) ,  (  feature:AnyByte_literal exactly 1  xsd:byte ) 
+	Class: individual_9 
+		SubClassOf:  feature:AnyByte ,  (  feature:AnyByte_literal value "0" ^^ xsd:byte ) ,  (  feature:AnyByte_literal exactly 1  xsd:byte ) 
 			
 		
-	Individual: individual_10 
-		Types:  feature:AnyByte ,  (  feature:AnyByte_literal value "-123" ^^ xsd:byte ) ,  (  feature:AnyByte_literal exactly 1  xsd:byte ) 
+	Class: individual_10 
+		SubClassOf:  feature:AnyByte ,  (  feature:AnyByte_literal value "-123" ^^ xsd:byte ) ,  (  feature:AnyByte_literal exactly 1  xsd:byte ) 
 			
 		
 	DifferentIndividuals: individual_0 , individual_1 , individual_2 , individual_3 , individual_4 , individual_5 , individual_6 , individual_7 , individual_8 , individual_9 , individual_10	

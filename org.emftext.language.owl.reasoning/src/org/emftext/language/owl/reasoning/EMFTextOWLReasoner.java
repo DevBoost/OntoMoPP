@@ -15,13 +15,14 @@ package org.emftext.language.owl.reasoning;
 import java.util.List;
 import java.util.Map;
 
-import org.emftext.language.owl.Ontology;
-
 public interface EMFTextOWLReasoner {
 
 	public Map<String, String> getInconsistentFrames(String content)
 			throws ReasoningException;
 
-	public List<String> getAllSuperframes(String ontologyString, Ontology ontology, String completionClassIri) throws ReasoningException;
+	public List<String> getAllSuperframes(String ontologyString,
+			String ontologyUri, String completionClassIri)
+			throws ReasoningException;
 
+	
 }
