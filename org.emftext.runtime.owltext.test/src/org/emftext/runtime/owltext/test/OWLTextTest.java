@@ -1498,8 +1498,8 @@ public class OWLTextTest {
 			feature.getNonUniqueRelations().add(fea);
 
 		feature.getNonUniqueRelations().add(feature.getChildren().get(0));
-
-		assertEquals("wrong size.", 4, feature.getNonUniqueRelations().size());
+		// references are always unique! (according to EMF Book)
+		assertEquals("Uniqueness always true for references.", 3, feature.getNonUniqueRelations().size());
 	}
 
 	// test reference with bounds 0..-1
@@ -1517,7 +1517,8 @@ public class OWLTextTest {
 			feature.getNonUniqueRelations().add(fea);
 
 		feature.getNonUniqueRelations().add(feature.getChildren().get(0));
-		assertEquals("wrong index.", 3, feature.getNonUniqueRelations()
+		// existing features are not added again
+		assertEquals("wrong index.", 0, feature.getNonUniqueRelations()
 				.lastIndexOf(feature.getChildren().get(0)));
 	}
 
