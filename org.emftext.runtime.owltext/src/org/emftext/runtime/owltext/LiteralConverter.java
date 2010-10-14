@@ -2,11 +2,12 @@ package org.emftext.runtime.owltext;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.emftext.language.owl.AbbreviatedXSDStringLiteral;
 import org.emftext.language.owl.Datatype;
-import org.emftext.language.owl.DecimalLiteral;
 import org.emftext.language.owl.FloatingPointLiteral;
 import org.emftext.language.owl.IntegerLiteral;
 import org.emftext.language.owl.Literal;
@@ -23,26 +24,26 @@ public class LiteralConverter {
 	private Datatype xsdByte;
 	private Datatype xsdDate;
 	private Datatype xsdDecimal;
-	
+
 	public LiteralConverter() {
 		xsdBoolean = factory.createDatatype();
 		xsdBoolean.setIri("xsd:boolean");
-		
+
 		xsdLong = factory.createDatatype();
 		xsdLong.setIri("xsd:long");
-		
+
 		xsdShort = factory.createDatatype();
 		xsdShort.setIri("xsd:short");
-		
+
 		xsdDouble = factory.createDatatype();
 		xsdDouble.setIri("xsd:double");
-		
+
 		xsdByte = factory.createDatatype();
 		xsdByte.setIri("xsd:byte");
-		
+
 		xsdDecimal = factory.createDatatype();
 		xsdDecimal.setIri("xsd:decimal");
-		
+
 		xsdDate = factory.createDatatype();
 		xsdDate.setIri("xsd:dateTime");
 	}
@@ -50,7 +51,8 @@ public class LiteralConverter {
 	public Literal convert(Object newValue) {
 		if (newValue == null)
 			return null;
-		if (newValue instanceof String || newValue instanceof char[] || newValue instanceof Character) {
+		if (newValue instanceof String || newValue instanceof char[]
+				|| newValue instanceof Character) {
 			return doConvert(newValue.toString());
 		} else if (newValue instanceof Integer) {
 			return doConvert((Integer) newValue);
@@ -92,14 +94,14 @@ public class LiteralConverter {
 	public Literal doConvert(Integer newValue) {
 		IntegerLiteral textLiteral = factory.createIntegerLiteral();
 		textLiteral.setValue(newValue);
-		
+
 		return textLiteral;
 	}
-	
+
 	public Literal doConvert(BigInteger newValue) {
 		IntegerLiteral textLiteral = factory.createIntegerLiteral();
 		textLiteral.setValue(newValue.intValue());
-		
+
 		return textLiteral;
 	}
 
@@ -109,12 +111,12 @@ public class LiteralConverter {
 
 		return textLiteral;
 	}
-	
+
 	public Literal doConvert(BigDecimal newValue) {
 		TypedLiteral textLiteral = factory.createTypedLiteral();
 		textLiteral.setLexicalValue(newValue.toString());
 		textLiteral.setTheDatatype(xsdDecimal);
-			
+
 		return textLiteral;
 	}
 
@@ -124,103 +126,157 @@ public class LiteralConverter {
 		textLiteral.setTheDatatype(xsdBoolean);
 		return textLiteral;
 	}
-	
+
 	public Literal doConvert(Long newValue) {
 		TypedLiteral textLiteral = factory.createTypedLiteral();
 		textLiteral.setLexicalValue(newValue.toString());
 		textLiteral.setTheDatatype(xsdLong);
 		return textLiteral;
 	}
-	
+
 	public Literal doConvert(Short newValue) {
 		TypedLiteral textLiteral = factory.createTypedLiteral();
 		textLiteral.setLexicalValue(newValue.toString());
 		textLiteral.setTheDatatype(xsdShort);
 		return textLiteral;
 	}
-	
+
 	public Literal doConvert(Double newValue) {
 		TypedLiteral textLiteral = factory.createTypedLiteral();
 		textLiteral.setLexicalValue(newValue.toString());
 		textLiteral.setTheDatatype(xsdDouble);
 		return textLiteral;
 	}
-	
+
 	public Literal doConvert(Byte newValue) {
 		TypedLiteral textLiteral = factory.createTypedLiteral();
 		textLiteral.setLexicalValue(newValue.toString());
 		textLiteral.setTheDatatype(xsdByte);
 		return textLiteral;
 	}
-	
+
 	public Literal doConvert(Date newValue) {
 		TypedLiteral textLiteral = factory.createTypedLiteral();
 		textLiteral.setLexicalValue(newValue.toString());
 		textLiteral.setTheDatatype(xsdDate);
 		return textLiteral;
 	}
-	
-	public Object convert(Literal newValue) {
-		if (newValue == null)
+
+	public <T> T reconvert(Class<T> targetClass, Literal literal) {
+		if (literal == null)
 			return null;
-		if (newValue instanceof AbbreviatedXSDStringLiteral) {
-			return doConvert((AbbreviatedXSDStringLiteral) newValue);
-		} else if (newValue instanceof IntegerLiteral) {
-			return doConvert((IntegerLiteral) newValue);
-		} else if (newValue instanceof FloatingPointLiteral) {
-			return doConvert((FloatingPointLiteral) newValue);
-		} else if (newValue instanceof TypedLiteral){
-			if(((TypedLiteral)newValue).getTheDatatype().equals(xsdBoolean)) 
-				return doConvertBoolean((TypedLiteral) newValue);
-			else if(((TypedLiteral)newValue).getTheDatatype().equals(xsdLong))
-				return doConvertLong((TypedLiteral) newValue);
-			else if(((TypedLiteral)newValue).getTheDatatype().equals(xsdShort))
-				return doConvertShort((TypedLiteral) newValue);
-			else if(((TypedLiteral)newValue).getTheDatatype().equals(xsdDouble))
-				return doConvertDouble((TypedLiteral) newValue);
-			else if(((TypedLiteral)newValue).getTheDatatype().equals(xsdByte))
-				return doConvertByte((TypedLiteral) newValue);
-			//else if(((TypedLiteral)newValue).getTheDatatype().equals(xsdDate))
-				//return doConvertDate((TypedLiteral) newValue);
+		if (targetClass.equals(String.class)) {
+			return (T) createString(literal);
 		}
-		
-		return "The attribute value of type: "
-				+ newValue.getClass()
-				+ " could not be converted to a representation";
-	}
-	
-	public String doConvert(AbbreviatedXSDStringLiteral newValue) {
-		return newValue.getValue();
+		if (targetClass.equals(Character.class)
+				|| (targetClass.equals(char.class))) {
+			return (T) createCharacter(literal);
+		}
+		if (targetClass.equals(Integer.class)
+				|| (targetClass.equals(int.class))) {
+			return (T) createInteger(literal);
+		}
+		if (targetClass.equals(Boolean.class)
+				|| (targetClass.equals(boolean.class))) {
+			return (T) createBoolean(literal);
+		}
+		if (targetClass.equals(BigInteger.class)) {
+			return (T) createBigInteger(literal);
+		}
+		if (targetClass.equals(Long.class) || (targetClass.equals(long.class))) {
+			return (T) createLong(literal);
+		}
+		if (targetClass.equals(Short.class)
+				|| (targetClass.equals(short.class))) {
+			return (T) createShort(literal);
+		}
+		if (targetClass.equals(BigDecimal.class)) {
+			return (T) createBigDecimal(literal);
+		}
+		if (targetClass.equals(Float.class)
+				|| (targetClass.equals(float.class))) {
+			return (T) createFloat(literal);
+		}
+		if (targetClass.equals(Double.class)
+				|| (targetClass.equals(double.class))) {
+			return (T) createDouble(literal);
+		}
+		if (targetClass.equals(Byte.class) || (targetClass.equals(byte.class))) {
+			return (T) createByte(literal);
+		}
+		if (targetClass.equals(Date.class)) {
+			return (T) createDate(literal);
+		}
+		throw new RuntimeException(
+				"Conversion error. Requested datatype not supported: "
+						+ targetClass);
 	}
 
-	public Integer doConvert(IntegerLiteral newValue) {
-		return newValue.getValue();
+	private Character createCharacter(Literal literal) {
+		AbbreviatedXSDStringLiteral textLiteral = (AbbreviatedXSDStringLiteral) literal;
+		return new Character(textLiteral.getValue().charAt(0));
 	}
 
-	public Float doConvert(FloatingPointLiteral newValue) {
-		return newValue.getLiteral();
-	}
-	
-	public BigDecimal doConvert(DecimalLiteral newValue) {
-		return newValue.getValue();
+	private String createString(Literal literal) {
+		AbbreviatedXSDStringLiteral textLiteral = (AbbreviatedXSDStringLiteral) literal;
+		return new String(textLiteral.getValue());
 	}
 
-	public Boolean doConvertBoolean(TypedLiteral newValue) {
-		return Boolean.parseBoolean(newValue.getLexicalValue());
+	private Date createDate(Literal literal) {
+		TypedLiteral tl = (TypedLiteral) literal;
+		try {
+			return new SimpleDateFormat().parse(tl.getLexicalValue());
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
-	public Long doConvertLong(TypedLiteral newValue) {
-		return Long.parseLong(newValue.getLexicalValue());
+
+	private Byte createByte(Literal literal) {
+		TypedLiteral tl = (TypedLiteral) literal;
+		return new Byte(tl.getLexicalValue());
 	}
-	public Short doConvertShort(TypedLiteral newValue) {
-		return Short.parseShort(newValue.getLexicalValue());
+
+	private Double createDouble(Literal literal) {
+		TypedLiteral tl = (TypedLiteral) literal;
+		return new Double(tl.getLexicalValue());
 	}
-	public Double doConvertDouble(TypedLiteral newValue) {
-		return Double.parseDouble(newValue.getLexicalValue());
+
+	private BigDecimal createBigDecimal(Literal literal) {
+		TypedLiteral tl = (TypedLiteral) literal;
+		return new BigDecimal(tl.getLexicalValue());
 	}
-	public Byte doConvertByte(TypedLiteral newValue) {
-		return Byte.parseByte(newValue.getLexicalValue());
+
+	private Short createShort(Literal literal) {
+		TypedLiteral tl = (TypedLiteral) literal;
+		return new Short(tl.getLexicalValue());
 	}
-	//public Date doConvertDate(TypedLiteral newValue) {
-	//	return Date.parse(newValue.getLexicalValue());
-	//}
+
+	private Boolean createBoolean(Literal literal) {
+		TypedLiteral tl = (TypedLiteral) literal;
+		return new Boolean(tl.getLexicalValue());
+	}
+
+	private Long createLong(Literal literal) {
+		TypedLiteral tl = (TypedLiteral) literal;
+		return new Long(tl.getLexicalValue());
+	}
+
+	private Float createFloat(Literal literal) {
+		FloatingPointLiteral fpl = (FloatingPointLiteral) literal;
+		return new Float(fpl.getLiteral());
+	}
+
+	private BigInteger createBigInteger(Literal literal) {
+		IntegerLiteral il = (IntegerLiteral) literal;
+		return new BigInteger("" + il.getValue());
+	}
+
+	private Integer createInteger(Literal literal) {
+		IntegerLiteral il = (IntegerLiteral) literal;
+		return new Integer(il.getValue());
+
+	}
+
 }

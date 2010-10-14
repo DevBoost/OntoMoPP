@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.ListIterator;
 
 import org.eclipse.emf.common.notify.Adapter;
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EAttribute;
@@ -26,7 +24,6 @@ import org.emftext.language.owl.Datatype;
 import org.emftext.language.owl.DatatypeReference;
 import org.emftext.language.owl.Description;
 import org.emftext.language.owl.DisjointClasses;
-import org.emftext.language.owl.Feature;
 import org.emftext.language.owl.FeatureReference;
 import org.emftext.language.owl.FeatureRestriction;
 import org.emftext.language.owl.Frame;
@@ -390,7 +387,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 					if (isSameFeatureIRI(eDynamicFeature(featureID),
 							(NestedDescription) description)) {
 						count++;
-						array[count] = getObjectFromDescription((NestedDescription) description);
+						array[count] = getObjectFromDescription(eDynamicFeature(featureID),(NestedDescription) description);
 					}
 				}
 			}
@@ -398,11 +395,11 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		}
 
 		@SuppressWarnings("unchecked")
-		public <O> O[] toArray(O[] a) {
+		public <AT> AT[] toArray(AT[] a) {
 			int size = size();
 			// look for the collection fits in the specified array
 			if (a.length < size)
-				a = (O[]) Array.newInstance(a.getClass().getComponentType(),
+				a = (AT[]) Array.newInstance(a.getClass().getComponentType(),
 						size);
 
 			EList<Description> descriptions = owlIndividualClass
@@ -415,8 +412,8 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 							(NestedDescription) description)) {
 						count++;
 
-						T t = getObjectFromDescription((NestedDescription) description);
-						a[count] = (O) t;
+						T t = getObjectFromDescription(eDynamicFeature(featureID), (NestedDescription) description);
+						a[count] = (AT) t;
 					}
 				}
 			}
@@ -537,7 +534,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 
 						if (count == index) {// Pruefe ob es sich um aktuelles
 												// Object handelt
-							return getObjectFromDescription((NestedDescription) description);
+							return getObjectFromDescription(eDynamicFeature(featureID), (NestedDescription) description);
 						}
 					}
 				}
@@ -814,36 +811,6 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 			// toIndex), this.thisObject, this.featureID);
 		}
 
-		@SuppressWarnings("unchecked")
-		private T getObjectFromDescription(NestedDescription description) {
-			EStructuralFeature feature = eDynamicFeature(featureID);
-
-			if (feature instanceof EReference) {
-				if (description.getDescription() instanceof ObjectPropertySome) {
-
-					ObjectPropertySome property = (ObjectPropertySome) ((NestedDescription) description)
-							.getDescription();
-
-					if (property.getPrimary() != null
-							&& property.getPrimary() instanceof ClassAtomic) {
-						ClassAtomic ca = (ClassAtomic) property.getPrimary();
-						return (T) OWLTransformationHelper.getEObjectFromIRI(ca
-								.getClazz().getIri());
-					}
-				}
-			} else { // EAtrributes
-				if (description.getDescription() instanceof ObjectPropertyValue) {
-
-					ObjectPropertyValue property = (ObjectPropertyValue) ((NestedDescription) description)
-							.getDescription();
-					if (property.getLiteral() != null)
-						return (T) new LiteralConverter().convert(property
-								.getLiteral());
-				}
-			}
-			return null;
-		}
-
 		public boolean add(T e) {
 			return original.add(e);
 		}
@@ -972,10 +939,24 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		// this.hashCode()
 		// + "." + this.eDynamicFeature(featureID).getName());
 		Object result = super.eGet(featureID, resolve, coreType);
+
 		if (result instanceof EList<?>) {
-			result = encapsulate((EList<?>) result, this, featureID);
+			return encapsulate((EList<?>) result, this, featureID);
+		} else {
+			for (Description description : this.owlIndividualClass
+					.getSuperClassesDescriptions()) {
+				if (description instanceof NestedDescription) {
+					if (isSameFeatureIRI(eDynamicFeature(featureID),
+							(NestedDescription) description)) {
+						return getObjectFromDescription(
+								eDynamicFeature(featureID),
+								(NestedDescription) description);
+					}
+				}
+			}
+
 		}
-		return result;
+		return null;
 	}
 
 	/**
@@ -1254,10 +1235,8 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		}
 	}
 
-	
-
-	protected Description findDescriptionForAttribute(EStructuralFeature feature,
-			Object o) {
+	protected Description findDescriptionForAttribute(
+			EStructuralFeature feature, Object o) {
 		EList<Description> descriptions = owlIndividualClass
 				.getSuperClassesDescriptions();
 		for (Description description : descriptions) {
@@ -1283,8 +1262,8 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		return null;
 	}
 
-	protected Description findDescriptionForReference(EStructuralFeature feature,
-			Class individual) {
+	protected Description findDescriptionForReference(
+			EStructuralFeature feature, Class individual) {
 		EList<Description> descriptions = owlIndividualClass
 				.getSuperClassesDescriptions();
 
@@ -1322,6 +1301,35 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 					.getFeatureIdentificationIRI(feature)));
 		}
 		return false;
+	}
+
+	@SuppressWarnings("unchecked")
+	private <T> T getObjectFromDescription(EStructuralFeature feature,
+			NestedDescription description) {
+		if (feature instanceof EReference) {
+			if (description.getDescription() instanceof ObjectPropertySome) {
+
+				ObjectPropertySome property = (ObjectPropertySome) ((NestedDescription) description)
+						.getDescription();
+
+				if (property.getPrimary() != null
+						&& property.getPrimary() instanceof ClassAtomic) {
+					ClassAtomic ca = (ClassAtomic) property.getPrimary();
+					return (T) OWLTransformationHelper.getEObjectFromIRI(ca
+							.getClazz().getIri());
+				}
+			}
+		} else { // EAtrributes
+			if (description.getDescription() instanceof ObjectPropertyValue) {
+				EAttribute attribute = (EAttribute) feature;
+				ObjectPropertyValue property = (ObjectPropertyValue) ((NestedDescription) description)
+						.getDescription();
+				if (property.getLiteral() != null)
+					return (T) new LiteralConverter().reconvert(attribute.getEAttributeType().getInstanceClass(), property
+							.getLiteral());
+			}
+		}
+		return null;
 	}
 
 	protected Class getOwlIndividualClass() {

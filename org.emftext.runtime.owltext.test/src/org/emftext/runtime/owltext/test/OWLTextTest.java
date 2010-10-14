@@ -1316,7 +1316,9 @@ public class OWLTextTest {
 		bi1.setLiteral(new BigInteger("0"));
 		bi2.setLiteral(new BigInteger("-123"));
 		feature.getAnyLiterals().add(bi1);
+		assertTrue("Literal deConversion.", bi1.getLiteral().equals(new BigInteger("0")) );
 		feature.getAnyLiterals().add(bi2);
+		assertTrue("Literal deConversion.", bi2.getLiteral().equals(new BigInteger("-123")) );
 
 		AnyLong l1 = FeaturePackage.eINSTANCE.getFeatureFactory()
 				.createAnyLong();
@@ -1325,7 +1327,9 @@ public class OWLTextTest {
 		l1.setLiteral(0L);
 		l2.setLiteral(-123L);
 		feature.getAnyLiterals().add(l1);
+		assertTrue("Literal deConversion.",l1.getLiteral() == 0L);
 		feature.getAnyLiterals().add(l2);
+		assertTrue("Literal deConversion.",l2.getLiteral() == -123L);
 
 		AnyShort s1 = FeaturePackage.eINSTANCE.getFeatureFactory()
 				.createAnyShort();
@@ -1334,7 +1338,9 @@ public class OWLTextTest {
 		s1.setLiteral((short) 0);
 		s2.setLiteral((short) -123);
 		feature.getAnyLiterals().add(s1);
+		assertTrue("Literal deConversion.",s1.getLiteral() == 0);
 		feature.getAnyLiterals().add(s2);
+		assertTrue("Literal deConversion.",s2.getLiteral() == -123);
 
 		assertCorrespondance(feature, "addLiteralInteger");
 	}
@@ -1356,8 +1362,9 @@ public class OWLTextTest {
 		f1.setLiteral(0.001f);
 		f2.setLiteral(-123.45f);
 		feature.getAnyLiterals().add(f1);
+		assertTrue("Literal deConversion.",f1.getLiteral() == 0.001f);
 		feature.getAnyLiterals().add(f2);
-
+		assertTrue("Literal deConversion.",f2.getLiteral() == -123.45f);
 		AnyDouble d1 = FeaturePackage.eINSTANCE.getFeatureFactory()
 				.createAnyDouble();
 		AnyDouble d2 = FeaturePackage.eINSTANCE.getFeatureFactory()
@@ -1365,7 +1372,9 @@ public class OWLTextTest {
 		d1.setLiteral(0.001);
 		d2.setLiteral(-123.45);
 		feature.getAnyLiterals().add(d1);
+		assertTrue("Literal deConversion.",d1.getLiteral() == 0.001);
 		feature.getAnyLiterals().add(d2);
+		assertTrue("Literal deConversion.",d2.getLiteral() == -123.45);
 
 		assertCorrespondance(feature, "addLiteralFloatDouble");
 	}
@@ -1389,8 +1398,9 @@ public class OWLTextTest {
 		BigDecimal bdv2 = new BigDecimal(-123.456);
 		bd2.setLiteral(bdv2);
 		feature.getAnyLiterals().add(bd1);
+		assertTrue("Literal deConversion.",bd1.getLiteral().equals(new BigDecimal(78.90)));
 		feature.getAnyLiterals().add(bd2);
-
+		assertTrue("Literal deConversion.",bd2.getLiteral().equals(new BigDecimal(-123.456)));
 		assertCorrespondance(feature, "addLiteralBigDecimal");
 	}
 
@@ -1411,8 +1421,10 @@ public class OWLTextTest {
 		b1.setLiteral(true);
 		b2.setLiteral(false);
 		feature.getAnyLiterals().add(b1);
+		assertTrue("Literal deConversion.", b1.isLiteral() == true);
 		feature.getAnyLiterals().add(b2);
-
+		assertTrue("Literal deConversion.", b2.isLiteral() == false);
+		
 		AnyChar c1 = FeaturePackage.eINSTANCE.getFeatureFactory()
 				.createAnyChar();
 		AnyChar c2 = FeaturePackage.eINSTANCE.getFeatureFactory()
@@ -1420,8 +1432,10 @@ public class OWLTextTest {
 		c1.setLiteral('a');
 		c2.setLiteral('b');
 		feature.getAnyLiterals().add(c1);
+		assertTrue("Literal deConversion.",c1.getLiteral() == 'a');
 		feature.getAnyLiterals().add(c2);
-
+		assertTrue("Literal deConversion.",c2.getLiteral() == 'b');
+		
 		AnyByte byte1 = FeaturePackage.eINSTANCE.getFeatureFactory()
 				.createAnyByte();
 		AnyByte byte2 = FeaturePackage.eINSTANCE.getFeatureFactory()
@@ -1429,8 +1443,10 @@ public class OWLTextTest {
 		byte1.setLiteral((byte) 0x0000);
 		byte2.setLiteral((byte) 0xFF85);
 		feature.getAnyLiterals().add(byte1);
+		assertTrue("Literal deConversion.",byte1.getLiteral() == (byte) 0x0000);
 		feature.getAnyLiterals().add(byte2);
-
+		assertTrue("Literal deConversion.",byte2.getLiteral() == (byte) 0xFF85);
+		
 		assertCorrespondance(feature, "addLiteralMisc");
 	}
 
