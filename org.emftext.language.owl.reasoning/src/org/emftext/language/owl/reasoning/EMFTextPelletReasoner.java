@@ -160,8 +160,7 @@ public class EMFTextPelletReasoner implements
 		OWLOntology ontology;
 		try {
 
-			ontology = manager.loadOntologyFromOntologyDocument(inputSource);
-
+		
 			manager.addIRIMapper(new OWLOntologyIRIMapper() {
 
 				public IRI getDocumentIRI(IRI logicalUri) {
@@ -179,9 +178,7 @@ public class EMFTextPelletReasoner implements
 						String absoluteLocation = file.getLocation().toFile()
 								.toURI().toString();
 						URI absoluteURI = URI.create(absoluteLocation);
-						System.out.println("Requested: " + logicalUri + " - "
-								+ absoluteURI);
-
+					
 						return IRI.create(absoluteURI);
 					} else if (localURI.isFile()) {
 						URI absoluteURI = URI.create(localURI.toString());
@@ -190,6 +187,8 @@ public class EMFTextPelletReasoner implements
 					return null;
 				}
 			});
+			ontology = manager.loadOntologyFromOntologyDocument(inputSource);
+
 			reasoner = PelletReasonerFactory.getInstance().createReasoner(
 					ontology);
 			reasoner.prepareReasoner();
@@ -216,7 +215,7 @@ public class EMFTextPelletReasoner implements
 		List<String> superFrames = new ArrayList<String>();
 		PelletReasoner reasoner;
 		reasoner = loadOntology(owlRepresentation);
-	
+		if (reasoner == null) return superFrames;
 		if (!reasoner.isConsistent()) {
 
 			String message = "The ontologies fact base is inconsistent. ";

@@ -27,6 +27,7 @@ public class OWLTextValidationMarker {
 	private HashMap<String, String> errorMap;
 
 	public void annotateValidationResults(Resource resource) {
+		if (resource.getContents().size() < 1) return;
 		if (resource.getContents().get(0) == null
 				|| !(resource.getContents().get(0) instanceof OWLTextEObjectImpl)) {
 			throw new RuntimeException("Given Resource is not OWLTextResource.");
@@ -92,7 +93,7 @@ public class OWLTextValidationMarker {
 							boolean constraintProperty = false;
 							for (AnnotationProperty annotationProperty : annotationProperties) {
 								if ("comment".equals(annotationProperty
-										.getIri())) {
+										.getIri()) || "rdfs:comment".equals(annotationProperty.getIri())) {
 									constraintProperty = true;
 								}
 							}

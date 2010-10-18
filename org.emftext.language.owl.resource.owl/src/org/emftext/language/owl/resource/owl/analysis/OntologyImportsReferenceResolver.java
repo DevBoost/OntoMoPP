@@ -37,7 +37,7 @@ public class OntologyImportsReferenceResolver
 			org.emftext.language.owl.Ontology container,
 			org.eclipse.emf.ecore.EReference reference) {
 		URI uri = element.eResource().getURI();
-		if (uri.isFile()) {
+		if (uri.isFile() || uri.isPlatform()) {
 			return "<" + uri + ">";
 		}
 		return "<" + element.getUri() + ">";

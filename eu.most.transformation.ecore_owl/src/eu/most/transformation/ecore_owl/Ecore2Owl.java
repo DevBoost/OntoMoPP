@@ -315,9 +315,7 @@ public class Ecore2Owl {
 						iriFragment = iriFragment.replace(";", "_");
 						iriFragment = iriFragment.replace("!", "_");
 						iriFragment = iriFragment.replace("?", "_");
-						
-						System.out.println(error + " -> " + constraint + " "
-								+ iriFragment);
+					 
 						String iri = "_constraint_"
 								+ iriFragment;
 						createConstraintClass(owlClass, iri, error,

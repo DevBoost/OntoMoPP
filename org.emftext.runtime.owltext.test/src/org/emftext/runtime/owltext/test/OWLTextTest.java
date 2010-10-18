@@ -290,38 +290,7 @@ public class OWLTextTest {
 	}
 
 	
-	@Test
-	public void testAnnotationConstraintValidation() throws Throwable {
-		String inFileName = "optionalRoot.fea";
-		FeaResource loadResource = loadResource(new File("./testInput/"
-				+ inFileName));
-		EObject rootObject = loadResource.getContents().get(0);
-		assertTrue("Root object is a Feature", rootObject instanceof Feature);
-
-		File owlifiedModelOutputFile = new File("./testInput/"
-				+ inFileName + ".out.owl");
-		if (owlifiedModelOutputFile.exists())
-			owlifiedModelOutputFile.delete();
-				// owlify feature model
-		assertTrue("Root object is a Feature", rootObject instanceof Feature);
-
-		assertTrue("Root object is a OWLTextEobject",
-				rootObject instanceof OWLTextEObjectImpl);
-		OWLTextEObjectImpl rootOWLTextObjectImpl = (OWLTextEObjectImpl) rootObject;
-		String owlRepresentation = OWLTextEObjectPrinter
-				.getOWLRepresentation(rootOWLTextObjectImpl
-						.getOWLRepresentation());
-
-		BufferedWriter out = new BufferedWriter(new FileWriter(
-				owlifiedModelOutputFile));
-		out.write(owlRepresentation);
-		out.close();
-		
-		checkConsistency(
-				loadResource,
-				new String[] {
-						"Root Feature needs to be mandatory." });
-	}
+	
 	
 	private void checkConsistency(FeaResource loadResource,
 			String[] expectedErrors) {
@@ -1794,6 +1763,39 @@ public class OWLTextTest {
 		assertTrue("Model input resource is empty.", modelResource
 				.getContents().size() == 1);
 		return modelResource;
+	}
+	
+	@Test
+	public void testAnnotationConstraintValidation() throws Throwable {
+		String inFileName = "optionalRoot.fea";
+		FeaResource loadResource = loadResource(new File("./testInput/"
+				+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+
+		File owlifiedModelOutputFile = new File("./testInput/"
+				+ inFileName + ".out.owl");
+		if (owlifiedModelOutputFile.exists())
+			owlifiedModelOutputFile.delete();
+				// owlify feature model
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+
+		assertTrue("Root object is a OWLTextEobject",
+				rootObject instanceof OWLTextEObjectImpl);
+		OWLTextEObjectImpl rootOWLTextObjectImpl = (OWLTextEObjectImpl) rootObject;
+		String owlRepresentation = OWLTextEObjectPrinter
+				.getOWLRepresentation(rootOWLTextObjectImpl
+						.getOWLRepresentation());
+
+		BufferedWriter out = new BufferedWriter(new FileWriter(
+				owlifiedModelOutputFile));
+		out.write(owlRepresentation);
+		out.close();
+		
+		checkConsistency(
+				loadResource,
+				new String[] {
+						"Root Feature needs to be mandatory." });
 	}
 
 }

@@ -54,11 +54,21 @@ public class OWLTextEObjectChangeAdapter implements Adapter {
 		case Notification.UNSET:
 			unset(notification);
 			break;
+		case Notification.RESOLVE:
+			resolved(notification);
+			break;
+		
 		default:
-			throw new RuntimeException("unhandeled Event type: " + notification);
+			//throw new RuntimeException("unhandeled Event type: " + notification);
 
 		}
 
+	}
+
+	private void resolved(Notification notification) {
+		set(notification);
+		
+		
 	}
 
 	private void unset(Notification notification) {
