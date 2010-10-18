@@ -1,0 +1,27 @@
+petrinet "example" {
+	
+ 	place "some place"
+	transition "a transition" 
+
+	transition "second transition" 
+	place "another place"
+
+ 	place
+	transition 
+	
+	
+	// invalid consume arc
+	"a transition" -consume-> "some place"
+	// but valid produce arc
+	"a transition" -produce-> "some place"
+	// invalid produce arc
+	"another place" -produce-> "some place"
+	
+	// invalid arc, neither consuming or producing
+	"some place" -> "another place"
+	// invalid arc, neither consuming or producing
+	"a transition" -> "second transition"
+	// valid arcs, could be further classified
+	"some place" -> "second transition"
+	"a transition" -> "some place"
+}

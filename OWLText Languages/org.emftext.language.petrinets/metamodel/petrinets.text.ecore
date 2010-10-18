@@ -1,0 +1,39 @@
+package petrinets // this is the package name 
+        petrinets // this is the namespace prefix
+        "http://www.emftext.org/language/petrinets" // the namespace URI 
+	{
+	
+	abstract class NameableElement {
+			attribute EString name (0..1);
+	}
+	
+	class PetriNet extends NameableElement {
+		containment reference Component components (0..-1);
+		containment reference Arc arcs (0..-1);
+	}
+
+	@"OWL_CONSTRAINT"("Components need to be named." = "(NameableElement_name exactly 1 xsd:string)")
+	abstract class Component extends NameableElement {
+	}
+	
+	@"OWL_CONSTRAINT"("Arcs input and output types need to be different." = "(Arc_in exactly 1 Place and Arc_out exactly 1 Transition) or (Arc_in exactly 1 Transition and Arc_out exactly 1 Place)")
+	class Arc {
+		reference Component in (1..1);
+		reference Component out (1..1);
+	}
+	
+	@"OWL_CONSTRAINT"("Consuming Arcs need Places as input." = "(Arc_in exactly 1 Place)")
+	@"OWL_CONSTRAINT"("Consuming Arcs need Transitions as output." = "(Arc_out exactly 1 Transition)")
+	class ConsumingArc extends Arc {
+	}
+
+	@"OWL_CONSTRAINT"("Producing Arcs need Transistions as input." = "(Arc_in exactly 1 Transition)")
+	@"OWL_CONSTRAINT"("Producing Arcs need Place as output." = "(Arc_out exactly 1 Place)")
+	class ProducingArc extends Arc {
+	}
+	
+	
+	class Place extends Component {}
+	
+	class Transition extends Component {}
+}
