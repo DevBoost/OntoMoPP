@@ -285,6 +285,7 @@ public class Ecore2Owl {
 					supertypes.getPrimaries().add(superClassAtomic);
 				}
 
+				owlClass.getSuperClassesDescriptions().add(supertypes);
 				addUserDefinedConstraints(eclass, owlClass);
 
 			}
