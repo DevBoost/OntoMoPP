@@ -1,3 +1,4 @@
+/* Invalid PetriNets as OWLText validation example*/
 petrinet "example" {
 	
  	place "some place"
@@ -6,10 +7,11 @@ petrinet "example" {
 	transition "second transition" 
 	place "another place"
 
+	// invalid unnamed place
  	place
+ 	// invalid unnamed transition
 	transition 
-	
-	
+ 	
 	// invalid consume arc
 	"a transition" -consume-> "some place"
 	// but valid produce arc
