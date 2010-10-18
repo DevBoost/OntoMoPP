@@ -1,7 +1,7 @@
 Prefix: : <http://transformed/syntaxMinimum.fea#> 
 	Prefix: feature: <http://org.owltext/feature#> 
 	Ontology: <http://transformed/syntaxMinimum.fea> 
-	Import: <./feature.mm.owl> 
+	Import: <file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/testInput/feature.mm.owl> 
 	
 	Class: feature:Feature 
 		
@@ -105,84 +105,86 @@ Prefix: : <http://transformed/syntaxMinimum.fea#>
 	DataProperty: feature:AnyByte_literal 
 		
 		
-	Class: feature:__c__AnyShort0_min_1_literal 
+	Class: feature:__c__AnyBigInteger0_min_1_literal 
 		
 		
-	Class: feature:__c__AnyShort1_max_1_literal 
+	Class: feature:__c__AnyBigInteger1_max_1_literal 
 		
 		
-	Class: feature:__c__AnyInt2_min_1_literal 
+	Class: feature:__c__AnyDouble2_min_1_literal 
 		
 		
-	Class: feature:__c__AnyInt3_max_1_literal 
+	Class: feature:__c__AnyDouble3_max_1_literal 
 		
 		
-	Class: feature:__c__AnyChar4_min_1_literal 
+	Class: feature:__c__AnyBoolean4_min_1_literal 
 		
 		
-	Class: feature:__c__AnyChar5_max_1_literal 
+	Class: feature:__c__AnyBoolean5_max_1_literal 
 		
 		
-	Class: feature:__c__AnyBigDecimal6_min_1_literal 
+	Class: feature:__c__Feature6_min_1_name 
 		
 		
-	Class: feature:__c__AnyBigDecimal7_max_1_literal 
+	Class: feature:__c__Feature7_max_1_name 
 		
 		
-	Class: feature:__c__Feature8_min_1_name 
+	Class: feature:__c__Feature8_max_1_annotation 
 		
 		
-	Class: feature:__c__Feature9_max_1_name 
+	Class: feature:__c__Feature9_max_1_parent 
 		
 		
-	Class: feature:__c__Feature10_max_1_annotation 
+	Class: feature:__c__Feature10_constraint_Root_Feature_must_be_mandatory 
 		
 		
-	Class: feature:__c__Feature11_max_1_parent 
+	Class: feature:__c__AnyByte11_min_1_literal 
 		
 		
-	Class: feature:__c__Annotation12_min_1_value 
+	Class: feature:__c__AnyByte12_max_1_literal 
 		
 		
-	Class: feature:__c__Annotation13_max_1_value 
+	Class: feature:__c__AnyLong13_min_1_literal 
 		
 		
-	Class: feature:__c__AnyByte14_min_1_literal 
+	Class: feature:__c__AnyLong14_max_1_literal 
 		
 		
-	Class: feature:__c__AnyByte15_max_1_literal 
+	Class: feature:__c__AnyChar15_min_1_literal 
 		
 		
-	Class: feature:__c__AnyBoolean16_min_1_literal 
+	Class: feature:__c__AnyChar16_max_1_literal 
 		
 		
-	Class: feature:__c__AnyBoolean17_max_1_literal 
+	Class: feature:__c__AnyShort17_min_1_literal 
 		
 		
-	Class: feature:__c__AnyDouble18_min_1_literal 
+	Class: feature:__c__AnyShort18_max_1_literal 
 		
 		
-	Class: feature:__c__AnyDouble19_max_1_literal 
+	Class: feature:__c__AnyInt19_min_1_literal 
 		
 		
-	Class: feature:__c__AnyFloat20_min_1_literal 
+	Class: feature:__c__AnyInt20_max_1_literal 
 		
 		
-	Class: feature:__c__AnyFloat21_max_1_literal 
+	Class: feature:__c__AnyFloat21_min_1_literal 
 		
 		
-	Class: feature:__c__AnyLong22_min_1_literal 
+	Class: feature:__c__AnyFloat22_max_1_literal 
 		
 		
-	Class: feature:__c__AnyLong23_max_1_literal 
+	Class: feature:__c__AnyBigDecimal23_min_1_literal 
 		
 		
-	Class: feature:__c__AnyBigInteger24_min_1_literal 
+	Class: feature:__c__AnyBigDecimal24_max_1_literal 
 		
 		
-	Class: feature:__c__AnyBigInteger25_max_1_literal 
+	Class: feature:__c__Annotation25_min_1_value 
+		
+		
+	Class: feature:__c__Annotation26_max_1_value 
 		
 		
 	Class: individual_0 
 		SubClassOf:  feature:MandatoryFeature ,  (  feature:Feature_name value "testRootFeature" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_anyLiterals exactly 0  feature:AnyLiteral ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_uniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_nonUniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 0  feature:Feature )
-		

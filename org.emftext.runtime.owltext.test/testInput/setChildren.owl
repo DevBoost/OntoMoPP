@@ -183,6 +183,8 @@ Prefix: : <http://transformed/moveOrSetChildren.fea#>
 	Class: feature:__c__Annotation25_max_1_value 
 		
 		
+	Class: feature:__c__Feature26_constraint_Root_Feature_must_be_mandatory 
+		
 	Class: individual_116 
 		SubClassOf:  feature:MandatoryFeature ,  (  feature:Feature_name value "testRootFeature" ) ,  (  feature:Feature_children some  individual_117 ) ,  (  feature:Feature_children some  individual_120 ) ,  (  feature:Feature_children some  individual_119 ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_anyLiterals exactly 0  feature:AnyLiteral ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 3  feature:Feature ) ,  (  feature:Feature_uniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_nonUniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 0  feature:Feature ) 
 			

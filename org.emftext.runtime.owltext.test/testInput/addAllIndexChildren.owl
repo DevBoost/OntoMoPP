@@ -4,6 +4,7 @@ Prefix: : <http://transformed/syntaxMinimum.fea#>
 	Import: <file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/testInput/feature.mm.owl> 
 	
 	Class: feature:Feature 
+	Class: feature:__c__Feature26_constraint_Root_Feature_must_be_mandatory 
 		
 		
 	Class: feature:MandatoryFeature 

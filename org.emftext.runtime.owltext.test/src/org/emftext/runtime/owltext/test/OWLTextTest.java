@@ -289,6 +289,40 @@ public class OWLTextTest {
 						"The minimal cardinality of '1' for attribute 'name' is not satisfied." });
 	}
 
+	
+	@Test
+	public void testAnnotationConstraintValidation() throws Throwable {
+		String inFileName = "optionalRoot.fea";
+		FeaResource loadResource = loadResource(new File("./testInput/"
+				+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+
+		File owlifiedModelOutputFile = new File("./testInput/"
+				+ inFileName + ".out.owl");
+		if (owlifiedModelOutputFile.exists())
+			owlifiedModelOutputFile.delete();
+				// owlify feature model
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+
+		assertTrue("Root object is a OWLTextEobject",
+				rootObject instanceof OWLTextEObjectImpl);
+		OWLTextEObjectImpl rootOWLTextObjectImpl = (OWLTextEObjectImpl) rootObject;
+		String owlRepresentation = OWLTextEObjectPrinter
+				.getOWLRepresentation(rootOWLTextObjectImpl
+						.getOWLRepresentation());
+
+		BufferedWriter out = new BufferedWriter(new FileWriter(
+				owlifiedModelOutputFile));
+		out.write(owlRepresentation);
+		out.close();
+		
+		checkConsistency(
+				loadResource,
+				new String[] {
+						"Root Feature needs to be mandatory." });
+	}
+	
 	private void checkConsistency(FeaResource loadResource,
 			String[] expectedErrors) {
 		OWLTextValidationMarker cc = new OWLTextValidationMarker();
@@ -298,7 +332,7 @@ public class OWLTextTest {
 		for (Diagnostic diagnostic : errors) {
 			foundErrors.add(diagnostic.getMessage());
 		}
-		assertArrayEquals("All errors found and expected.", expectedErrors,
+		assertArrayEquals("Not all errors found and/or expected.", expectedErrors,
 				foundErrors.toArray());
 	}
 

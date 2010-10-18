@@ -181,6 +181,9 @@ Prefix: : <http://transformed/moveOrSetComment.fea#>
 		
 		
 	Class: feature:__c__AnyBigInteger25_max_1_literal 
+	
+		
+	Class: feature:__c__Feature26_constraint_Root_Feature_must_be_mandatory 
 		
 		
 	Class: individual_0 

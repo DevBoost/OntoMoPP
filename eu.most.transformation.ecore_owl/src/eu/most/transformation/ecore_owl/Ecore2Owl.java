@@ -1,12 +1,19 @@
 package eu.most.transformation.ecore_owl;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -52,7 +59,6 @@ import org.emftext.language.owl.resource.owl.analysis.custom.CrossResourceIRIRes
 
 public class Ecore2Owl {
 
-
 	public Ecore2Owl() {
 		super();
 	}
@@ -62,6 +68,26 @@ public class Ecore2Owl {
 	private HashMap<ENamedElement, Frame> etype2oclass = new HashMap<ENamedElement, Frame>();
 	private HashMap<EStructuralFeature, Feature> references2objectProperties = new HashMap<EStructuralFeature, Feature>();
 	private int constraintCounter = 0;
+	private HashMap<EClass, List<EClass>> allSupertypes = new HashMap<EClass, List<EClass>>();
+	private HashMap<EClass, List<EClass>> allSubtypes = new HashMap<EClass, List<EClass>>();
+
+	private void addSubtype(EClass key, EClass subtype) {
+		List<EClass> subtypes = this.allSubtypes.get(key);
+		if (subtypes == null) {
+			subtypes = new ArrayList<EClass>();
+			this.allSubtypes.put(key, subtypes);
+		}
+		subtypes.add(subtype);
+	}
+
+	private void addSupertypes(EClass key, List<EClass> supertypes) {
+		List<EClass> currentSupertypes = this.allSupertypes.get(key);
+		if (currentSupertypes == null) {
+			currentSupertypes = new ArrayList<EClass>();
+			this.allSupertypes.put(key, currentSupertypes);
+		}
+		currentSupertypes.addAll(supertypes);
+	}
 
 	private void initDatatypes() {
 
@@ -77,7 +103,7 @@ public class Ecore2Owl {
 					typeName = primitive.getName();
 				property.setIri(typeName);
 				etype2oclass.put(primitive, property);
-				
+
 				// ontology.getFrames().add(property);
 			}
 
@@ -171,16 +197,14 @@ public class Ecore2Owl {
 					Individual i = eobject2individual.get(get);
 					ObjectPropertyFact fact = owlFactory
 							.createObjectPropertyFact();
-					fact
-							.setObjectProperty((ObjectProperty) references2objectProperties
-									.get(structuralFeature));
+					fact.setObjectProperty((ObjectProperty) references2objectProperties
+							.get(structuralFeature));
 					fact.setIndividual(i);
 					contextIndividual.getFacts().add(fact);
 				} else if (get instanceof String) {
 					DataPropertyFact fact = owlFactory.createDataPropertyFact();
-					fact
-							.setDataProperty((DataProperty) references2objectProperties
-									.get(structuralFeature));
+					fact.setDataProperty((DataProperty) references2objectProperties
+							.get(structuralFeature));
 					AbbreviatedXSDStringLiteral l = owlFactory
 							.createAbbreviatedXSDStringLiteral();
 					l.setValue((String) get);
@@ -195,16 +219,19 @@ public class Ecore2Owl {
 		TreeIterator<EObject> allContents = metamodel.eAllContents();
 		while (allContents.hasNext()) {
 			EObject elem = allContents.next();
-			if (elem instanceof EClass)
-				transformEClass((EClass) elem);
-			else if (elem instanceof EEnum)
+			if (elem instanceof EClass) {
+				EClass eClass = (EClass) elem;
+				transformEClass(eClass);
+				EList<EClass> superTypes = eClass.getEAllSuperTypes();
+				addSupertypes(eClass, superTypes);
+				for (EClass supertype : superTypes) {
+					addSubtype(supertype, eClass);
+				}
+			} else if (elem instanceof EEnum)
 				transformEEnum((EEnum) elem);
 			else if (elem instanceof EDataType)
 				transformEDatatype((EDataType) elem);
 
-			// TODO needs to be completed
-			// else
-			// System.out.println("not transformed: " + elem);
 		}
 		allContents = metamodel.eAllContents();
 		while (allContents.hasNext()) {
@@ -213,9 +240,6 @@ public class Ecore2Owl {
 				transformEReference((EReference) elem);
 			if (elem instanceof EAttribute)
 				transformEAttribute((EAttribute) elem);
-			// TODO needs to be completed
-			// else
-			// System.out.println("not transformed: " + elem);
 		}
 
 		Set<ENamedElement> keySet = etype2oclass.keySet();
@@ -225,13 +249,30 @@ public class Ecore2Owl {
 				Class owlClass = (Class) etype2oclass.get(eclass);
 				EList<EClass> superTypes = eclass.getESuperTypes();
 				Conjunction supertypes = owlFactory.createConjunction();
-				owlClass.getSuperClassesDescriptions().add(supertypes);
+
 				for (EClass superclass : superTypes) {
 					Class superframe = (Class) etype2oclass.get(superclass);
 					ClassAtomic superClassAtomic = owlFactory
 							.createClassAtomic();
 					superClassAtomic.setClazz(superframe);
 					supertypes.getPrimaries().add(superClassAtomic);
+				}
+
+				Set<ENamedElement> disjointTypes = new HashSet<ENamedElement>(etype2oclass.keySet());
+				disjointTypes.remove(eclass);
+				List<EClass> subs = this.allSubtypes.get(eclass);
+				if (subs != null) disjointTypes.removeAll(subs);
+				List<EClass> supers = this.allSupertypes.get(eclass);
+				if (supers != null) disjointTypes.removeAll(supers);
+				for (ENamedElement type : disjointTypes) {
+					if (type instanceof EClass) {
+						Class disjointClass = (Class) etype2oclass.get(type);
+						ClassAtomic disjointClassAtomic = owlFactory
+								.createClassAtomic();
+						disjointClassAtomic.setClazz(disjointClass);
+						owlClass.getDisjointWithClassesDescriptions().add(
+								disjointClassAtomic);
+					}
 				}
 
 				addCardinalityConstraintsClasses(eclass, owlClass);
@@ -244,42 +285,83 @@ public class Ecore2Owl {
 					supertypes.getPrimaries().add(superClassAtomic);
 				}
 
+				addUserDefinedConstraints(eclass, owlClass);
+
 			}
 
 		}
 
 	}
 
+	private void addUserDefinedConstraints(EClass eclass, Class owlClass) {
+		EList<EAnnotation> eAnnotations = eclass.getEAnnotations();
+		for (EAnnotation eAnnotation : eAnnotations) {
+			if (eAnnotation.getSource().equals("OWL_CONSTRAINT")) {
+				EMap<String, String> details = eAnnotation.getDetails();
+				for (Entry<String, String> entry : details) {
+					String error = entry.getKey();
+					String constraint = entry.getValue();
+					OWLParsingHelper oph = new OWLParsingHelper();
+					Description constraintDescription = oph.parseSubClassOf(
+							constraint, eclass.eResource());
+					if (constraintDescription != null) {
+						NestedDescription nestedDescription = owlFactory
+								.createNestedDescription();
+						nestedDescription.setDescription(constraintDescription);
+						nestedDescription.setNot(true);
+						String iriFragment = error.replaceAll("\\s", "_");
+						iriFragment = iriFragment.replace(".", "_");
+						iriFragment = iriFragment.replace(",", "_");
+						iriFragment = iriFragment.replace(";", "_");
+						iriFragment = iriFragment.replace("!", "_");
+						iriFragment = iriFragment.replace("?", "_");
+						
+						System.out.println(error + " -> " + constraint + " "
+								+ iriFragment);
+						String iri = "_constraint_"
+								+ iriFragment;
+						createConstraintClass(owlClass, iri, error,
+								nestedDescription);
+					}
+				}
+			}
+		}
+	}
+
 	private void addCardinalityConstraintsClasses(EClass eclass,
 			Class constrainedClass) {
 		EList<EAttribute> attributes = eclass.getEAttributes();
 		for (EAttribute attribute : attributes) {
-			//DataProperty dataProperty = (DataProperty) 
-			Feature f = references2objectProperties	.get(attribute);
-			if (f instanceof DataProperty)//EAttributes
-				addCardinalityConstraintsClassesForEAttributes(attribute, (DataProperty)f, constrainedClass);
-			if (f instanceof ObjectProperty)//EEnum		
-				addCardinalityConstraintsClassesForEReferenceAndEEnum(attribute, (ObjectProperty)f, constrainedClass);
+			// DataProperty dataProperty = (DataProperty)
+			Feature f = references2objectProperties.get(attribute);
+			if (f instanceof DataProperty)// EAttributes
+				addCardinalityConstraintsClassesForEAttributes(attribute,
+						(DataProperty) f, constrainedClass);
+			if (f instanceof ObjectProperty)// EEnum
+				addCardinalityConstraintsClassesForEReferenceAndEEnum(
+						attribute, (ObjectProperty) f, constrainedClass);
 		}
-				
+
 		EList<EReference> references = eclass.getEReferences();
 		for (EReference reference : references) {
 			ObjectProperty objectProperty = (ObjectProperty) references2objectProperties
 					.get(reference);
 
-			addCardinalityConstraintsClassesForEReferenceAndEEnum(reference, objectProperty, constrainedClass);
+			addCardinalityConstraintsClassesForEReferenceAndEEnum(reference,
+					objectProperty, constrainedClass);
 
 		}
 	}
 
-	private void addCardinalityConstraintsClassesForEAttributes(EAttribute attribute, DataProperty dataProperty, Class constrainedClass){
+	private void addCardinalityConstraintsClassesForEAttributes(
+			EAttribute attribute, DataProperty dataProperty,
+			Class constrainedClass) {
 		if (attribute.getLowerBound() != 0) {
 			ObjectPropertyMin minRestriction = owlFactory
 					.createObjectPropertyMin();
 			setFeature(minRestriction, dataProperty);
 			minRestriction.setValue(attribute.getLowerBound());
-			DatatypeReference primary = owlFactory
-					.createDatatypeReference();
+			DatatypeReference primary = owlFactory.createDatatypeReference();
 
 			Datatype dataType = (Datatype) etype2oclass.get(attribute
 					.getEType());
@@ -306,8 +388,7 @@ public class Ecore2Owl {
 					.createObjectPropertyMax();
 			setFeature(maxRestriction, dataProperty);
 			maxRestriction.setValue(attribute.getUpperBound());
-			DatatypeReference primary = owlFactory
-					.createDatatypeReference();
+			DatatypeReference primary = owlFactory.createDatatypeReference();
 
 			Datatype dataType = (Datatype) etype2oclass.get(attribute
 					.getEType());
@@ -327,10 +408,12 @@ public class Ecore2Owl {
 
 			createConstraintClass(constrainedClass, iri, errorMsg,
 					nestedDescription);
-		}	
+		}
 	}
-	
-	private void addCardinalityConstraintsClassesForEReferenceAndEEnum(EStructuralFeature structuralFeature, ObjectProperty objectProperty, Class constrainedClass){
+
+	private void addCardinalityConstraintsClassesForEReferenceAndEEnum(
+			EStructuralFeature structuralFeature,
+			ObjectProperty objectProperty, Class constrainedClass) {
 		if (structuralFeature.getLowerBound() != 0) {
 			ObjectPropertyMin minRestriction = owlFactory
 					.createObjectPropertyMin();
@@ -381,9 +464,11 @@ public class Ecore2Owl {
 			createConstraintClass(constrainedClass, iri, errorMsg,
 					nestedDescription);
 		}
-		
-		if ((structuralFeature instanceof EReference)&&(((EReference)structuralFeature).getEOpposite() != null)) {
-			EReference eOpposite = ((EReference)structuralFeature).getEOpposite();
+
+		if ((structuralFeature instanceof EReference)
+				&& (((EReference) structuralFeature).getEOpposite() != null)) {
+			EReference eOpposite = ((EReference) structuralFeature)
+					.getEOpposite();
 			ObjectProperty oppositeProperty = (ObjectProperty) references2objectProperties
 					.get(eOpposite);
 			ObjectPropertyReference ref = owlFactory
@@ -398,7 +483,7 @@ public class Ecore2Owl {
 
 		}
 	}
-	
+
 	private void createConstraintClass(Class constrainedClass,
 			String iriSuffix, String errorMsg, Description constraintDescription) {
 
@@ -408,16 +493,19 @@ public class Ecore2Owl {
 				+ constrainedClass.getIri() + +constraintCounter++ + iriSuffix);
 
 		Annotation annotation = owlFactory.createAnnotation();
-		AbbreviatedXSDStringLiteral stringLiteral = owlFactory.createAbbreviatedXSDStringLiteral();
+		AbbreviatedXSDStringLiteral stringLiteral = owlFactory
+				.createAbbreviatedXSDStringLiteral();
 		stringLiteral.setValue(errorMsg);
 		LiteralTarget lt = owlFactory.createLiteralTarget();
 		lt.setLiteral(stringLiteral);
 		annotation.getTarget().add(lt);
-		AnnotationProperty annotationProperty = owlFactory.createAnnotationProperty();
-		annotationProperty.setIri(EMFTextPelletReasoner.CONSTRAINT_PROPERTY_NAME);
-		annotation.getAnnotationProperty().add(annotationProperty );
+		AnnotationProperty annotationProperty = owlFactory
+				.createAnnotationProperty();
+		annotationProperty
+				.setIri(EMFTextPelletReasoner.CONSTRAINT_PROPERTY_NAME);
+		annotation.getAnnotationProperty().add(annotationProperty);
 		constraintClass.getAnnotations().add(annotation);
-		
+
 		ClassAtomic constrainedClassAtomic = owlFactory.createClassAtomic();
 		constrainedClassAtomic.setClazz(constrainedClass);
 		Conjunction and = owlFactory.createConjunction();
@@ -434,8 +522,8 @@ public class Ecore2Owl {
 		restriction.setFeatureReference(reference);
 	}
 
-	private void transformEAttribute(EAttribute elem) {		
-		if(elem.getEAttributeType() instanceof EEnum){ //EEnum			
+	private void transformEAttribute(EAttribute elem) {
+		if (elem.getEAttributeType() instanceof EEnum) { // EEnum
 			ObjectProperty o = owlFactory.createObjectProperty();
 			o.setIri(OWLTransformationHelper
 					.getSimpleFeatureIdentificationIRI(elem));
@@ -446,8 +534,8 @@ public class Ecore2Owl {
 			rangeClassAtomic.setClazz(rangeClass);
 			o.getPropertyRange().add(rangeClassAtomic);
 
-			Class domainClass = (Class) etype2oclass
-					.get(elem.getEContainingClass());
+			Class domainClass = (Class) etype2oclass.get(elem
+					.getEContainingClass());
 			ClassAtomic domainClassAtomic = owlFactory.createClassAtomic();
 			domainClassAtomic.setClazz(domainClass);
 			o.getPropertyDomain().add(domainClassAtomic);
@@ -457,29 +545,28 @@ public class Ecore2Owl {
 			// o.getCharacteristics().add(Characteristic.FUNCTIONAL);
 
 			references2objectProperties.put(elem, o);
-			
-		}
-		else{//EAttribute
+
+		} else {// EAttribute
 			DataProperty d = owlFactory.createDataProperty();
 			ontology.getFrames().add(d);
 			d.setIri(OWLTransformationHelper
 					.getSimpleFeatureIdentificationIRI(elem));
-			Class domainClass = (Class) etype2oclass
-					.get(elem.getEContainingClass());
+			Class domainClass = (Class) etype2oclass.get(elem
+					.getEContainingClass());
 			ClassAtomic domainClassAtomic = owlFactory.createClassAtomic();
 			domainClassAtomic.setClazz(domainClass);
 			d.getDomain().add(domainClassAtomic);
-	
+
 			elem.getEAttributeType();
 			DatatypeReference dtr = owlFactory.createDatatypeReference();
 			Datatype dataType = (Datatype) etype2oclass.get(elem
 					.getEAttributeType());
 			dtr.setTheDatatype(dataType);
 			d.getRange().add(dtr);
-	
+
 			// is checked using cardinality constraints
 			// if (elem.getUpperBound() == 1)
-			//d.setCharacteristic(Characteristic.FUNCTIONAL);
+			// d.setCharacteristic(Characteristic.FUNCTIONAL);
 			references2objectProperties.put(elem, d);
 		}
 	}
@@ -509,12 +596,12 @@ public class Ecore2Owl {
 	}
 
 	private void transformEEnum(EEnum elem) {
-		
+
 		Class d = owlFactory.createClass();
 		ontology.getFrames().add(d);
 		d.setIri(OWLTransformationHelper.getSimpleClassIdentificationIRI(elem));
 		etype2oclass.put(elem, d);
-		
+
 		IndividualsAtomic description = owlFactory.createIndividualsAtomic();
 		d.getEquivalentClassesDescriptions().add(description);
 		EList<EEnumLiteral> literals = elem.getELiterals();
@@ -523,7 +610,7 @@ public class Ecore2Owl {
 			Individual individual = (Individual) etype2oclass.get(eEnumLiteral);
 			description.getIndividuals().add(individual);
 		}
-		
+
 	}
 
 	private void transformEEnumLiteral(EEnumLiteral eEnumLiteral) {

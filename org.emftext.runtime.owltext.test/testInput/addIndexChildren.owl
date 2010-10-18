@@ -183,6 +183,8 @@ Prefix: : <http://transformed/syntaxMinimum.fea#>
 	Class: feature:__c__AnyFloat25_max_1_literal 
 		
 		
+	Class: feature:__c__Feature26_constraint_Root_Feature_must_be_mandatory 
+		
 	Class: individual_23 
 		SubClassOf:  feature:MandatoryFeature ,  (  feature:Feature_name value "testRootFeature" ) ,  (  feature:Feature_children some  individual_26 ) ,  (  feature:Feature_children some  individual_25 ) ,  (  feature:Feature_children some  individual_24 ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_anyLiterals exactly 0  feature:AnyLiteral ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 3  feature:Feature ) ,  (  feature:Feature_uniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_nonUniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 0  feature:Feature ) 
 			
@@ -197,6 +199,7 @@ Prefix: : <http://transformed/syntaxMinimum.fea#>
 		
 	Class: individual_24 
 		SubClassOf:  feature:OptionalFeature ,  (  feature:Feature_name value "Feature_0" ) ,  (  feature:Feature_parent some  individual_23 ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_anyLiterals exactly 0  feature:AnyLiteral ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_uniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_nonUniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 1  feature:Feature ) 
+	
 			
 		
 	DisjointClasses:  individual_23 ,  individual_26 ,  individual_25 ,  individual_24

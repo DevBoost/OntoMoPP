@@ -104,6 +104,7 @@ Prefix: : <http://transformed/syntaxMinimum.fea#>
 		
 	DataProperty: feature:AnyByte_literal 
 		
+	Class: feature:__c__Feature26_constraint_Root_Feature_must_be_mandatory 
 		
 	Class: feature:__c__AnyShort0_min_1_literal 
 		

@@ -1,6 +1,6 @@
 SYNTAXDEF fea
 FOR <http://org.owltext/feature>
-START MandatoryFeature
+START MandatoryFeature, OptionalFeature
 
 OPTIONS {
 	resourcePluginID="org.emftext.runtime.owltext.test";

@@ -182,6 +182,8 @@ Prefix: : <http://transformed/syntaxMinimum.fea#>
 		
 	Class: feature:__c__AnyLong25_max_1_literal 
 		
+	Class: feature:__c__Feature26_constraint_Root_Feature_must_be_mandatory 
+		
 		
 	Class: individual_168 
 		SubClassOf:  feature:MandatoryFeature ,  (  feature:Feature_name value "testRootFeature" ) ,  (  feature:Feature_anyLiterals some  individual_169 ) ,  (  feature:Feature_anyLiterals some  individual_170 ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_anyLiterals exactly 2  feature:AnyLiteral ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_uniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_nonUniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 0  feature:Feature ) 

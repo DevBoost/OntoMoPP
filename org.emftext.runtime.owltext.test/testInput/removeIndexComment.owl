@@ -182,6 +182,8 @@ Prefix: : <http://transformed/clearOrRemoveOrRetainComment.fea#>
 		
 	Class: feature:__c__AnyBigInteger25_max_1_literal 
 		
+	Class: feature:__c__Feature26_constraint_Root_Feature_must_be_mandatory 
+		
 		
 	Class: individual_0 
 		SubClassOf:  feature:MandatoryFeature ,  (  feature:Feature_name value "testRootFeature" ) ,  (  feature:Feature_comments value "comment_0" ) ,  (  feature:Feature_comments value "comment_2" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 2  xsd:string ) ,  (  feature:Feature_anyLiterals exactly 0  feature:AnyLiteral ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_uniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_nonUniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 0  feature:Feature )
