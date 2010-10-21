@@ -13,6 +13,7 @@
 package org.emftext.language.owl.reasoning;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
@@ -62,11 +63,11 @@ public class ConsistencyChecker implements IOwlResourcePostProcessor,
 				continue;
 			if (iriResolver.hasPrefix(frame.getIri())) {
 				String prefix = iriResolver.getPrefix(iri);
-				IRIIdentified entity;
+				List<IRIIdentified> entity;
 				try {
 					entity = iriResolver.getOntologyEntity(prefix, od,
-							iriResolver.getId(iri));
-					if (entity == null) {
+							iriResolver.getId(iri), false);
+					if (entity.size() < 1) {
 						resource
 								.addWarning(
 										"The referenced iri-identified element could not be resolved in the imported ontology",
