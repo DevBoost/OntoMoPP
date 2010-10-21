@@ -1,7 +1,7 @@
 Prefix: : <http://transformed/moveOrSetComment.fea#> 
 	Prefix: feature: <http://org.owltext/feature#> 
 	Ontology: <http://transformed/moveOrSetComment.fea> 
-	Import: <./feature.mm.owl> 
+	Import: <file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/testInput/feature.mm.owl> 
 	
 	Class: feature:Feature 
 		
@@ -105,10 +105,10 @@ Prefix: : <http://transformed/moveOrSetComment.fea#>
 	DataProperty: feature:AnyByte_literal 
 		
 		
-	Class: feature:__c__AnyShort0_min_1_literal 
+	Class: feature:__c__AnyBigDecimal0_min_1_literal 
 		
 		
-	Class: feature:__c__AnyShort1_max_1_literal 
+	Class: feature:__c__AnyBigDecimal1_max_1_literal 
 		
 		
 	Class: feature:__c__AnyInt2_min_1_literal 
@@ -117,73 +117,74 @@ Prefix: : <http://transformed/moveOrSetComment.fea#>
 	Class: feature:__c__AnyInt3_max_1_literal 
 		
 		
-	Class: feature:__c__AnyChar4_min_1_literal 
+	Class: feature:__c__AnyShort4_min_1_literal 
 		
 		
-	Class: feature:__c__AnyChar5_max_1_literal 
+	Class: feature:__c__AnyShort5_max_1_literal 
 		
 		
-	Class: feature:__c__AnyBigDecimal6_min_1_literal 
+	Class: feature:__c__AnyFloat6_min_1_literal 
 		
 		
-	Class: feature:__c__AnyBigDecimal7_max_1_literal 
+	Class: feature:__c__AnyFloat7_max_1_literal 
 		
 		
-	Class: feature:__c__Feature8_min_1_name 
+	Class: feature:__c__AnyDouble8_min_1_literal 
 		
 		
-	Class: feature:__c__Feature9_max_1_name 
+	Class: feature:__c__AnyDouble9_max_1_literal 
 		
 		
-	Class: feature:__c__Feature10_max_1_annotation 
+	Class: feature:__c__Annotation10_min_1_value 
 		
 		
-	Class: feature:__c__Feature11_max_1_parent 
+	Class: feature:__c__Annotation11_max_1_value 
 		
 		
-	Class: feature:__c__Annotation12_min_1_value 
+	Class: feature:__c__AnyChar12_min_1_literal 
 		
 		
-	Class: feature:__c__Annotation13_max_1_value 
+	Class: feature:__c__AnyChar13_max_1_literal 
 		
 		
-	Class: feature:__c__AnyByte14_min_1_literal 
+	Class: feature:__c__AnyBoolean14_min_1_literal 
 		
 		
-	Class: feature:__c__AnyByte15_max_1_literal 
+	Class: feature:__c__AnyBoolean15_max_1_literal 
 		
 		
-	Class: feature:__c__AnyBoolean16_min_1_literal 
+	Class: feature:__c__AnyByte16_min_1_literal 
 		
 		
-	Class: feature:__c__AnyBoolean17_max_1_literal 
+	Class: feature:__c__AnyByte17_max_1_literal 
 		
 		
-	Class: feature:__c__AnyDouble18_min_1_literal 
+	Class: feature:__c__Feature18_min_1_name 
 		
 		
-	Class: feature:__c__AnyDouble19_max_1_literal 
+	Class: feature:__c__Feature19_max_1_name 
 		
 		
-	Class: feature:__c__AnyFloat20_min_1_literal 
+	Class: feature:__c__Feature20_max_1_annotation 
 		
 		
-	Class: feature:__c__AnyFloat21_max_1_literal 
+	Class: feature:__c__Feature21_max_1_parent 
 		
 		
-	Class: feature:__c__AnyLong22_min_1_literal 
+	Class: feature:__c__Feature22_constraint_Root_Feature_needs_to_be_mandatory_ 
 		
 		
-	Class: feature:__c__AnyLong23_max_1_literal 
+	Class: feature:__c__AnyBigInteger23_min_1_literal 
 		
 		
-	Class: feature:__c__AnyBigInteger24_min_1_literal 
+	Class: feature:__c__AnyBigInteger24_max_1_literal 
 		
 		
-	Class: feature:__c__AnyBigInteger25_max_1_literal 
-		
-	Class: feature:__c__Feature26_constraint_Root_Feature_must_be_mandatory 
+	Class: feature:__c__AnyLong25_min_1_literal 
 		
 		
-	Class: individual_0 
-		SubClassOf:  feature:MandatoryFeature ,  (  feature:Feature_name value "testRootFeature" ) ,  (  feature:Feature_comments value "comment_0" ) ,  (  feature:Feature_comments value "Comment_new" ) ,  (  feature:Feature_comments value "comment_2" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 3  xsd:string ) ,  (  feature:Feature_anyLiterals exactly 0  feature:AnyLiteral ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_uniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_nonUniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 0  feature:Feature )	
+	Class: feature:__c__AnyLong26_max_1_literal 
+		
+		
+	Class: individual_218 
+		SubClassOf:  feature:MandatoryFeature ,  (  feature:Feature_name value "testRootFeature" ) ,  (  feature:Feature_comments value "comment_0" ) ,  (  feature:Feature_comments value "Comment_new" ) ,  (  feature:Feature_comments value "comment_2" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments min 2  xsd:string ) ,  (  feature:Feature_anyLiterals exactly 0  feature:AnyLiteral ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_uniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_nonUniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 0  feature:Feature )

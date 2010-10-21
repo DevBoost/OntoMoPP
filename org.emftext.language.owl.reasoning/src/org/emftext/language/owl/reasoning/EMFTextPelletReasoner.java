@@ -142,11 +142,11 @@ public class EMFTextPelletReasoner implements
 		if (owlRepresentation.equals(this.ontologyString)) {
 			return reasoner;
 		}
+		
 		this.ontologyString = owlRepresentation;
 		OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 		StringDocumentSource inputSource = new StringDocumentSource(
 				owlRepresentation);
-		OWLDataFactory factory = manager.getOWLDataFactory();
 		// OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 		//
 		// ManchesterOWLSyntaxParserFactory f = new
@@ -188,24 +188,16 @@ public class EMFTextPelletReasoner implements
 				}
 			});
 			ontology = manager.loadOntologyFromOntologyDocument(inputSource);
-
+		
 			reasoner = PelletReasonerFactory.getInstance().createReasoner(
 					ontology);
 			reasoner.prepareReasoner();
-			// reasoner.loadOntology(ontology);
-			// parser.setOWLOntologyManager(manager);
-
-			// parser.parse(inputSource, ontology);
 		} catch (OWLOntologyCreationException e) {
 			String message = "The ontology could not be checked for consistency: "
 					+ e.getMessage();
 			throw new ReasoningException(message, e);
 		}
 
-		// load ontology in pellet
-
-		Set<OWLOntology> importsClosure = manager.getImportsClosure(ontology);
-		// reasoner.loadOntologies(importsClosure);
 		return reasoner;
 	}
 
@@ -222,7 +214,6 @@ public class EMFTextPelletReasoner implements
 			throw new ReasoningException(message);
 
 		} else {
-
 			IRI iri = IRI.create(ontologyUri + "#" + givenIri);
 			OWLClass c = reasoner.getManager().getOWLDataFactory()
 					.getOWLClass(iri);
@@ -232,10 +223,35 @@ public class EMFTextPelletReasoner implements
 				superFrames.add(owlClass.getIRI().toString());
 			}
 		}
-
 		return superFrames;
 	}
 	
+//	public List<String> getAllSubframes(String owlRepresentation,
+//			String ontologyUri,
+//			String givenIri) throws ReasoningException {
+//		List<String> subframes = new ArrayList<String>();
+//		PelletReasoner reasoner;
+//		reasoner = loadOntology(owlRepresentation);
+//		if (reasoner == null) return subframes;
+//		if (!reasoner.isConsistent()) {
+//
+//			String message = "The ontologies fact base is inconsistent. ";
+//			throw new ReasoningException(message);
+//
+//		} else {
+//
+//			IRI iri = IRI.create(ontologyUri + "#" + givenIri);
+//			OWLClass c = reasoner.getManager().getOWLDataFactory()
+//					.getOWLClass(iri);
+//			NodeSet<OWLClass> subclasses = reasoner.getSubClasses(c, false);
+//			Set<OWLClass> set = subclasses.getFlattened();
+//			for (OWLClass owlClass : set) {
+//				subframes.add(owlClass.getIRI().toString());
+//			}
+//		}
+//
+//		return subframes;
+//	}
 	
 
 }

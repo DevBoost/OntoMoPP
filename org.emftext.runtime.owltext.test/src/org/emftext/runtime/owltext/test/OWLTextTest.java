@@ -240,21 +240,22 @@ public class OWLTextTest {
 	public void testSampleValidation() throws Throwable {
 		String inFileName = "sample.fea";
 		File outFile = new File("./testInput/" + inFileName + ".out.owl");
-		validate(outFile, false);
+		//validate(outFile, false);
 		FeaResource loadResource = loadResource(new File("./testInput/"
 				+ inFileName));
 		EObject rootObject = loadResource.getContents().get(0);
 		assertTrue("Root object is a Feature", rootObject instanceof Feature);
 
-		// incorporate error
-		((Feature) rootObject).setName(null);
 		// test with large input model
 		List<Feature> manyChilds = new LinkedList<Feature>();
-		for (int i = 0; i < 3; i++) {
+		List<String> expectedErrorList = new ArrayList<String>();
+		
+		for (int i = 0; i < 100; i++) {
 			OptionalFeature f = FeaturePackage.eINSTANCE.getFeatureFactory()
 					.createOptionalFeature();
 			// f.setName("Feature_" + i);
 			manyChilds.add(f);
+			expectedErrorList.add("The minimal cardinality of '1' for attribute 'name' is not satisfied.");
 		}
 		((Feature) rootObject).getChildren().addAll(manyChilds);
 
@@ -279,14 +280,12 @@ public class OWLTextTest {
 				"The root element of the owlified output resource not instanceOf OntologyDocument",
 				owlifiedOntologyRoot instanceof OntologyDocument);
 		owlifiedOutputResource.save(Collections.EMPTY_MAP);
-		validate(owlifiedModelOutputFile, false);
+		
+		//validate(owlifiedModelOutputFile, false);
+		String[] errorArray = expectedErrorList.toArray(new String[expectedErrorList.size()]);
 		checkConsistency(
 				loadResource,
-				new String[] {
-						"The minimal cardinality of '1' for attribute 'name' is not satisfied.",
-						"The minimal cardinality of '1' for attribute 'name' is not satisfied.",
-						"The minimal cardinality of '1' for attribute 'name' is not satisfied.",
-						"The minimal cardinality of '1' for attribute 'name' is not satisfied." });
+				errorArray);
 	}
 
 	
@@ -301,6 +300,7 @@ public class OWLTextTest {
 		for (Diagnostic diagnostic : errors) {
 			foundErrors.add(diagnostic.getMessage());
 		}
+		
 		assertArrayEquals("Not all errors found and/or expected.", expectedErrors,
 				foundErrors.toArray());
 	}

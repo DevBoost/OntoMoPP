@@ -32,6 +32,7 @@ import org.emftext.language.owl.Namespace;
 import org.emftext.language.owl.NestedDescription;
 import org.emftext.language.owl.ObjectProperty;
 import org.emftext.language.owl.ObjectPropertyExactly;
+import org.emftext.language.owl.ObjectPropertyMin;
 import org.emftext.language.owl.ObjectPropertySome;
 import org.emftext.language.owl.ObjectPropertyValue;
 import org.emftext.language.owl.Ontology;
@@ -1128,42 +1129,75 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 			if (value instanceof Collection<?>) {
 				Collection<?> c = (Collection<?>) value;
 				size = c.size();
+			
 			} else if (value == null) {
 				size = 0;
 			} else {
 				size = 1;
 			}
-
-			ObjectPropertyExactly ope = factory.createObjectPropertyExactly();
-			ObjectProperty objectProperty = factory.createObjectProperty();
-			objectProperty.setIri(OWLTransformationHelper
-					.getFeatureIdentificationIRI(eStructuralFeature));
-			FeatureReference featureRef = factory.createFeatureReference();
-			featureRef.setFeature(objectProperty);
-			ope.setFeatureReference(featureRef);
-			if (eStructuralFeature instanceof EAttribute) {
-				DatatypeReference primary = factory.createDatatypeReference();
-				Datatype datatype = factory.createDatatype();
-				datatype.setIri(OWLTransformationHelper.getDatatypeMap().get(
-						eStructuralFeature.getEType().getInstanceTypeName()));
-				primary.setTheDatatype(datatype);
-				ope.setDataPrimary(primary);
+			if (size > 1) {
+				size = 2; // TODO should we support other upper bounds?
+				ObjectPropertyMin opm = factory.createObjectPropertyMin();
+				ObjectProperty objectProperty = factory.createObjectProperty();
+				objectProperty.setIri(OWLTransformationHelper
+						.getFeatureIdentificationIRI(eStructuralFeature));
+				FeatureReference featureRef = factory.createFeatureReference();
+				featureRef.setFeature(objectProperty);
+				opm.setFeatureReference(featureRef);
+				if (eStructuralFeature instanceof EAttribute) {
+					DatatypeReference primary = factory.createDatatypeReference();
+					Datatype datatype = factory.createDatatype();
+					datatype.setIri(OWLTransformationHelper.getDatatypeMap().get(
+							eStructuralFeature.getEType().getInstanceTypeName()));
+					primary.setTheDatatype(datatype);
+					opm.setDataPrimary(primary);
+				} else {
+					ClassAtomic primary = factory.createClassAtomic();
+					Class clazz = factory.createClass();
+					clazz.setIri(OWLTransformationHelper
+							.getClassIdentificationIRI(eStructuralFeature
+									.getEType()));
+					primary.setClazz(clazz);
+					opm.setPrimary(primary);
+				}
+	
+				opm.setValue(size);
+				NestedDescription nestedDescription = factory
+						.createNestedDescription();
+				nestedDescription.setDescription(opm);
+				individual.getSuperClassesDescriptions().add(nestedDescription);
+			
 			} else {
-				ClassAtomic primary = factory.createClassAtomic();
-				Class clazz = factory.createClass();
-				clazz.setIri(OWLTransformationHelper
-						.getClassIdentificationIRI(eStructuralFeature
-								.getEType()));
-				primary.setClazz(clazz);
-				ope.setPrimary(primary);
+				ObjectPropertyExactly ope = factory.createObjectPropertyExactly();
+				ObjectProperty objectProperty = factory.createObjectProperty();
+				objectProperty.setIri(OWLTransformationHelper
+						.getFeatureIdentificationIRI(eStructuralFeature));
+				FeatureReference featureRef = factory.createFeatureReference();
+				featureRef.setFeature(objectProperty);
+				ope.setFeatureReference(featureRef);
+				if (eStructuralFeature instanceof EAttribute) {
+					DatatypeReference primary = factory.createDatatypeReference();
+					Datatype datatype = factory.createDatatype();
+					datatype.setIri(OWLTransformationHelper.getDatatypeMap().get(
+							eStructuralFeature.getEType().getInstanceTypeName()));
+					primary.setTheDatatype(datatype);
+					ope.setDataPrimary(primary);
+				} else {
+					ClassAtomic primary = factory.createClassAtomic();
+					Class clazz = factory.createClass();
+					clazz.setIri(OWLTransformationHelper
+							.getClassIdentificationIRI(eStructuralFeature
+									.getEType()));
+					primary.setClazz(clazz);
+					ope.setPrimary(primary);
+				}
+	
+				ope.setValue(size);
+				NestedDescription nestedDescription = factory
+						.createNestedDescription();
+				nestedDescription.setDescription(ope);
+				individual.getSuperClassesDescriptions().add(nestedDescription);
 			}
-
-			ope.setValue(size);
-			NestedDescription nestedDescription = factory
-					.createNestedDescription();
-			nestedDescription.setDescription(ope);
-			individual.getSuperClassesDescriptions().add(nestedDescription);
-
 		}
 	}
 

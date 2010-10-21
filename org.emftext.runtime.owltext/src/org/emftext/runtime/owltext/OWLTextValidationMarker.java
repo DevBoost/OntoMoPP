@@ -2,6 +2,7 @@ package org.emftext.runtime.owltext;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
@@ -21,6 +22,8 @@ import org.emftext.language.owl.Target;
 import org.emftext.language.owl.reasoning.EMFTextPelletReasoner;
 import org.emftext.language.owl.reasoning.ReasoningException;
 import org.semanticweb.owlapi.model.IRI;
+
+import eu.most.transformation.ecore_owl.OWLTransformationHelper;
 
 public class OWLTextValidationMarker {
 
@@ -46,6 +49,23 @@ public class OWLTextValidationMarker {
 
 		EMFTextPelletReasoner reasoner = new EMFTextPelletReasoner();
 		TreeIterator<EObject> allContents = resource.getAllContents();
+
+//		Set<String> constraintClassIris = errorMap.keySet();
+//		for (String constraintClass : constraintClassIris) {
+//			//IRI constraintClassIri = IRI.create(constraintClass);
+//			try {
+//				List<String> allSubFrames = reasoner.getAllSubframes(owlRepresentation, ontologyUri, constraintClass);
+//				for (String subframe : allSubFrames) {
+//					IRI subframeIri = IRI.create(subframe);
+//					EObject eObjectFromIRI = OWLTransformationHelper.getEObjectFromIRI(subframeIri.getFragment());
+//					String errorMsg = errorMap.get(constraintClass);
+//					resourceProxy.addError(errorMsg, eObjectFromIRI);
+//				}
+//			} catch (ReasoningException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
 		while (allContents.hasNext()) {
 			EObject eObject = (EObject) allContents.next();
 			if (eObject instanceof OWLTextEObjectImpl) {

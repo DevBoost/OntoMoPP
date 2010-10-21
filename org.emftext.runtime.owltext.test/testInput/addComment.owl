@@ -1,7 +1,7 @@
 Prefix: : <http://transformed/syntaxMinimum.fea#> 
 	Prefix: feature: <http://org.owltext/feature#> 
 	Ontology: <http://transformed/syntaxMinimum.fea> 
-	Import: <./feature.mm.owl> 
+	Import: <file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/testInput/feature.mm.owl> 
 	
 	Class: feature:Feature 
 		
@@ -105,34 +105,34 @@ Prefix: : <http://transformed/syntaxMinimum.fea#>
 	DataProperty: feature:AnyByte_literal 
 		
 		
-	Class: feature:__c__AnyLong0_min_1_literal 
+	Class: feature:__c__AnyShort0_min_1_literal 
 		
 		
-	Class: feature:__c__AnyLong1_max_1_literal 
+	Class: feature:__c__AnyShort1_max_1_literal 
 		
 		
-	Class: feature:__c__AnyBoolean2_min_1_literal 
+	Class: feature:__c__AnyBigDecimal2_min_1_literal 
 		
 		
-	Class: feature:__c__AnyBoolean3_max_1_literal 
+	Class: feature:__c__AnyBigDecimal3_max_1_literal 
 		
 		
-	Class: feature:__c__AnyBigDecimal4_min_1_literal 
+	Class: feature:__c__AnyBoolean4_min_1_literal 
 		
 		
-	Class: feature:__c__AnyBigDecimal5_max_1_literal 
+	Class: feature:__c__AnyBoolean5_max_1_literal 
 		
 		
-	Class: feature:__c__AnyShort6_min_1_literal 
+	Class: feature:__c__AnyByte6_min_1_literal 
 		
 		
-	Class: feature:__c__AnyShort7_max_1_literal 
+	Class: feature:__c__AnyByte7_max_1_literal 
 		
 		
-	Class: feature:__c__AnyDouble8_min_1_literal 
+	Class: feature:__c__AnyInt8_min_1_literal 
 		
 		
-	Class: feature:__c__AnyDouble9_max_1_literal 
+	Class: feature:__c__AnyInt9_max_1_literal 
 		
 		
 	Class: feature:__c__Feature10_min_1_name 
@@ -147,43 +147,44 @@ Prefix: : <http://transformed/syntaxMinimum.fea#>
 	Class: feature:__c__Feature13_max_1_parent 
 		
 		
-	Class: feature:__c__AnyFloat14_min_1_literal 
+	Class: feature:__c__Feature14_constraint_Root_Feature_needs_to_be_mandatory_ 
 		
 		
-	Class: feature:__c__AnyFloat15_max_1_literal 
+	Class: feature:__c__AnyFloat15_min_1_literal 
 		
 		
-	Class: feature:__c__AnyBigInteger16_min_1_literal 
+	Class: feature:__c__AnyFloat16_max_1_literal 
 		
 		
-	Class: feature:__c__AnyBigInteger17_max_1_literal 
+	Class: feature:__c__Annotation17_min_1_value 
 		
 		
-	Class: feature:__c__AnyInt18_min_1_literal 
+	Class: feature:__c__Annotation18_max_1_value 
 		
 		
-	Class: feature:__c__AnyInt19_max_1_literal 
+	Class: feature:__c__AnyBigInteger19_min_1_literal 
 		
 		
-	Class: feature:__c__Annotation20_min_1_value 
+	Class: feature:__c__AnyBigInteger20_max_1_literal 
 		
 		
-	Class: feature:__c__Annotation21_max_1_value 
+	Class: feature:__c__AnyDouble21_min_1_literal 
 		
 		
-	Class: feature:__c__AnyChar22_min_1_literal 
+	Class: feature:__c__AnyDouble22_max_1_literal 
 		
 		
-	Class: feature:__c__AnyChar23_max_1_literal 
+	Class: feature:__c__AnyChar23_min_1_literal 
 		
 		
-	Class: feature:__c__AnyByte24_min_1_literal 
+	Class: feature:__c__AnyChar24_max_1_literal 
 		
 		
-	Class: feature:__c__AnyByte25_max_1_literal 
-		
-	Class: feature:__c__Feature26_constraint_Root_Feature_must_be_mandatory 
+	Class: feature:__c__AnyLong25_min_1_literal 
 		
 		
-	Class: individual_0 
-		SubClassOf:  feature:MandatoryFeature ,  (  feature:Feature_name value "testRootFeature" ) ,  (  feature:Feature_comments value "Comment_0" ) ,  (  feature:Feature_comments value "Comment_1" ) ,  (  feature:Feature_comments value "Comment_2" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 3  xsd:string ) ,  (  feature:Feature_anyLiterals exactly 0  feature:AnyLiteral ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_uniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_nonUniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 0  feature:Feature )	
+	Class: feature:__c__AnyLong26_max_1_literal 
+		
+		
+	Class: individual_114 
+		SubClassOf:  feature:MandatoryFeature ,  (  feature:Feature_name value "testRootFeature" ) ,  (  feature:Feature_comments value "Comment_0" ) ,  (  feature:Feature_comments value "Comment_1" ) ,  (  feature:Feature_comments value "Comment_2" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments min 3  xsd:string ) ,  (  feature:Feature_anyLiterals exactly 0  feature:AnyLiteral ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_uniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_nonUniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 0  feature:Feature )
