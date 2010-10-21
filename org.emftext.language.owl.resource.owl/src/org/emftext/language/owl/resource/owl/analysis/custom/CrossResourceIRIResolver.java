@@ -60,11 +60,14 @@ public class CrossResourceIRIResolver {
 			EObject containerObject, boolean resolveFuzzy,
 			IOwlReferenceResolveResult<RESULT> result, Class<RESULT> c) {
 		RESULT r = null;
-		if (!hasPrefix(identifier))
-			return;
-		String iriPrefix = getPrefix(identifier);
-		identifier = getId(identifier);
-
+		String iriPrefix;
+		if (!hasPrefix(identifier)) {
+			iriPrefix = "";
+		}
+		else {
+			iriPrefix = getPrefix(identifier);
+			identifier = getId(identifier);
+		}
 		IRIIdentified entity;
 		try {
 			entity = getOntologyEntity(iriPrefix, containerObject, identifier);
@@ -123,9 +126,18 @@ public class CrossResourceIRIResolver {
 				uri = namespace.getImportedOntology().getUri();
 				if (uri == null)
 					return null;
-				remoteLoader.loadOntology(uri, ontologyDocument);
-				IRIIdentified entity = remoteLoader
-						.getOntologyElement(identifier);
+				IRIIdentified entity;
+				if (namespace.getImportedOntology() == null || namespace.getImportedOntology().eIsProxy()) {
+					remoteLoader.loadOntology(uri, ontologyDocument);
+					entity = remoteLoader
+					.getOntologyElement(identifier);
+					
+				} else {
+					remoteLoader.addUriMapping(uri, namespace.getImportedOntology());
+					entity = remoteLoader
+					.getOntologyElement(identifier, namespace.getImportedOntology());
+				}
+			
 				return entity;
 			}
 		}

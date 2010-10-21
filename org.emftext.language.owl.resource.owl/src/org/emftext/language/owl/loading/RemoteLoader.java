@@ -143,10 +143,14 @@ public class RemoteLoader {
 				if (contents.get(0) instanceof OntologyDocument) {
 					OntologyDocument d = (OntologyDocument) contents.get(0);
 					ontology = d.getOntology();
-					url2ontologies.put(uri, ontology);
+					addUriMapping(uri, ontology);
 				}
 			}
 		}
+	}
+
+	public void addUriMapping(String uri, Ontology ontology) {
+		url2ontologies.put(uri, ontology);
 	}
 
 	private void initialiseRemoteUri(String uri) throws OntologyLoadExeption {
@@ -165,7 +169,7 @@ public class RemoteLoader {
 
 			// e.printStackTrace();
 		}
-		url2ontologies.put(uri, ontology);
+		addUriMapping(uri, ontology);
 	}
 
 	private Ontology propagate(OWLOntology owlOntology) {
@@ -214,6 +218,10 @@ public class RemoteLoader {
 	}
 
 	public IRIIdentified getOntologyElement(String identifier) {
+		return findEntity(identifier, ontology);
+	}
+	
+	public IRIIdentified getOntologyElement(String identifier, Ontology ontology) {
 		return findEntity(identifier, ontology);
 	}
 
