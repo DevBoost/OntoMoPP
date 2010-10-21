@@ -1,9 +1,11 @@
 package org.emftext.runtime.owltext;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 import org.emftext.language.owl.OntologyDocument;
-import org.emftext.language.owl.resource.owl.mopp.OwlPrinter;
+import org.emftext.language.owl.resource.owl.IOwlTextPrinter;
+import org.emftext.language.owl.resource.owl.mopp.OwlMetaInformation;
 
 /**
  * A simple helper class to derive a string representation of the ontology
@@ -23,8 +25,13 @@ public class OWLTextEObjectPrinter {
 	 */
 	public static String getOWLRepresentation(OntologyDocument ontologyDocument) {
 		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-		OwlPrinter printer = new OwlPrinter(outStream, null);
-		printer.print(ontologyDocument);
+		IOwlTextPrinter printer = new OwlMetaInformation().createPrinter(outStream, null);
+		try {
+			printer.print(ontologyDocument);
+		} catch (IOException e) {
+			// TODO handle exception
+			e.printStackTrace();
+		}
 		String string = outStream.toString();
 		return string;
 	}
