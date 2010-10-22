@@ -78,7 +78,7 @@ public class CrossResourceIRIResolver {
 			result.setErrorMessage(e.getMessage());
 			return;
 		}
-		if (entityList.size() != 0) {
+		if (entityList != null && entityList.size() != 0) {
 			for (IRIIdentified iriIdentified : entityList) {
 				if (iriIdentified.eIsProxy()) {
 					iriIdentified = (IRIIdentified) EcoreUtil.resolve(iriIdentified,
