@@ -260,12 +260,19 @@ public class OWLTextTest {
 		List<Feature> manyChilds = new LinkedList<Feature>();
 		List<String> expectedErrorList = new ArrayList<String>();
 		
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < 40; i++) {
 			OptionalFeature f = FeaturePackage.eINSTANCE.getFeatureFactory()
 					.createOptionalFeature();
 			// f.setName("Feature_" + i);
 			manyChilds.add(f);
 			expectedErrorList.add("The minimal cardinality of '1' for attribute 'name' is not satisfied.");
+		}
+		
+		for (int i = 0; i < 50; i++) {
+			OptionalFeature f = FeaturePackage.eINSTANCE.getFeatureFactory()
+					.createOptionalFeature();
+			f.setName("Feature_" + i);
+			manyChilds.add(f);
 		}
 		((Feature) rootObject).getChildren().addAll(manyChilds);
 

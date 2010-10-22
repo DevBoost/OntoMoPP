@@ -1,225 +1,238 @@
-Prefix: : <http://transformed/syntaxMinimum.fea#> 
-	Prefix: feature: <http://org.owltext/feature#> 
-	Ontology: <http://transformed/syntaxMinimum.fea> 
-	Import: <file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/testInput/feature.mm.owl> 
+Prefix: : <http://transformed/syntaxMinimum.fea#>
+	Prefix: feature: <http://org.owltext/feature#>
+	Ontology: <http://transformed/syntaxMinimum.fea> Import: <file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/testInput/feature.mm.owl>
+	Class: feature:Feature
 	
-	Class: feature:Feature 
-		
-		
-	Class: feature:MandatoryFeature 
-		
-		
-	Class: feature:OptionalFeature 
-		
-		
-	Class: feature:Annotation 
-		
-		
-	Class: feature:AnyLiteral 
-		
-		
-	Class: feature:AnyBoolean 
-		
-		
-	Class: feature:AnyInt 
-		
-		
-	Class: feature:AnyBigInteger 
-		
-		
-	Class: feature:AnyLong 
-		
-		
-	Class: feature:AnyShort 
-		
-		
-	Class: feature:AnyBigDecimal 
-		
-		
-	Class: feature:AnyFloat 
-		
-		
-	Class: feature:AnyDouble 
-		
-		
-	Class: feature:AnyChar 
-		
-		
-	Class: feature:AnyByte 
-		
-		
-	DataProperty: feature:Feature_name 
-		
-		
-	DataProperty: feature:Feature_comments 
-		
-		
-	ObjectProperty: feature:Feature_anyLiterals 
-		
-		
-	ObjectProperty: feature:Feature_annotation 
-		
-		
-	ObjectProperty: feature:Feature_children 
-		
-		
-	ObjectProperty: feature:Feature_uniqueRelations 
-		
-		
-	ObjectProperty: feature:Feature_nonUniqueRelations 
-		
-		
-	ObjectProperty: feature:Feature_parent 
-		
-		
-	DataProperty: feature:Annotation_value 
-		
-		
-	DataProperty: feature:AnyBoolean_literal 
-		
-		
-	DataProperty: feature:AnyInt_literal 
-		
-		
-	DataProperty: feature:AnyBigInteger_literal 
-		
-		
-	DataProperty: feature:AnyLong_literal 
-		
-		
-	DataProperty: feature:AnyShort_literal 
-		
-		
-	DataProperty: feature:AnyBigDecimal_literal 
-		
-		
-	DataProperty: feature:AnyFloat_literal 
-		
-		
-	DataProperty: feature:AnyDouble_literal 
-		
-		
-	DataProperty: feature:AnyChar_literal 
-		
-		
-	DataProperty: feature:AnyByte_literal 
-		
-		
-	Class: feature:__c__AnyBoolean0_min_1_literal 
-		
-		
-	Class: feature:__c__AnyBoolean1_max_1_literal 
-		
-		
-	Class: feature:__c__Feature2_min_1_name 
-		
-		
-	Class: feature:__c__Feature3_max_1_name 
-		
-		
-	Class: feature:__c__Feature4_max_1_annotation 
-		
-		
-	Class: feature:__c__Feature5_max_1_parent 
-		
-		
-	Class: feature:__c__Feature6_constraint_Root_Feature_needs_to_be_mandatory_ 
-		
-		
-	Class: feature:__c__AnyDouble7_min_1_literal 
-		
-		
-	Class: feature:__c__AnyDouble8_max_1_literal 
-		
-		
-	Class: feature:__c__AnyShort9_min_1_literal 
-		
-		
-	Class: feature:__c__AnyShort10_max_1_literal 
-		
-		
-	Class: feature:__c__AnyInt11_min_1_literal 
-		
-		
-	Class: feature:__c__AnyInt12_max_1_literal 
-		
-		
-	Class: feature:__c__AnyFloat13_min_1_literal 
-		
-		
-	Class: feature:__c__AnyFloat14_max_1_literal 
-		
-		
-	Class: feature:__c__AnyBigInteger15_min_1_literal 
-		
-		
-	Class: feature:__c__AnyBigInteger16_max_1_literal 
-		
-		
-	Class: feature:__c__AnyLong17_min_1_literal 
-		
-		
-	Class: feature:__c__AnyLong18_max_1_literal 
-		
-		
-	Class: feature:__c__AnyByte19_min_1_literal 
-		
-		
-	Class: feature:__c__AnyByte20_max_1_literal 
-		
-		
-	Class: feature:__c__Annotation21_min_1_value 
-		
-		
-	Class: feature:__c__Annotation22_max_1_value 
-		
-		
-	Class: feature:__c__AnyBigDecimal23_min_1_literal 
-		
-		
-	Class: feature:__c__AnyBigDecimal24_max_1_literal 
-		
-		
-	Class: feature:__c__AnyChar25_min_1_literal 
-		
-		
-	Class: feature:__c__AnyChar26_max_1_literal 
-		
-		
-	Class: individual_157 
-		SubClassOf:  feature:MandatoryFeature ,  (  feature:Feature_name value "testRootFeature" ) ,  (  feature:Feature_anyLiterals some  individual_158 ) ,  (  feature:Feature_anyLiterals some  individual_159 ) ,  (  feature:Feature_anyLiterals some  individual_160 ) ,  (  feature:Feature_anyLiterals some  individual_161 ) ,  (  feature:Feature_anyLiterals some  individual_162 ) ,  (  feature:Feature_anyLiterals some  individual_163 ) ,  (  feature:Feature_anyLiterals some  individual_164 ) ,  (  feature:Feature_anyLiterals some  individual_165 ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments exactly 0  xsd:string ) ,  (  feature:Feature_anyLiterals min 2  feature:AnyLiteral ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_uniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_nonUniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 0  feature:Feature ) 
-			
-		
-	Class: individual_158 
-		SubClassOf:  feature:AnyInt ,  (  feature:AnyInt_literal value 0 ) ,  (  feature:AnyInt_literal exactly 1  xsd:integer ) 
-			
-		
-	Class: individual_159 
-		SubClassOf:  feature:AnyInt ,  (  feature:AnyInt_literal value -123 ) ,  (  feature:AnyInt_literal exactly 1  xsd:integer ) 
-			
-		
-	Class: individual_160 
-		SubClassOf:  feature:AnyBigInteger ,  (  feature:AnyBigInteger_literal value 0 ) ,  (  feature:AnyBigInteger_literal exactly 1  xsd:integer ) 
-			
-		
-	Class: individual_161 
-		SubClassOf:  feature:AnyBigInteger ,  (  feature:AnyBigInteger_literal value -123 ) ,  (  feature:AnyBigInteger_literal exactly 1  xsd:integer ) 
-			
-		
-	Class: individual_162 
-		SubClassOf:  feature:AnyLong ,  (  feature:AnyLong_literal value "0" ^^ xsd:long ) ,  (  feature:AnyLong_literal exactly 1  xsd:long ) 
-			
-		
-	Class: individual_163 
-		SubClassOf:  feature:AnyLong ,  (  feature:AnyLong_literal value "-123" ^^ xsd:long ) ,  (  feature:AnyLong_literal exactly 1  xsd:long ) 
-			
-		
-	Class: individual_164 
-		SubClassOf:  feature:AnyShort ,  (  feature:AnyShort_literal value "0" ^^ xsd:short ) ,  (  feature:AnyShort_literal exactly 1  xsd:short ) 
-			
-		
-	Class: individual_165 
-		SubClassOf:  feature:AnyShort ,  (  feature:AnyShort_literal value "-123" ^^ xsd:short ) ,  (  feature:AnyShort_literal exactly 1  xsd:short ) 
-			
-		
-	DisjointClasses:  individual_157 ,  individual_158 ,  individual_159 ,  individual_160 ,  individual_161 ,  individual_162 ,  individual_163 ,  individual_164 ,  individual_165
+	
+	Class: feature:MandatoryFeature
+	
+	
+	Class: feature:OptionalFeature
+	
+	
+	Class: feature:Annotation
+	
+	
+	Class: feature:AnyLiteral
+	
+	
+	Class: feature:AnyBoolean
+	
+	
+	Class: feature:AnyInt
+	
+	
+	Class: feature:AnyBigInteger
+	
+	
+	Class: feature:AnyLong
+	
+	
+	Class: feature:AnyShort
+	
+	
+	Class: feature:AnyBigDecimal
+	
+	
+	Class: feature:AnyFloat
+	
+	
+	Class: feature:AnyDouble
+	
+	
+	Class: feature:AnyChar
+	
+	
+	Class: feature:AnyByte
+	
+	
+	DataProperty: feature:Feature_name
+	
+	
+	DataProperty: feature:Feature_comments
+	
+	
+	ObjectProperty: feature:Feature_anyLiterals
+	
+	
+	ObjectProperty: feature:Feature_annotation
+	
+	
+	ObjectProperty: feature:Feature_children
+	
+	
+	ObjectProperty: feature:Feature_uniqueRelations
+	
+	
+	ObjectProperty: feature:Feature_nonUniqueRelations
+	
+	
+	ObjectProperty: feature:Feature_parent
+	
+	
+	DataProperty: feature:Annotation_value
+	
+	
+	DataProperty: feature:AnyBoolean_literal
+	
+	
+	DataProperty: feature:AnyInt_literal
+	
+	
+	DataProperty: feature:AnyBigInteger_literal
+	
+	
+	DataProperty: feature:AnyLong_literal
+	
+	
+	DataProperty: feature:AnyShort_literal
+	
+	
+	DataProperty: feature:AnyBigDecimal_literal
+	
+	
+	DataProperty: feature:AnyFloat_literal
+	
+	
+	DataProperty: feature:AnyDouble_literal
+	
+	
+	DataProperty: feature:AnyChar_literal
+	
+	
+	DataProperty: feature:AnyByte_literal
+	
+	
+	Class: feature:__c__AnyShort0_min_1_literal
+	
+	
+	Class: feature:__c__AnyShort1_max_1_literal
+	
+	
+	Class: feature:__c__AnyDouble2_min_1_literal
+	
+	
+	Class: feature:__c__AnyDouble3_max_1_literal
+	
+	
+	Class: feature:__c__AnyFloat4_min_1_literal
+	
+	
+	Class: feature:__c__AnyFloat5_max_1_literal
+	
+	
+	Class: feature:__c__AnyChar6_min_1_literal
+	
+	
+	Class: feature:__c__AnyChar7_max_1_literal
+	
+	
+	Class: feature:__c__AnyBoolean8_min_1_literal
+	
+	
+	Class: feature:__c__AnyBoolean9_max_1_literal
+	
+	
+	Class: feature:__c__AnyByte10_min_1_literal
+	
+	
+	Class: feature:__c__AnyByte11_max_1_literal
+	
+	
+	Class: feature:__c__AnyBigDecimal12_min_1_literal
+	
+	
+	Class: feature:__c__AnyBigDecimal13_max_1_literal
+	
+	
+	Class: feature:__c__AnyInt14_min_1_literal
+	
+	
+	Class: feature:__c__AnyInt15_max_1_literal
+	
+	
+	Class: feature:__c__Annotation16_min_1_value
+	
+	
+	Class: feature:__c__Annotation17_max_1_value
+	
+	
+	Class: feature:__c__AnyLong18_min_1_literal
+	
+	
+	Class: feature:__c__AnyLong19_max_1_literal
+	
+	
+	Class: feature:__c__AnyBigInteger20_min_1_literal
+	
+	
+	Class: feature:__c__AnyBigInteger21_max_1_literal
+	
+	
+	Class: feature:__c__Feature22_min_1_name
+	
+	
+	Class: feature:__c__Feature23_max_1_name
+	
+	
+	Class: feature:__c__Feature24_max_1_annotation
+	
+	
+	Class: feature:__c__Feature25_max_1_parent
+	
+	
+	Class: feature:__c__Feature26_constraint_Root_Feature_needs_to_be_mandatory_
+	
+	
+	Class: individual_241
+		
+		SubClassOf: feature:MandatoryFeature , ( feature:Feature_name value "testRootFeature" ) , ( feature:Feature_anyLiterals some individual_242 ) , ( feature:Feature_anyLiterals some individual_243 ) , ( feature:Feature_anyLiterals some individual_244 ) , ( feature:Feature_anyLiterals some individual_245 ) , ( feature:Feature_anyLiterals some individual_246 ) , ( feature:Feature_anyLiterals some individual_247 ) , ( feature:Feature_anyLiterals some individual_248 ) , ( feature:Feature_anyLiterals some individual_249 ) , ( feature:Feature_name exactly 1 xsd:string ) , ( feature:Feature_comments exactly 0 xsd:string ) , ( feature:Feature_anyLiterals min 2 feature:AnyLiteral ) , ( feature:Feature_annotation exactly 0 feature:Annotation ) , ( feature:Feature_children exactly 0 feature:Feature ) , ( feature:Feature_uniqueRelations exactly 0 feature:Feature ) , ( feature:Feature_nonUniqueRelations exactly 0 feature:Feature ) , ( feature:Feature_parent exactly 0 feature:Feature )
+	
+	
+	Class: testRootFeature
+		
+		
+		EquivalentTo: individual_241
+	
+	
+	Class: individual_242
+		
+		SubClassOf: feature:AnyInt , ( feature:AnyInt_literal value 0 ) , ( feature:AnyInt_literal exactly 1 xsd:integer )
+	
+	
+	Class: individual_243
+		
+		SubClassOf: feature:AnyInt , ( feature:AnyInt_literal value -123 ) , ( feature:AnyInt_literal exactly 1 xsd:integer )
+	
+	
+	Class: individual_244
+		
+		SubClassOf: feature:AnyBigInteger , ( feature:AnyBigInteger_literal value 0 ) , ( feature:AnyBigInteger_literal exactly 1 xsd:integer )
+	
+	
+	Class: individual_245
+		
+		SubClassOf: feature:AnyBigInteger , ( feature:AnyBigInteger_literal value -123 ) , ( feature:AnyBigInteger_literal exactly 1 xsd:integer )
+	
+	
+	Class: individual_246
+		
+		SubClassOf: feature:AnyLong , ( feature:AnyLong_literal value "0" ^^ xsd:long ) , ( feature:AnyLong_literal exactly 1 xsd:long )
+	
+	
+	Class: individual_247
+		
+		SubClassOf: feature:AnyLong , ( feature:AnyLong_literal value "-123" ^^ xsd:long ) , ( feature:AnyLong_literal exactly 1 xsd:long )
+	
+	
+	Class: individual_248
+		
+		SubClassOf: feature:AnyShort , ( feature:AnyShort_literal value "0" ^^ xsd:short ) , ( feature:AnyShort_literal exactly 1 xsd:short )
+	
+	
+	Class: individual_249
+		
+		SubClassOf: feature:AnyShort , ( feature:AnyShort_literal value "-123" ^^ xsd:short ) , ( feature:AnyShort_literal exactly 1 xsd:short )
+	
+	
+	DisjointClasses: individual_241 , individual_242 , individual_243 , individual_244 , individual_245 , individual_246 , individual_247 , individual_248 , individual_249

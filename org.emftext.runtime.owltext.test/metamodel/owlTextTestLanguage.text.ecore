@@ -5,7 +5,7 @@ package feature // this is the package name
 
 	@"OWL_CONSTRAINT"("Root Feature needs to be mandatory."="(MandatoryFeature) or (Feature_parent min 1 Feature)")
  	abstract class Feature {
-		attribute EString name (1..1);
+		iD attribute EString name (1..1);
 		attribute EString comments (0..-1);		
 		
 		containment reference AnyLiteral anyLiterals (0..-1);

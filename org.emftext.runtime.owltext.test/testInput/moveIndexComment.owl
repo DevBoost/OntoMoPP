@@ -1,190 +1,195 @@
-Prefix: : <http://transformed/moveOrSetComment.fea#> 
-	Prefix: feature: <http://org.owltext/feature#> 
-	Ontology: <http://transformed/moveOrSetComment.fea> 
-	Import: <file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/testInput/feature.mm.owl> 
+Prefix: : <http://transformed/moveOrSetComment.fea#>
+	Prefix: feature: <http://org.owltext/feature#>
+	Ontology: <http://transformed/moveOrSetComment.fea> Import: <file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/testInput/feature.mm.owl>
+	Class: feature:Feature
 	
-	Class: feature:Feature 
-		
-		
-	Class: feature:MandatoryFeature 
-		
-		
-	Class: feature:OptionalFeature 
-		
-		
-	Class: feature:Annotation 
-		
-		
-	Class: feature:AnyLiteral 
-		
-		
-	Class: feature:AnyBoolean 
-		
-		
-	Class: feature:AnyInt 
-		
-		
-	Class: feature:AnyBigInteger 
-		
-		
-	Class: feature:AnyLong 
-		
-		
-	Class: feature:AnyShort 
-		
-		
-	Class: feature:AnyBigDecimal 
-		
-		
-	Class: feature:AnyFloat 
-		
-		
-	Class: feature:AnyDouble 
-		
-		
-	Class: feature:AnyChar 
-		
-		
-	Class: feature:AnyByte 
-		
-		
-	DataProperty: feature:Feature_name 
-		
-		
-	DataProperty: feature:Feature_comments 
-		
-		
-	ObjectProperty: feature:Feature_anyLiterals 
-		
-		
-	ObjectProperty: feature:Feature_annotation 
-		
-		
-	ObjectProperty: feature:Feature_children 
-		
-		
-	ObjectProperty: feature:Feature_uniqueRelations 
-		
-		
-	ObjectProperty: feature:Feature_nonUniqueRelations 
-		
-		
-	ObjectProperty: feature:Feature_parent 
-		
-		
-	DataProperty: feature:Annotation_value 
-		
-		
-	DataProperty: feature:AnyBoolean_literal 
-		
-		
-	DataProperty: feature:AnyInt_literal 
-		
-		
-	DataProperty: feature:AnyBigInteger_literal 
-		
-		
-	DataProperty: feature:AnyLong_literal 
-		
-		
-	DataProperty: feature:AnyShort_literal 
-		
-		
-	DataProperty: feature:AnyBigDecimal_literal 
-		
-		
-	DataProperty: feature:AnyFloat_literal 
-		
-		
-	DataProperty: feature:AnyDouble_literal 
-		
-		
-	DataProperty: feature:AnyChar_literal 
-		
-		
-	DataProperty: feature:AnyByte_literal 
-		
-		
-	Class: feature:__c__AnyDouble0_min_1_literal 
-		
-		
-	Class: feature:__c__AnyDouble1_max_1_literal 
-		
-		
-	Class: feature:__c__AnyBoolean2_min_1_literal 
-		
-		
-	Class: feature:__c__AnyBoolean3_max_1_literal 
-		
-		
-	Class: feature:__c__Annotation4_min_1_value 
-		
-		
-	Class: feature:__c__Annotation5_max_1_value 
-		
-		
-	Class: feature:__c__Feature6_min_1_name 
-		
-		
-	Class: feature:__c__Feature7_max_1_name 
-		
-		
-	Class: feature:__c__Feature8_max_1_annotation 
-		
-		
-	Class: feature:__c__Feature9_max_1_parent 
-		
-		
-	Class: feature:__c__Feature10_constraint_Root_Feature_needs_to_be_mandatory_ 
-		
-		
-	Class: feature:__c__AnyInt11_min_1_literal 
-		
-		
-	Class: feature:__c__AnyInt12_max_1_literal 
-		
-		
-	Class: feature:__c__AnyBigDecimal13_min_1_literal 
-		
-		
-	Class: feature:__c__AnyBigDecimal14_max_1_literal 
-		
-		
-	Class: feature:__c__AnyByte15_min_1_literal 
-		
-		
-	Class: feature:__c__AnyByte16_max_1_literal 
-		
-		
-	Class: feature:__c__AnyFloat17_min_1_literal 
-		
-		
-	Class: feature:__c__AnyFloat18_max_1_literal 
-		
-		
-	Class: feature:__c__AnyChar19_min_1_literal 
-		
-		
-	Class: feature:__c__AnyChar20_max_1_literal 
-		
-		
-	Class: feature:__c__AnyShort21_min_1_literal 
-		
-		
-	Class: feature:__c__AnyShort22_max_1_literal 
-		
-		
-	Class: feature:__c__AnyBigInteger23_min_1_literal 
-		
-		
-	Class: feature:__c__AnyBigInteger24_max_1_literal 
-		
-		
-	Class: feature:__c__AnyLong25_min_1_literal 
-		
-		
-	Class: feature:__c__AnyLong26_max_1_literal 
-		
-		
-	Class: individual_0 
-		SubClassOf:  feature:MandatoryFeature ,  (  feature:Feature_name value "testRootFeature" ) ,  (  feature:Feature_comments value "comment_1" ) ,  (  feature:Feature_comments value "comment_0" ) ,  (  feature:Feature_comments value "comment_2" ) ,  (  feature:Feature_name exactly 1  xsd:string ) ,  (  feature:Feature_comments min 2  xsd:string ) ,  (  feature:Feature_anyLiterals exactly 0  feature:AnyLiteral ) ,  (  feature:Feature_annotation exactly 0  feature:Annotation ) ,  (  feature:Feature_children exactly 0  feature:Feature ) ,  (  feature:Feature_uniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_nonUniqueRelations exactly 0  feature:Feature ) ,  (  feature:Feature_parent exactly 0  feature:Feature )
+	
+	Class: feature:MandatoryFeature
+	
+	
+	Class: feature:OptionalFeature
+	
+	
+	Class: feature:Annotation
+	
+	
+	Class: feature:AnyLiteral
+	
+	
+	Class: feature:AnyBoolean
+	
+	
+	Class: feature:AnyInt
+	
+	
+	Class: feature:AnyBigInteger
+	
+	
+	Class: feature:AnyLong
+	
+	
+	Class: feature:AnyShort
+	
+	
+	Class: feature:AnyBigDecimal
+	
+	
+	Class: feature:AnyFloat
+	
+	
+	Class: feature:AnyDouble
+	
+	
+	Class: feature:AnyChar
+	
+	
+	Class: feature:AnyByte
+	
+	
+	DataProperty: feature:Feature_name
+	
+	
+	DataProperty: feature:Feature_comments
+	
+	
+	ObjectProperty: feature:Feature_anyLiterals
+	
+	
+	ObjectProperty: feature:Feature_annotation
+	
+	
+	ObjectProperty: feature:Feature_children
+	
+	
+	ObjectProperty: feature:Feature_uniqueRelations
+	
+	
+	ObjectProperty: feature:Feature_nonUniqueRelations
+	
+	
+	ObjectProperty: feature:Feature_parent
+	
+	
+	DataProperty: feature:Annotation_value
+	
+	
+	DataProperty: feature:AnyBoolean_literal
+	
+	
+	DataProperty: feature:AnyInt_literal
+	
+	
+	DataProperty: feature:AnyBigInteger_literal
+	
+	
+	DataProperty: feature:AnyLong_literal
+	
+	
+	DataProperty: feature:AnyShort_literal
+	
+	
+	DataProperty: feature:AnyBigDecimal_literal
+	
+	
+	DataProperty: feature:AnyFloat_literal
+	
+	
+	DataProperty: feature:AnyDouble_literal
+	
+	
+	DataProperty: feature:AnyChar_literal
+	
+	
+	DataProperty: feature:AnyByte_literal
+	
+	
+	Class: feature:__c__AnyShort0_min_1_literal
+	
+	
+	Class: feature:__c__AnyShort1_max_1_literal
+	
+	
+	Class: feature:__c__AnyDouble2_min_1_literal
+	
+	
+	Class: feature:__c__AnyDouble3_max_1_literal
+	
+	
+	Class: feature:__c__AnyFloat4_min_1_literal
+	
+	
+	Class: feature:__c__AnyFloat5_max_1_literal
+	
+	
+	Class: feature:__c__AnyChar6_min_1_literal
+	
+	
+	Class: feature:__c__AnyChar7_max_1_literal
+	
+	
+	Class: feature:__c__AnyBoolean8_min_1_literal
+	
+	
+	Class: feature:__c__AnyBoolean9_max_1_literal
+	
+	
+	Class: feature:__c__AnyByte10_min_1_literal
+	
+	
+	Class: feature:__c__AnyByte11_max_1_literal
+	
+	
+	Class: feature:__c__AnyBigDecimal12_min_1_literal
+	
+	
+	Class: feature:__c__AnyBigDecimal13_max_1_literal
+	
+	
+	Class: feature:__c__AnyInt14_min_1_literal
+	
+	
+	Class: feature:__c__AnyInt15_max_1_literal
+	
+	
+	Class: feature:__c__Annotation16_min_1_value
+	
+	
+	Class: feature:__c__Annotation17_max_1_value
+	
+	
+	Class: feature:__c__AnyLong18_min_1_literal
+	
+	
+	Class: feature:__c__AnyLong19_max_1_literal
+	
+	
+	Class: feature:__c__AnyBigInteger20_min_1_literal
+	
+	
+	Class: feature:__c__AnyBigInteger21_max_1_literal
+	
+	
+	Class: feature:__c__Feature22_min_1_name
+	
+	
+	Class: feature:__c__Feature23_max_1_name
+	
+	
+	Class: feature:__c__Feature24_max_1_annotation
+	
+	
+	Class: feature:__c__Feature25_max_1_parent
+	
+	
+	Class: feature:__c__Feature26_constraint_Root_Feature_needs_to_be_mandatory_
+	
+	
+	Class: individual_202
+		
+		SubClassOf: feature:MandatoryFeature , ( feature:Feature_name value "testRootFeature" ) , ( feature:Feature_comments value "comment_1" ) , ( feature:Feature_comments value "comment_0" ) , ( feature:Feature_comments value "comment_2" ) , ( feature:Feature_name exactly 1 xsd:string ) , ( feature:Feature_comments min 2 xsd:string ) , ( feature:Feature_anyLiterals exactly 0 feature:AnyLiteral ) , ( feature:Feature_annotation exactly 0 feature:Annotation ) , ( feature:Feature_children exactly 0 feature:Feature ) , ( feature:Feature_uniqueRelations exactly 0 feature:Feature ) , ( feature:Feature_nonUniqueRelations exactly 0 feature:Feature ) , ( feature:Feature_parent exactly 0 feature:Feature )
+	
+	
+	Class: testRootFeature
+		
+		
+		EquivalentTo: individual_202

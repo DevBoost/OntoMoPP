@@ -309,13 +309,7 @@ public class Ecore2Owl {
 								.createNestedDescription();
 						nestedDescription.setDescription(constraintDescription);
 						nestedDescription.setNot(true);
-						String iriFragment = error.replaceAll("\\s", "_");
-						iriFragment = iriFragment.replace(".", "_");
-						iriFragment = iriFragment.replace(",", "_");
-						iriFragment = iriFragment.replace(";", "_");
-						iriFragment = iriFragment.replace("!", "_");
-						iriFragment = iriFragment.replace("?", "_");
-					 
+						String iriFragment = OWLTransformationHelper.createValidIri(error);
 						String iri = "_constraint_"
 								+ iriFragment;
 						createConstraintClass(owlClass, iri, error,

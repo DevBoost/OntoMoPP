@@ -625,14 +625,16 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		fixCardinality(this, selfIndividual);
 
 		individuals.add(selfIndividual);
+		createNamedEqivalent(this, selfIndividual, ontology);
 		// collect individuals, fix cardinalities
 		while (eAllContents.hasNext()) {
 			OWLTextEObjectImpl child = (OWLTextEObjectImpl) eAllContents.next();
 
 			Class individual = child.getOwlIndividualClass();
+			createNamedEqivalent(child, individual, ontology);
+			
 			ontology.getFrames().add(individual);
 			individuals.add(individual);
-
 			// fix cardinality for all features
 			clean(individual);
 			fixCardinality(child, individual);
@@ -650,6 +652,23 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		}
 
 		return ontologyDocument;
+	}
+
+	private void createNamedEqivalent(OWLTextEObjectImpl child, Class individual, Ontology ontology) {
+		EAttribute eidAttribute = child.eClass().getEIDAttribute();
+		if (eidAttribute != null) {
+			OwlFactory factory = OwlFactory.eINSTANCE;
+			Object id = child.eGet(eidAttribute);
+			if (id != null && !"".equals(id.toString())) {
+				Class eq = factory.createClass();
+				eq.setIri(OWLTransformationHelper.createValidIri(id.toString()));
+				ClassAtomic ca = factory.createClassAtomic();
+				ca.setClazz(individual);
+				eq.getEquivalentClassesDescriptions().add(ca);
+				ontology.getFrames().add(eq);
+			}
+		}
+		
 	}
 
 	public String getOntologyUri() {

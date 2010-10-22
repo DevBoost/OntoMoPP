@@ -23,14 +23,16 @@ public class OWLTransformationHelper {
 	private static HashMap<Resource, Integer> counters = new HashMap<Resource, Integer>();
 	private static Map<EPackage, Ontology> packageOntologyMap = new HashMap<EPackage, Ontology>();
 	private static Map<String, String> datatypeMap;
-	
 
 	private static class BidiHashMap<K, V> extends HashMap<K, V> {
 		private static final long serialVersionUID = 1L;
 		private HashMap<V, K> reverseMap = new HashMap<V, K>();
 
-		public K getKey(V value) { return reverseMap.get(value); }
-		public V put(K key, V value) {		
+		public K getKey(V value) {
+			return reverseMap.get(value);
+		}
+
+		public V put(K key, V value) {
 			reverseMap.put(value, key);
 			return super.put(key, value);
 		}
@@ -62,7 +64,6 @@ public class OWLTransformationHelper {
 		datatypeMap.put("ELong", "xsd:long");
 		datatypeMap.put("ELongObject", "xsd:long");
 
-		
 		// # xsd:short
 		datatypeMap.put("short", "xsd:short");
 		datatypeMap.put("java.lang.Short", "xsd:short");
@@ -78,7 +79,7 @@ public class OWLTransformationHelper {
 		// # xsd:unsignedInt
 		// # xsd:unsignedShort
 		// # xsd:unsignedByte
-		//		
+		//
 		// # xsd:double
 		datatypeMap.put("double", "xsd:double");
 		datatypeMap.put("java.lang.Double", "xsd:double");
@@ -96,7 +97,7 @@ public class OWLTransformationHelper {
 		datatypeMap.put("EBoolean", "xsd:boolean");
 		datatypeMap.put("boolean", "xsd:boolean");
 		datatypeMap.put("EBooleanObject", "xsd:boolean");
-		//		
+		//
 		// # xsd:string
 		datatypeMap.put("java.lang.String", "xsd:string");
 		datatypeMap.put("EString", "xsd:string");
@@ -107,10 +108,10 @@ public class OWLTransformationHelper {
 		// # xsd:Name
 		// # xsd:NCName
 		// # xsd:NMTOKEN
-		//		
+		//
 		// # xsd:hexBinary
 		// # xsd:base64Binary
-		//		
+		//
 		// # xsd:dateTime
 		datatypeMap.put("java.lang.Date", "xsd:dateTime");
 		datatypeMap.put("EDate", "xsd:dateTime");
@@ -120,11 +121,11 @@ public class OWLTransformationHelper {
 		datatypeMap.put("EChar", "xsd:string");
 		datatypeMap.put("ECharacterObject", "xsd:string");
 	}
-	
-	public OWLTransformationHelper(){
-		
+
+	public OWLTransformationHelper() {
+
 	}
-	
+
 	public static String getNamespacePrefix(EPackage ePackage) {
 		return ePackage.getName();
 	}
@@ -147,7 +148,7 @@ public class OWLTransformationHelper {
 
 	public static String getObjectIdentificationIRI(EObject eObject) {
 		return "individual_" + getUniqueId(eObject);
-	}	
+	}
 
 	public static String getUniqueId(EObject eObject) {
 		Integer id = uniqueIdMap.get(eObject);
@@ -159,7 +160,7 @@ public class OWLTransformationHelper {
 		}
 		return id.toString();
 	}
-	
+
 	private static void updateCounter(Resource eResource, int counter) {
 		counters.put(eResource, counter);
 	}
@@ -177,7 +178,6 @@ public class OWLTransformationHelper {
 		Integer id = Integer.parseInt(iri.replace("individual_", ""));
 		return uniqueIdMap.getKey(id);
 	}
-	
 
 	public static String getFeatureIdentificationIRI(EStructuralFeature feature) {
 		String iri = getClassIdentificationIRI(feature.getEContainingClass());
@@ -188,8 +188,7 @@ public class OWLTransformationHelper {
 	public static String getSimpleFeatureIdentificationIRI(
 			EStructuralFeature feature) {
 		String iri = getSimpleClassIdentificationIRI(feature
-				.getEContainingClass())
-				+ "_" + feature.getName();
+				.getEContainingClass()) + "_" + feature.getName();
 		return iri;
 	}
 
@@ -199,15 +198,16 @@ public class OWLTransformationHelper {
 			Ecore2Owl transformation = new Ecore2Owl();
 			OntologyDocument transformedMetamodel = transformation
 					.transformMetamodel(ePackage);
-			
+
 			URI metamodelPath = root.eResource().getURI();
 			metamodelPath = metamodelPath.trimSegments(1);
-			metamodelPath = metamodelPath.appendSegment(ePackage.getName() + ".mm.owl");
+			metamodelPath = metamodelPath.appendSegment(ePackage.getName()
+					+ ".mm.owl");
 			OwlResource outResource = (OwlResource) root.eResource()
 					.getResourceSet().createResource(metamodelPath);
-			
+
 			outResource.getContents().add(transformedMetamodel);
-			
+
 			try {
 				outResource.save(Collections.EMPTY_MAP);
 				String identifier = metamodelPath.lastSegment();
@@ -229,4 +229,15 @@ public class OWLTransformationHelper {
 	public static Map<String, String> getDatatypeMap() {
 		return datatypeMap;
 	}
+
+	public static String createValidIri(String error) {
+		String iriFragment = error.replaceAll("\\s", "_");
+		iriFragment = iriFragment.replace(".", "_");
+		iriFragment = iriFragment.replace(",", "_");
+		iriFragment = iriFragment.replace(";", "_");
+		iriFragment = iriFragment.replace("!", "_");
+		iriFragment = iriFragment.replace("?", "_");
+		return iriFragment;
+	}
+
 }
