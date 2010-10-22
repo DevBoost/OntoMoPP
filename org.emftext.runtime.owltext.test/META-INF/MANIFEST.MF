@@ -37,4 +37,4 @@ Export-Package: org.emftext.runtime.owltext.test,
  org.owltext.feature.resource.fea.mopp,
  org.owltext.feature.resource.fea.util,
  org.owltext.feature.util
-Bundle-Activator: org.owltext.feature.resource.fea.ui.FeaUIPlugin
+

@@ -13,7 +13,7 @@
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
             uri="http://www.emftext.org/language/owlcl"
-            class="org.emftext.language.owlcl.owlclPackage"
+            class="org.emftext.language.owlcl.OwlclPackage"
             genModel="metamodel/owlcl.genmodel"/>
    </extension>
 

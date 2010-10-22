@@ -2,7 +2,6 @@ package org.emftext.runtime.owltext;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
@@ -22,8 +21,6 @@ import org.emftext.language.owl.Target;
 import org.emftext.language.owl.reasoning.EMFTextPelletReasoner;
 import org.emftext.language.owl.reasoning.ReasoningException;
 import org.semanticweb.owlapi.model.IRI;
-
-import eu.most.transformation.ecore_owl.OWLTransformationHelper;
 
 public class OWLTextValidationMarker {
 

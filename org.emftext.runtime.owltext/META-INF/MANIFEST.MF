@@ -8,7 +8,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore,
  org.emftext.language.owl,
  org.emftext.language.owl.resource.owl;visibility:=reexport,
- eu.most.transformation.ecore,
+ eu.most.transformation.ecore_owl,
  org.emftext.language.owl.reasoning,
  org.emftext.access
 Bundle-ActivationPolicy: lazy

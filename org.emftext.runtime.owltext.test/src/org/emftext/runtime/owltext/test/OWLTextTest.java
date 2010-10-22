@@ -1,8 +1,8 @@
 package org.emftext.runtime.owltext.test;
 
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -52,7 +52,6 @@ import org.emftext.language.owl.DataProperty;
 import org.emftext.language.owl.FeatureReference;
 import org.emftext.language.owl.Individual;
 import org.emftext.language.owl.Namespace;
-import org.emftext.language.owl.ObjectProperty;
 import org.emftext.language.owl.ObjectPropertyValue;
 import org.emftext.language.owl.Ontology;
 import org.emftext.language.owl.OntologyDocument;
