@@ -3,7 +3,7 @@ package org.emftext.runtime.owltext;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-import org.emftext.language.owl.OntologyDocument;
+import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.owl.resource.owl.IOwlTextPrinter;
 import org.emftext.language.owl.resource.owl.mopp.OwlMetaInformation;
 
@@ -23,15 +23,18 @@ public class OWLTextEObjectPrinter {
 	 * @param rootOWLTextObjectImpl
 	 * @return
 	 */
-	public static String getOWLRepresentation(OntologyDocument ontologyDocument) {
+	public static String getOWLRepresentation(EObject objectToPrint) {
 		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-		IOwlTextPrinter printer = new OwlMetaInformation().createPrinter(outStream, null);
+
+		IOwlTextPrinter printer = new OwlMetaInformation().createPrinter(
+				outStream, null);
 		try {
-			printer.print(ontologyDocument);
+			printer.print(objectToPrint);
 		} catch (IOException e) {
 			// TODO handle exception
 			e.printStackTrace();
 		}
+
 		String string = outStream.toString();
 		return string;
 	}
