@@ -43,12 +43,15 @@ import org.eclipse.emf.ecore.resource.Resource.Diagnostic;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceFactoryImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.emftext.language.owl.AbbreviatedXSDStringLiteral;
 import org.emftext.language.owl.Class;
 import org.emftext.language.owl.ClassAtomic;
+import org.emftext.language.owl.DataProperty;
 import org.emftext.language.owl.FeatureReference;
 import org.emftext.language.owl.Individual;
+import org.emftext.language.owl.Namespace;
 import org.emftext.language.owl.ObjectProperty;
 import org.emftext.language.owl.ObjectPropertyValue;
 import org.emftext.language.owl.Ontology;
@@ -140,10 +143,17 @@ public class OWLTextTest {
 	public void testProxyPrinting() throws IOException, InterruptedException {
 		OwlFactory owlFactory = OwlFactory.eINSTANCE;
 		OntologyDocument od = owlFactory.createOntologyDocument();
+		
+		
 		Ontology ontology = owlFactory.createOntology();
 		od.setOntology(ontology);
-
-		ontology.setUri("<test.ontotology>");
+		Namespace localNS = owlFactory.createNamespace();
+		localNS.setImportedOntology(ontology);
+		localNS.setPrefix(":");
+		od.getNamespace().add(localNS);
+		
+		
+		ontology.setUri("http://emftext/testontotology");
 
 		Class exampleClass = owlFactory.createClass();
 		exampleClass.setIri("exampleClass");
@@ -156,28 +166,29 @@ public class OWLTextTest {
 		i.setIri("exampleIndividual");
 		ontology.getFrames().add(i);
 
-		ObjectPropertyValue objectPropertyValue = owlFactory
+		ObjectPropertyValue dataPropertyValue = owlFactory
 				.createObjectPropertyValue();
 		AbbreviatedXSDStringLiteral value = owlFactory
 				.createAbbreviatedXSDStringLiteral();
 		value.setValue("TestValue");
 		FeatureReference featureReference = owlFactory.createFeatureReference();
-		ObjectProperty objectProperty = owlFactory.createObjectProperty();
-		objectProperty.setIri("testProperty");
-		featureReference.setFeature(objectProperty);
-		objectPropertyValue.setFeatureReference(featureReference);
+		DataProperty dataproperty = owlFactory.createDataProperty();
+		dataproperty.setIri("testProperty");
+		featureReference.setFeature(dataproperty);
+		dataPropertyValue.setFeatureReference(featureReference);
 
-		ontology.getFrames().add(objectProperty);
+		ontology.getFrames().add(dataproperty);
 
-		objectPropertyValue.setLiteral(value);
-		i.getTypes().add(objectPropertyValue);
+		dataPropertyValue.setLiteral(value);
+		i.getTypes().add(dataPropertyValue);
 
 		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
 		OwlPrinter2 printer2 = new OwlPrinter2(outStream, null);
 		printer2.print(od);
 		String printedWith2 = outStream.toString();
 		EObject parsedFromPrintedWith2 = parse(printedWith2);
-
+		EcoreUtil.resolveAll(parsedFromPrintedWith2);
+		
 		TreeIterator<EObject> allContents = parsedFromPrintedWith2
 				.eAllContents();
 		while (allContents.hasNext()) {
