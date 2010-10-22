@@ -224,7 +224,7 @@ public class OWLTextEObjectChangeAdapter implements Adapter {
 			EReference reference = (EReference) feature;
 			if (object instanceof OWLTextEObjectImpl) {
 				Class individual = ((OWLTextEObjectImpl) object)
-						.getIndividual();
+						.getOwlIndividualClass();
 				toRemove = thisObject.findDescriptionForReference(feature,
 						individual);
 			} else {
@@ -306,7 +306,7 @@ public class OWLTextEObjectChangeAdapter implements Adapter {
 		featureRef.setFeature(property);
 		objectPropertySome.setFeatureReference(featureRef);
 
-		Class individual = ((OWLTextEObjectImpl) e).getIndividual();
+		Class individual = ((OWLTextEObjectImpl) e).getOwlIndividualClass();
 		ClassAtomic classAtomic = factory.createClassAtomic();
 		classAtomic.setClazz(individual);
 		objectPropertySome.setPrimary(classAtomic);

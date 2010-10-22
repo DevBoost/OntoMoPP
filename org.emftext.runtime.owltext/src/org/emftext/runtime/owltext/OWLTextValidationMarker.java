@@ -47,27 +47,11 @@ public class OWLTextValidationMarker {
 		EMFTextPelletReasoner reasoner = new EMFTextPelletReasoner();
 		TreeIterator<EObject> allContents = resource.getAllContents();
 
-//		Set<String> constraintClassIris = errorMap.keySet();
-//		for (String constraintClass : constraintClassIris) {
-//			//IRI constraintClassIri = IRI.create(constraintClass);
-//			try {
-//				List<String> allSubFrames = reasoner.getAllSubframes(owlRepresentation, ontologyUri, constraintClass);
-//				for (String subframe : allSubFrames) {
-//					IRI subframeIri = IRI.create(subframe);
-//					EObject eObjectFromIRI = OWLTransformationHelper.getEObjectFromIRI(subframeIri.getFragment());
-//					String errorMsg = errorMap.get(constraintClass);
-//					resourceProxy.addError(errorMsg, eObjectFromIRI);
-//				}
-//			} catch (ReasoningException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		}
 		while (allContents.hasNext()) {
 			EObject eObject = (EObject) allContents.next();
 			if (eObject instanceof OWLTextEObjectImpl) {
 				OWLTextEObjectImpl oteo = (OWLTextEObjectImpl) eObject;
-				String iri = oteo.getIndividual().getIri();
+				String iri = oteo.getOwlIndividualClass().getIri();
 
 				try {
 					List<String> allSuperFrames = reasoner.getAllSuperframes(

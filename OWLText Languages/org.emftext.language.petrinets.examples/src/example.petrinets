@@ -13,7 +13,7 @@ petrinet "example" {
  	// invalid unnamed transition
 	transition 
  	
- 	
+ 	 
 	// invalid consume arc
 	"a transition" -consume-> "some place" 
 	// but valid produce arc
@@ -27,5 +27,5 @@ petrinet "example" {
 	"a transition" -> "second transition"
 	// valid arcs, could be further classified
 	"some place" -> "second transition"
-	"a transition" -> "some place"
-}
+	"a transition" -> "some place" 
+} 

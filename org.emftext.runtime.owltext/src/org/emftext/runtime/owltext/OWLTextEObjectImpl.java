@@ -71,79 +71,14 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 	 */
 	private final class OWLTextEListDelegator<T> implements EList<T> {
 		private final EList<T> original;
-		private OWLTextEObjectImpl thisObject;
+
 		private int featureID;
 
 		private OWLTextEListDelegator(EList<T> result,
 				OWLTextEObjectImpl thisObject, int featureID) {
 			this.original = result;
-			this.thisObject = thisObject;
 			this.featureID = featureID;
 		}
-
-		// /**
-		// * Intercepts the add calls on ELists and introduces the according
-		// * axioms for the associated owl individual
-		// */
-		// public boolean add(T e) {
-		// if (original.add(e)) {
-		// EStructuralFeature feature = eDynamicFeature(featureID);
-		// OwlFactory factory = OwlFactory.eINSTANCE;
-		// Description description;
-		// if (feature instanceof EReference) {
-		// description = createDescriptionForReference((EObject) e,
-		// feature);
-		// } else { // EAtrributes
-		// description = createDescriptionForAttribute(e, feature);
-		// }
-		//
-		// NestedDescription nestedDescription = factory
-		// .createNestedDescription();
-		//
-		// nestedDescription.setDescription(description);
-		// owlIndividualClass.getSuperClassesDescriptions().add(
-		// nestedDescription);
-		//
-		// return true;
-		// } else
-		// return false;
-		// }
-
-		// /**
-		// * Intercepts the addAll calls on ELists and introduces the according
-		// * axioms for the associated owl individual
-		// */
-		// public boolean addAll(Collection<? extends T> c) {
-		// boolean changed = false;
-		// for (T t : c) {
-		// if (add(t))
-		// changed = true;
-		// }
-		// return changed;
-		// }
-
-		// /**
-		// * Intercepts the clear calls on ELists and removes the according
-		// axioms
-		// * for the associated owl individual
-		// */
-		// public void clear() {
-		// EList<Description> descriptions = owlIndividualClass
-		// .getSuperClassesDescriptions();
-		// List<Description> toRemove = new ArrayList<Description>();
-		// for (Description description : descriptions) {
-		// if (description instanceof NestedDescription) {
-		// if (isSameFeatureIRI(eDynamicFeature(featureID),
-		// (NestedDescription) description)) {
-		// toRemove.add(description);
-		// }
-		// }
-		//
-		// }
-		// owlIndividualClass.getSuperClassesDescriptions()
-		// .removeAll(toRemove);
-		// original.clear();
-		// }
 
 		/**
 		 * Intercepts the contains calls on ELists and returns if a containment
@@ -156,7 +91,8 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 
 			if (feature instanceof EReference) {
 				if (o instanceof OWLTextEObjectImpl) {
-					Class individual = ((OWLTextEObjectImpl) o).getIndividual();
+					Class individual = ((OWLTextEObjectImpl) o)
+							.getOwlIndividualClass();
 
 					Description description = findDescriptionForReference(
 							feature, individual);
@@ -197,7 +133,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		 * derived from the axioms of the associated owl individial
 		 */
 		public boolean isEmpty() {
-			EList<Description> descriptions = owlIndividualClass
+			EList<Description> descriptions = getOwlIndividualClass()
 					.getSuperClassesDescriptions();
 
 			for (Description description : descriptions) {
@@ -220,147 +156,12 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 			return (Iterator<T>) listIterator();
 		}
 
-		// /**
-		// * Intercepts the remove calls on ELists and removes the according
-		// * axioms from the ontology
-		// */
-		// public boolean remove(Object o) {
-		//
-		// if (original.remove(o)) {
-		//
-		// Description toRemove = null;
-		//
-		// EStructuralFeature feature = eDynamicFeature(featureID);
-		//
-		// if (feature instanceof EReference) {
-		// EReference reference = (EReference) feature;
-		// if (o instanceof OWLTextEObjectImpl) {
-		// Class individual = ((OWLTextEObjectImpl) o)
-		// .getIndividual();
-		// toRemove = findDescriptionForReference(feature, individual);
-		//
-		// if (reference.getEOpposite() != null) {
-		// EReference oppositeReference = reference
-		// .getEOpposite();
-		// removeOppositeReference(oppositeReference,
-		// (EObject) o, thisObject);
-		// }
-		// } else {
-		// System.out
-		// .println("remove: false input typ. Expect OWLTextEObjectImpl");
-		// return false;
-		// }
-		//
-		// } else { // EAtrributes
-		//
-		// if (o instanceof OWLTextEObjectImpl) {
-		// System.out
-		// .println("remove: false input typ. Expect EAtrributes");
-		// return false;
-		// } else {
-		// toRemove = findDescriptionForAttribute(feature, o);
-		// }
-		// }
-		//
-		// owlIndividualClass.getSuperClassesDescriptions().remove(
-		// toRemove);
-		//
-		// return true;
-		// } else
-		// return false;
-		// }
-
-		// private void removeOppositeReference(EReference oppositeReference,
-		// EObject oppositeObject, EObject object) {
-		// if (oppositeReference.isMany()) {
-		// Collection<Object> referencedObjects = (Collection<Object>)
-		// oppositeObject
-		// .eGet(oppositeReference);
-		// referencedObjects.remove(object);
-		// } else {
-		// oppositeObject.eUnset(oppositeReference);
-		// }
-		//
-		// }
-
-		// /**
-		// * Intercepts the removeAll calls on ELists and removes the according
-		// * axioms from the ontology
-		// */
-		// public boolean removeAll(Collection<?> c) {
-		// boolean changed = false;
-		// for (Object t : c) {
-		// if (remove(t))
-		// changed = true;
-		// }
-		// return changed;
-		// }
-
-		// /**
-		// * Intercepts the retainAll calls on ELists and removes the not needed
-		// * axioms from the ontology
-		// */
-		// public boolean retainAll(Collection<?> c) {
-		//
-		// if (original.retainAll(c)) {
-		// EList<Description> descriptions = owlIndividualClass
-		// .getSuperClassesDescriptions();
-		// List<Description> toRemove = new ArrayList<Description>();
-		// EStructuralFeature feature = eDynamicFeature(featureID);
-		//
-		// // fill with all descriptions of the same FeatureIdentification
-		// for (Description description : descriptions) {
-		// if (description instanceof NestedDescription) {
-		// if (isSameFeatureIRI(eDynamicFeature(featureID),
-		// (NestedDescription) description)) {
-		// toRemove.add(description);
-		// }
-		// }
-		//
-		// }
-		//
-		// // remove retain objects from delete-list
-		// for (Object o : c) {
-		//
-		// if (feature instanceof EReference) {
-		// if (o instanceof OWLTextEObjectImpl) {
-		// Class individual = ((OWLTextEObjectImpl) o)
-		// .getIndividual();
-		// Description d = findDescriptionForReference(feature, individual);
-		// toRemove.remove(d);
-		// } else {
-		// System.out
-		// .println("remove: false input typ. Expect OWLTextEObjectImpl");
-		// return false;
-		// }
-		//
-		// } else { // EAtrributes
-		//
-		// if (o instanceof OWLTextEObjectImpl) {
-		// System.out
-		// .println("remove: false input typ. Expect EAtrributes");
-		// return false;
-		// } else {
-		// Description d = findDescriptionForAttribute(feature, o);
-		// toRemove.remove(d);
-		// }
-		// }
-		// }
-		// // delete all other objects
-		// owlIndividualClass.getSuperClassesDescriptions().removeAll(
-		// toRemove);
-		//
-		// return true;
-		// } else
-		// return false;
-		// }
-
 		/**
 		 * Intercepts the size calls on ELists and derives the according axioms
 		 * from the ontology
 		 */
 		public int size() {
-			EList<Description> descriptions = owlIndividualClass
+			EList<Description> descriptions = getOwlIndividualClass()
 					.getSuperClassesDescriptions();
 			int count = 0;
 
@@ -378,7 +179,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 
 		public Object[] toArray() {
 
-			EList<Description> descriptions = owlIndividualClass
+			EList<Description> descriptions = getOwlIndividualClass()
 					.getSuperClassesDescriptions();
 			Object[] array = new Object[size()];
 			int count = -1;
@@ -388,7 +189,9 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 					if (isSameFeatureIRI(eDynamicFeature(featureID),
 							(NestedDescription) description)) {
 						count++;
-						array[count] = getObjectFromDescription(eDynamicFeature(featureID),(NestedDescription) description);
+						array[count] = getObjectFromDescription(
+								eDynamicFeature(featureID),
+								(NestedDescription) description);
 					}
 				}
 			}
@@ -403,7 +206,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 				a = (AT[]) Array.newInstance(a.getClass().getComponentType(),
 						size);
 
-			EList<Description> descriptions = owlIndividualClass
+			EList<Description> descriptions = getOwlIndividualClass()
 					.getSuperClassesDescriptions();
 			int count = -1;
 
@@ -413,7 +216,9 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 							(NestedDescription) description)) {
 						count++;
 
-						T t = getObjectFromDescription(eDynamicFeature(featureID), (NestedDescription) description);
+						T t = getObjectFromDescription(
+								eDynamicFeature(featureID),
+								(NestedDescription) description);
 						a[count] = (AT) t;
 					}
 				}
@@ -427,92 +232,6 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 			return a;
 		}
 
-		// /**
-		// * Intercepts the move calls on ELists and adapts the according axioms
-		// * from the ontology
-		// */
-		// public void move(int newPosition, T object) {
-		// remove(object);
-		// add(newPosition, object);
-		//
-		// original.move(newPosition, object);
-		// }
-
-		// /**
-		// * Intercepts the move calls on ELists and adapts the according axioms
-		// * from the ontology
-		// */
-		// public T move(int newPosition, int oldPosition) {
-		// T t = remove(oldPosition);
-		// add(newPosition, t);
-		//
-		// return t;
-		// }
-
-		// /**
-		// * Intercepts the add calls on ELists and adds the according axioms
-		// from
-		// * the ontology
-		// */
-		// public void add(int index, T element) {
-		// OwlFactory factory = OwlFactory.eINSTANCE;
-		// EStructuralFeature feature = eDynamicFeature(featureID);
-		//
-		// Description d;
-		//
-		// if (feature instanceof EReference) {
-		// d = createDescriptionForReference((EObject) element, feature);
-		// } else { // EAtrributes
-		// d = createDescriptionForAttribute(element, feature);
-		// }
-		//
-		// NestedDescription nestedDescription = factory
-		// .createNestedDescription();
-		// nestedDescription.setDescription(d);
-		//
-		// EList<Description> descriptions = owlIndividualClass
-		// .getSuperClassesDescriptions();
-		//
-		// int count = -1;
-		//
-		// for (Description description : descriptions) {
-		// if (description instanceof NestedDescription) {
-		// if (isSameFeatureIRI(eDynamicFeature(featureID),
-		// (NestedDescription) description)) {
-		// count++;// inkrementiere bei jeder gefundenen FeatureIRI
-		//
-		// if (count == index) {
-		// owlIndividualClass.getSuperClassesDescriptions()
-		// .add(descriptions.indexOf(description),
-		// nestedDescription);
-		// break;
-		// }
-		// }
-		// }
-		// }
-		// if ((count < 0) || (count != index)) { // falls noch kein Element
-		// // vorhanden oder angebener
-		// // index zu gross war
-		// owlIndividualClass.getSuperClassesDescriptions().add(
-		// nestedDescription);
-		// }
-		//
-		// original.add(index, element);
-		// }
-
-		// /**
-		// * Intercepts the addAll calls on ELists and adds the according axioms
-		// * from the ontology
-		// */
-		// public boolean addAll(int index, Collection<? extends T> c) {
-		// int i = 0;
-		// for (T t : c) {
-		// add(index + i, t);
-		// i++;
-		// }
-		// return original.addAll(index, c);
-		// }
-
 		/**
 		 * Intercepts the get calls on ELists and retrieves the according axioms
 		 * from the ontology
@@ -523,7 +242,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 			// "."
 			// + thisObject.eDynamicFeature(featureID).getName());
 
-			EList<Description> descriptions = owlIndividualClass
+			EList<Description> descriptions = getOwlIndividualClass()
 					.getSuperClassesDescriptions();
 
 			int count = -1;
@@ -535,7 +254,9 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 
 						if (count == index) {// Pruefe ob es sich um aktuelles
 												// Object handelt
-							return getObjectFromDescription(eDynamicFeature(featureID), (NestedDescription) description);
+							return getObjectFromDescription(
+									eDynamicFeature(featureID),
+									(NestedDescription) description);
 						}
 					}
 				}
@@ -548,7 +269,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		 * up in the ontology
 		 */
 		public int indexOf(Object o) {
-			EList<Description> descriptions = owlIndividualClass
+			EList<Description> descriptions = getOwlIndividualClass()
 					.getSuperClassesDescriptions();
 			EStructuralFeature feature = eDynamicFeature(featureID);
 
@@ -563,7 +284,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 						if (feature instanceof EReference) {
 							if (o instanceof OWLTextEObjectImpl) {
 								Class individual = ((OWLTextEObjectImpl) o)
-										.getIndividual();
+										.getOwlIndividualClass();
 								if (((NestedDescription) description)
 										.getDescription() instanceof ObjectPropertySome) {
 
@@ -614,7 +335,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		}
 
 		public int lastIndexOf(Object o) {
-			EList<Description> descriptions = owlIndividualClass
+			EList<Description> descriptions = getOwlIndividualClass()
 					.getSuperClassesDescriptions();
 			EStructuralFeature feature = eDynamicFeature(featureID);
 
@@ -630,7 +351,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 						if (feature instanceof EReference) {
 							if (o instanceof OWLTextEObjectImpl) {
 								Class individual = ((OWLTextEObjectImpl) o)
-										.getIndividual();
+										.getOwlIndividualClass();
 								if (((NestedDescription) description)
 										.getDescription() instanceof ObjectPropertySome) {
 
@@ -754,53 +475,6 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 			return iter;
 		}
 
-		// /**
-		// * Intercepts the remove calls on ELists and removes the according
-		// * axioms from the ontology
-		// */
-		// public T remove(int index) {
-		// T t = original.remove(index);
-		//
-		// if (t != null) {
-		// EList<Description> descriptions = owlIndividualClass
-		// .getSuperClassesDescriptions();
-		// Description toRemove = null;
-		//
-		// int count = -1;
-		//
-		// for (Description description : descriptions) {
-		// if (description instanceof NestedDescription) {
-		// if (isSameFeatureIRI(eDynamicFeature(featureID),
-		// (NestedDescription) description)) {
-		// count++;// inkrementiere bei jeder gefundenen
-		// // FeatureIRI
-		//
-		// if (count == index) {
-		// toRemove = description;
-		// break;
-		// }
-		// }
-		// }
-		// }
-		// owlIndividualClass.getSuperClassesDescriptions().remove(
-		// toRemove);
-		// }
-		// return t;
-		// }
-
-		// /**
-		// * Intercepts the set calls on ELists and adapts the according axioms
-		// * from the ontology
-		// */
-		// public T set(int index, T element) {
-		// T t = original.set(index, element);
-		// if (t != null) {
-		// remove(index);
-		// add(index, element);
-		// }
-		// return t;
-		// }
-
 		/**
 		 * Intercepts the subList calls on ELists and adapts the according
 		 * axioms from the ontology. Only for non-structural changes of Objects,
@@ -883,52 +557,6 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		owlIndividualClass.getSuperClassesDescriptions().add(classAtomic);
 	}
 
-	// /**
-	// * Intercepts all eInverseRemoveCalls and adapts the according axioms in
-	// the
-	// * ontology
-	// *
-	// */
-	// @Override
-	// public NotificationChain eInverseRemove(InternalEObject otherEnd,
-	// int featureID, NotificationChain msgs) {
-	// EStructuralFeature feature = this.eDynamicFeature(featureID);
-	// EList<Description> descriptions = this.owlIndividualClass
-	// .getSuperClassesDescriptions();
-	// ObjectPropertySome toRemove = null;
-	// for (Description description : descriptions) {
-	// // only object property facts hold (inverse) references
-	// if (description instanceof NestedDescription) {
-	// if (((NestedDescription) description).getDescription() instanceof
-	// ObjectPropertySome) {
-	// ObjectPropertySome ops = (ObjectPropertySome) ((NestedDescription)
-	// description)
-	// .getDescription();
-	// if (ops.getFeatureReference()
-	// .getFeature()
-	// .getIri()
-	// .equals(OWLTransformationHelper
-	// .getFeatureIdentificationIRI(feature))
-	// && ((ClassAtomic) ops.getPrimary())
-	// .getClazz()
-	// .getIri()
-	// .equals(OWLTransformationHelper
-	// .getObjectIdentificationIRI(otherEnd))) {
-	// toRemove = ops;
-	// break;
-	// }
-	// }
-	// }
-	//
-	// }
-	// this.owlIndividualClass.getSuperClassesDescriptions().remove(toRemove);
-	//
-	// // System.out.println("eInverseRemove: " + this.eClass().getName()
-	// // + this.hashCode() + "."
-	// // + this.eDynamicFeature(featureID).getName() + " " + otherEnd);
-	// return super.eInverseRemove(otherEnd, featureID, msgs);
-	// }
-
 	/**
 	 * Intercepts all eGet calls and retrieves the according axioms in the
 	 * ontology
@@ -944,7 +572,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		if (result instanceof EList<?>) {
 			return encapsulate((EList<?>) result, this, featureID);
 		} else {
-			for (Description description : this.owlIndividualClass
+			for (Description description : this.getOwlIndividualClass()
 					.getSuperClassesDescriptions()) {
 				if (description instanceof NestedDescription) {
 					if (isSameFeatureIRI(eDynamicFeature(featureID),
@@ -969,103 +597,13 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		return new OWLTextEListDelegator<T>(original, thisObject, featureID);
 	}
 
-	// /**
-	// * Intercepts all eSet and adapts the according axioms in the ontology
-	// *
-	// */
-	// @Override
-	// public void eSet(int featureID, Object newValue) {
-	// EStructuralFeature feature = this.eDynamicFeature(featureID);
-	// OwlFactory factory = OwlFactory.eINSTANCE;
-	// if (feature.getUpperBound() == 1) {
-	// eUnset(feature);
-	// }
-	// if (newValue == null)
-	// return;
-	//
-	// Description description;
-	//
-	// Feature property;
-	//
-	// if (feature instanceof EReference) {
-	// description = createDescriptionForReference((EObject) newValue,
-	// feature);
-	//
-	// } else { // EAtrributes
-	// description = createDescriptionForAttribute(newValue, feature);
-	// }
-	//
-	// NestedDescription nestedDescription = factory.createNestedDescription();
-	// nestedDescription.setDescription(description);
-	// this.owlIndividualClass.getSuperClassesDescriptions().add(
-	// nestedDescription);
-	//
-	// super.eSet(featureID, newValue);
-	// }
-
-	/**
-	 * Returns the OWL individual corresponding to this EObject
-	 * 
-	 */
-	protected Class getIndividual() {
-		return this.owlIndividualClass;
-	}
-
-	// /**
-	// * Intercepts all eUnset calls and adapts the according axioms in the
-	// * ontology
-	// *
-	// */
-	// @Override
-	// public void eUnset(int featureID) {
-	// EStructuralFeature feature = this.eDynamicFeature(featureID);
-	// EList<Description> descriptions = this.owlIndividualClass
-	// .getSuperClassesDescriptions();
-	// Description toRemove = null;
-	// for (Description description : descriptions) {
-	// if (description instanceof NestedDescription) {
-	// if (((NestedDescription) description).getDescription() instanceof
-	// FeatureRestriction) {
-	// FeatureRestriction featureRestriction = (FeatureRestriction)
-	// ((NestedDescription) description)
-	// .getDescription();
-	// if (featureRestriction
-	// .getFeatureReference()
-	// .getFeature()
-	// .getIri()
-	// .equals(OWLTransformationHelper
-	// .getFeatureIdentificationIRI(feature))) {
-	// toRemove = description;
-	// break;
-	// }
-	// }
-	// }
-	// }
-	// this.owlIndividualClass.getSuperClassesDescriptions().remove(toRemove);
-	// super.eUnset(featureID);
-	// }
-
-	// /**
-	// * Intercepts all eIsSet calls and adapts the checks axioms in the
-	// ontology
-	// *
-	// */
-	// @Override
-	// public boolean eIsSet(int featureID) {
-	// // TODO infer and read corresponding axioms to ontology
-	// // System.out.println("eIsSet: " + this.eClass().getName()
-	// // + this.hashCode() + "."
-	// // + this.eDynamicFeature(featureID).getName());
-	// return super.eIsSet(featureID);
-	// }
-
 	/**
 	 * Returns an ontology derived for this eobject and its children
 	 * 
 	 */
 	public OntologyDocument getOWLRepresentation() {
-		owlIndividualClass.setIri(OWLTransformationHelper
-				.getObjectIdentificationIRI(this));
+		getOwlIndividualClass().setIri(
+				OWLTransformationHelper.getObjectIdentificationIRI(this));
 
 		OwlFactory factory = OwlFactory.eINSTANCE;
 		OntologyDocument ontologyDocument = factory.createOntologyDocument();
@@ -1079,10 +617,10 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 
 		addMetamodelImportAxioms(factory, ontologyDocument, ontology, root);
 
-		ontology.getFrames().add(root.getIndividual());
+		ontology.getFrames().add(root.getOwlIndividualClass());
 		TreeIterator<EObject> eAllContents = root.eAllContents();
 		List<Class> individuals = new LinkedList<Class>();
-		Class selfIndividual = this.getIndividual();
+		Class selfIndividual = this.getOwlIndividualClass();
 		clean(selfIndividual);
 		fixCardinality(this, selfIndividual);
 
@@ -1091,7 +629,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		while (eAllContents.hasNext()) {
 			OWLTextEObjectImpl child = (OWLTextEObjectImpl) eAllContents.next();
 
-			Class individual = child.getIndividual();
+			Class individual = child.getOwlIndividualClass();
 			ontology.getFrames().add(individual);
 			individuals.add(individual);
 
@@ -1129,7 +667,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 			if (value instanceof Collection<?>) {
 				Collection<?> c = (Collection<?>) value;
 				size = c.size();
-			
+
 			} else if (value == null) {
 				size = 0;
 			} else {
@@ -1145,10 +683,12 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 				featureRef.setFeature(objectProperty);
 				opm.setFeatureReference(featureRef);
 				if (eStructuralFeature instanceof EAttribute) {
-					DatatypeReference primary = factory.createDatatypeReference();
+					DatatypeReference primary = factory
+							.createDatatypeReference();
 					Datatype datatype = factory.createDatatype();
-					datatype.setIri(OWLTransformationHelper.getDatatypeMap().get(
-							eStructuralFeature.getEType().getInstanceTypeName()));
+					datatype.setIri(OWLTransformationHelper.getDatatypeMap()
+							.get(eStructuralFeature.getEType()
+									.getInstanceTypeName()));
 					primary.setTheDatatype(datatype);
 					opm.setDataPrimary(primary);
 				} else {
@@ -1160,15 +700,16 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 					primary.setClazz(clazz);
 					opm.setPrimary(primary);
 				}
-	
+
 				opm.setValue(size);
 				NestedDescription nestedDescription = factory
 						.createNestedDescription();
 				nestedDescription.setDescription(opm);
 				individual.getSuperClassesDescriptions().add(nestedDescription);
-			
+
 			} else {
-				ObjectPropertyExactly ope = factory.createObjectPropertyExactly();
+				ObjectPropertyExactly ope = factory
+						.createObjectPropertyExactly();
 				ObjectProperty objectProperty = factory.createObjectProperty();
 				objectProperty.setIri(OWLTransformationHelper
 						.getFeatureIdentificationIRI(eStructuralFeature));
@@ -1176,10 +717,12 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 				featureRef.setFeature(objectProperty);
 				ope.setFeatureReference(featureRef);
 				if (eStructuralFeature instanceof EAttribute) {
-					DatatypeReference primary = factory.createDatatypeReference();
+					DatatypeReference primary = factory
+							.createDatatypeReference();
 					Datatype datatype = factory.createDatatype();
-					datatype.setIri(OWLTransformationHelper.getDatatypeMap().get(
-							eStructuralFeature.getEType().getInstanceTypeName()));
+					datatype.setIri(OWLTransformationHelper.getDatatypeMap()
+							.get(eStructuralFeature.getEType()
+									.getInstanceTypeName()));
 					primary.setTheDatatype(datatype);
 					ope.setDataPrimary(primary);
 				} else {
@@ -1191,7 +734,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 					primary.setClazz(clazz);
 					ope.setPrimary(primary);
 				}
-	
+
 				ope.setValue(size);
 				NestedDescription nestedDescription = factory
 						.createNestedDescription();
@@ -1271,7 +814,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 
 	protected Description findDescriptionForAttribute(
 			EStructuralFeature feature, Object o) {
-		EList<Description> descriptions = owlIndividualClass
+		EList<Description> descriptions = getOwlIndividualClass()
 				.getSuperClassesDescriptions();
 		for (Description description : descriptions) {
 			if (description instanceof NestedDescription) {
@@ -1298,7 +841,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 
 	protected Description findDescriptionForReference(
 			EStructuralFeature feature, Class individual) {
-		EList<Description> descriptions = owlIndividualClass
+		EList<Description> descriptions = getOwlIndividualClass()
 				.getSuperClassesDescriptions();
 
 		for (Description description : descriptions) {
@@ -1359,7 +902,8 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 				ObjectPropertyValue property = (ObjectPropertyValue) ((NestedDescription) description)
 						.getDescription();
 				if (property.getLiteral() != null)
-					return (T) new LiteralConverter().reconvert(attribute.getEAttributeType().getInstanceClass(), property
+					return (T) new LiteralConverter().reconvert(attribute
+							.getEAttributeType().getInstanceClass(), property
 							.getLiteral());
 			}
 		}
@@ -1367,6 +911,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 	}
 
 	protected Class getOwlIndividualClass() {
+
 		return this.owlIndividualClass;
 	}
 
