@@ -14,7 +14,9 @@ package org.emftext.language.owl.loading;
 
 import java.io.File;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -217,21 +219,34 @@ public class RemoteLoader {
 		return this.ontology;
 	}
 
-	public IRIIdentified getOntologyElement(String identifier) {
-		return findEntity(identifier, ontology);
+	public List<IRIIdentified> getOntologyElement(String identifier, boolean resolveFuzzy) {
+		return findEntity(identifier, ontology, resolveFuzzy);
 	}
 	
-	public IRIIdentified getOntologyElement(String identifier, Ontology ontology) {
-		return findEntity(identifier, ontology);
+	public List<IRIIdentified> getOntologyElement(String identifier, Ontology ontology, boolean resolveFuzzy) {
+		return findEntity(identifier, ontology, resolveFuzzy);
 	}
 
-	private IRIIdentified findEntity(String identifier, Ontology onto) {
+	private List<IRIIdentified> findEntity(String identifier, Ontology onto, boolean resolveFuzzy) {
+		List<IRIIdentified> results = new ArrayList<IRIIdentified>();
 		Map<String, Frame> iriMap = url2irimaps.get(onto);
 		if (iriMap == null) {
 			iriMap = intialiseIriMap(onto);
 		}
-		Frame frame = iriMap.get(identifier);
-		return frame;
+		if (! resolveFuzzy) {
+			Frame frame = iriMap.get(identifier);
+			if (frame != null) results.add(frame);
+			return results;
+		} else {
+			Set<String> keySet = iriMap.keySet();
+			for (String idKey : keySet) {
+				if (idKey.startsWith(identifier)) {
+					Frame candidate = iriMap.get(idKey);
+					results.add(candidate);
+				}
+			}
+		}
+		return results;
 	}
 
 	private Map<String, Frame> intialiseIriMap(Ontology onto) {
