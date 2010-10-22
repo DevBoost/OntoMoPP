@@ -1,0 +1,20 @@
+import "./petrinets.text.ecore"
+
+Component message "Compoments need to be named."
+	: (NameableElement_name exactly 1 xsd:string ) ;
+
+Arc message "Arcs need to be either consuming or producing."
+	: (Arc_in exactly 1 Transition and Arc_out exactly 1 Place)  
+		or (Arc_in exactly 1 Place and Arc_out exactly 1 Transition);
+		
+ConsumingArc message "Consuming Arcs need to have Places as input."
+	: (Arc_in exactly 1 Place);
+
+ConsumingArc message "Consuming Arcs need to have Transitions as output." 
+	: (Arc_out exactly 1 Transition);
+
+ProducingArc message "Producing Arcs need to have Transitions as input."
+	: (Arc_in exactly 1 Transition);
+
+ProducingArc message "Producing Arcs need to have Places as output."
+	: (Arc_out exactly 1 Place); 
