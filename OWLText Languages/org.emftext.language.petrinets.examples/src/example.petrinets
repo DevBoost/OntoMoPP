@@ -28,5 +28,4 @@ petrinet "example" {
 	// valid arcs, could be further classified
 	"some place" -> "second transition"
 	"a transition" -> "some place"
-
 }
