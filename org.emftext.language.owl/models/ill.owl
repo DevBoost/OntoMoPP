@@ -7,7 +7,7 @@ Ontology: <http://example.com/owl/families>
  	SubClassOf: not Person
  
  DataProperty: hasAge 
- 
+  
  
  Class: GastricJuice
 

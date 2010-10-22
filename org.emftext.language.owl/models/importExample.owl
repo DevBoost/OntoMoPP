@@ -1,6 +1,6 @@
-Prefix: pizza <http://www.co-ode.org/ontologies/pizza/pizza.owl#>
-
-
+Prefix: pizza: <http://www.co-ode.org/ontologies/pizza/pizza.owl#>
+Prefix: : <http://example/s#>
+ 
 Ontology: <http://example/s> 
 Import: <http://www.co-ode.org/ontologies/pizza/pizza.owl#>
 

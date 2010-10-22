@@ -1,4 +1,5 @@
-Prefix: pizza <http://www.co-ode.org/ontologies/pizza/pizza.owl#>
+Prefix: pizza: <http://www.co-ode.org/ontologies/pizza/pizza.owl#>
+Prefix: : <http://www.semanticweb.org/ontologies/2009/7/manch.owl#>
 
 Ontology: <http://www.semanticweb.org/ontologies/2009/7/manch.owl>
 Import: <http://www.co-ode.org/ontologies/pizza/pizza.owl#>
@@ -21,7 +22,7 @@ Characteristics:
       Transitive
 SubPropertyOf:
       connectedWith
+
 SubPropertyChain:
-       inv  ( hasTarget ) o hasSource
-	
+       inverse  hasTarget  o hasSource
 

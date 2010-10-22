@@ -1,20 +1,21 @@
+Prefix: : <http://myBeleg.org/ontologies/test/schemas.owl#>
+
 Ontology: <http://myBeleg.org/ontologies/test/schemas.owl>
 
 	Class: NamedElement
 		SubClassOf:
 		name  exactly 1 xsd:string
-		
+		 
 	Class: Table
 		SubClassOf: NamedElement
 		DisjointWith: Column
-		
+		 
 	Class: Column
 		SubClassOf: NamedElement
 		DisjointWith: Table
 		
-	DataProperty: name 
+	DataProperty: name
 		Domain: NamedElement
 		Range:  xsd:string 
 		Characteristics: Functional 
 
-	EquivalentClasses: Table, Column 
