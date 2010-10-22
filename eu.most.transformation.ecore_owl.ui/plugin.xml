@@ -18,7 +18,7 @@
       </objectContribution>
    </extension>
 
-
+<!--
    <extension  
             point="org.eclipse.ui.popupMenus">
       <objectContribution
@@ -34,5 +34,6 @@
                menubarPath="additions"/>
       </objectContribution>
    </extension>
+-->
 
 </plugin>

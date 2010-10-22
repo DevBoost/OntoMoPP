@@ -11,8 +11,6 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.emftext.language.owl.Class;
 import org.emftext.language.owl.Description;
-import org.emftext.language.owl.Frame;
-import org.emftext.language.owl.NestedDescription;
 import org.emftext.language.owl.OntologyDocument;
 import org.emftext.language.owl.resource.owl.mopp.OwlResource;
 

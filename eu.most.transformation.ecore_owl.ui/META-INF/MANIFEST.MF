@@ -11,6 +11,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jdt.launching,
  org.eclipse.emf,
  org.eclipse.emf.ecore,
- eu.most.transformation.ecore,
+ eu.most.transformation.ecore_owl,
  org.emftext.language.owl,
  org.emftext.runtime.owltext
