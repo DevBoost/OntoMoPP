@@ -15,6 +15,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 import org.emftext.language.owl.OntologyDocument;
+import org.emftext.runtime.owltext.OWLTextEObjectImpl;
 
 import eu.most.transformation.ecore_owl.Ecore2Owl;
 
@@ -35,7 +36,7 @@ public class TransformEcore2OWLAction implements IObjectActionDelegate {
 						resource.load(null);
 						OntologyDocument document = transform(resource
 								.getContents());
-						URI targetURI = resource.getURI().trimFileExtension()
+						URI targetURI = resource.getURI()
 								.appendFileExtension("owl");
 						Resource documentResource = resource.getResourceSet()
 								.createResource(targetURI);
@@ -53,7 +54,13 @@ public class TransformEcore2OWLAction implements IObjectActionDelegate {
 	}
 
 	private OntologyDocument transform(EList<EObject> contents) {
-
+		if (contents.size() == 1) {
+			EObject eObject = contents.get(0);
+			if (eObject instanceof OWLTextEObjectImpl) {
+				OWLTextEObjectImpl owlTextEObjectImpl = (OWLTextEObjectImpl) eObject;
+				return owlTextEObjectImpl.getOWLRepresentation();
+			}
+		}
 		OntologyDocument ontologyDocument = new Ecore2Owl().transform(contents);
 		return ontologyDocument;
 	}

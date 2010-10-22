@@ -13,7 +13,7 @@
                class="eu.most.transformation.ecore_owl.ui.TransformEcore2OWLAction"
                enablesFor="1"
                id="eu.most.transformation.ecore_owl.ui.TransformEcore2OWLAction"
-               label="Transform to OWL"
+               label="Transform Model to OWL"
                menubarPath="additions"/>
       </objectContribution>
    </extension>
