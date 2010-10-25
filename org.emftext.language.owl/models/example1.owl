@@ -1,0 +1,9 @@
+Prefix: : <http://emftext/testontotology#>
+	Ontology: <http://emftext/testontotology>
+	Class: exampleClass
+	
+	
+	Individual: exampleIndividual
+		Types: testProperty value "TestValue"
+
+	DataProperty: testProperty 

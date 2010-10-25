@@ -6,10 +6,6 @@
  */
 package org.emftext.language.owlcl.resource.owlcl.analysis;
 
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EPackage;
 import org.emftext.language.owlcl.OWLCLSpec;
 
 public class ConstraintConstrainedMetaclassReferenceResolver
@@ -26,25 +22,8 @@ public class ConstraintConstrainedMetaclassReferenceResolver
 			boolean resolveFuzzy,
 			final org.emftext.language.owlcl.resource.owlcl.IOwlclReferenceResolveResult<org.eclipse.emf.ecore.EClass> result) {
 		OWLCLSpec spec = (OWLCLSpec) container.eContainer();
-		EPackage constrainedMetamodel = spec.getConstrainedMetamodel();
-		EList<EClassifier> eClassifiers = constrainedMetamodel
-				.getEClassifiers();
-		for (EClassifier eClassifier : eClassifiers) {
-			if (eClassifier instanceof EClass) {
-				EClass cls = (EClass) eClassifier;
-				if (resolveFuzzy) {
-					if (cls.getName().startsWith(identifier)) {
-						result.addMapping(eClassifier.getName(), cls);
-					}
-				} else {
-					if (cls.getName().equals(identifier)) {
-						result.addMapping(identifier, cls);
-						return;
-					}
-				}
-			}
-
-		}
+		new CustomEcoreClassReferenceResolver().resolve(identifier, spec,
+				reference, position, resolveFuzzy, result);
 	}
 
 	public String deResolve(org.eclipse.emf.ecore.EClass element,

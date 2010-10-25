@@ -14,7 +14,7 @@ OPTIONS {
 	//defaultTokenName = "IDENTIFIER";
 	tokenspace = "1";
 	overrideBuilder = "false" ;
-	overrideManifest = "false" ; 
+	overrideManifest = "false" ;
 }
 
 
@@ -24,6 +24,9 @@ TOKENS {
 
 
 RULES {
-	OWLCLSpec ::= "import" constrainedMetamodel['"','"'] constraints*;
+	OWLCLSpec ::= "import" constrainedMetamodel['"','"'] ("refinements:" "{" types* "}")? constraints*;
+	
+	Type ::= "type" name[IRI] "refines" eSuperTypes[IRI] ":" typeDescription;
+	
 	Constraint ::= constrainedMetaclass[IRI] "message" errorMsg['"','"'] ":" constraintDescription ";";
 }

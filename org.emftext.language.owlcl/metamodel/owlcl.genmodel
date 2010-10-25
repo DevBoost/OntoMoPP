@@ -10,11 +10,17 @@
     <genClasses ecoreClass="owlcl.ecore#//OWLCLSpec">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owlcl.ecore#//OWLCLSpec/constrainedMetamodel"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference owlcl.ecore#//OWLCLSpec/constraints"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference owlcl.ecore#//OWLCLSpec/types"/>
+      <genOperations ecoreOperation="owlcl.ecore#//OWLCLSpec/getNamespace"/>
     </genClasses>
     <genClasses ecoreClass="owlcl.ecore#//Constraint">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owlcl.ecore#//Constraint/constrainedMetaclass"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owlcl.ecore#//Constraint/constraintDescription"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owlcl.ecore#//Constraint/errorMsg"/>
+    </genClasses>
+    <genClasses ecoreClass="owlcl.ecore#//Type">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference owlcl.ecore#//Type/typeDescription"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owlcl.ecore#//Type/refines"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>
