@@ -21,7 +21,10 @@ Bundle-ClassPath: lib/pellet-core.jar,
  lib/aterm-java-1.6.jar,
  lib/pellet-rules.jar,
  lib/pellet-owlapiv3.jar,
- .
+ lib/jena/jena-2.6.3.jar,
+ lib/owlapiv3/owlapi-bin.jar,
+ .,
+ lib/jgrapht/jgrapht-jdk1.5.jar
 
 
 

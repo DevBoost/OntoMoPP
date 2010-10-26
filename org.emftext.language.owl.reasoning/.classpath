@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry exported="true" kind="lib" path="lib/jgrapht/jgrapht-jdk1.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/owlapiv3/owlapi-bin.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jena/jena-2.6.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/pellet-owlapiv3.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/pellet-rules.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/aterm-java-1.6.jar"/>
@@ -13,6 +16,5 @@
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="lib/pellet-jena.jar"/>
-	<classpathentry kind="lib" path="lib/jena/jena-2.6.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
