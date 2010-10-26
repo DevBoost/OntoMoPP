@@ -1,6 +1,7 @@
 package org.emftext.runtime.owltext;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -60,6 +61,8 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 	 * with the EObject
 	 */
 	private Class superclass;
+
+	private List<String> createdNamings;
 
 	/**
 	 * An EList delegator that intercepts all query and modification calls to
@@ -625,6 +628,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		fixCardinality(this, selfIndividual);
 
 		individuals.add(selfIndividual);
+		createdNamings = new ArrayList<String>();
 		createNamedEqivalent(this, selfIndividual, ontology);
 		// collect individuals, fix cardinalities
 		while (eAllContents.hasNext()) {
@@ -659,13 +663,14 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		if (eidAttribute != null) {
 			OwlFactory factory = OwlFactory.eINSTANCE;
 			Object id = child.eGet(eidAttribute);
-			if (id != null && !"".equals(id.toString())) {
+			if (id != null && !"".equals(id.toString()) && !(createdNamings.contains(id.toString()))) {
 				Class eq = factory.createClass();
 				eq.setIri(OWLTransformationHelper.createValidIri(id.toString()));
 				ClassAtomic ca = factory.createClassAtomic();
 				ca.setClazz(individual);
 				eq.getEquivalentClassesDescriptions().add(ca);
 				ontology.getFrames().add(eq);
+				createdNamings.add(id.toString());
 			}
 		}
 		

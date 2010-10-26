@@ -232,6 +232,8 @@ public class OWLTransformationHelper {
 
 	public static String createValidIri(String error) {
 		String iriFragment = error.replaceAll("\\s", "_");
+		iriFragment = iriFragment.replace('"', '_');
+		iriFragment = iriFragment.replace("'", "_");
 		iriFragment = iriFragment.replace(".", "_");
 		iriFragment = iriFragment.replace(",", "_");
 		iriFragment = iriFragment.replace(";", "_");

@@ -101,6 +101,8 @@ public class OWLTextTest {
 
 	}
 
+	private boolean overrideExpectedOnMismatch = false;
+
 	@Test
 	public void testPrinting() throws IOException, InterruptedException {
 		OwlFactory owlFactory = OwlFactory.eINSTANCE;
@@ -1765,8 +1767,17 @@ public class OWLTextTest {
 		ModelUtils.save(genDiff, compareDiffFile.getAbsolutePath());
 		// TODO should use EMFCompare for comparison, to be independent of tree
 		// structure.
+		Resource expectationResource = expectedOntologyRoot.eResource();
+		if (overrideExpectedOnMismatch && matchResult.getUnmatchedElements().size() > 0) {
+			
+			expectationResource.getContents().clear();
+			expectationResource.getContents().add(owlifiedOntologyRoot);
+			expectationResource.save(Collections.EMPTY_MAP);
+			System.out.println("Replace expected result with new version: " + expectationResource.getURI());
+		}
+		
 		assertTrue("Expected ontology output does not equal produced output: "
-				+ expectedOntologyRoot.eResource().getURI().fragment(),
+				+ expectationResource.getURI(),
 				matchResult.getUnmatchedElements().size() == 0);
 	}
 
@@ -1813,6 +1824,38 @@ public class OWLTextTest {
 				loadResource,
 				new String[] {
 						"Root Feature needs to be mandatory." });
+	}
+	
+	@Test
+	public void testAnnotationDefinitionConstraintValidation() throws Throwable {
+		String inFileName = "invalidFeatureName.fea";
+		FeaResource loadResource = loadResource(new File("./testInput/"
+				+ inFileName));
+		EObject rootObject = loadResource.getContents().get(0);
+
+		File owlifiedModelOutputFile = new File("./testInput/"
+				+ inFileName + ".out.owl");
+		if (owlifiedModelOutputFile.exists())
+			owlifiedModelOutputFile.delete();
+				// owlify feature model
+		assertTrue("Root object is a Feature", rootObject instanceof Feature);
+
+		assertTrue("Root object is a OWLTextEobject",
+				rootObject instanceof OWLTextEObjectImpl);
+		OWLTextEObjectImpl rootOWLTextObjectImpl = (OWLTextEObjectImpl) rootObject;
+		String owlRepresentation = OWLTextEObjectPrinter
+				.getOWLRepresentation(rootOWLTextObjectImpl
+						.getOWLRepresentation());
+		System.out.println(owlRepresentation);
+		BufferedWriter out = new BufferedWriter(new FileWriter(
+				owlifiedModelOutputFile));
+		out.write(owlRepresentation);
+		out.close();
+		
+		checkConsistency(
+				loadResource,
+				new String[] {
+						"Non-root features should not be named 'Root'." });
 	}
 
 }

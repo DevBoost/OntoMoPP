@@ -3,6 +3,9 @@ Prefix: : <http://transformed/syntaxMinimum.fea#>
 	Ontology: <http://transformed/syntaxMinimum.fea> Import: <file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/testInput/feature.mm.owl>
 	Class: feature:Feature
 	
+	Class: feature:NonRootFeature
+	
+	Class: feature:__c__NonRootFeature12_constraint_Non-root_features_should_not_be_named__Root__
 	
 	Class: feature:MandatoryFeature
 	

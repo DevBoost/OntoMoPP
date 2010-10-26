@@ -257,12 +257,15 @@ public class Ecore2Owl {
 					supertypes.getPrimaries().add(superClassAtomic);
 				}
 
-				Set<ENamedElement> disjointTypes = new HashSet<ENamedElement>(etype2oclass.keySet());
+				Set<ENamedElement> disjointTypes = new HashSet<ENamedElement>(
+						etype2oclass.keySet());
 				disjointTypes.remove(eclass);
 				List<EClass> subs = this.allSubtypes.get(eclass);
-				if (subs != null) disjointTypes.removeAll(subs);
+				if (subs != null)
+					disjointTypes.removeAll(subs);
 				List<EClass> supers = this.allSupertypes.get(eclass);
-				if (supers != null) disjointTypes.removeAll(supers);
+				if (supers != null)
+					disjointTypes.removeAll(supers);
 				for (ENamedElement type : disjointTypes) {
 					if (type instanceof EClass) {
 						Class disjointClass = (Class) etype2oclass.get(type);
@@ -284,6 +287,7 @@ public class Ecore2Owl {
 					supertypes.getPrimaries().add(superClassAtomic);
 				}
 
+				addOwlDefinitionSupertypes(owlClass, eclass, ontology);
 				owlClass.getSuperClassesDescriptions().add(supertypes);
 				addUserDefinedConstraints(eclass, owlClass);
 
@@ -293,10 +297,64 @@ public class Ecore2Owl {
 
 	}
 
+	private void addOwlDefinitionSupertypes(Class owlClass, EClass eclass,
+			Ontology ontology) {
+		EList<EAnnotation> eAnnotations = eclass.getEAnnotations();
+		for (EAnnotation eAnnotation : eAnnotations) {
+			if (eAnnotation.getSource().equals(
+					OWLTransformationConstants.OWL_DEFINITION)
+					&& eAnnotation.getDetails().size() > 0) {
+				EMap<String, String> details = eAnnotation.getDetails();
+
+				Entry<String, String> definitionEntry = eAnnotation
+						.getDetails().get(0);
+				String definition = definitionEntry.getValue();
+				String className = definitionEntry.getKey();
+
+				Class typeClass = owlFactory.createClass();
+				typeClass.setIri(className);
+				ontology.getFrames().add(typeClass);
+
+				Conjunction conjunction = owlFactory.createConjunction();
+				typeClass.getEquivalentClassesDescriptions().add(conjunction);
+
+				ClassAtomic ca = owlFactory.createClassAtomic();
+				ca.setClazz(owlClass);
+
+				conjunction.getPrimaries().add(ca);
+				OWLParsingHelper oph = new OWLParsingHelper();
+				Description definitionDescription = oph.parseSubClassOf(
+						definition, eclass.eResource());
+				conjunction.getPrimaries().add(definitionDescription);
+
+				for (Entry<String, String> entry : details.subList(1, details.size())) {
+					String error = entry.getKey();
+					String constraint = entry.getValue();
+
+					Description constraintDescription = oph.parseSubClassOf(
+							constraint, eclass.eResource());
+					if (constraintDescription != null) {
+						NestedDescription nestedDescription = owlFactory
+								.createNestedDescription();
+						nestedDescription.setDescription(constraintDescription);
+						nestedDescription.setNot(true);
+						String iriFragment = OWLTransformationHelper
+								.createValidIri(error);
+						String iri = "_constraint_" + iriFragment;
+						createConstraintClass(typeClass, iri, error,
+								nestedDescription);
+					}
+				}
+			}
+		}
+
+	}
+
 	private void addUserDefinedConstraints(EClass eclass, Class owlClass) {
 		EList<EAnnotation> eAnnotations = eclass.getEAnnotations();
 		for (EAnnotation eAnnotation : eAnnotations) {
-			if (eAnnotation.getSource().equals("OWL_CONSTRAINT")) {
+			if (eAnnotation.getSource().equals(
+					OWLTransformationConstants.OWL_CONSTRAINT)) {
 				EMap<String, String> details = eAnnotation.getDetails();
 				for (Entry<String, String> entry : details) {
 					String error = entry.getKey();
@@ -309,9 +367,9 @@ public class Ecore2Owl {
 								.createNestedDescription();
 						nestedDescription.setDescription(constraintDescription);
 						nestedDescription.setNot(true);
-						String iriFragment = OWLTransformationHelper.createValidIri(error);
-						String iri = "_constraint_"
-								+ iriFragment;
+						String iriFragment = OWLTransformationHelper
+								.createValidIri(error);
+						String iri = "_constraint_" + iriFragment;
 						createConstraintClass(owlClass, iri, error,
 								nestedDescription);
 					}

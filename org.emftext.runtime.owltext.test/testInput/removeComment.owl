@@ -103,85 +103,91 @@ Prefix: : <http://transformed/clearOrRemoveOrRetainComment.fea#>
 	DataProperty: feature:AnyByte_literal
 	
 	
-	Class: feature:__c__AnyShort0_min_1_literal
+	Class: feature:__c__AnyLong0_min_1_literal
 	
 	
-	Class: feature:__c__AnyShort1_max_1_literal
+	Class: feature:__c__AnyLong1_max_1_literal
 	
 	
-	Class: feature:__c__AnyDouble2_min_1_literal
+	Class: feature:__c__AnyBigDecimal2_min_1_literal
 	
 	
-	Class: feature:__c__AnyDouble3_max_1_literal
+	Class: feature:__c__AnyBigDecimal3_max_1_literal
 	
 	
-	Class: feature:__c__AnyFloat4_min_1_literal
+	Class: feature:__c__Feature4_min_1_name
 	
 	
-	Class: feature:__c__AnyFloat5_max_1_literal
+	Class: feature:__c__Feature5_max_1_name
 	
 	
-	Class: feature:__c__AnyChar6_min_1_literal
+	Class: feature:__c__Feature6_max_1_annotation
 	
 	
-	Class: feature:__c__AnyChar7_max_1_literal
+	Class: feature:__c__Feature7_max_1_parent
 	
 	
-	Class: feature:__c__AnyBoolean8_min_1_literal
+	Class: feature:NonRootFeature
 	
 	
-	Class: feature:__c__AnyBoolean9_max_1_literal
+	Class: feature:__c__NonRootFeature8_constraint_Non-root_features_should_not_be_named__Root__
 	
 	
-	Class: feature:__c__AnyByte10_min_1_literal
+	Class: feature:__c__Feature9_constraint_Root_Feature_needs_to_be_mandatory_
 	
 	
-	Class: feature:__c__AnyByte11_max_1_literal
+	Class: feature:__c__Annotation10_min_1_value
 	
 	
-	Class: feature:__c__AnyBigDecimal12_min_1_literal
+	Class: feature:__c__Annotation11_max_1_value
 	
 	
-	Class: feature:__c__AnyBigDecimal13_max_1_literal
+	Class: feature:__c__AnyInt12_min_1_literal
 	
 	
-	Class: feature:__c__AnyInt14_min_1_literal
+	Class: feature:__c__AnyInt13_max_1_literal
 	
 	
-	Class: feature:__c__AnyInt15_max_1_literal
+	Class: feature:__c__AnyBigInteger14_min_1_literal
 	
 	
-	Class: feature:__c__Annotation16_min_1_value
+	Class: feature:__c__AnyBigInteger15_max_1_literal
 	
 	
-	Class: feature:__c__Annotation17_max_1_value
+	Class: feature:__c__AnyChar16_min_1_literal
 	
 	
-	Class: feature:__c__AnyLong18_min_1_literal
+	Class: feature:__c__AnyChar17_max_1_literal
 	
 	
-	Class: feature:__c__AnyLong19_max_1_literal
+	Class: feature:__c__AnyBoolean18_min_1_literal
 	
 	
-	Class: feature:__c__AnyBigInteger20_min_1_literal
+	Class: feature:__c__AnyBoolean19_max_1_literal
 	
 	
-	Class: feature:__c__AnyBigInteger21_max_1_literal
+	Class: feature:__c__AnyDouble20_min_1_literal
 	
 	
-	Class: feature:__c__Feature22_min_1_name
+	Class: feature:__c__AnyDouble21_max_1_literal
 	
 	
-	Class: feature:__c__Feature23_max_1_name
+	Class: feature:__c__AnyByte22_min_1_literal
 	
 	
-	Class: feature:__c__Feature24_max_1_annotation
+	Class: feature:__c__AnyByte23_max_1_literal
 	
 	
-	Class: feature:__c__Feature25_max_1_parent
+	Class: feature:__c__AnyFloat24_min_1_literal
 	
 	
-	Class: feature:__c__Feature26_constraint_Root_Feature_needs_to_be_mandatory_
+	Class: feature:__c__AnyFloat25_max_1_literal
+	
+	
+	Class: feature:__c__AnyShort26_min_1_literal
+	
+	
+	Class: feature:__c__AnyShort27_max_1_literal
 	
 	
 	Class: individual_133

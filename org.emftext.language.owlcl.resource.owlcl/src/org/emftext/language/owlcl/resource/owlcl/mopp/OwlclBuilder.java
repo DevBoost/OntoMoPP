@@ -23,11 +23,10 @@ import org.emftext.language.owlcl.OWLCLSpec;
 import org.emftext.language.owlcl.Type;
 import org.emftext.runtime.owltext.OWLTextEObjectPrinter;
 
+import eu.most.transformation.ecore_owl.OWLTransformationConstants;
+
 public class OwlclBuilder implements
 		org.emftext.language.owlcl.resource.owlcl.IOwlclBuilder {
-
-	private static final String OWL_CONSTRAINT = "OWL_CONSTRAINT";
-	private static final String OWL_DEFINITION = "OWL_DEFINITION";
 
 	public boolean isBuildingNeeded(org.eclipse.emf.common.util.URI uri) {
 		return true;
@@ -41,30 +40,39 @@ public class OwlclBuilder implements
 		}
 		if (resource.getContents().size() == 1) {
 			OWLCLSpec spec = (OWLCLSpec) resource.getContents().get(0);
-			
+
 			cleanMetaclasses(spec.getConstrainedMetamodel());
+
 			
-			EList<Type> types = spec.getTypes();
-			for (Type type : types) {
-				EAnnotation anno = EcoreFactory.eINSTANCE.createEAnnotation();
-				anno.setSource(OWL_DEFINITION);
-				String description = OWLTextEObjectPrinter
-						.getOWLRepresentation(type.getTypeDescription());
-				anno.getDetails().put("refinement", description);
-				type.getEAnnotations().add(anno);
-			}
-			spec.getConstrainedMetamodel().getEClassifiers().addAll(types);
 			
 			EList<Constraint> constraints = spec.getConstraints();
 			for (Constraint c : constraints) {
 				EClass constrainedMetaclass = c.getConstrainedMetaclass();
 				EAnnotation anno = EcoreFactory.eINSTANCE.createEAnnotation();
-				anno.setSource(OWL_CONSTRAINT);
+				anno.setSource(OWLTransformationConstants.OWL_CONSTRAINT);
 				String description = OWLTextEObjectPrinter
 						.getOWLRepresentation(c.getConstraintDescription());
 				anno.getDetails().put(c.getErrorMsg(), description);
 				constrainedMetaclass.getEAnnotations().add(anno);
 			}
+			
+			EList<Type> types = spec.getTypes();
+			for (Type type : types) {
+				EAnnotation anno = EcoreFactory.eINSTANCE.createEAnnotation();
+				anno.setSource(OWLTransformationConstants.OWL_DEFINITION);
+				String description = OWLTextEObjectPrinter
+						.getOWLRepresentation(type.getTypeDescription());
+				anno.getDetails().put(type.getName(), description);
+				EList<EAnnotation> eAnnotations = type.getEAnnotations();
+				for (EAnnotation eAnnotation : eAnnotations) {
+					anno.getDetails().addAll(eAnnotation.getDetails());
+				}
+				EList<EClass> refinedTypes = type.getESuperTypes();
+				for (EClass refinedType : refinedTypes) {
+					refinedType.getEAnnotations().add(anno);
+				}
+			}
+			
 			try {
 				spec.getConstrainedMetamodel().eResource()
 						.save(Collections.EMPTY_MAP);
@@ -79,22 +87,22 @@ public class OwlclBuilder implements
 
 	private void cleanMetaclasses(EPackage constrainedMetamodel) {
 		EList<EClassifier> classifiers = constrainedMetamodel.getEClassifiers();
-		List<EClassifier> removeClassifier = new ArrayList<EClassifier>();
 		for (EClassifier eClassifier : classifiers) {
-			
+
 			List<EAnnotation> toRemove = new ArrayList<EAnnotation>();
 			EList<EAnnotation> eAnnotations = eClassifier.getEAnnotations();
 			for (EAnnotation eAnnotation : eAnnotations) {
-				if (eAnnotation.getSource().equals(OWL_DEFINITION)) {
-					removeClassifier.add(eClassifier);
+				if (eAnnotation.getSource().equals(
+						OWLTransformationConstants.OWL_DEFINITION)) {
+					toRemove.add(eAnnotation);
 				}
-				if (eAnnotation.getSource().equals(OWL_CONSTRAINT)) {
+				if (eAnnotation.getSource().equals(
+						OWLTransformationConstants.OWL_CONSTRAINT)) {
 					toRemove.add(eAnnotation);
 				}
 			}
 			eClassifier.getEAnnotations().removeAll(toRemove);
 		}
-		constrainedMetamodel.getEClassifiers().removeAll(removeClassifier);
 	}
 
 }

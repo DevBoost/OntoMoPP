@@ -103,40 +103,40 @@ Prefix: : <http://transformed/clearOrRemoveOrRetainChildren.fea#>
 	DataProperty: feature:AnyByte_literal
 	
 	
-	Class: feature:__c__AnyShort0_min_1_literal
+	Class: feature:__c__AnyFloat0_min_1_literal
 	
 	
-	Class: feature:__c__AnyShort1_max_1_literal
+	Class: feature:__c__AnyFloat1_max_1_literal
 	
 	
-	Class: feature:__c__AnyDouble2_min_1_literal
+	Class: feature:__c__AnyChar2_min_1_literal
 	
 	
-	Class: feature:__c__AnyDouble3_max_1_literal
+	Class: feature:__c__AnyChar3_max_1_literal
 	
 	
-	Class: feature:__c__AnyFloat4_min_1_literal
+	Class: feature:__c__Annotation4_min_1_value
 	
 	
-	Class: feature:__c__AnyFloat5_max_1_literal
+	Class: feature:__c__Annotation5_max_1_value
 	
 	
-	Class: feature:__c__AnyChar6_min_1_literal
+	Class: feature:__c__AnyInt6_min_1_literal
 	
 	
-	Class: feature:__c__AnyChar7_max_1_literal
+	Class: feature:__c__AnyInt7_max_1_literal
 	
 	
-	Class: feature:__c__AnyBoolean8_min_1_literal
+	Class: feature:__c__AnyShort8_min_1_literal
 	
 	
-	Class: feature:__c__AnyBoolean9_max_1_literal
+	Class: feature:__c__AnyShort9_max_1_literal
 	
 	
-	Class: feature:__c__AnyByte10_min_1_literal
+	Class: feature:__c__AnyBoolean10_min_1_literal
 	
 	
-	Class: feature:__c__AnyByte11_max_1_literal
+	Class: feature:__c__AnyBoolean11_max_1_literal
 	
 	
 	Class: feature:__c__AnyBigDecimal12_min_1_literal
@@ -145,43 +145,49 @@ Prefix: : <http://transformed/clearOrRemoveOrRetainChildren.fea#>
 	Class: feature:__c__AnyBigDecimal13_max_1_literal
 	
 	
-	Class: feature:__c__AnyInt14_min_1_literal
+	Class: feature:__c__AnyBigInteger14_min_1_literal
 	
 	
-	Class: feature:__c__AnyInt15_max_1_literal
+	Class: feature:__c__AnyBigInteger15_max_1_literal
 	
 	
-	Class: feature:__c__Annotation16_min_1_value
+	Class: feature:__c__AnyLong16_min_1_literal
 	
 	
-	Class: feature:__c__Annotation17_max_1_value
+	Class: feature:__c__AnyLong17_max_1_literal
 	
 	
-	Class: feature:__c__AnyLong18_min_1_literal
+	Class: feature:__c__Feature18_min_1_name
 	
 	
-	Class: feature:__c__AnyLong19_max_1_literal
+	Class: feature:__c__Feature19_max_1_name
 	
 	
-	Class: feature:__c__AnyBigInteger20_min_1_literal
+	Class: feature:__c__Feature20_max_1_annotation
 	
 	
-	Class: feature:__c__AnyBigInteger21_max_1_literal
+	Class: feature:__c__Feature21_max_1_parent
 	
 	
-	Class: feature:__c__Feature22_min_1_name
+	Class: feature:NonRootFeature
 	
 	
-	Class: feature:__c__Feature23_max_1_name
+	Class: feature:__c__NonRootFeature22_constraint_Non-root_features_should_not_be_named__Root__
 	
 	
-	Class: feature:__c__Feature24_max_1_annotation
+	Class: feature:__c__Feature23_constraint_Root_Feature_needs_to_be_mandatory_
 	
 	
-	Class: feature:__c__Feature25_max_1_parent
+	Class: feature:__c__AnyByte24_min_1_literal
 	
 	
-	Class: feature:__c__Feature26_constraint_Root_Feature_needs_to_be_mandatory_
+	Class: feature:__c__AnyByte25_max_1_literal
+	
+	
+	Class: feature:__c__AnyDouble26_min_1_literal
+	
+	
+	Class: feature:__c__AnyDouble27_max_1_literal
 	
 	
 	Class: individual_144
