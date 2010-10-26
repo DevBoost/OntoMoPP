@@ -1,12 +1,12 @@
 package petrinets // this is the package name 
         petrinets // this is the namespace prefix
         "http://www.emftext.org/language/petrinets" // the namespace URI 
-	{
+	{ 
 	
 	abstract class NameableElement {
 			iD attribute EString name (0..1);
 	}
-	
+	  
 	class PetriNet extends NameableElement {
 		containment reference Component components (0..-1);
 		containment reference Arc arcs (0..-1);
@@ -14,14 +14,17 @@ package petrinets // this is the package name
 
 	@"OWL_CONSTRAINT"("Compoments need to be named."="( NameableElement_name exactly 1 xsd:string )")
 
-		abstract class Component extends NameableElement {
+	abstract class Component extends NameableElement {
+		reference Arc incoming (0..-1) opposite out; 
+		reference Arc outgoing (0..-1) opposite in;
+		
 	}
 
 	@"OWL_CONSTRAINT"("Arcs need to be either consuming or producing."="( Arc_in exactly 1 Transition and Arc_out exactly 1 Place ) or ( Arc_in exactly 1 Place and Arc_out exactly 1 Transition )")
 
 	class Arc {
-		reference Component in (1..1);
-		reference Component out (1..1);
+		reference Component in (1..1) opposite outgoing;
+		reference Component out (1..1) opposite incoming;
 	}
 
 	@"OWL_CONSTRAINT"("Consuming Arcs need to have Places as input."="( Arc_in exactly 1 Place )")
@@ -35,9 +38,14 @@ package petrinets // this is the package name
 
 	class ProducingArc extends Arc {
 	}
+
+	@"OWL_DEFINITION"("StartPlace"="( NameableElement_name value \"Start\" )", "A Start Place is not allowed to have incomming Arcs."="( Component_incoming exactly 0 Arc )")
 	
 	
 	class Place extends Component {}
 	
 	class Transition extends Component {}
+
+
+
 }
