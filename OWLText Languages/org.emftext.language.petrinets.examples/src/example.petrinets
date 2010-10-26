@@ -1,31 +1,11 @@
 /* Invalid PetriNets as OWLText validation example*/
 petrinet "example" {
 	
- 	place "some place"
-	transition "a transition" 
-
-	transition "second transition" 
-	 
-	place "another place"
-
-	// invalid unnamed place
- 	place
- 	// invalid unnamed transition
-	transition 
+ 	place "dod" 
+ 	place "did" 
+ 	// invalid as start places are not allowed to have incoming arcs
+ 	place "Start"
+ 	transition "t"
  	
- 	 
-	// invalid consume arc
-	"a transition" -consume-> "some place" 
-	// but valid produce arc
-	"a transition" -produce-> "some place"
-	// invalid produce arc
-	"another place" -produce-> "some place"
-	
-	// invalid arc, neither consuming or producing
-	"some place" -> "another place"
-	// invalid arc, neither consuming or producing
-	"a transition" -> "second transition"
-	// valid arcs, could be further classified
-	"some place" -> "second transition"
-	"a transition" -> "some place" 
+ 	"t" -> "Start"
 } 

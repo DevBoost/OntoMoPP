@@ -1,0 +1,15 @@
+petrinet "simple"{
+	// no incoming arcs allowed, thus, invalid
+	place "Start"
+
+	
+	place "End"
+	transition "go"
+	
+	"Start" -> "go"
+	"Start" -consume-> "go"
+	"Start" -produce-> "go"
+	
+	"go"  -> "Start"
+	 
+}
