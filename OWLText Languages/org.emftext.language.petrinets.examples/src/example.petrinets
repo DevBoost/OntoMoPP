@@ -5,7 +5,7 @@ petrinet "example" {
  	place "did" 
  	// invalid as start places are not allowed to have incoming arcs
  	place "Start"
- 	transition "t"
+   	transition "t"
  	
  	"t" -> "Start"
 } 

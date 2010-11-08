@@ -7,7 +7,7 @@ OPTIONS {
 }
 
 TOKENS {
-	DEFINE SL_COMMENT $'//'(~('\n'|'\r'|'\uffff'))* $;
+ 	DEFINE SL_COMMENT $'//'(~('\n'|'\r'|'\uffff'))* $;
 	DEFINE ML_COMMENT $'/*'.*'*/'$;
 }
 
@@ -21,9 +21,9 @@ RULES {
 	
 	Arc ::= in['"','"'] "->" out['"','"'];
 	ConsumingArc ::= in['"','"'] "-consume->" out['"','"'];
-	ProducingArc ::= in['"','"'] "-produce->" out['"','"'];
+ 	ProducingArc ::= in['"','"'] "-produce->" out['"','"'];	
 	
-	
-	Place ::= "place" name['"','"']?; 
+	Place ::= "place" name['"','"']?;  
 	Transition ::= "transition" name['"','"']?; 
+
 }

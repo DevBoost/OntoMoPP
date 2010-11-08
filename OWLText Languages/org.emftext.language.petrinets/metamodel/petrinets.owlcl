@@ -4,12 +4,12 @@ refinements: {
 	type StartPlace refines Place : (NameableElement_name value "Start")
 }
  
-StartPlace message "A Start Place is not allowed to have incomming Arcs."
+StartPlace message "A Start Place is not allowed to have incoming Arcs."
 	: (Component_incoming exactly 0 Arc);
-
+	
 Component message "Compoments need to be named."
 	: (NameableElement_name exactly 1 xsd:string ) ;
-
+	
 Arc message "Arcs need to be either consuming or producing."
 	: (Arc_in exactly 1 Transition and Arc_out exactly 1 Place)  
 		or (Arc_in exactly 1 Place and Arc_out exactly 1 Transition);

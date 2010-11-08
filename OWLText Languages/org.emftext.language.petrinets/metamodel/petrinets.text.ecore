@@ -39,7 +39,7 @@ package petrinets // this is the package name
 	class ProducingArc extends Arc {
 	}
 
-	@"OWL_DEFINITION"("StartPlace"="( NameableElement_name value \"Start\" )", "A Start Place is not allowed to have incomming Arcs."="( Component_incoming exactly 0 Arc )")
+	@"OWL_DEFINITION"("StartPlace"="( NameableElement_name value \"Start\" )", "A Start Place is not allowed to have incoming Arcs."="( Component_incoming exactly 0 Arc )")
 	
 	
 	class Place extends Component {}

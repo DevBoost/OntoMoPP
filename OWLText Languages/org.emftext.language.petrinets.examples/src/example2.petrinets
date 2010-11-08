@@ -2,7 +2,7 @@
 petrinet "example" {
 	
  	place "a place"
- 	place "b place"
+ 	place "b place" 
  	place "c place"
  	place "d place"
  	place "e place"
@@ -19,7 +19,6 @@ petrinet "example" {
  	place 
  	// invalid unnamed transition
 	transition 
- 
  	
  	 
 	// invalid consume arc
