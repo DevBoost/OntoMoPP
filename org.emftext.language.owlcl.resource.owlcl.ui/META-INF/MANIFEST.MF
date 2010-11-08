@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: EMFText OWLCL Language UI Plugin
+Bundle-Name: EMFText UI Plugin: owlcl
 Bundle-SymbolicName: org.emftext.language.owlcl.resource.owlcl.ui;singleton:=true
 Bundle-Version: 1.0.0
 Bundle-Vendor: Software Technology Group - TU Dresden Germany
