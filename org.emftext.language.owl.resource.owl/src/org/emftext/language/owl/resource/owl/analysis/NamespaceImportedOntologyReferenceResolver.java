@@ -25,9 +25,7 @@ public class NamespaceImportedOntologyReferenceResolver
 		implements
 		org.emftext.language.owl.resource.owl.IOwlReferenceResolver<org.emftext.language.owl.Namespace, org.emftext.language.owl.Ontology> {
 
-	private org.emftext.language.owl.resource.owl.analysis.OwlDefaultResolverDelegate<org.emftext.language.owl.Namespace, org.emftext.language.owl.Ontology> delegate = new org.emftext.language.owl.resource.owl.analysis.OwlDefaultResolverDelegate<org.emftext.language.owl.Namespace, org.emftext.language.owl.Ontology>();
-	private RemoteLoader remoteLoader = CrossResourceIRIResolver.theInstance()
-			.getRemoteLoader();
+	private RemoteLoader remoteLoader = CrossResourceIRIResolver.theInstance().getRemoteLoader();
 
 	public void resolve(
 			java.lang.String identifier,

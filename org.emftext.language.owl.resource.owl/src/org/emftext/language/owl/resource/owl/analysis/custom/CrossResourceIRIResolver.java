@@ -114,7 +114,7 @@ public class CrossResourceIRIResolver {
 				return entityList;
 			}
 		}
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 
 	private List<IRIIdentified> searchOntologyEntity(String iriPrefix,

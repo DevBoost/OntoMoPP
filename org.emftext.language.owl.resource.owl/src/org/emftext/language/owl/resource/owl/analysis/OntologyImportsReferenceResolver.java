@@ -30,8 +30,6 @@ public class OntologyImportsReferenceResolver
 	private RemoteLoader remoteLoader = CrossResourceIRIResolver.theInstance()
 			.getRemoteLoader();
 
-	private OwlDefaultResolverDelegate<org.emftext.language.owl.Ontology, org.emftext.language.owl.Ontology> delegate = new OwlDefaultResolverDelegate<org.emftext.language.owl.Ontology, org.emftext.language.owl.Ontology>();
-
 	public java.lang.String deResolve(
 			org.emftext.language.owl.Ontology element,
 			org.emftext.language.owl.Ontology container,
