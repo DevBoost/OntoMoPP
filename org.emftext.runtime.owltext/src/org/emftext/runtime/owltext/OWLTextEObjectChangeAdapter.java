@@ -221,7 +221,6 @@ public class OWLTextEObjectChangeAdapter implements Adapter {
 				.getFeature();
 
 		if (feature instanceof EReference) {
-			EReference reference = (EReference) feature;
 			if (object instanceof OWLTextEObjectImpl) {
 				Class individual = ((OWLTextEObjectImpl) object)
 						.getOwlIndividualClass();
