@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>eu.most.transformation.ecore_owl.ui</name>
+	<name>org.emftext.runtime.owltext.transformation.ui</name>
 	<comment></comment>
 	<projects>
 	</projects>
