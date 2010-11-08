@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Ui
-Bundle-SymbolicName: eu.most.transformation.ecore_owl.ui;singleton:=true
+Bundle-Name: OWLText Transformation UI Plug-in
+Bundle-SymbolicName: org.emftext.runtime.owltext.transformation.ui;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Require-Bundle: org.eclipse.ui,
@@ -11,6 +11,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jdt.launching,
  org.eclipse.emf,
  org.eclipse.emf.ecore,
- eu.most.transformation.ecore_owl,
+ org.emftext.runtime.owltext.transformation,
  org.emftext.language.owl,
  org.emftext.runtime.owltext

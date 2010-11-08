@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Generic Transformation Ecore MM and M to OWL
-Bundle-SymbolicName: eu.most.transformation.ecore_owl
-Bundle-Version: 0.1.0
+Bundle-Name: OWLText Transformation Plug-in
+Bundle-SymbolicName: org.emftext.runtime.owltext.transformation
+Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.emftext.language.owl,

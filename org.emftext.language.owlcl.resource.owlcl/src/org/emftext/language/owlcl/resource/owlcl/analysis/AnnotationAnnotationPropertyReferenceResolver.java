@@ -1,17 +1,9 @@
-/*******************************************************************************
- * Copyright (c) 2006-2010 
- * Software Technology Group, Dresden University of Technology
+/**
+ * <copyright>
+ * </copyright>
+ *
  * 
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0 
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors:
- *   Software Technology Group - TU Dresden, Germany 
- *      - initial API and implementation
- ******************************************************************************/
-
+ */
 package org.emftext.language.owlcl.resource.owlcl.analysis;
 
 public class AnnotationAnnotationPropertyReferenceResolver implements org.emftext.language.owlcl.resource.owlcl.IOwlclReferenceResolver<org.emftext.language.owl.Annotation, org.emftext.language.owl.AnnotationProperty> {
@@ -59,35 +51,6 @@ public class AnnotationAnnotationPropertyReferenceResolver implements org.emftex
 			
 			public void addMapping(String identifier, org.emftext.language.owl.AnnotationProperty target, String warning) {
 				result.addMapping(identifier, target, warning);
-			}
-			
-			public java.util.Collection<org.emftext.language.owl.resource.owl.IOwlQuickFix> getQuickFixes() {
-				return java.util.Collections.emptySet();
-			}
-			
-			public void addQuickFix(final org.emftext.language.owl.resource.owl.IOwlQuickFix quickFix) {
-				result.addQuickFix(new org.emftext.language.owlcl.resource.owlcl.IOwlclQuickFix() {
-					
-					public String getImageKey() {
-						return quickFix.getImageKey();
-					}
-					
-					public String getDisplayString() {
-						return quickFix.getDisplayString();
-					}
-					
-					public java.util.Collection<org.eclipse.emf.ecore.EObject> getContextObjects() {
-						return quickFix.getContextObjects();
-					}
-					
-					public String getContextAsString() {
-						return quickFix.getContextAsString();
-					}
-					
-					public String apply(String currentText) {
-						return quickFix.apply(currentText);
-					}
-				});
 			}
 		});
 		
