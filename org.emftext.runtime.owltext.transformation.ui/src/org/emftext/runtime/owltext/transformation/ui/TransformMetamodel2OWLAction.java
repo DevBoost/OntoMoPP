@@ -33,16 +33,13 @@ public class TransformMetamodel2OWLAction implements IObjectActionDelegate {
 					try {
 						resource.load(null);
 						if (resource.getContents().get(0) instanceof EPackage) {
-							OntologyDocument document = new Ecore2Owl()
-									.transformMetamodel((EPackage) resource
-											.getContents().get(0));
+							
 							URI targetURI = resource.getURI()
 									.trimFileExtension().appendFileExtension(
 											"owl");
-							Resource documentResource = resource
-									.getResourceSet().createResource(targetURI);
-							documentResource.getContents().add(document);
-							documentResource.save(null);
+							OntologyDocument document = new Ecore2Owl()
+									.transformMetamodel((EPackage) resource
+											.getContents().get(0), targetURI);
 							file.getParent().refreshLocal(Integer.MAX_VALUE,
 									null);
 						}
