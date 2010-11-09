@@ -44,7 +44,7 @@ public class OntologyImportsDeresolverTest {
 		ResourceSet rs = new ResourceSetImpl();
 		URI uri = URI.createURI("importedOntology.owl");
 		Resource resource = rs.createResource(uri);
-		assertNotNull("Resource could not be loaded", resource);
+		assertNotNull("Resource could not be created", resource);
 		resource.getContents().add(doc);
 		OutputStream os = new ByteArrayOutputStream();
 		try {
