@@ -39,8 +39,8 @@ import org.emftext.language.owl.ObjectPropertyValue;
 import org.emftext.language.owl.Ontology;
 import org.emftext.language.owl.OntologyDocument;
 import org.emftext.language.owl.OwlFactory;
+import org.emftext.runtime.owltext.transformation.OWLTransformationHelper;
 
-import eu.most.transformation.ecore_owl.OWLTransformationHelper;
 
 /**
  * A custom implementation of EObject that intercepts all reflective calls

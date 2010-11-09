@@ -10,7 +10,7 @@
             nameFilter="*"
             objectClass="org.eclipse.core.resources.IFile">
          <action
-               class="eu.most.transformation.ecore_owl.ui.TransformEcore2OWLAction"
+               class="org.emftext.runtime.owltext.transformation.ui.TransformEcore2OWLAction"
                enablesFor="1"
                id="eu.most.transformation.ecore_owl.ui.TransformEcore2OWLAction"
                label="Transform Model to OWL"
@@ -27,7 +27,7 @@
             nameFilter="*.ecore"
             objectClass="org.eclipse.core.resources.IFile">
          <action
-               class="eu.most.transformation.ecore_owl.ui.TransformMetamodel2OWLAction"
+               class="org.emftext.runtime.owltext.transformation.ui.TransformMetamodel2OWLAction"
                enablesFor="1"
                id="eu.most.transformation.ecore_owl.ui.TransformMetamodel2OWLAction"
                label="Transform Metamodel to OWL"

@@ -22,8 +22,8 @@ import org.emftext.language.owlcl.Constraint;
 import org.emftext.language.owlcl.OWLCLSpec;
 import org.emftext.language.owlcl.Type;
 import org.emftext.runtime.owltext.OWLTextEObjectPrinter;
+import org.emftext.runtime.owltext.transformation.OWLTransformationConstants;
 
-import eu.most.transformation.ecore_owl.OWLTransformationConstants;
 
 public class OwlclBuilder implements
 		org.emftext.language.owlcl.resource.owlcl.IOwlclBuilder {

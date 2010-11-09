@@ -1,4 +1,4 @@
-package eu.most.transformation.ecore_owl;
+package org.emftext.runtime.owltext.transformation;
 
 public class OWLTransformationConstants {
 

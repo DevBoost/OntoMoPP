@@ -1,11 +1,12 @@
-package eu.most.transformation.ecore_owl.ui;
+package org.emftext.runtime.owltext.transformation.ui;
 
 import java.io.IOException;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jface.action.IAction;
@@ -14,10 +15,11 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 import org.emftext.language.owl.OntologyDocument;
+import org.emftext.runtime.owltext.OWLTextEObjectImpl;
+import org.emftext.runtime.owltext.transformation.Ecore2Owl;
 
-import eu.most.transformation.ecore_owl.Ecore2Owl;
 
-public class TransformMetamodel2OWLAction implements IObjectActionDelegate {
+public class TransformEcore2OWLAction implements IObjectActionDelegate {
 
 	private ISelection selection;
 
@@ -32,21 +34,15 @@ public class TransformMetamodel2OWLAction implements IObjectActionDelegate {
 				if (resource != null) {
 					try {
 						resource.load(null);
-						if (resource.getContents().get(0) instanceof EPackage) {
-							OntologyDocument document = new Ecore2Owl()
-									.transformMetamodel((EPackage) resource
-											.getContents().get(0));
-							URI targetURI = resource.getURI()
-									.trimFileExtension().appendFileExtension(
-											"owl");
-							Resource documentResource = resource
-									.getResourceSet().createResource(targetURI);
-							documentResource.getContents().add(document);
-							documentResource.save(null);
-							file.getParent().refreshLocal(Integer.MAX_VALUE,
-									null);
-						}
-
+						OntologyDocument document = transform(resource
+								.getContents());
+						URI targetURI = resource.getURI()
+								.appendFileExtension("owl");
+						Resource documentResource = resource.getResourceSet()
+								.createResource(targetURI);
+						documentResource.getContents().add(document);
+						documentResource.save(null);
+						file.getParent().refreshLocal(Integer.MAX_VALUE, null);
 					} catch (IOException e) {
 						e.printStackTrace();
 					} catch (CoreException e) {
@@ -55,6 +51,18 @@ public class TransformMetamodel2OWLAction implements IObjectActionDelegate {
 				}
 			}
 		}
+	}
+
+	private OntologyDocument transform(EList<EObject> contents) {
+		if (contents.size() == 1) {
+			EObject eObject = contents.get(0);
+			if (eObject instanceof OWLTextEObjectImpl) {
+				OWLTextEObjectImpl owlTextEObjectImpl = (OWLTextEObjectImpl) eObject;
+				return owlTextEObjectImpl.getOWLRepresentation();
+			}
+		}
+		OntologyDocument ontologyDocument = new Ecore2Owl().transform(contents);
+		return ontologyDocument;
 	}
 
 	public void setActivePart(IAction action, IWorkbenchPart targetPart) {

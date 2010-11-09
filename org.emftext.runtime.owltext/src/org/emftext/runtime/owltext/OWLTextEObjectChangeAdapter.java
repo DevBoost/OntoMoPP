@@ -19,8 +19,8 @@ import org.emftext.language.owl.NestedDescription;
 import org.emftext.language.owl.ObjectPropertySome;
 import org.emftext.language.owl.ObjectPropertyValue;
 import org.emftext.language.owl.OwlFactory;
+import org.emftext.runtime.owltext.transformation.OWLTransformationHelper;
 
-import eu.most.transformation.ecore_owl.OWLTransformationHelper;
 
 public class OWLTextEObjectChangeAdapter implements Adapter {
 

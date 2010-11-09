@@ -20,6 +20,11 @@ OPTIONS {
 
 
 TOKENS {
+	DEFINE X $'df'$;
+}
+
+TOKENSTYLES {
+	X 
 }
 
 
