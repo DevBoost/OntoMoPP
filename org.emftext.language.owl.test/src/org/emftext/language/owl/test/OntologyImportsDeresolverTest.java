@@ -33,22 +33,73 @@ public class OntologyImportsDeresolverTest {
 
 	@Test
 	public void testOntologyImportsDeresolve(){
+		ResourceSet rs = new ResourceSetImpl();
+		
+		
 		OwlFactory factory = OwlFactory.eINSTANCE;
-		OntologyDocument doc = factory.createOntologyDocument();
-		Ontology ontology = factory.createOntology();
-		ontology.setUri("http://test.uri/");
-		doc.setOntology(ontology);
 		Ontology importedOntology = factory.createOntology();
 		importedOntology.setUri("http://test.uri/imported");
-		ontology.getImports().add(importedOntology);
-		ResourceSet rs = new ResourceSetImpl();
+		OntologyDocument importedDocument = factory.createOntologyDocument();
+		importedDocument.setOntology(importedOntology);
+		
 		URI uri = URI.createURI("importedOntology.owl");
-		Resource resource = rs.createResource(uri);
-		assertNotNull("Resource could not be created", resource);
-		resource.getContents().add(doc);
+		Resource importedResource = rs.createResource(uri);
+		assertNotNull("Resource could not be created", importedResource);
+		importedResource.getContents().add(importedDocument);
 		OutputStream os = new ByteArrayOutputStream();
 		try {
-			resource.save(os, null);
+			importedResource.save(os, null);
+			String printedOwl = os.toString();
+			System.out.println(printedOwl);
+		} catch (IOException e) {
+			fail(e.getMessage());
+		}
+		
+		OntologyDocument importingDocument = factory.createOntologyDocument();
+		Ontology ontology = factory.createOntology();
+		ontology.setUri("http://test.uri/");
+		importingDocument.setOntology(ontology);
+		ontology.getImports().add(importedOntology);
+		
+		uri = URI.createURI("importingOntology.owl");
+		Resource importingResource = rs.createResource(uri);
+		assertNotNull("Resource could not be created", importingResource);
+		importingResource.getContents().add(importingDocument);
+		os = new ByteArrayOutputStream();
+		try {
+			importingResource.save(os, null);
+			String printedOwl = os.toString();
+			System.out.println(printedOwl);
+		} catch (IOException e) {
+			fail(e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testNonSavedOntologyImportsDeresolve(){
+		ResourceSet rs = new ResourceSetImpl();
+		
+		
+		OwlFactory factory = OwlFactory.eINSTANCE;
+		Ontology importedOntology = factory.createOntology();
+		importedOntology.setUri("http://test.uri/imported");
+		OntologyDocument importedDocument = factory.createOntologyDocument();
+		importedDocument.setOntology(importedOntology);
+		
+		
+		OntologyDocument importingDocument = factory.createOntologyDocument();
+		Ontology ontology = factory.createOntology();
+		ontology.setUri("http://test.uri/");
+		importingDocument.setOntology(ontology);
+		ontology.getImports().add(importedOntology);
+		
+		URI uri = URI.createURI("importingOntology.owl");
+		Resource importingResource = rs.createResource(uri);
+		assertNotNull("Resource could not be created", importingResource);
+		importingResource.getContents().add(importingDocument);
+		ByteArrayOutputStream os = new ByteArrayOutputStream();
+		try {
+			importingResource.save(os, null);
 			String printedOwl = os.toString();
 			System.out.println(printedOwl);
 		} catch (IOException e) {

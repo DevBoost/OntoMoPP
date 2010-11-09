@@ -16,6 +16,7 @@ package org.emftext.language.owl.resource.owl.analysis;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.emftext.language.owl.Ontology;
 import org.emftext.language.owl.loading.OntologyLoadExeption;
 import org.emftext.language.owl.loading.RemoteLoader;
@@ -34,7 +35,10 @@ public class OntologyImportsReferenceResolver
 			org.emftext.language.owl.Ontology element,
 			org.emftext.language.owl.Ontology container,
 			org.eclipse.emf.ecore.EReference reference) {
-		URI uri = element.eResource().getURI();
+		Resource eResource = element.eResource();
+		if (eResource == null) return element.getUri();
+		
+		URI uri = eResource.getURI();
 		if (uri.isFile() || uri.isPlatform()) {
 			return "<" + uri + ">";
 		}
