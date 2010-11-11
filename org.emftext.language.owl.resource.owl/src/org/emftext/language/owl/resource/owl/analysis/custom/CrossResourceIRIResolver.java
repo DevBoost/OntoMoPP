@@ -64,7 +64,8 @@ public class CrossResourceIRIResolver {
 		RESULT r = null;
 		String iriPrefix;
 		if (!hasPrefix(identifier)) {
-			iriPrefix = "";
+			// local references are resolved by default delegate
+			return;
 		}
 		else {
 			iriPrefix = getPrefix(identifier);
@@ -86,6 +87,7 @@ public class CrossResourceIRIResolver {
 				if (c.isInstance(iriIdentified)) {
 					r = (RESULT) iriIdentified;
 					result.addMapping(iriIdentified.getIri(), r);
+					if (!resolveFuzzy) return;
 				}
 			
 			}
