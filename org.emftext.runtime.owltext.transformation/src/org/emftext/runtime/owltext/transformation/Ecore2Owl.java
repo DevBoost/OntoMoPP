@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -40,6 +40,7 @@ import org.emftext.language.owl.DataPropertyFact;
 import org.emftext.language.owl.Datatype;
 import org.emftext.language.owl.DatatypeReference;
 import org.emftext.language.owl.Description;
+import org.emftext.language.owl.DisjointClasses;
 import org.emftext.language.owl.Feature;
 import org.emftext.language.owl.FeatureReference;
 import org.emftext.language.owl.FeatureRestriction;
@@ -73,6 +74,7 @@ public class Ecore2Owl {
 	private int constraintCounter = 0;
 	private HashMap<EClass, List<EClass>> allSupertypes = new HashMap<EClass, List<EClass>>();
 	private HashMap<EClass, List<EClass>> allSubtypes = new HashMap<EClass, List<EClass>>();
+	private HashMap<EClass, List<EClass>> directSubtypes = new HashMap<EClass, List<EClass>>();
 	private EPackage currentMetamodel;
 	private HashMap<EPackage, HashMap<ENamedElement, Frame>> importedTypeMaps = new HashMap<EPackage, HashMap<ENamedElement, Frame>>();
 	private URI targetURI;
@@ -82,6 +84,15 @@ public class Ecore2Owl {
 		if (subtypes == null) {
 			subtypes = new ArrayList<EClass>();
 			this.allSubtypes.put(key, subtypes);
+		}
+		subtypes.add(subtype);
+	}
+
+	private void addDirectSubtype(EClass directSupertype, EClass subtype) {
+		List<EClass> subtypes = this.directSubtypes.get(directSupertype);
+		if (subtypes == null) {
+			subtypes = new ArrayList<EClass>();
+			this.directSubtypes.put(directSupertype, subtypes);
 		}
 		subtypes.add(subtype);
 	}
@@ -102,7 +113,8 @@ public class Ecore2Owl {
 	private Frame getTypeMapping(ENamedElement type) {
 		Frame frame = eType2owlClass.get(type);
 		if (frame == null) {
-			EPackage eContainer = (EPackage) type.eContainer();
+			EPackage eContainer = (EPackage) type.eResource().getContents()
+					.get(0);
 			if (eContainer != currentMetamodel) {
 				HashMap<ENamedElement, Frame> importedMap = this.importedTypeMaps
 						.get(eContainer);
@@ -148,7 +160,8 @@ public class Ecore2Owl {
 		initStandardImports(d, metamodel);
 		ontology.setUri(metamodel.getNsURI());
 		propagateMetamodel(metamodel);
-		if (targetURI != null) saveOntology(targetURI, d);
+		if (targetURI != null)
+			saveOntology(targetURI, d);
 		return d;
 	}
 
@@ -166,13 +179,16 @@ public class Ecore2Owl {
 
 	private HashMap<ENamedElement, Frame> addMetamodelImport(
 			EPackage importedMetamodel) {
+		EPackage rootPackageOfImport = (EPackage) importedMetamodel.eResource()
+				.getContents().get(0);
+
 		Ecore2Owl transformation = new Ecore2Owl();
 		String importedMetamodelPrefix = importedMetamodel.getNsPrefix();
 		URI importedTargetURI = targetURI.trimFileExtension()
 				.appendFileExtension(importedMetamodelPrefix)
 				.appendFileExtension("owl");
 		OntologyDocument importedDocument = transformation.transformMetamodel(
-				importedMetamodel, importedTargetURI);
+				rootPackageOfImport, importedTargetURI);
 		OntologyDocument importingDocument = (OntologyDocument) this.ontology
 				.eContainer();
 
@@ -224,8 +240,8 @@ public class Ecore2Owl {
 		// namespaces.put("owl2xml", "http://www.w3.org/2006/12/owl2-xml#");
 
 		namespaces.put(metamodel.getNsPrefix() + ":", metamodel.getNsURI());
-		addSubpackages(metamodel.getNsPrefix() + ":", metamodel.getNsURI(),
-				namespaces, metamodel.getESubpackages());
+		// addSubpackages(metamodel.getNsPrefix() + ":", metamodel.getNsURI(),
+		// namespaces, metamodel.getESubpackages());
 
 		namespaces.put(":", metamodel.getNsURI());
 		for (String prefix : namespaces.keySet()) {
@@ -239,14 +255,14 @@ public class Ecore2Owl {
 
 	}
 
-	private void addSubpackages(String nsPrefix, String nsURI,
-			Map<String, String> namespaces, EList<EPackage> eSubpackages) {
-		for (EPackage ePackage : eSubpackages) {
-			namespaces.put(nsPrefix + "_" + ePackage.getNsPrefix(), nsURI);
-			addSubpackages(nsPrefix + "_" + ePackage.getNsPrefix(), nsURI,
-					namespaces, ePackage.getESubpackages());
-		}
-	}
+	// private void addSubpackages(String nsPrefix, String nsURI,
+	// Map<String, String> namespaces, EList<EPackage> eSubpackages) {
+	// for (EPackage ePackage : eSubpackages) {
+	// namespaces.put(nsPrefix + "_" + ePackage.getNsPrefix(), nsURI);
+	// addSubpackages(nsPrefix + "_" + ePackage.getNsPrefix(), nsURI,
+	// namespaces, ePackage.getESubpackages());
+	// }
+	// }
 
 	public OntologyDocument transform(Collection<EObject> eObjects) {
 		OntologyDocument d = owlFactory.createOntologyDocument();
@@ -324,6 +340,10 @@ public class Ecore2Owl {
 				for (EClass supertype : superTypes) {
 					addSubtype(supertype, eClass);
 				}
+				EList<EClass> directSuperTypes = eClass.getESuperTypes();
+				for (EClass directSupertype : directSuperTypes) {
+					addDirectSubtype(directSupertype, eClass);
+				}
 			} else if (elem instanceof EEnum)
 				transformEEnum((EEnum) elem);
 			else if (elem instanceof EDataType)
@@ -355,26 +375,6 @@ public class Ecore2Owl {
 					supertypes.getPrimaries().add(superClassAtomic);
 				}
 
-				Set<ENamedElement> disjointTypes = new HashSet<ENamedElement>(
-						eType2owlClass.keySet());
-				disjointTypes.remove(eclass);
-				List<EClass> subs = this.allSubtypes.get(eclass);
-				if (subs != null)
-					disjointTypes.removeAll(subs);
-				List<EClass> supers = this.allSupertypes.get(eclass);
-				if (supers != null)
-					disjointTypes.removeAll(supers);
-				for (ENamedElement type : disjointTypes) {
-					if (type instanceof EClass) {
-						Class disjointClass = (Class) getTypeMapping(type);
-						ClassAtomic disjointClassAtomic = owlFactory
-								.createClassAtomic();
-						disjointClassAtomic.setClazz(disjointClass);
-						owlClass.getDisjointWithClassesDescriptions().add(
-								disjointClassAtomic);
-					}
-				}
-
 				addCardinalityConstraintsClasses(eclass, owlClass);
 				if (supertypes.getPrimaries().size() == 0) {
 					Class owlThing = (Class) owlFactory.createClass();
@@ -389,6 +389,38 @@ public class Ecore2Owl {
 				owlClass.getSuperClassesDescriptions().add(supertypes);
 				addUserDefinedConstraints(eclass, owlClass);
 
+			}
+
+		}
+
+		List<ENamedElement> allNamedElements = new ArrayList<ENamedElement>();
+		allNamedElements.addAll(eType2owlClass.keySet());
+
+		Set<EClass> supertypes = this.directSubtypes.keySet();
+		for (EClass supertype : supertypes) {
+			List<EClass> subtypes = this.directSubtypes.get(supertype);
+			allNamedElements.removeAll(subtypes);
+			DisjointClasses disjointClasses = owlFactory
+					.createDisjointClasses();
+			ontology.getFrames().add(disjointClasses);
+			for (EClass subtype : subtypes) {
+				Class subframe = (Class) getTypeMapping(subtype);
+				ClassAtomic subclassAtomic = owlFactory.createClassAtomic();
+				subclassAtomic.setClazz(subframe);
+				disjointClasses.getDescriptions().add(subclassAtomic);
+			}
+		}
+
+		// make remaining types disjoint
+		DisjointClasses disjointClasses = owlFactory.createDisjointClasses();
+		ontology.getFrames().add(disjointClasses);
+		for(ENamedElement eNamedElement : allNamedElements) {
+			if (eNamedElement instanceof EClass) {
+				EClass cls = (EClass) eNamedElement;
+				Class subframe = (Class) getTypeMapping(cls);
+				ClassAtomic subclassAtomic = owlFactory.createClassAtomic();
+				subclassAtomic.setClazz(subframe);
+				disjointClasses.getDescriptions().add(subclassAtomic);
 			}
 
 		}
