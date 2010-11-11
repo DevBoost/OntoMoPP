@@ -6,6 +6,7 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.emftext.language.owlcl.OWLCLSpec;
 import org.emftext.language.owlcl.Type;
+import org.emftext.language.owlcl.resource.owlcl.IOwlclReferenceResolveResult;
 
 public class CustomEcoreClassReferenceResolver {
 
@@ -19,12 +20,22 @@ public class CustomEcoreClassReferenceResolver {
 
 		EList<Type> types = spec.getTypes();
 		findInClasses(identifier, resolveFuzzy, result, types);
-		if (! resolveFuzzy && result.getMappings() != null && result.getMappings().size() > 0) return;
 		
 		EPackage constrainedMetamodel = spec.getConstrainedMetamodel();
 		EList<EClassifier> eClassifiers = constrainedMetamodel
 				.getEClassifiers();
 		findInClasses(identifier, resolveFuzzy, result, eClassifiers);
+		findInSubpackages(identifier, resolveFuzzy, result, constrainedMetamodel);
+	}
+
+	private void findInSubpackages(String identifier, boolean resolveFuzzy,
+			IOwlclReferenceResolveResult<EClass> result,
+			EPackage superpackage) {
+		if (! resolveFuzzy && result.getMappings() != null && result.getMappings().size() > 0) return;
+		EList<EPackage> eSubpackages = superpackage.getESubpackages();
+		for (EPackage ePackage : eSubpackages) {
+			findInClasses(identifier, resolveFuzzy, result, ePackage.getEClassifiers());
+		}
 	}
 
 	private void findInClasses(
@@ -32,6 +43,7 @@ public class CustomEcoreClassReferenceResolver {
 			boolean resolveFuzzy,
 			final org.emftext.language.owlcl.resource.owlcl.IOwlclReferenceResolveResult<org.eclipse.emf.ecore.EClass> result,
 			EList<? extends EClassifier> eClassifiers) {
+		if (! resolveFuzzy && result.getMappings() != null && result.getMappings().size() > 0) return;
 		for (EClassifier eClassifier : eClassifiers) {
 			if (eClassifier instanceof EClass) {
 				EClass cls = (EClass) eClassifier;
