@@ -229,7 +229,7 @@ public class RemoteLoader {
 
 	private List<IRIIdentified> findEntity(String identifier, Ontology onto, boolean resolveFuzzy) {
 		List<IRIIdentified> results = new ArrayList<IRIIdentified>();
-		Map<String, Frame> iriMap = url2irimaps.get(onto);
+		Map<String, Frame> iriMap = url2irimaps.get(onto.getUri());
 		if (iriMap == null) {
 			iriMap = intialiseIriMap(onto);
 		}
