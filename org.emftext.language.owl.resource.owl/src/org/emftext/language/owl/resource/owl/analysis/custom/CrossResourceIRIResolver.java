@@ -126,7 +126,10 @@ public class CrossResourceIRIResolver {
 			List<IRIIdentified> entity = remoteLoader.getOntologyElement(identifier, resolveFuzzy);
 			return entity;
 		}
-
+		if (iriPrefix == "") {
+			return remoteLoader.getOntologyElement(identifier, ontologyDocument.getOntology(), resolveFuzzy);
+			
+		}
 		EList<Namespace> namespaces = ontologyDocument.getNamespace();
 		for (Namespace namespace : namespaces) {
 			if (iriPrefix.equals(namespace.getPrefix())) {
