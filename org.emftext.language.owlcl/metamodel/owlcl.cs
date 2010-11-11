@@ -17,16 +17,9 @@ OPTIONS {
 	overrideManifest = "false" ;
 }
 
-
-
 TOKENS {
 	DEFINE X $'df'$;
 }
-
-TOKENSTYLES {
-	X 
-}
-
 
 RULES {
 	OWLCLSpec ::= "import" constrainedMetamodel['"','"'] ("refinements:" "{" types* "}")? constraints*;
