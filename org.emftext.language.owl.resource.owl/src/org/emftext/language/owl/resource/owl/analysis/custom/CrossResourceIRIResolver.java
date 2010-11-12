@@ -66,14 +66,14 @@ public class CrossResourceIRIResolver {
 		if (!hasPrefix(identifier)) {
 			// local references are resolved by default delegate
 			return;
-		}
-		else {
+		} else {
 			iriPrefix = getPrefix(identifier);
 			identifier = getId(identifier);
 		}
 		List<IRIIdentified> entityList;
 		try {
-			entityList = getOntologyEntity(iriPrefix, containerObject, identifier, resolveFuzzy);
+			entityList = getOntologyEntity(iriPrefix, containerObject,
+					identifier, resolveFuzzy);
 		} catch (OntologyLoadExeption e) {
 			result.setErrorMessage(e.getMessage());
 			return;
@@ -81,17 +81,18 @@ public class CrossResourceIRIResolver {
 		if (entityList != null && entityList.size() != 0) {
 			for (IRIIdentified iriIdentified : entityList) {
 				if (iriIdentified.eIsProxy()) {
-					iriIdentified = (IRIIdentified) EcoreUtil.resolve(iriIdentified,
-							containerObject);
+					iriIdentified = (IRIIdentified) EcoreUtil.resolve(
+							iriIdentified, containerObject);
 				}
 				if (c.isInstance(iriIdentified)) {
 					r = (RESULT) iriIdentified;
 					result.addMapping(iriIdentified.getIri(), r);
-					if (!resolveFuzzy) return;
+					if (!resolveFuzzy)
+						return;
 				}
-			
+
 			}
-			
+
 		}
 	}
 
@@ -111,8 +112,9 @@ public class CrossResourceIRIResolver {
 		EList<EObject> contents = containerObject.eResource().getContents();
 		for (EObject object : contents) {
 			if (object instanceof OntologyDocument) {
-				List<IRIIdentified> entityList = searchOntologyEntity(iriPrefix,
-						(OntologyDocument) object, identifier, resolveFuzzy);
+				List<IRIIdentified> entityList = searchOntologyEntity(
+						iriPrefix, (OntologyDocument) object, identifier,
+						resolveFuzzy);
 				return entityList;
 			}
 		}
@@ -120,17 +122,19 @@ public class CrossResourceIRIResolver {
 	}
 
 	private List<IRIIdentified> searchOntologyEntity(String iriPrefix,
-			OntologyDocument ontologyDocument, String identifier, boolean resolveFuzzy)
-			throws OntologyLoadExeption {
+			OntologyDocument ontologyDocument, String identifier,
+			boolean resolveFuzzy) throws OntologyLoadExeption {
 		String uri = standardNamespaces.get(iriPrefix);
 		if (uri != null) {
 			remoteLoader.loadOntology(uri, ontologyDocument);
-			List<IRIIdentified> entity = remoteLoader.getOntologyElement(identifier, resolveFuzzy);
+			List<IRIIdentified> entity = remoteLoader.getOntologyElement(
+					identifier, resolveFuzzy);
 			return entity;
 		}
-		if (iriPrefix == "") {
-			return remoteLoader.getOntologyElement(identifier, ontologyDocument.getOntology(), resolveFuzzy);
-			
+		if ("".equals(iriPrefix)) {
+			return remoteLoader.getOntologyElement(identifier,
+					ontologyDocument.getOntology(), resolveFuzzy);
+
 		}
 		EList<Namespace> namespaces = ontologyDocument.getNamespace();
 		for (Namespace namespace : namespaces) {
@@ -139,15 +143,18 @@ public class CrossResourceIRIResolver {
 				if (uri == null)
 					return null;
 				List<IRIIdentified> entity;
-				if (namespace.getImportedOntology() == null || namespace.getImportedOntology().eIsProxy()) {
+				if (namespace.getImportedOntology() == null
+						|| namespace.getImportedOntology().eIsProxy()) {
 					remoteLoader.loadOntology(uri, ontologyDocument);
-					entity = remoteLoader.getOntologyElement(identifier, resolveFuzzy);
+					entity = remoteLoader.getOntologyElement(identifier,
+							resolveFuzzy);
 				} else {
-					remoteLoader.addUriMapping(uri, namespace.getImportedOntology());
-					entity = remoteLoader
-					.getOntologyElement(identifier, namespace.getImportedOntology(), resolveFuzzy);
+					remoteLoader.addUriMapping(uri,
+							namespace.getImportedOntology());
+					entity = remoteLoader.getOntologyElement(identifier,
+							namespace.getImportedOntology(), resolveFuzzy);
 				}
-			
+
 				return entity;
 			}
 		}
@@ -189,11 +196,12 @@ public class CrossResourceIRIResolver {
 		Ontology containerContainingOntology = getContainingOntology(container);
 		if (containerContainingOntology == elementContainingOntology) {
 			return element.getIri();
-		} else if (elementContainingOntology != null ) {
-			EList<Namespace> namespaces = getContainingOntologyDocument(container).getNamespace();
+		} else if (elementContainingOntology != null) {
+			EList<Namespace> namespaces = getContainingOntologyDocument(
+					container).getNamespace();
 			for (Namespace namespace : namespaces) {
-				if (namespace.getImportedOntology().getUri().equals(
-						elementContainingOntology.getUri())) {
+				if (namespace.getImportedOntology().getUri()
+						.equals(elementContainingOntology.getUri())) {
 					return namespace.getPrefix() + element.getIri();
 				}
 			}
