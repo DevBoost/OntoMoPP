@@ -6,37 +6,8 @@
  */
 package org.emftext.language.owl.resource.owl.analysis;
 
+
 public class OwlDefaultResolverDelegate<ContainerType extends org.eclipse.emf.ecore.EObject, ReferenceType extends org.eclipse.emf.ecore.EObject> {
-	
-	private static class ReferenceCache implements org.emftext.language.owl.resource.owl.IOwlReferenceCache, org.eclipse.emf.common.notify.Adapter {
-		
-		private java.util.Map<String, Object> cache = new java.util.LinkedHashMap<String, Object>();
-		private org.eclipse.emf.common.notify.Notifier target;
-		
-		public org.eclipse.emf.common.notify.Notifier getTarget() {
-			return target;
-		}
-		
-		public boolean isAdapterForType(Object arg0) {
-			return false;
-		}
-		
-		public void notifyChanged(org.eclipse.emf.common.notify.Notification arg0) {
-		}
-		
-		public void setTarget(org.eclipse.emf.common.notify.Notifier arg0) {
-			target = arg0;
-		}
-		
-		public Object get(String identifier) {
-			return cache.get(identifier);
-		}
-		
-		public void put(String identifier, Object newObject) {
-			cache.put(identifier, newObject);
-		}
-		
-	}
 	
 	public final static String NAME_FEATURE = "name";
 	
@@ -249,19 +220,5 @@ public class OwlDefaultResolverDelegate<ContainerType extends org.eclipse.emf.ec
 			// the identifier string is not a valid URI
 			return null;
 		}
-	}
-	
-	protected org.emftext.language.owl.resource.owl.IOwlReferenceCache getCache(org.eclipse.emf.ecore.EObject object) {
-		org.eclipse.emf.ecore.EObject root = org.emftext.language.owl.resource.owl.util.OwlEObjectUtil.findRootContainer(object);
-		java.util.List<org.eclipse.emf.common.notify.Adapter> eAdapters = root.eAdapters();
-		for (org.eclipse.emf.common.notify.Adapter adapter : eAdapters) {
-			if (adapter instanceof ReferenceCache) {
-				ReferenceCache cache = (ReferenceCache) adapter;
-				return cache;
-			}
-		}
-		ReferenceCache cache = new ReferenceCache();
-		root.eAdapters().add(cache);
-		return cache;
 	}
 }
