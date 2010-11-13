@@ -42,8 +42,6 @@ public class OwlclBuilder implements
 			OWLCLSpec spec = (OWLCLSpec) resource.getContents().get(0);
 
 			cleanMetaclasses(spec.getConstrainedMetamodel());
-
-			
 			
 			EList<Constraint> constraints = spec.getConstraints();
 			for (Constraint c : constraints) {
@@ -86,6 +84,10 @@ public class OwlclBuilder implements
 	}
 
 	private void cleanMetaclasses(EPackage constrainedMetamodel) {
+		EList<EPackage> eSubpackages = constrainedMetamodel.getESubpackages();
+		for (EPackage subpackages : eSubpackages) {
+			cleanMetaclasses(subpackages);
+		}
 		EList<EClassifier> classifiers = constrainedMetamodel.getEClassifiers();
 		for (EClassifier eClassifier : classifiers) {
 
