@@ -113,7 +113,6 @@ public class Ecore2Owl {
 	private Frame getTypeMapping(ENamedElement type) {
 		Frame frame = eType2owlClass.get(type);
 		if (frame == null) {
-			System.out.println(type);
 			EPackage eContainer = (EPackage) type.eResource().getContents()
 					.get(0);
 			if (eContainer != currentMetamodel) {
