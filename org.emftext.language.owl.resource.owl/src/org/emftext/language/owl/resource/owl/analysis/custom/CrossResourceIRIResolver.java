@@ -64,8 +64,7 @@ public class CrossResourceIRIResolver {
 		RESULT r = null;
 		String iriPrefix;
 		if (!hasPrefix(identifier)) {
-			// local references are resolved by default delegate
-			return;
+			iriPrefix = "";
 		} else {
 			iriPrefix = getPrefix(identifier);
 			identifier = getId(identifier);

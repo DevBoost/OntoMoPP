@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -113,6 +113,7 @@ public class Ecore2Owl {
 	private Frame getTypeMapping(ENamedElement type) {
 		Frame frame = eType2owlClass.get(type);
 		if (frame == null) {
+			System.out.println(type);
 			EPackage eContainer = (EPackage) type.eResource().getContents()
 					.get(0);
 			if (eContainer != currentMetamodel) {
@@ -184,9 +185,13 @@ public class Ecore2Owl {
 
 		Ecore2Owl transformation = new Ecore2Owl();
 		String importedMetamodelPrefix = importedMetamodel.getNsPrefix();
-		URI importedTargetURI = targetURI.trimFileExtension()
-				.appendFileExtension(importedMetamodelPrefix)
+		URI importedTargetURI = null;
+		if (! (targetURI == null)) {
+			importedTargetURI = targetURI.trimFileExtension()
+			.appendFileExtension(importedMetamodelPrefix)
 				.appendFileExtension("owl");
+		}
+		
 		OntologyDocument importedDocument = transformation.transformMetamodel(
 				rootPackageOfImport, importedTargetURI);
 		OntologyDocument importingDocument = (OntologyDocument) this.ontology
@@ -359,6 +364,18 @@ public class Ecore2Owl {
 				transformEAttribute((EAttribute) elem);
 		}
 
+		Set<EClass> allClasses = new HashSet<EClass>();
+		Set<ENamedElement> types = eType2owlClass.keySet();
+		for (ENamedElement eNamedElement : types) {
+			if (eNamedElement instanceof EClass) {
+				EClass eClass = (EClass) eNamedElement;
+				if (eClass.getESuperTypes().isEmpty())
+					allClasses.add(eClass);
+			}
+		}
+
+		addDisjointSubClasses(allClasses);
+
 		Set<ENamedElement> keySet = eType2owlClass.keySet();
 		for (ENamedElement classifier : keySet) {
 			if (classifier instanceof EClass) {
@@ -393,38 +410,79 @@ public class Ecore2Owl {
 
 		}
 
-		List<ENamedElement> allNamedElements = new ArrayList<ENamedElement>();
-		allNamedElements.addAll(eType2owlClass.keySet());
+	}
 
-		Set<EClass> supertypes = this.directSubtypes.keySet();
-		for (EClass supertype : supertypes) {
-			List<EClass> subtypes = this.directSubtypes.get(supertype);
-			allNamedElements.removeAll(subtypes);
-			DisjointClasses disjointClasses = owlFactory
-					.createDisjointClasses();
-			ontology.getFrames().add(disjointClasses);
-			for (EClass subtype : subtypes) {
-				Class subframe = (Class) getTypeMapping(subtype);
-				ClassAtomic subclassAtomic = owlFactory.createClassAtomic();
-				subclassAtomic.setClazz(subframe);
-				disjointClasses.getDescriptions().add(subclassAtomic);
+	private void addDisjointSubClasses(Set<EClass> classes) {
+		Set<Set<EClass>> seenSets = new HashSet<Set<EClass>>();
+		for (EClass eClass : classes) {
+			Set<EClass> subclasses = getSubclasses(eClass);
+			Set<EClass> disjoints = new HashSet<EClass>();
+			disjoints.add(eClass);
+
+			List<EClass> directSubtypes = this.directSubtypes.get(eClass);
+
+			if (directSubtypes != null && directSubtypes.size() > 1) {
+				Set<EClass> foundDirectSubtypes = new HashSet<EClass>();
+				foundDirectSubtypes.addAll(directSubtypes);
+				addDisjointSubClasses(foundDirectSubtypes);
+			}
+
+			for (EClass disjointCandidate : classes) {
+				Set<EClass> candidateSubclasses = getSubclasses(disjointCandidate);
+
+				// no shared subclasses allowed
+				if (candidateSubclasses.removeAll(subclasses))
+					continue;
+				// superclass already included
+				if (candidateSubclasses.removeAll(disjoints))
+					continue;
+
+				subclasses.addAll(candidateSubclasses);
+				disjoints.add(disjointCandidate);
+				disjoints.removeAll(subclasses);
+			}
+
+			if (disjoints.size() > 1) {
+				if (seenSets.contains(disjoints)) continue;
+				seenSets.add(disjoints);
+				
+				DisjointClasses disjointClasses = owlFactory
+						.createDisjointClasses();
+				ontology.getFrames().add(disjointClasses);
+				for (EClass d : disjoints) {
+					Class owlClass = (Class) getTypeMapping(d);
+					ClassAtomic classAtomic = owlFactory.createClassAtomic();
+					classAtomic.setClazz(owlClass);
+					disjointClasses.getDescriptions().add(classAtomic);
+				}
 			}
 		}
 
-		// make remaining types disjoint
-		DisjointClasses disjointClasses = owlFactory.createDisjointClasses();
-		ontology.getFrames().add(disjointClasses);
-		for(ENamedElement eNamedElement : allNamedElements) {
-			if (eNamedElement instanceof EClass) {
-				EClass cls = (EClass) eNamedElement;
-				Class subframe = (Class) getTypeMapping(cls);
-				ClassAtomic subclassAtomic = owlFactory.createClassAtomic();
-				subclassAtomic.setClazz(subframe);
-				disjointClasses.getDescriptions().add(subclassAtomic);
-			}
+	}
 
+	private Set<EClass> getSuperclasses(Set<EClass> classes) {
+		Set<EClass> superclasses = new HashSet<EClass>();
+		for (EClass subclass : classes) {
+			superclasses.addAll(getSuperclasses(subclass));
 		}
+		return superclasses;
+	}
 
+	private Set<EClass> getSuperclasses(EClass cls) {
+		List<EClass> foundSupertypes = this.allSupertypes.get(cls);
+		Set<EClass> superclasses = new HashSet<EClass>();
+		if (foundSupertypes != null)
+			superclasses.addAll(foundSupertypes);
+		return superclasses;
+	}
+
+	private Set<EClass> getSubclasses(EClass cls) {
+		Set<EClass> subclasses = new HashSet<EClass>();
+		List<EClass> foundSubtypes = this.allSubtypes.get(cls);
+		if (foundSubtypes != null)
+			subclasses.addAll(foundSubtypes);
+
+		return subclasses;
 	}
 
 	private void addOwlDefinitionSupertypes(Class owlClass, EClass eclass,
