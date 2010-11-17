@@ -23,6 +23,7 @@ import org.emftext.language.owl.resource.owl.IOwlBuilder;
 import org.emftext.language.owl.resource.owl.IOwlProblem;
 import org.emftext.language.owl.resource.owl.IOwlQuickFix;
 import org.emftext.language.owl.resource.owl.IOwlTextDiagnostic;
+import org.emftext.language.owl.resource.owl.OwlEProblemSeverity;
 import org.emftext.language.owl.resource.owl.OwlEProblemType;
 import org.emftext.language.owl.resource.owl.mopp.OwlBuilderAdapter;
 import org.emftext.language.owl.resource.owl.mopp.OwlMarkerHelper;
@@ -48,6 +49,7 @@ public class OwlReasoningBuilder extends IncrementalProjectBuilder implements
 	}
 
 	public IStatus build(OwlResource resource, IProgressMonitor monitor) {
+		OwlMarkerHelper.unmark(resource, OwlEProblemType.BUILDER_ERROR);
 		IFile file = WorkspaceSynchronizer.getFile(resource);
 		InputStream stream;
 		try {
@@ -90,7 +92,7 @@ public class OwlReasoningBuilder extends IncrementalProjectBuilder implements
 				resource.addProblem(new IOwlProblem() {
 
 					public OwlEProblemType getType() {
-						return OwlEProblemType.ERROR;
+						return OwlEProblemType.BUILDER_ERROR;
 					}
 
 					public String getMessage() {
@@ -99,6 +101,10 @@ public class OwlReasoningBuilder extends IncrementalProjectBuilder implements
 
 					public Collection<IOwlQuickFix> getQuickFixes() {
 						return null;
+					}
+
+					public OwlEProblemSeverity getSeverity() {
+						return OwlEProblemSeverity.ERROR;
 					}
 
 				}, resource.getContents().get(0));
@@ -115,7 +121,7 @@ public class OwlReasoningBuilder extends IncrementalProjectBuilder implements
 						resource.addProblem(new IOwlProblem() {
 
 							public OwlEProblemType getType() {
-								return OwlEProblemType.ERROR;
+								return OwlEProblemType.BUILDER_ERROR;
 							}
 
 							public String getMessage() {
@@ -125,6 +131,10 @@ public class OwlReasoningBuilder extends IncrementalProjectBuilder implements
 
 							public Collection<IOwlQuickFix> getQuickFixes() {
 								return null;
+							}
+
+							public OwlEProblemSeverity getSeverity() {
+								return OwlEProblemSeverity.ERROR;
 							}
 
 						}, next);

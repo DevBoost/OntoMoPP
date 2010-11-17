@@ -17,6 +17,41 @@
 		</super>
 	</extension>
 	
+	<extension id="org.emftext.language.owlcl.resource.owlcl.problem.syntax_error" name="EMFText Problem" point="org.eclipse.core.resources.markers">
+		<persistent value="true">
+		</persistent>
+		<super type="org.emftext.language.owlcl.resource.owlcl.problem">
+		</super>
+	</extension>
+	
+	<extension id="org.emftext.language.owlcl.resource.owlcl.problem.print_problem" name="EMFText Problem" point="org.eclipse.core.resources.markers">
+		<persistent value="true">
+		</persistent>
+		<super type="org.emftext.language.owlcl.resource.owlcl.problem">
+		</super>
+	</extension>
+	
+	<extension id="org.emftext.language.owlcl.resource.owlcl.problem.unresolved_reference" name="EMFText Problem" point="org.eclipse.core.resources.markers">
+		<persistent value="true">
+		</persistent>
+		<super type="org.emftext.language.owlcl.resource.owlcl.problem">
+		</super>
+	</extension>
+	
+	<extension id="org.emftext.language.owlcl.resource.owlcl.problem.analysis_problem" name="EMFText Problem" point="org.eclipse.core.resources.markers">
+		<persistent value="true">
+		</persistent>
+		<super type="org.emftext.language.owlcl.resource.owlcl.problem">
+		</super>
+	</extension>
+	
+	<extension id="org.emftext.language.owlcl.resource.owlcl.problem.builder_error" name="EMFText Problem" point="org.eclipse.core.resources.markers">
+		<persistent value="true">
+		</persistent>
+		<super type="org.emftext.language.owlcl.resource.owlcl.problem">
+		</super>
+	</extension>
+	
 	<extension id="org.emftext.language.owlcl.resource.owlcl.nature" name="owlcl nature" point="org.eclipse.core.resources.natures">
 		<runtime>
 			<run class="org.emftext.language.owlcl.resource.owlcl.mopp.OwlclNature" />

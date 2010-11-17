@@ -17,6 +17,41 @@
 		</super>
 	</extension>
 	
+	<extension id="org.emftext.language.sparql.resource.sparql.problem.syntax_error" name="EMFText Problem" point="org.eclipse.core.resources.markers">
+		<persistent value="true">
+		</persistent>
+		<super type="org.emftext.language.sparql.resource.sparql.problem">
+		</super>
+	</extension>
+	
+	<extension id="org.emftext.language.sparql.resource.sparql.problem.print_problem" name="EMFText Problem" point="org.eclipse.core.resources.markers">
+		<persistent value="true">
+		</persistent>
+		<super type="org.emftext.language.sparql.resource.sparql.problem">
+		</super>
+	</extension>
+	
+	<extension id="org.emftext.language.sparql.resource.sparql.problem.unresolved_reference" name="EMFText Problem" point="org.eclipse.core.resources.markers">
+		<persistent value="true">
+		</persistent>
+		<super type="org.emftext.language.sparql.resource.sparql.problem">
+		</super>
+	</extension>
+	
+	<extension id="org.emftext.language.sparql.resource.sparql.problem.analysis_problem" name="EMFText Problem" point="org.eclipse.core.resources.markers">
+		<persistent value="true">
+		</persistent>
+		<super type="org.emftext.language.sparql.resource.sparql.problem">
+		</super>
+	</extension>
+	
+	<extension id="org.emftext.language.sparql.resource.sparql.problem.builder_error" name="EMFText Problem" point="org.eclipse.core.resources.markers">
+		<persistent value="true">
+		</persistent>
+		<super type="org.emftext.language.sparql.resource.sparql.problem">
+		</super>
+	</extension>
+	
 	<extension id="org.emftext.language.sparql.resource.sparql.nature" name="rq nature" point="org.eclipse.core.resources.natures">
 		<runtime>
 			<run class="org.emftext.language.sparql.resource.sparql.mopp.RqNature" />
