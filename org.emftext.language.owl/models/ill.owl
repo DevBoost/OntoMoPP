@@ -30,5 +30,5 @@ Ontology: <http://example.com/owl/families>
  
  
  Class: OldPerson
- 	SubClassOf: Person , hasAge min 60
+ 	SubClassOf: Person, hasAge min 60
  

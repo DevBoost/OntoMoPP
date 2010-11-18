@@ -1,3 +1,5 @@
+Prefix: :  <platform:/org.emftext.language.owl/models/mappingValidation.owl#> 
+
 Ontology: <platform:/org.emftext.language.owl/models/mappingValidation.owl> 
 
 Class: Feature
