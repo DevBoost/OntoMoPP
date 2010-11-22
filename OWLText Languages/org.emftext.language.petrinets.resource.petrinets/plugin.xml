@@ -13,6 +13,43 @@
 		</super>
 		<super type="org.eclipse.core.resources.textmarker">
 		</super>
+		<super type="org.eclipse.emf.ecore.diagnostic">
+		</super>
+	</extension>
+	
+	<extension id="org.emftext.language.petrinets.resource.petrinets.problem.syntax_error" name="EMFText Problem" point="org.eclipse.core.resources.markers">
+		<persistent value="true">
+		</persistent>
+		<super type="org.emftext.language.petrinets.resource.petrinets.problem">
+		</super>
+	</extension>
+	
+	<extension id="org.emftext.language.petrinets.resource.petrinets.problem.print_problem" name="EMFText Problem" point="org.eclipse.core.resources.markers">
+		<persistent value="true">
+		</persistent>
+		<super type="org.emftext.language.petrinets.resource.petrinets.problem">
+		</super>
+	</extension>
+	
+	<extension id="org.emftext.language.petrinets.resource.petrinets.problem.unresolved_reference" name="EMFText Problem" point="org.eclipse.core.resources.markers">
+		<persistent value="true">
+		</persistent>
+		<super type="org.emftext.language.petrinets.resource.petrinets.problem">
+		</super>
+	</extension>
+	
+	<extension id="org.emftext.language.petrinets.resource.petrinets.problem.analysis_problem" name="EMFText Problem" point="org.eclipse.core.resources.markers">
+		<persistent value="true">
+		</persistent>
+		<super type="org.emftext.language.petrinets.resource.petrinets.problem">
+		</super>
+	</extension>
+	
+	<extension id="org.emftext.language.petrinets.resource.petrinets.problem.builder_error" name="EMFText Problem" point="org.eclipse.core.resources.markers">
+		<persistent value="true">
+		</persistent>
+		<super type="org.emftext.language.petrinets.resource.petrinets.problem">
+		</super>
 	</extension>
 	
 	<extension id="org.emftext.language.petrinets.resource.petrinets.nature" name="petrinets nature" point="org.eclipse.core.resources.natures">

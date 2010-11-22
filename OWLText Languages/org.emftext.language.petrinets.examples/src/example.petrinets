@@ -6,6 +6,6 @@ petrinet "example" {
  	// invalid as start places are not allowed to have incoming arcs
  	place "Start"
    	transition "t"
- 	
+ 
  	"t" -> "Start"
 } 
