@@ -82,5 +82,29 @@ package petrinets // this is the package name
 		reference Variable variable (1..1);
 	}
 	
+	class StringLiteral extends Expression {
+		attribute EString value (1..1);
+	}
+	
+	class IntegerLiteral extends Expression {
+		attribute EInt value (1..1);
+	}
+	
+	class BooleanLiteral extends Expression {
+		attribute EBoolean value (1..1);
+	}
+	
+	class DoubleLiteral extends Expression {
+		attribute EDouble value (1..1);
+	}
+	
+	class FloatLiteral extends Expression {
+		attribute EFloat value (1..1);
+	}
+	
+	class LongLiteral extends Expression {
+		attribute ELong value (1..1);
+	}
+	
 
 }

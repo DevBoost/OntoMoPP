@@ -57,17 +57,21 @@ public class FunctionCallFunctionReferenceResolver
 		if (expected.size() != found.size()) {
 			return false;
 		}
-		for (int i = 0; i < expected.size(); i++) {
+		parameterloop: for (int i = 0; i < expected.size(); i++) {
 			EClassifier parameterType = expected.get(i).getType();
 			EClassifier type = FunctionCache.getInstance()
 					.getType(found.get(i));
-			if (type.equals(parameterType)) {
+			if (type.getInstanceClassName().equals(parameterType.getInstanceClassName())) {
 				continue;
 			}
 			if (parameterType instanceof EClass && type instanceof EClass) {
 				EClass parameterClass = (EClass) parameterType;
-				if (parameterClass.isSuperTypeOf((EClass) type)) {
-					continue;
+				EClass typeClass = (EClass) type;
+				EList<EClass> eAllSuperTypes = typeClass.getEAllSuperTypes();
+				for (EClass supertype : eAllSuperTypes) {
+					if (supertype.getInstanceClassName().equals(parameterClass.getInstanceClassName())) {
+						break parameterloop;
+					}
 				}
 			}
 			return false;

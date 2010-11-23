@@ -12,11 +12,11 @@ import <./math.text.ecore>;
    	transition "t"
  
  	"dod" -> "t" {
- 		v = getName().toUpperCase(); 
- 		x = getName();
+ 		vd = getName().toUpperCase().substring(3, 4).size();
+ 		xx = getName();
+ 		y = getElements().getId().size();
  	}
  	"t" -> "did" {
- 		v.toUpperCase();
- 		x.size();
+ 		setName(xx);
  	}
 } 

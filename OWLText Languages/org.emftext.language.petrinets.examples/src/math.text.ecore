@@ -5,7 +5,12 @@ package math // this is the package name
 
 	class Expression {
 		containment reference Operator operator (1..1);
+		containment reference Elements elements (1..-1);
 		attribute EString name (1..1);
+	}
+	
+	class Elements {
+		attribute EString id (1..1);
 	}
 	
 	enum Operator {

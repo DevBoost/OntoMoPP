@@ -10,18 +10,27 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.petrinets.Arc;
+import org.emftext.language.petrinets.BooleanLiteral;
+import org.emftext.language.petrinets.DoubleLiteral;
 import org.emftext.language.petrinets.Expression;
+import org.emftext.language.petrinets.FloatLiteral;
 import org.emftext.language.petrinets.Function;
 import org.emftext.language.petrinets.FunctionCall;
+import org.emftext.language.petrinets.IntegerLiteral;
+import org.emftext.language.petrinets.LongLiteral;
 import org.emftext.language.petrinets.Parameter;
 import org.emftext.language.petrinets.PetriNet;
 import org.emftext.language.petrinets.PetrinetsFactory;
 import org.emftext.language.petrinets.Place;
+import org.emftext.language.petrinets.StringLiteral;
 import org.emftext.language.petrinets.Variable;
 import org.emftext.language.petrinets.VariableCall;
 import org.emftext.language.petrinets.impl.PetrinetsFactoryImpl;
@@ -29,11 +38,11 @@ import org.emftext.language.petrinets.impl.PetrinetsFactoryImpl;
 public class FunctionCache {
 
 	private static FunctionCache theInstance;
-	private Map<String, List<Function>> functionCache;
+	private Map<EClassifier, List<Function>> functionCache;
 	private Map<String, List<Function>> basicFunctions;
 
 	private FunctionCache() {
-		functionCache = new HashMap<String, List<Function>>();
+		functionCache = new HashMap<EClassifier, List<Function>>();
 		basicFunctions = new HashMap<String, List<Function>>();
 		initBasicFunctionCache();
 	}
@@ -78,13 +87,13 @@ public class FunctionCache {
 		if (basics != null) {
 			functions.addAll(basics);
 		}
-		List<Function> cachedFunctions = functionCache.get(type
-				.getInstanceClassName());
-		if (cachedFunctions == null) {
-			cachedFunctions = calculateFunctions(type);
-			functionCache.put(type.getInstanceClassName(), cachedFunctions);
-		}
-		functions.addAll(cachedFunctions);
+			List<Function> cachedFunctions = functionCache.get(type);
+			if (cachedFunctions == null) {
+				cachedFunctions = calculateFunctions(type);
+				functionCache.put(type, cachedFunctions);
+			}
+			functions.addAll(cachedFunctions);
+	
 	}
 
 	private List<Function> calculateFunctions(EClassifier type) {
@@ -113,14 +122,20 @@ public class FunctionCache {
 		return functions;
 	}
 	
-	public List<Function> getDeclaredFunctions(Expression container) {
+	public List<Function> getDeclaredFunctions(Expression contextObject) {
 		List<Function> functions = new ArrayList<Function>();
-		EObject containingObject = container.eContainer();
+		EObject containingObject = contextObject.eContainer();
 		EClassifier contextType = null;
 		if (containingObject instanceof Variable) {
 			contextType = calculateVariableContextType((Variable) containingObject);
 
-		} else if (containingObject instanceof Expression) {
+		} 
+		else if (containingObject instanceof Arc){ 
+			contextType = calculateArcContextType((Arc) containingObject);
+
+		}
+		if (containingObject instanceof Expression) {
+				
 			Expression e = (Expression) containingObject;
 			contextType = getType(e);
 		}
@@ -130,6 +145,8 @@ public class FunctionCache {
 		return functions;
 	}
 
+	
+
 	private void addFunctionsToList(List<Function> functions, EClassifier type) {
 		FunctionCache.getInstance().addFunctions(functions, type);
 	}
@@ -138,6 +155,15 @@ public class FunctionCache {
 		Arc arc = (Arc) containingObject.eContainer();
 		if (arc.getIn() instanceof Place) {
 			Place p = (Place) arc.getIn();
+			return p.getType();
+		}
+	
+		return null;
+	}
+	
+	private EClassifier calculateArcContextType(Arc arc) {
+		if (arc.getOut() instanceof Place) {
+			Place p = (Place) arc.getOut();
 			return p.getType();
 		}
 		return null;
@@ -171,9 +197,28 @@ public class FunctionCache {
 		}
 		if (e instanceof FunctionCall) {
 			FunctionCall fc = (FunctionCall) e;
-			EClassifier type = fc.getFunction().getType();
+			Function function = fc.getFunction();
+			EClassifier type = function.getType();
 			fc.setType(type);
 			return type;
+		}
+		if (e instanceof StringLiteral) {
+			return EcorePackage.eINSTANCE.getEString();
+		}
+		if (e instanceof IntegerLiteral) {
+			return EcorePackage.eINSTANCE.getEInt();
+		}
+		if (e instanceof DoubleLiteral) {
+			return EcorePackage.eINSTANCE.getEDouble();
+		}
+		if (e instanceof FloatLiteral) {
+			return EcorePackage.eINSTANCE.getEFloat();
+		}
+		if (e instanceof LongLiteral) {
+			return EcorePackage.eINSTANCE.getELong();
+		}
+		if (e instanceof BooleanLiteral) {
+			return EcorePackage.eINSTANCE.getEBoolean();
 		}
 		return null;
 	}

@@ -56,5 +56,23 @@
     <genClasses ecoreClass="petrinets.text.ecore#//VariableCall">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//VariableCall/variable"/>
     </genClasses>
+    <genClasses ecoreClass="petrinets.text.ecore#//StringLiteral">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute petrinets.text.ecore#//StringLiteral/value"/>
+    </genClasses>
+    <genClasses ecoreClass="petrinets.text.ecore#//IntegerLiteral">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute petrinets.text.ecore#//IntegerLiteral/value"/>
+    </genClasses>
+    <genClasses ecoreClass="petrinets.text.ecore#//BooleanLiteral">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute petrinets.text.ecore#//BooleanLiteral/value"/>
+    </genClasses>
+    <genClasses ecoreClass="petrinets.text.ecore#//DoubleLiteral">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute petrinets.text.ecore#//DoubleLiteral/value"/>
+    </genClasses>
+    <genClasses ecoreClass="petrinets.text.ecore#//FloatLiteral">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute petrinets.text.ecore#//FloatLiteral/value"/>
+    </genClasses>
+    <genClasses ecoreClass="petrinets.text.ecore#//LongLiteral">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute petrinets.text.ecore#//LongLiteral/value"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>
