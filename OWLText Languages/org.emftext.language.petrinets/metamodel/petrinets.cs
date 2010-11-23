@@ -26,16 +26,22 @@ TOKENSTYLES {
 RULES {
 	PetriNet ::= "petrinet" name['"','"']?
 				("import" imports['<','>'] ";")*
+				("FUNCTIONS:" "{" functions* "}")?
 				"{" (components | arcs)* "}";
 	
-	Arc ::= in['"','"'] "->" out['"','"'] 
-		("{" arcStatements*
-		"}")*;
-		
-	Variable ::= name[IDENTIFIER] "=" initialisation;
+	Function ::= "function" (type[IDENTIFIER])? context[IDENTIFIER]"."name[IDENTIFIER] "(" (parameters ("," parameters)*)? ")";
 	
-	FunctionCall ::= function[IDENTIFIER]"("(parameters ("," parameters)*)?")";
-	VariableCall ::= variable[IDENTIFIER];
+	Parameter ::= type[IDENTIFIER] name[IDENTIFIER];
+	
+	Arc ::= in['"','"'] "->" out['"','"'] 
+		("{" ( arcStatements* ";"
+		)* "}")*;
+		
+	Variable ::= name[IDENTIFIER] "=" initialisation; 
+	
+	FunctionCall ::= function[IDENTIFIER] "(" ( parameters ("," parameters)*)?")" 
+		("." nextExpression)?;
+	VariableCall ::= variable[IDENTIFIER] ("." nextExpression)?;
 		
 	ConsumingArc ::= in['"','"'] "-consume->" out['"','"'];
  	ProducingArc ::= in['"','"'] "-produce->" out['"','"'];	

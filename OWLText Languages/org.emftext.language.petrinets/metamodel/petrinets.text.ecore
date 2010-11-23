@@ -9,6 +9,7 @@ package petrinets // this is the package name
 	  
 	class PetriNet extends NameableElement {
 		reference EPackage imports (1..-1); 
+		containment reference Function functions (0..-1);
 		containment reference Component components (0..-1) opposite net;
 		containment reference Arc arcs (0..-1);
 	}
@@ -53,20 +54,22 @@ package petrinets // this is the package name
 
 	abstract class ArcStatement {}
 	
-	class Variable extends ArcStatement {
-		attribute EString name (1..1);
+	class Variable extends ArcStatement, NameableElement {
 		containment reference Expression initialisation (1..1);
 	}
 	
-	abstract class Expression extends ArcStatement {}
+	abstract class Expression extends ArcStatement {
+		reference EClassifier type (1..1);
+		containment reference Expression nextExpression (0..1);
+	}
 	
-	class Function {
-		attribute EString name (1..1);
+	class Function extends NameableElement {
+		reference EClassifier type (0..1);
+		reference EClassifier context (1..1);
 		containment reference Parameter parameters (0..-1);
 	}
 	
-	class Parameter {
-		attribute EString name (1..1);
+	class Parameter extends NameableElement {
 		reference EClassifier type (1..1);
 	}
 	
@@ -78,5 +81,6 @@ package petrinets // this is the package name
 	class VariableCall extends Expression {
 		reference Variable variable (1..1);
 	}
+	
 
 }

@@ -11,5 +11,12 @@ import <./math.text.ecore>;
  	place "Start" : Expression
    	transition "t"
  
- 	"t" -> "Start"
+ 	"dod" -> "t" {
+ 		v = getName().toUpperCase(); 
+ 		x = getName();
+ 	}
+ 	"t" -> "did" {
+ 		v.toUpperCase();
+ 		x.size();
+ 	}
 } 

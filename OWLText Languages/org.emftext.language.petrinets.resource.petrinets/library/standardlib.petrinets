@@ -1,0 +1,20 @@
+petrinet "standardlib" 
+
+import <platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore>;
+FUNCTIONS: {
+
+	function EInt EInt.add(EInt argument)
+	function EInt EInt.sub(EInt argument)
+	function EInt EInt.mult(EInt argument)
+	function EInt EInt.div(EInt argument)
+	function EInt EInt.power(EInt argument)
+	
+	function EString EString.append(EString argument)
+	function EString EString.substring(EInt start, EInt end)
+	function EInt EString.size()
+	function EString EString.toUpperCase()
+	function EString EString.toLowerCase()
+	
+}
+
+{}

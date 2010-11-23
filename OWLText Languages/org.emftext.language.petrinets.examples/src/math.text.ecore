@@ -5,6 +5,7 @@ package math // this is the package name
 
 	class Expression {
 		containment reference Operator operator (1..1);
+		attribute EString name (1..1);
 	}
 	
 	enum Operator {

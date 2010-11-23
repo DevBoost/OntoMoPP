@@ -6,21 +6,15 @@
  */
 package org.emftext.language.petrinets.resource.petrinets.analysis;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EObject;
-import org.emftext.language.petrinets.Arc;
 import org.emftext.language.petrinets.Expression;
 import org.emftext.language.petrinets.Function;
 import org.emftext.language.petrinets.FunctionCall;
 import org.emftext.language.petrinets.Parameter;
-import org.emftext.language.petrinets.Place;
-import org.emftext.language.petrinets.Variable;
-import org.emftext.language.petrinets.VariableCall;
 import org.emftext.language.petrinets.resource.petrinets.IPetrinetsReferenceResolveResult;
 
 public class FunctionCallFunctionReferenceResolver
@@ -36,7 +30,7 @@ public class FunctionCallFunctionReferenceResolver
 			int position,
 			boolean resolveFuzzy,
 			final org.emftext.language.petrinets.resource.petrinets.IPetrinetsReferenceResolveResult<org.emftext.language.petrinets.Function> result) {
-		List<Function> candidates = getDeclaredFunctions(container);
+		List<Function> candidates = FunctionCache.getInstance().getDeclaredFunctions(container);
 		filterFunctions(candidates, container, identifier, resolveFuzzy, result);
 	}
 
@@ -45,7 +39,7 @@ public class FunctionCallFunctionReferenceResolver
 			IPetrinetsReferenceResolveResult<Function> result) {
 		for (Function function : candidates) {
 			if (resolveFuzzy) {
-					result.addMapping(function.getName(), function);
+				result.addMapping(function.getName(), function);
 			} else {
 				if (function.getName().equals(identifier)) {
 					if (parametersMatch(function.getParameters(),
@@ -65,7 +59,8 @@ public class FunctionCallFunctionReferenceResolver
 		}
 		for (int i = 0; i < expected.size(); i++) {
 			EClassifier parameterType = expected.get(i).getType();
-			EClassifier type = getType(found.get(i));
+			EClassifier type = FunctionCache.getInstance()
+					.getType(found.get(i));
 			if (type.equals(parameterType)) {
 				continue;
 			}
@@ -77,7 +72,7 @@ public class FunctionCallFunctionReferenceResolver
 			}
 			return false;
 		}
-		return false;
+		return true;
 	}
 
 	public String deResolve(org.emftext.language.petrinets.Function element,
@@ -86,58 +81,7 @@ public class FunctionCallFunctionReferenceResolver
 		return element.getName();
 	}
 
-	private List<Function> getDeclaredFunctions(FunctionCall container) {
-		List<Function> functions = new ArrayList<Function>();
-		EObject containingObject = container.eContainer();
-		EClassifier contextType = null;
-		if (containingObject instanceof Variable) {
-			contextType = calculateVariableContextType((Variable) containingObject);
-
-		} else if (containingObject instanceof Expression) {
-			Expression e = (Expression) containingObject;
-			contextType = getType(e);
-		}
-		addFunctions(functions, contextType);
-
-		return functions;
-	}
-
-	private void addFunctions(List<Function> functions, EClassifier type) {
-		FunctionCache.getInstance().addFunctions(functions, type);
-	}
-
-	private EClassifier calculateVariableContextType(Variable containingObject) {
-		Arc arc = (Arc) containingObject.eContainer();
-		if (arc.getIn() instanceof Place) {
-			Place p = (Place) arc.getIn();
-			return p.getType();
-		}
-		return null;
-	}
-
-	private EClassifier getType(Expression e) {
-		EClassifier type = e.getType();
-		if (type == null) {
-			type = calculateType(e);
-		}
-		return type;
-	}
-
-	private EClassifier calculateType(Expression e) {
-		if (e instanceof VariableCall) {
-			VariableCall vc = (VariableCall) e;
-			EClassifier type = getType(vc.getVariable().getInitialisation());
-			vc.setType(type);
-			return type;
-		}
-		if (e instanceof FunctionCall) {
-			FunctionCall fc = (FunctionCall) e;
-			EClassifier type = fc.getFunction().getType();
-			fc.setType(type);
-			return type;
-		}
-		return null;
-	}
+	
 
 	public void setOptions(java.util.Map<?, ?> options) {
 		// save options in a field or leave method empty if this resolver does

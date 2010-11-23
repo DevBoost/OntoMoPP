@@ -11,12 +11,18 @@ import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.petrinets.Arc;
 import org.emftext.language.petrinets.ArcStatement;
+import org.emftext.language.petrinets.Component;
+import org.emftext.language.petrinets.Function;
+import org.emftext.language.petrinets.Parameter;
+import org.emftext.language.petrinets.PetriNet;
 import org.emftext.language.petrinets.Place;
 import org.emftext.language.petrinets.Transition;
 import org.emftext.language.petrinets.Variable;
 import org.emftext.language.petrinets.VariableCall;
+import org.emftext.language.petrinets.impl.PetrinetsFactoryImpl;
 import org.emftext.language.petrinets.resource.petrinets.IPetrinetsReferenceResolveResult;
 
 public class VariableCallVariableReferenceResolver
@@ -34,13 +40,56 @@ public class VariableCallVariableReferenceResolver
 			final org.emftext.language.petrinets.resource.petrinets.IPetrinetsReferenceResolveResult<org.emftext.language.petrinets.Variable> result) {
 		List<Variable> candidates = new ArrayList<Variable>();
 		Arc arc = getContainingArc(container);
+
 		if (arc.getIn() instanceof Transition) {
 			EList<Arc> consumingArcs = ((Transition) arc.getIn()).getIncoming();
+			if (consumingArcs.isEmpty()) {
+				resolveRequired(arc);
+				consumingArcs = ((Transition) arc.getIn()).getIncoming();
+			}
 			for (Arc consuming : consumingArcs) {
 				candidates.addAll(collectVariables(consuming));
 			}
 		}
+		if (resolveFuzzy) {
+			List<Function> declaredFunctions = FunctionCache.getInstance().getDeclaredFunctions(container);
+			for (Function function : declaredFunctions) {
+				Variable dummyVar = PetrinetsFactoryImpl.eINSTANCE.createVariable();
+				String functionname = function.getName() + "(";
+				EList<Parameter> parameters = function.getParameters();
+				for (Parameter parameter : parameters) {
+					functionname += parameter.getName() + ", ";
+				}
+				if (!parameters.isEmpty()) {
+					functionname = functionname.substring(0, functionname.length()-2);
+				}
+				functionname += ")";
+				dummyVar.setName(functionname);
+				candidates.add(dummyVar);
+			}
+		}
 		FilterCandidates(candidates, identifier, resolveFuzzy, result);
+	}
+
+	private void resolveRequired(Arc container) {
+		EObject eContainer = container.eContainer();
+		while (eContainer != null && !(eContainer instanceof PetriNet)) {
+			eContainer = eContainer.eContainer();
+		}
+		if (eContainer instanceof PetriNet) {
+			PetriNet pn = (PetriNet) eContainer;
+			EList<Arc> arcs = pn.getArcs();
+			for (Arc arc : arcs) {
+				Component in = arc.getIn();
+				Component out = arc.getOut();
+				if (in.eIsProxy()) {
+					EcoreUtil.resolve(in, pn);
+				}
+				if (out.eIsProxy()) {
+					EcoreUtil.resolve(out, pn);
+				}
+			}
+		}
 	}
 
 	private void FilterCandidates(List<Variable> candidates, String identifier,
@@ -56,7 +105,7 @@ public class VariableCallVariableReferenceResolver
 				}
 			}
 		}
-
+		return;
 	}
 
 	private List<Variable> collectVariables(Arc consuming) {
