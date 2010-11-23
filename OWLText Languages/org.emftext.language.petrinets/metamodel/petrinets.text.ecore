@@ -8,7 +8,8 @@ package petrinets // this is the package name
 	}
 	  
 	class PetriNet extends NameableElement {
-		containment reference Component components (0..-1);
+		reference EPackage imports (1..-1); 
+		containment reference Component components (0..-1) opposite net;
 		containment reference Arc arcs (0..-1);
 	}
 
@@ -17,7 +18,7 @@ package petrinets // this is the package name
 	abstract class Component extends NameableElement {
 		reference Arc incoming (0..-1) opposite out; 
 		reference Arc outgoing (0..-1) opposite in;
-		
+		reference PetriNet net (1..1) opposite components;
 	}
 
 	@"OWL_CONSTRAINT"("Arcs need to be either consuming or producing."="( Arc_in exactly 1 Transition and Arc_out exactly 1 Place ) or ( Arc_in exactly 1 Place and Arc_out exactly 1 Transition )")
@@ -25,7 +26,9 @@ package petrinets // this is the package name
 	class Arc {
 		reference Component in (1..1) opposite outgoing;
 		reference Component out (1..1) opposite incoming;
+		containment reference ArcStatement arcStatements (0..-1);
 	}
+	
 
 	@"OWL_CONSTRAINT"("Consuming Arcs need to have Places as input."="( Arc_in exactly 1 Place )")
 	@"OWL_CONSTRAINT"("Consuming Arcs need to have Transitions as output."="( Arc_out exactly 1 Transition )")
@@ -42,10 +45,38 @@ package petrinets // this is the package name
 	@"OWL_DEFINITION"("StartPlace"="( NameableElement_name value \"Start\" )", "A Start Place is not allowed to have incoming Arcs."="( Component_incoming exactly 0 Arc )")
 	
 	
-	class Place extends Component {}
+	class Place extends Component {
+		reference EClassifier type (0..1);
+	}
 	
 	class Transition extends Component {}
 
-
+	abstract class ArcStatement {}
+	
+	class Variable extends ArcStatement {
+		attribute EString name (1..1);
+		containment reference Expression initialisation (1..1);
+	}
+	
+	abstract class Expression extends ArcStatement {}
+	
+	class Function {
+		attribute EString name (1..1);
+		containment reference Parameter parameters (0..-1);
+	}
+	
+	class Parameter {
+		attribute EString name (1..1);
+		reference EClassifier type (1..1);
+	}
+	
+	class FunctionCall extends Expression {
+		reference Function function (1..1);
+		containment reference Expression parameters (0..-1);
+	}
+	
+	class VariableCall extends Expression {
+		reference Variable variable (1..1);
+	}
 
 }

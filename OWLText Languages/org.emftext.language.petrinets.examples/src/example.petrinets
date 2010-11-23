@@ -1,10 +1,14 @@
 /* Invalid PetriNets as OWLText validation example*/
-petrinet "example" {
-	
- 	place "dod" 
- 	place "did" 
+petrinet "example" 
+
+import <./math.text.ecore>;
+
+{ 
+
+ 	place "dod" : Expression
+ 	place "did" : Expression
  	// invalid as start places are not allowed to have incoming arcs
- 	place "Start"
+ 	place "Start" : Expression
    	transition "t"
  
  	"t" -> "Start"
