@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 public class PlaceTypeReferenceResolver implements org.emftext.language.petrinets.resource.petrinets.IPetrinetsReferenceResolver<org.emftext.language.petrinets.Place, org.eclipse.emf.ecore.EClassifier> {
 	
@@ -28,9 +27,7 @@ public class PlaceTypeReferenceResolver implements org.emftext.language.petrinet
 		}
 		for (EClassifier candidate : candidateList) {
 			if (resolveFuzzy) {
-				if (candidate.getName().startsWith(identifier)) {
 					result.addMapping(candidate.getName(), candidate);
-				}
 			} else {
 				if (candidate.getName().equals(identifier)) {
 					result.addMapping(identifier, candidate);

@@ -45,9 +45,7 @@ public class FunctionCallFunctionReferenceResolver
 			IPetrinetsReferenceResolveResult<Function> result) {
 		for (Function function : candidates) {
 			if (resolveFuzzy) {
-				if (function.getName().startsWith(identifier)) {
 					result.addMapping(function.getName(), function);
-				}
 			} else {
 				if (function.getName().equals(identifier)) {
 					if (parametersMatch(function.getParameters(),

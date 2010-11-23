@@ -9,10 +9,7 @@ package org.emftext.language.petrinets.resource.petrinets.analysis;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.plaf.metal.MetalFileChooserUI.FilterComboBoxRenderer;
-
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.petrinets.Arc;
 import org.emftext.language.petrinets.ArcStatement;
@@ -47,12 +44,11 @@ public class VariableCallVariableReferenceResolver
 	}
 
 	private void FilterCandidates(List<Variable> candidates, String identifier,
-			boolean resolveFuzzy, IPetrinetsReferenceResolveResult<Variable> result) {
+			boolean resolveFuzzy,
+			IPetrinetsReferenceResolveResult<Variable> result) {
 		for (Variable candidate : candidates) {
 			if (resolveFuzzy) {
-				if (candidate.getName().startsWith(identifier)) {
-					result.addMapping(candidate.getName(), candidate);
-				}
+				result.addMapping(candidate.getName(), candidate);
 			} else {
 				if (candidate.getName().equals(identifier)) {
 					result.addMapping(identifier, candidate);
@@ -60,7 +56,7 @@ public class VariableCallVariableReferenceResolver
 				}
 			}
 		}
-		
+
 	}
 
 	private List<Variable> collectVariables(Arc consuming) {
