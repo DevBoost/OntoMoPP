@@ -30,8 +30,36 @@ public class FunctionCallFunctionReferenceResolver
 			int position,
 			boolean resolveFuzzy,
 			final org.emftext.language.petrinets.resource.petrinets.IPetrinetsReferenceResolveResult<org.emftext.language.petrinets.Function> result) {
-		List<Function> candidates = FunctionCache.getInstance().getDeclaredFunctions(container);
+		List<Function> candidates = FunctionCache.getInstance()
+				.getDeclaredFunctions(container);
+		if (!resolveFuzzy) {
+			setHelpingErrorMessage(identifier, container, result);
+		}
+
 		filterFunctions(candidates, container, identifier, resolveFuzzy, result);
+	}
+
+	private void setHelpingErrorMessage(
+			String identifier,
+			org.emftext.language.petrinets.FunctionCall container,
+			final org.emftext.language.petrinets.resource.petrinets.IPetrinetsReferenceResolveResult<org.emftext.language.petrinets.Function> result) {
+		EClassifier contextType = FunctionCache.getInstance().getContextType(
+				container);
+		String message = "The function '" + identifier
+				+ "' is not defined for '" + contextType.getName() + "'";
+		EList<Expression> parameters = container.getParameters();
+		if (!parameters.isEmpty()) {
+			message += " with argument(s) ";
+			for (Expression expression : parameters) {
+				EClassifier type = FunctionCache.getInstance().getType(
+						expression);
+				message += type.getName() + ", ";
+
+			}
+			message = message.substring(0, message.length()-2);
+		}
+		message += ".";
+		result.setErrorMessage(message);
 	}
 
 	private void filterFunctions(List<Function> candidates,
@@ -59,9 +87,14 @@ public class FunctionCallFunctionReferenceResolver
 		}
 		parameterloop: for (int i = 0; i < expected.size(); i++) {
 			EClassifier parameterType = expected.get(i).getType();
+			Expression parameterExpression = found.get(i);
+			while (parameterExpression.getNextExpression() != null) {
+				parameterExpression = parameterExpression.getNextExpression();
+			}
 			EClassifier type = FunctionCache.getInstance()
-					.getType(found.get(i));
-			if (type.getInstanceClassName().equals(parameterType.getInstanceClassName())) {
+					.getType(parameterExpression);
+			if (type.getInstanceClassName().equals(
+					parameterType.getInstanceClassName())) {
 				continue;
 			}
 			if (parameterType instanceof EClass && type instanceof EClass) {
@@ -69,7 +102,8 @@ public class FunctionCallFunctionReferenceResolver
 				EClass typeClass = (EClass) type;
 				EList<EClass> eAllSuperTypes = typeClass.getEAllSuperTypes();
 				for (EClass supertype : eAllSuperTypes) {
-					if (supertype.getInstanceClassName().equals(parameterClass.getInstanceClassName())) {
+					if (supertype.getInstanceClassName().equals(
+							parameterClass.getInstanceClassName())) {
 						break parameterloop;
 					}
 				}
@@ -84,8 +118,6 @@ public class FunctionCallFunctionReferenceResolver
 			org.eclipse.emf.ecore.EReference reference) {
 		return element.getName();
 	}
-
-	
 
 	public void setOptions(java.util.Map<?, ?> options) {
 		// save options in a field or leave method empty if this resolver does

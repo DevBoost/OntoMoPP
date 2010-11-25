@@ -3,6 +3,12 @@ package petrinets // this is the package name
         "http://www.emftext.org/language/petrinets" // the namespace URI 
 	{ 
 	
+	class PList extends EClassifier {
+		reference EClassifier type (1..1); 
+	}
+	
+	class PVoid extends EClassifier {}
+	
 	abstract class NameableElement {
 			iD attribute EString name (0..1);
 	}
@@ -59,14 +65,27 @@ package petrinets // this is the package name
 	}
 	
 	abstract class Expression extends ArcStatement {
+		reference Expression previousExpression (0..1) opposite nextExpression;
+		containment reference Expression nextExpression (0..1) opposite previousExpression;
+	    reference EClassifier type (1..1);
+	
+	}
+	abstract class Function extends NameableElement {
+		containment reference Parameter parameters (0..-1);
 		reference EClassifier type (1..1);
-		containment reference Expression nextExpression (0..1);
+		reference EClassifier context (1..1);
 	}
 	
-	class Function extends NameableElement {
-		reference EClassifier type (0..1);
-		reference EClassifier context (1..1);
-		containment reference Parameter parameters (0..-1);
+	class BasicFunction extends Function {
+	
+	}
+	
+	class ListFunction extends Function {
+		containment reference PGenericType listTypeDef (1..1);
+		reference PGenericType returnListType (0..1);
+	}
+	
+	class PGenericType extends EClassifier {
 	}
 	
 	class Parameter extends NameableElement {

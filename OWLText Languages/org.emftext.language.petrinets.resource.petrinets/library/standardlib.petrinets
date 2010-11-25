@@ -1,6 +1,8 @@
 petrinet "standardlib" 
 
 import <platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore>;
+import <platform:/plugin/org.emftext.language.petrinets/metamodel/petrinets.text.ecore>;
+
 FUNCTIONS: {
 
 	function EInt EInt.add(EInt argument)
@@ -14,6 +16,12 @@ FUNCTIONS: {
 	function EInt EString.size()
 	function EString EString.toUpperCase()
 	function EString EString.toLowerCase()
+	
+	function PList[T] PList[T].add(T element)
+	function PList[T] PList[T].remove(T element)
+	function PList[T] PList[T].sublist(EInt start, EInt end)
+	function T PList[T].elementAt(EInt index)
+	function EInt PList[F].size()
 	
 }
 

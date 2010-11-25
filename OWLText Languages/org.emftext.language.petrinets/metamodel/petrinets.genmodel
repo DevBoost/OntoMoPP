@@ -8,6 +8,10 @@
   <foreignModel>petrinets.text.ecore</foreignModel>
   <genPackages prefix="Petrinets" basePackage="org.emftext.language" disposableProviderFactory="true"
       ecorePackage="petrinets.text.ecore#/">
+    <genClasses ecoreClass="petrinets.text.ecore#//PList">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//PList/type"/>
+    </genClasses>
+    <genClasses ecoreClass="petrinets.text.ecore#//PVoid"/>
     <genClasses image="false" ecoreClass="petrinets.text.ecore#//NameableElement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute petrinets.text.ecore#//NameableElement/name"/>
     </genClasses>
@@ -38,14 +42,21 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//Variable/initialisation"/>
     </genClasses>
     <genClasses image="false" ecoreClass="petrinets.text.ecore#//Expression">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//Expression/type"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference petrinets.text.ecore#//Expression/previousExpression"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//Expression/nextExpression"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//Expression/type"/>
     </genClasses>
     <genClasses ecoreClass="petrinets.text.ecore#//Function">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//Function/parameters"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//Function/type"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//Function/context"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//Function/parameters"/>
     </genClasses>
+    <genClasses ecoreClass="petrinets.text.ecore#//BasicFunction"/>
+    <genClasses ecoreClass="petrinets.text.ecore#//ListFunction">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//ListFunction/listTypeDef"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//ListFunction/returnListType"/>
+    </genClasses>
+    <genClasses ecoreClass="petrinets.text.ecore#//PGenericType"/>
     <genClasses ecoreClass="petrinets.text.ecore#//Parameter">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//Parameter/type"/>
     </genClasses>

@@ -11,7 +11,7 @@ OPTIONS {
 TOKENS {
  	DEFINE SL_COMMENT $'//'(~('\n'|'\r'|'\uffff'))* $;
 	DEFINE ML_COMMENT $'/*'.*'*/'$;
-	
+	DEFINE PLIST $'PList'$;
 	DEFINE IDENTIFIER $('A'..'Z' | 'a'..'z'| '_' | '-' )('A'..'Z' | 'a'..'z' | '0'..'9' | '_' | '-' | '::')*$;
 	
 	DEFINE WHITESPACE $(' '|'\t'|'\f')$;
@@ -37,7 +37,9 @@ RULES {
 				("FUNCTIONS:" "{" functions* "}")?
 				"{" (components | arcs)* "}";
 	
-	Function ::= "function" (type[IDENTIFIER])? context[IDENTIFIER]"."name[IDENTIFIER] "(" (parameters ("," parameters)*)? ")";
+	BasicFunction ::= "function" type[IDENTIFIER] context[IDENTIFIER]"."name[IDENTIFIER] "(" (parameters ("," parameters)*)? ")";
+	ListFunction ::= "function" (type[IDENTIFIER] | type[PLIST] "[" returnListType[IDENTIFIER] "]") context[PLIST] "[" listTypeDef "]" "."name[IDENTIFIER] "(" (parameters ("," parameters)*)? ")";
+	PGenericType ::= name[IDENTIFIER];
 	
 	Parameter ::= type[IDENTIFIER] name[IDENTIFIER];
 	
