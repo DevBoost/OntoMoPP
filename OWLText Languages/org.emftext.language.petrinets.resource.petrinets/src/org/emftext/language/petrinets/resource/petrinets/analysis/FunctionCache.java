@@ -73,7 +73,7 @@ public class FunctionCache {
 			}
 		}
 	}
-	
+
 	private void addBasicFunction(String context, Function function) {
 		List<Function> list = basicFunctions.get(context);
 		if (list == null) {
@@ -82,7 +82,7 @@ public class FunctionCache {
 		}
 		list.add(function);
 	}
-	
+
 	public static FunctionCache getInstance() {
 		if (theInstance == null) {
 			theInstance = new FunctionCache();
@@ -90,36 +90,33 @@ public class FunctionCache {
 		return theInstance;
 	}
 
-	
 	public List<Function> getDeclaredFunctions(Expression expression) {
 		List<Function> functions = new ArrayList<Function>();
 		EClassifier contextType = getContextType(expression);
-	
-		
+
 		if (contextType != null) {
 			addFunctionsToList(functions, contextType);
 		}
 		return functions;
 	}
-	
 
 	public EClassifier getContextType(Expression expression) {
 		Expression contextExpression = expression.getPreviousExpression();
 		EClassifier contextType = null;
-		
-		if (contextExpression != null){
+
+		if (contextExpression != null) {
 			Expression e = (Expression) contextExpression;
 			contextType = getType(e);
 			return contextType;
 		}
 		EObject container = expression.eContainer();
-		
-			while (!(container instanceof Arc) && container != null) {
-				container = container.eContainer();
-			}
-			if (container instanceof Arc) {
-				contextType = calculateArcContextType((Arc) container);
-			}
+
+		while (!(container instanceof Arc) && container != null) {
+			container = container.eContainer();
+		}
+		if (container instanceof Arc) {
+			contextType = calculateArcContextType((Arc) container);
+		}
 		return contextType;
 	}
 
@@ -172,8 +169,6 @@ public class FunctionCache {
 		return functions;
 	}
 
-	
-
 	private void addFunctionsToList(List<Function> functions, EClassifier type) {
 		addFunctions(functions, type);
 	}
@@ -200,7 +195,7 @@ public class FunctionCache {
 		return type;
 	}
 
-	private EClassifier calculateType(Expression e) {
+	public EClassifier calculateType(Expression e) {
 		if (e instanceof VariableCall) {
 			VariableCall vc = (VariableCall) e;
 			Variable variable = vc.getVariable();
@@ -221,41 +216,60 @@ public class FunctionCache {
 			FunctionCall fc = (FunctionCall) e;
 			Function function = fc.getFunction();
 			EClassifier type = null;
-			if (function instanceof BasicFunction) {
-				type = function.getType();
-			}
-			if (function instanceof ListFunction) {
-				type = function.getType();
-				if (type instanceof PGenericType) {
-					type = getGenericTypeBinding(e);
-				} if (type instanceof PList) {
-					PList listType = (PList) type;
-					listType.setType(getGenericTypeBinding(e));
-					type = listType;
-				}
-			}
+			type = getFunctionReturnType(e, function);
 			fc.setType(type);
 			return type;
 		}
 		if (e instanceof StringLiteral) {
-			return EcorePackage.eINSTANCE.getEString();
+			EClassifier type =  EcorePackage.eINSTANCE.getEString();
+			e.setType(type);
+			return type;
 		}
 		if (e instanceof IntegerLiteral) {
-			return EcorePackage.eINSTANCE.getEInt();
+			EClassifier type =  EcorePackage.eINSTANCE.getEInt();
+			e.setType(type);
+			return type;
 		}
 		if (e instanceof DoubleLiteral) {
-			return EcorePackage.eINSTANCE.getEDouble();
+			EClassifier type =  EcorePackage.eINSTANCE.getEDouble();
+			e.setType(type);
+			return type;
 		}
 		if (e instanceof FloatLiteral) {
-			return EcorePackage.eINSTANCE.getEFloat();
+			EClassifier type =  EcorePackage.eINSTANCE.getEFloat();
+			e.setType(type);
+			return type;
 		}
 		if (e instanceof LongLiteral) {
-			return EcorePackage.eINSTANCE.getELong();
+			EClassifier type =  EcorePackage.eINSTANCE.getELong();
+			e.setType(type);
+			return type;
 		}
 		if (e instanceof BooleanLiteral) {
-			return EcorePackage.eINSTANCE.getEBoolean();
+			EClassifier type =  EcorePackage.eINSTANCE.getEBoolean();
+			e.setType(type);
+			return type;
 		}
 		return null;
+	}
+
+	public EClassifier getFunctionReturnType(Expression e, Function function) {
+		EClassifier type = null;
+		if (function instanceof BasicFunction) {
+			type = function.getType();
+		}
+		if (function instanceof ListFunction) {
+			type = function.getType();
+			if (type instanceof PGenericType) {
+				type = getGenericTypeBinding(e);
+			}
+			if (type instanceof PList) {
+				PList listType = (PList) type;
+				listType.setType(getGenericTypeBinding(e));
+				type = listType;
+			}
+		}
+		return type;
 	}
 
 	private EClassifier getGenericTypeBinding(Expression e) {
@@ -263,10 +277,11 @@ public class FunctionCache {
 		// PLIST.getContextBinding
 		if (contextType instanceof PList) {
 			PList listtype = (PList) contextType;
-			if (listtype.getType() != null && !(listtype.getType() instanceof PGenericType)) {
+			if (listtype.getType() != null
+					&& !(listtype.getType() instanceof PGenericType)) {
 				return listtype.getType();
 			}
-			
+
 		}
 		return null;
 	}

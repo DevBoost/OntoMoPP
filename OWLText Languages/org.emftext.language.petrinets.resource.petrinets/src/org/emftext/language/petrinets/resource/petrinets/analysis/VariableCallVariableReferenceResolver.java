@@ -40,8 +40,13 @@ public class VariableCallVariableReferenceResolver
 			final org.emftext.language.petrinets.resource.petrinets.IPetrinetsReferenceResolveResult<org.emftext.language.petrinets.Variable> result) {
 		List<Variable> candidates = new ArrayList<Variable>();
 		Arc arc = getContainingArc(container);
-
+		// outgoing arc
 		if (arc.getIn() instanceof Transition) {
+			Variable outToken = PetrinetsFactoryImpl.eINSTANCE.createVariable();
+			outToken.setName("outToken");
+			outToken.setType(((Place) arc.getOut()).getType());
+			candidates.add(outToken );
+			
 			EList<Arc> consumingArcs = ((Transition) arc.getIn()).getIncoming();
 			if (consumingArcs.isEmpty()) {
 				resolveRequired(arc);
@@ -51,6 +56,13 @@ public class VariableCallVariableReferenceResolver
 				candidates.addAll(collectVariables(consuming));
 			}
 		}
+		if (arc.getOut() instanceof Transition) {
+			Variable inToken = PetrinetsFactoryImpl.eINSTANCE.createVariable();
+			inToken.setName("inToken");
+			inToken.setType(((Place) arc.getIn()).getType());
+			candidates.add(inToken);
+		}
+		
 		if (resolveFuzzy) {
 			List<Function> declaredFunctions = FunctionCache.getInstance().getDeclaredFunctions(container);
 			for (Function function : declaredFunctions) {
@@ -68,7 +80,7 @@ public class VariableCallVariableReferenceResolver
 				candidates.add(dummyVar);
 			}
 		}
-		FilterCandidates(candidates, identifier, resolveFuzzy, result);
+		FilterCandidates(candidates, identifier, resolveFuzzy, result, container);
 	}
 
 	private void resolveRequired(Arc container) {
@@ -94,13 +106,14 @@ public class VariableCallVariableReferenceResolver
 
 	private void FilterCandidates(List<Variable> candidates, String identifier,
 			boolean resolveFuzzy,
-			IPetrinetsReferenceResolveResult<Variable> result) {
+			IPetrinetsReferenceResolveResult<Variable> result, VariableCall container) {
 		for (Variable candidate : candidates) {
 			if (resolveFuzzy) {
 				result.addMapping(candidate.getName(), candidate);
 			} else {
 				if (candidate.getName().equals(identifier)) {
 					result.addMapping(identifier, candidate);
+					container.setType(candidate.getType());
 					return;
 				}
 			}

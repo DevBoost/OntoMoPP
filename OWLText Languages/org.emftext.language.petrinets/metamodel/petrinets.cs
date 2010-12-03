@@ -32,11 +32,11 @@ TOKENSTYLES {
 }
  
 RULES {
-	PetriNet ::= "petrinet" name[STRING_LITERAL]?
-				("import" imports['<','>'] ";")+
+	PetriNet ::= ("package" pkg[IDENTIFIER] ("." pkg[IDENTIFIER])* ";")? "petrinet" name[STRING_LITERAL]?
+				("import" ePackages['<','>'] genModels['<','>'] ";")+
 				("FUNCTIONS:" "{" functions* "}")?
 				"{" (components | arcs)* "}";
-	
+				
 	BasicFunction ::= "function" type[IDENTIFIER] context[IDENTIFIER]"."name[IDENTIFIER] "(" (parameters ("," parameters)*)? ")";
 	ListFunction ::= "function" (type[IDENTIFIER] | type[PLIST] "[" returnListType[IDENTIFIER] "]") context[PLIST] "[" listTypeDef "]" "."name[IDENTIFIER] "(" (parameters ("," parameters)*)? ")";
 	PGenericType ::= name[IDENTIFIER];

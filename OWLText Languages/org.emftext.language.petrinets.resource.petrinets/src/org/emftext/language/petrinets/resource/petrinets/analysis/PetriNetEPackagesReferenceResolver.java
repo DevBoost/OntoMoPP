@@ -6,7 +6,7 @@
  */
 package org.emftext.language.petrinets.resource.petrinets.analysis;
 
-public class PetriNetImportsReferenceResolver implements org.emftext.language.petrinets.resource.petrinets.IPetrinetsReferenceResolver<org.emftext.language.petrinets.PetriNet, org.eclipse.emf.ecore.EPackage> {
+public class PetriNetEPackagesReferenceResolver implements org.emftext.language.petrinets.resource.petrinets.IPetrinetsReferenceResolver<org.emftext.language.petrinets.PetriNet, org.eclipse.emf.ecore.EPackage> {
 	
 	private org.emftext.language.petrinets.resource.petrinets.analysis.PetrinetsDefaultResolverDelegate<org.emftext.language.petrinets.PetriNet, org.eclipse.emf.ecore.EPackage> delegate = new org.emftext.language.petrinets.resource.petrinets.analysis.PetrinetsDefaultResolverDelegate<org.emftext.language.petrinets.PetriNet, org.eclipse.emf.ecore.EPackage>();
 	

@@ -7,6 +7,7 @@
 package org.emftext.language.petrinets.resource.petrinets.analysis;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClassifier;
@@ -19,7 +20,7 @@ public class PlaceTypeReferenceResolver implements org.emftext.language.petrinet
 	private boolean resolveFuzzy;
 	
 	public void resolve(String identifier, org.emftext.language.petrinets.Place container, org.eclipse.emf.ecore.EReference reference, int position, boolean resolveFuzzy, final org.emftext.language.petrinets.resource.petrinets.IPetrinetsReferenceResolveResult<org.eclipse.emf.ecore.EClassifier> result) {
-		EList<EPackage> imports = container.getNet().getImports();
+		List<EPackage> imports = container.getNet().getEPackages();
 		candidateList = new ArrayList<EClassifier>();
 		
 		for (EPackage ePackage : imports) {
@@ -36,7 +37,7 @@ public class PlaceTypeReferenceResolver implements org.emftext.language.petrinet
 			}
 		}
 	}
-	
+
 	private void addCandidates(EPackage ePackage) {
 		addCandidates(ePackage.getEClassifiers());
 		EList<EPackage> eSubpackages = ePackage.getESubpackages();

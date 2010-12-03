@@ -73,6 +73,8 @@ public class FunctionCallFunctionReferenceResolver
 					if (parametersMatch(function.getParameters(),
 							container.getParameters())) {
 						result.addMapping(identifier, function);
+						container.setType(FunctionCache.getInstance().getFunctionReturnType(container, function));
+						return;
 					}
 				}
 			}

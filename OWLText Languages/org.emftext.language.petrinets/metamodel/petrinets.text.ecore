@@ -1,20 +1,26 @@
 package petrinets // this is the package name 
         petrinets // this is the namespace prefix
         "http://www.emftext.org/language/petrinets" // the namespace URI 
-	{ 
-	
+	{
+
 	class PList extends EClassifier {
 		reference EClassifier type (1..1); 
 	}
-	
+
 	class PVoid extends EClassifier {}
+
+	abstract
 	
-	abstract class NameableElement {
-			iD attribute EString name (0..1);
+		class NameableElement {
+			       iD attribute EString name (0..1);
 	}
-	  
+	
+	@"import"("genmodel"="platform:/plugin/org.eclipse.emf.codegen.ecore/model/GenModel.ecore")
+
 	class PetriNet extends NameableElement {
-		reference EPackage imports (1..-1); 
+		attribute EString pkg (0..-1);
+		reference EPackage ePackages (1..-1); 
+		reference genmodel::GenModel genModels (1..-1);
 		containment reference Function functions (0..-1);
 		containment reference Component components (0..-1) opposite net;
 		containment reference Arc arcs (0..-1);
@@ -22,7 +28,9 @@ package petrinets // this is the package name
 
 	@"OWL_CONSTRAINT"("Compoments need to be named."="( NameableElement_name exactly 1 xsd:string )")
 
-	abstract class Component extends NameableElement {
+	abstract
+
+	class Component extends NameableElement {
 		reference Arc incoming (0..-1) opposite out; 
 		reference Arc outgoing (0..-1) opposite in;
 		reference PetriNet net (1..1) opposite components;
@@ -50,78 +58,87 @@ package petrinets // this is the package name
 	}
 
 	@"OWL_DEFINITION"("StartPlace"="( NameableElement_name value \"Start\" )", "A Start Place is not allowed to have incoming Arcs."="( Component_incoming exactly 0 Arc )")
-	
-	
+
 	class Place extends Component {
 		reference EClassifier type (0..1);
 	}
-	
+
 	class Transition extends Component {}
 
-	abstract class ArcStatement {}
+	abstract
 	
+		class ArcStatement {}
+
 	class Variable extends ArcStatement, NameableElement {
-		containment reference Expression initialisation (1..1);
+			containment reference Expression initialisation (1..1);
+			reference EClassifier type (0..1);
 	}
+
+	abstract
 	
-	abstract class Expression extends ArcStatement {
+		class Expression extends ArcStatement {
 		reference Expression previousExpression (0..1) opposite nextExpression;
-		containment reference Expression nextExpression (0..1) opposite previousExpression;
+			containment reference Expression nextExpression (0..1) opposite previousExpression;
 	    reference EClassifier type (1..1);
 	
 	}
-	abstract class Function extends NameableElement {
-		containment reference Parameter parameters (0..-1);
+
+	abstract
+	
+		class Function extends NameableElement {
+			containment reference Parameter parameters (0..-1);
 		reference EClassifier type (1..1);
 		reference EClassifier context (1..1);
 	}
-	
+
 	class BasicFunction extends Function {
 	
 	}
-	
+
 	class ListFunction extends Function {
-		containment reference PGenericType listTypeDef (1..1);
+			containment reference PGenericType listTypeDef (1..1);
 		reference PGenericType returnListType (0..1);
 	}
-	
+
 	class PGenericType extends EClassifier {
 	}
-	
+
 	class Parameter extends NameableElement {
 		reference EClassifier type (1..1);
 	}
-	
+
 	class FunctionCall extends Expression {
 		reference Function function (1..1);
-		containment reference Expression parameters (0..-1);
+			containment reference Expression parameters (0..-1);
 	}
-	
+
 	class VariableCall extends Expression {
 		reference Variable variable (1..1);
 	}
-	
-	class StringLiteral extends Expression {
+
+	abstract class Literal extends Expression {}
+
+	class StringLiteral extends Literal {
 		attribute EString value (1..1);
 	}
-	
-	class IntegerLiteral extends Expression {
+
+	class IntegerLiteral extends Literal {
 		attribute EInt value (1..1);
 	}
-	
-	class BooleanLiteral extends Expression {
+
+	class BooleanLiteral extends Literal {
 		attribute EBoolean value (1..1);
 	}
-	
-	class DoubleLiteral extends Expression {
+
+	class DoubleLiteral extends Literal {
 		attribute EDouble value (1..1);
 	}
-	
-	class FloatLiteral extends Expression {
+
+	class FloatLiteral extends Literal {
 		attribute EFloat value (1..1);
 	}
-	
-	class LongLiteral extends Expression {
+
+	class LongLiteral extends Literal {
 		attribute ELong value (1..1);
 	}
 	
