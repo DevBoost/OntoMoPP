@@ -21,7 +21,6 @@ import org.emftext.language.owl.ObjectPropertyValue;
 import org.emftext.language.owl.OwlFactory;
 import org.emftext.runtime.owltext.transformation.OWLTransformationHelper;
 
-
 public class OWLTextEObjectChangeAdapter implements Adapter {
 
 	private OWLTextEObjectImpl thisObject;
@@ -57,9 +56,10 @@ public class OWLTextEObjectChangeAdapter implements Adapter {
 		case Notification.RESOLVE:
 			resolved(notification);
 			break;
-		
+
 		default:
-			//throw new RuntimeException("unhandeled Event type: " + notification);
+			// throw new RuntimeException("unhandeled Event type: " +
+			// notification);
 
 		}
 
@@ -67,8 +67,7 @@ public class OWLTextEObjectChangeAdapter implements Adapter {
 
 	private void resolved(Notification notification) {
 		set(notification);
-		
-		
+
 	}
 
 	private void unset(Notification notification) {
@@ -134,7 +133,7 @@ public class OWLTextEObjectChangeAdapter implements Adapter {
 	private void set(Notification notification, int position) {
 		remove(notification, notification.getOldValue());
 		addAtIndex(notification, notification.getNewValue());
-		
+
 	}
 
 	private void removeMany(Notification notification) {
@@ -304,12 +303,19 @@ public class OWLTextEObjectChangeAdapter implements Adapter {
 		FeatureReference featureRef = factory.createFeatureReference();
 		featureRef.setFeature(property);
 		objectPropertySome.setFeatureReference(featureRef);
+		if (e instanceof OWLTextEObjectImpl) {
 
-		Class individual = ((OWLTextEObjectImpl) e).getOwlIndividualClass();
-		ClassAtomic classAtomic = factory.createClassAtomic();
-		classAtomic.setClazz(individual);
-		objectPropertySome.setPrimary(classAtomic);
+			Class individual = ((OWLTextEObjectImpl) e).getOwlIndividualClass();
+			ClassAtomic classAtomic = factory.createClassAtomic();
+			classAtomic.setClazz(individual);
+			objectPropertySome.setPrimary(classAtomic);
+		}
+		{
+			ClassAtomic classAtomic = factory.createClassAtomic();
+			classAtomic.setClazz(OWLTextEObjectImpl.OWL_THING);
+			objectPropertySome.setPrimary(classAtomic);
 
+		}
 		return objectPropertySome;
 	}
 

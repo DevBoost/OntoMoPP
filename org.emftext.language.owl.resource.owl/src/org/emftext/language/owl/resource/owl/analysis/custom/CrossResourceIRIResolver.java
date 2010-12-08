@@ -13,6 +13,7 @@
  ******************************************************************************/
 package org.emftext.language.owl.resource.owl.analysis.custom;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -55,6 +56,20 @@ public class CrossResourceIRIResolver {
 			instance = new CrossResourceIRIResolver();
 		}
 		return instance;
+	}
+	
+	public List<Ontology> calculateTransitiveImports(Ontology o) {
+		List<Ontology> transitiveImports = new ArrayList<Ontology>();
+		EObject eContainer = o.eContainer();
+		if (eContainer != null && eContainer instanceof OntologyDocument) {
+			OntologyDocument od = (OntologyDocument) eContainer;
+			EList<Ontology> imports = od.getOntology().getImports();
+			for (Ontology imported : imports) {
+				transitiveImports.add(imported);
+				transitiveImports.addAll(calculateTransitiveImports(imported));
+			}
+		}
+		return transitiveImports;
 	}
 
 	@SuppressWarnings("unchecked")

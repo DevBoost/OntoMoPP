@@ -39,8 +39,8 @@ import org.emftext.language.owl.ObjectPropertyValue;
 import org.emftext.language.owl.Ontology;
 import org.emftext.language.owl.OntologyDocument;
 import org.emftext.language.owl.OwlFactory;
+import org.emftext.runtime.owltext.transformation.Ecore2Owl;
 import org.emftext.runtime.owltext.transformation.OWLTransformationHelper;
-
 
 /**
  * A custom implementation of EObject that intercepts all reflective calls
@@ -50,6 +50,11 @@ import org.emftext.runtime.owltext.transformation.OWLTransformationHelper;
  * 
  */
 public class OWLTextEObjectImpl extends EObjectImpl {
+
+	public static final Class OWL_THING = OwlFactory.eINSTANCE.createClass();
+	static {
+		OWL_THING.setIri("owl:Thing");
+	}
 
 	/**
 	 * Instance variable storing the OWL individual associated with the EObject
@@ -632,11 +637,14 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		createNamedEqivalent(this, selfIndividual, ontology);
 		// collect individuals, fix cardinalities
 		while (eAllContents.hasNext()) {
-			OWLTextEObjectImpl child = (OWLTextEObjectImpl) eAllContents.next();
+			EObject aChild = eAllContents.next();
+			if (!(aChild instanceof OWLTextEObjectImpl))
+				continue;
+			OWLTextEObjectImpl child = (OWLTextEObjectImpl) aChild;
 
 			Class individual = child.getOwlIndividualClass();
 			createNamedEqivalent(child, individual, ontology);
-			
+
 			ontology.getFrames().add(individual);
 			individuals.add(individual);
 			// fix cardinality for all features
@@ -654,16 +662,19 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 				disjointClasses.getDescriptions().add(ca);
 			}
 		}
+		new Ecore2Owl().cleanTransitiveImports(ontology);
 
 		return ontologyDocument;
 	}
 
-	private void createNamedEqivalent(OWLTextEObjectImpl child, Class individual, Ontology ontology) {
+	private void createNamedEqivalent(OWLTextEObjectImpl child,
+			Class individual, Ontology ontology) {
 		EAttribute eidAttribute = child.eClass().getEIDAttribute();
 		if (eidAttribute != null) {
 			OwlFactory factory = OwlFactory.eINSTANCE;
 			Object id = child.eGet(eidAttribute);
-			if (id != null && !"".equals(id.toString()) && !(createdNamings.contains(id.toString()))) {
+			if (id != null && !"".equals(id.toString())
+					&& !(createdNamings.contains(id.toString()))) {
 				Class eq = factory.createClass();
 				eq.setIri(OWLTransformationHelper.createValidIri(id.toString()));
 				ClassAtomic ca = factory.createClassAtomic();
@@ -673,7 +684,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 				createdNamings.add(id.toString());
 			}
 		}
-		
+
 	}
 
 	public String getOntologyUri() {
@@ -799,6 +810,21 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		// System.out.println(importedMetamodelOntology);
 		ontology.getImports().add(importedMetamodelOntology);
 
+		OntologyDocument od = (OntologyDocument) importedMetamodelOntology
+				.eContainer();
+		for (Namespace namespace : od.getNamespace()) {
+			if ((":").equals(namespace.getPrefix())) {
+				continue;
+			} else {
+				Namespace n = factory.createNamespace();
+				n.setImportedOntology(namespace.getImportedOntology());
+				n.setPrefix(namespace.getPrefix());
+				ontologyDocument.getNamespace().add(n);
+				addImportedFrames(factory, ontology,
+						namespace.getImportedOntology(), namespace.getPrefix());
+			}
+
+		}
 		Namespace local = factory.createNamespace();
 		local.setPrefix(":");
 		local.setImportedOntology(ontology);
@@ -810,7 +836,12 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		namespace.setPrefix(metaModelNamespacePrefix + ":");
 		namespace.setImportedOntology(importedMetamodelOntology);
 		ontologyDocument.getNamespace().add(namespace);
+		addImportedFrames(factory, ontology, importedMetamodelOntology,
+				metaModelNamespacePrefix + ":");
+	}
 
+	private void addImportedFrames(OwlFactory factory, Ontology ontology,
+			Ontology importedMetamodelOntology, String metaModelNamespacePrefix) {
 		EList<Frame> frames = importedMetamodelOntology.getFrames();
 		for (Frame frame : frames) {
 			if (frame.getIri() != null && frame.getIri().length() > 0) {
@@ -828,7 +859,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 				} else if (frame instanceof Individual) {
 					declarationFrame = factory.createIndividual();
 				}
-				declarationFrame.setIri(metaModelNamespacePrefix + ":"
+				declarationFrame.setIri(metaModelNamespacePrefix
 						+ frame.getIri());
 				ontology.getFrames().add(declarationFrame);
 

@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.eclipse.core.runtime.internal.adaptor.IModel;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.common.util.TreeIterator;
@@ -46,7 +47,6 @@ import org.emftext.language.owl.FeatureReference;
 import org.emftext.language.owl.FeatureRestriction;
 import org.emftext.language.owl.Frame;
 import org.emftext.language.owl.Individual;
-import org.emftext.language.owl.IndividualsAtomic;
 import org.emftext.language.owl.LiteralTarget;
 import org.emftext.language.owl.Namespace;
 import org.emftext.language.owl.NestedDescription;
@@ -160,10 +160,40 @@ public class Ecore2Owl {
 		initStandardImports(d, metamodel);
 		ontology.setUri(metamodel.getNsURI());
 		propagateMetamodel(metamodel);
+		cleanTransitiveImports(ontology);
+		
 		if (targetURI != null)
 			saveOntology(targetURI, d);
 		return d;
 	}
+
+	public void cleanTransitiveImports(Ontology ontology) {
+		List<Ontology> transitiveImports = new ArrayList<Ontology>();
+		EList<Ontology> imports = ontology.getImports();
+		for (Ontology o : imports) {
+			transitiveImports.addAll(CrossResourceIRIResolver.theInstance().calculateTransitiveImports(o));
+		}
+		List<Ontology> toRemove = new ArrayList<Ontology>();
+		List<String> importsUris = new ArrayList<String>();
+		for (Ontology i : transitiveImports) {
+			importsUris.add(i.getUri());
+		}
+		
+		for (Ontology imported : imports) {
+			String importUri = imported.getUri();
+			if (importsUris.contains(importUri)) {
+				if (CrossResourceIRIResolver.standardNamespaces.values()
+						.contains(importUri)) {
+					continue;
+				}
+				toRemove.add(imported);
+				System.out.println("\tremove: " + importUri);
+			}
+		}
+		ontology.getImports().removeAll(toRemove);
+	}
+
+	
 
 	private void saveOntology(URI targetURI, OntologyDocument d) {
 		Resource documentResource = new ResourceSetImpl()
@@ -185,12 +215,12 @@ public class Ecore2Owl {
 		Ecore2Owl transformation = new Ecore2Owl();
 		String importedMetamodelPrefix = importedMetamodel.getNsPrefix();
 		URI importedTargetURI = null;
-		if (! (targetURI == null)) {
-			importedTargetURI = targetURI.trimFileExtension()
-			.appendFileExtension(importedMetamodelPrefix)
-				.appendFileExtension("owl");
+		if (!(targetURI == null)) {
+			importedTargetURI = targetURI.trimSegments(1)
+					.appendSegment(importedMetamodel.getName())
+					.appendFileExtension("mm").appendFileExtension("owl");
 		}
-		
+
 		OntologyDocument importedDocument = transformation.transformMetamodel(
 				rootPackageOfImport, importedTargetURI);
 		OntologyDocument importingDocument = (OntologyDocument) this.ontology
@@ -283,6 +313,7 @@ public class Ecore2Owl {
 			propagateMetamodel(metamodel);
 			propagateInstances(eObject);
 		}
+		cleanTransitiveImports(ontology);
 		return d;
 	}
 
@@ -442,9 +473,10 @@ public class Ecore2Owl {
 			}
 
 			if (disjoints.size() > 1) {
-				if (seenSets.contains(disjoints)) continue;
+				if (seenSets.contains(disjoints))
+					continue;
 				seenSets.add(disjoints);
-				
+
 				DisjointClasses disjointClasses = owlFactory
 						.createDisjointClasses();
 				ontology.getFrames().add(disjointClasses);
@@ -837,21 +869,26 @@ public class Ecore2Owl {
 		d.setIri(OWLTransformationHelper.getSimpleClassIdentificationIRI(elem));
 		addTypeMapping(elem, d);
 
-		IndividualsAtomic description = owlFactory.createIndividualsAtomic();
-		d.getEquivalentClassesDescriptions().add(description);
+		Conjunction description = owlFactory.createConjunction();
+		d.getSuperClassesDescriptions().add(description);
 		EList<EEnumLiteral> literals = elem.getELiterals();
 		for (EEnumLiteral eEnumLiteral : literals) {
 			transformEEnumLiteral(eEnumLiteral);
-			Individual individual = (Individual) getTypeMapping(eEnumLiteral);
-			description.getIndividuals().add(individual);
+			Class type = (Class) getTypeMapping(eEnumLiteral);
+			ClassAtomic ca = owlFactory.createClassAtomic();
+			ca.setClazz(type);
+			description.getPrimaries().add(ca);
 		}
 
 	}
 
 	private void transformEEnumLiteral(EEnumLiteral eEnumLiteral) {
-		Individual individual = owlFactory.createIndividual();
-		individual.setIri(eEnumLiteral.toString());
-		addTypeMapping(eEnumLiteral, individual);
+		// Individual individual = owlFactory.createIndividual();
+		// individual.setIri(eEnumLiteral.toString());
+		Class c = owlFactory.createClass();
+		ontology.getFrames().add(c);
+		c.setIri(eEnumLiteral.getName());
+		addTypeMapping(eEnumLiteral, c);
 	}
 
 	private void transformEDatatype(EDataType elem) {

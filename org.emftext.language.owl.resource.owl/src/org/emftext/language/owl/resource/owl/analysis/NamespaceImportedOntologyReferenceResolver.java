@@ -13,7 +13,9 @@
  ******************************************************************************/
 package org.emftext.language.owl.resource.owl.analysis;
 
-import org.eclipse.emf.common.util.EList;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.emftext.language.owl.Ontology;
 import org.emftext.language.owl.OntologyDocument;
 import org.emftext.language.owl.loading.OntologyLoadExeption;
@@ -25,7 +27,8 @@ public class NamespaceImportedOntologyReferenceResolver
 		implements
 		org.emftext.language.owl.resource.owl.IOwlReferenceResolver<org.emftext.language.owl.Namespace, org.emftext.language.owl.Ontology> {
 
-	private RemoteLoader remoteLoader = CrossResourceIRIResolver.theInstance().getRemoteLoader();
+	private RemoteLoader remoteLoader = CrossResourceIRIResolver.theInstance()
+			.getRemoteLoader();
 
 	public void resolve(
 			java.lang.String identifier,
@@ -36,7 +39,10 @@ public class NamespaceImportedOntologyReferenceResolver
 			final org.emftext.language.owl.resource.owl.IOwlReferenceResolveResult<org.emftext.language.owl.Ontology> result) {
 		OntologyDocument ontologyDocument = (OntologyDocument) container
 				.eContainer();
-		EList<Ontology> imports = ontologyDocument.getOntology().getImports();
+		List<Ontology> imports = new ArrayList<Ontology>();
+		imports.addAll(ontologyDocument.getOntology().getImports());
+		imports.addAll(CrossResourceIRIResolver.theInstance()
+				.calculateTransitiveImports(ontologyDocument.getOntology()));
 		if (!identifier.endsWith("#")) {
 			((OwlResource) container.eResource())
 					.addWarning(

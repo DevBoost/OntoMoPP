@@ -194,6 +194,7 @@ public class EMFTextPelletReasoner implements
 		} catch (OWLOntologyCreationException e) {
 			String message = "The ontology could not be checked for consistency: "
 					+ e.getMessage();
+			System.err.println(this.ontologyString);
 			throw new ReasoningException(message, e);
 		}
 
