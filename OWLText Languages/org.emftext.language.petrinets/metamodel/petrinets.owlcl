@@ -15,7 +15,7 @@ Arc message "Arcs need to be either consuming or producing."
 		or (Arc_in exactly 1 Place and Arc_out exactly 1 Transition);
 		
 ConsumingArc message "Consuming Arcs need to have Places as input."
-	: (Arc_in exactly 1 Place); 
+	: (Arc_in exactly 1 Place);
 
 ConsumingArc message "Consuming Arcs need to have Transitions as output." 
 	: (Arc_out exactly 1 Transition);

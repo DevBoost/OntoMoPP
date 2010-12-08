@@ -26,7 +26,7 @@ package petrinets // this is the package name
 		containment reference Arc arcs (0..-1);
 	}
 
-	@"OWL_CONSTRAINT"("Compoments need to be named."="( NameableElement_name exactly 1 xsd:string )")
+	@"OWL_CONSTRAINT"("Compoments need to be named."="( NameableElement_name exactly 1 xsd:string ) ")
 
 	abstract
 
@@ -36,28 +36,27 @@ package petrinets // this is the package name
 		reference PetriNet net (1..1) opposite components;
 	}
 
-	@"OWL_CONSTRAINT"("Arcs need to be either consuming or producing."="( Arc_in exactly 1 Transition and Arc_out exactly 1 Place ) or ( Arc_in exactly 1 Place and Arc_out exactly 1 Transition )")
+	@"OWL_CONSTRAINT"("Arcs need to be either consuming or producing."="( Arc_in exactly 1 Transition and Arc_out exactly 1 Place ) or ( Arc_in exactly 1 Place and Arc_out exactly 1 Transition ) ")
 
 	class Arc {
 		reference Component in (1..1) opposite outgoing;
 		reference Component out (1..1) opposite incoming;
 		containment reference ArcStatement arcStatements (0..-1);
 	}
-	
 
-	@"OWL_CONSTRAINT"("Consuming Arcs need to have Places as input."="( Arc_in exactly 1 Place )")
-	@"OWL_CONSTRAINT"("Consuming Arcs need to have Transitions as output."="( Arc_out exactly 1 Transition )")
+	@"OWL_CONSTRAINT"("Consuming Arcs need to have Places as input."="( Arc_in exactly 1 Place ) ")
+	@"OWL_CONSTRAINT"("Consuming Arcs need to have Transitions as output."="( Arc_out exactly 1 Transition ) ")
 
 	class ConsumingArc extends Arc {
 	}
 
-	@"OWL_CONSTRAINT"("Producing Arcs need to have Transitions as input."="( Arc_in exactly 1 Transition )")
-	@"OWL_CONSTRAINT"("Producing Arcs need to have Places as output."="( Arc_out exactly 1 Place )")
+	@"OWL_CONSTRAINT"("Producing Arcs need to have Transitions as input."="( Arc_in exactly 1 Transition ) ")
+	@"OWL_CONSTRAINT"("Producing Arcs need to have Places as output."="( Arc_out exactly 1 Place ) ")
 
 	class ProducingArc extends Arc {
 	}
 
-	@"OWL_DEFINITION"("StartPlace"="( NameableElement_name value \"Start\" )", "A Start Place is not allowed to have incoming Arcs."="( Component_incoming exactly 0 Arc )")
+	@"OWL_DEFINITION"("StartPlace"="( NameableElement_name value \"Start\" ) ", "A Start Place is not allowed to have incoming Arcs."="( Component_incoming exactly 0 Arc ) ")
 
 	class Place extends Component {
 		reference EClassifier type (0..1);
@@ -116,7 +115,9 @@ package petrinets // this is the package name
 		reference Variable variable (1..1);
 	}
 
-	abstract class Literal extends Expression {}
+	abstract
+	
+		class Literal extends Expression {}
 
 	class StringLiteral extends Literal {
 		attribute EString value (1..1);

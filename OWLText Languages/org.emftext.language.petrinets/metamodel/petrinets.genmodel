@@ -3,8 +3,9 @@
     xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.emftext.language.petrinets/src-gen"
     editDirectory="/org.emftext.language.petrinets.edit/src-gen" editorDirectory="/org.emftext.language.petrinets.editor/src-gen"
-    modelPluginID="org.emftext.language.petrinets" modelName="Petrinets" importerID="org.eclipse.emf.importer.ecore"
-    complianceLevel="5.0" copyrightFields="false" usedGenPackages="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore platform:/plugin/org.eclipse.emf.codegen.ecore/model/GenModel.genmodel#//genmodel">
+    modelPluginID="org.emftext.language.petrinets" modelName="Petrinets" rootExtendsClass="org.emftext.runtime.owltext.OWLTextEObjectImpl"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="5.0" copyrightFields="false"
+    usedGenPackages="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore platform:/plugin/org.eclipse.emf.codegen.ecore/model/GenModel.genmodel#//genmodel">
   <foreignModel>petrinets.text.ecore</foreignModel>
   <genPackages prefix="Petrinets" basePackage="org.emftext.language" disposableProviderFactory="true"
       ecorePackage="petrinets.text.ecore#/">

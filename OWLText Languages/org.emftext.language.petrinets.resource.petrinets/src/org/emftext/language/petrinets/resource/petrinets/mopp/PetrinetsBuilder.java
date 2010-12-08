@@ -6,6 +6,7 @@
  */
 package org.emftext.language.petrinets.resource.petrinets.mopp;
 
+import org.emftext.runtime.owltext.OWLTextValidationMarker;
 
 public class PetrinetsBuilder implements
 		org.emftext.language.petrinets.resource.petrinets.IPetrinetsBuilder {
@@ -18,11 +19,12 @@ public class PetrinetsBuilder implements
 			org.emftext.language.petrinets.resource.petrinets.mopp.PetrinetsResource resource,
 			org.eclipse.core.runtime.IProgressMonitor monitor) {
 		if (resource.getErrors().isEmpty()) {
-		//	OWLTextValidationMarker ovm = new OWLTextValidationMarker();
-		//	ovm.annotateValidationResults(resource);
-			PetriNetsCodeGenerator pcg = new PetriNetsCodeGenerator();
-			pcg.generateJavaCode(resource);
-			
+			OWLTextValidationMarker ovm = new OWLTextValidationMarker();
+			ovm.annotateValidationResults(resource);
+			if (resource.getErrors().isEmpty()) {
+				PetriNetsCodeGenerator pcg = new PetriNetsCodeGenerator();
+				pcg.generateJavaCode(resource);
+			}
 		}
 		return org.eclipse.core.runtime.Status.OK_STATUS;
 	}
