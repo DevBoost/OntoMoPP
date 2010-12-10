@@ -24,7 +24,6 @@ OPTIONS {
 	overrideClasspath = "false";
 	overrideProjectFile = "false";
 	overrideDefaultResolverDelegate = "false";
-	reloadGeneratorModel = "true";
 	tokenspace = "1";
 	//memoize = "true";
 	usePredefinedTokens = "false";
