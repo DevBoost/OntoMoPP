@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="org.emftext.language.swrl/src-gen"
+    modelPluginID="org.emftext.language.swrl" modelName="swrl" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="5.0" copyrightFields="false" usedGenPackages="../../org.emftext.language.owl/metamodel/owl.genmodel#//owl">
+  <foreignModel>swrl.ecore</foreignModel>
+  <foreignModel>../../org.emftext.language.owl/metamodel/owl.text.ecore</foreignModel>
+  <genPackages prefix="Swrl" basePackage="org.emftext.language" disposableProviderFactory="true"
+      ecorePackage="swrl.ecore#/">
+    <genClasses ecoreClass="swrl.ecore#//Rule">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference swrl.ecore#//Rule/antecedent"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference swrl.ecore#//Rule/consequent"/>
+    </genClasses>
+    <genClasses ecoreClass="swrl.ecore#//Antecedent">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference swrl.ecore#//Antecedent/body"/>
+    </genClasses>
+    <genClasses ecoreClass="swrl.ecore#//Consequent">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference swrl.ecore#//Consequent/body"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="swrl.ecore#//Atom"/>
+    <genClasses ecoreClass="swrl.ecore#//DescriptionAtom">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference swrl.ecore#//DescriptionAtom/description"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference swrl.ecore#//DescriptionAtom/object"/>
+    </genClasses>
+    <genClasses ecoreClass="swrl.ecore#//DataRangeAtom">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference swrl.ecore#//DataRangeAtom/dataRange"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference swrl.ecore#//DataRangeAtom/object"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="swrl.ecore#//IObject"/>
+    <genClasses image="false" ecoreClass="swrl.ecore#//DObject"/>
+    <genClasses ecoreClass="swrl.ecore#//IVariable"/>
+    <genClasses ecoreClass="swrl.ecore#//DVariable"/>
+    <genClasses ecoreClass="swrl.ecore#//DLiteral">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference swrl.ecore#//DLiteral/literal"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>
