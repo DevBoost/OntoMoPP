@@ -86,4 +86,7 @@ public class ConsistencyChecker implements IOwlResourcePostProcessor,
 		return new ConsistencyChecker();
 	}
 
+	public void terminate() {
+		// do nothing
+	}
 }
