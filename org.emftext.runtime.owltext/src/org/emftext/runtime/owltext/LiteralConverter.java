@@ -162,6 +162,7 @@ public class LiteralConverter {
 		return textLiteral;
 	}
 
+	@SuppressWarnings("unchecked")
 	public <T> T reconvert(Class<T> targetClass, Literal literal) {
 		if (literal == null)
 			return null;

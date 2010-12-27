@@ -13,7 +13,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -251,7 +250,7 @@ public class OWLTextTest {
 	@Test
 	public void testSampleValidation() throws Throwable {
 		String inFileName = "sample.fea";
-		File outFile = new File("./testInput/" + inFileName + ".out.owl");
+		//File outFile = new File("./testInput/" + inFileName + ".out.owl");
 		//validate(outFile, false);
 		FeaResource loadResource = loadResource(new File("./testInput/"
 				+ inFileName));
@@ -1186,7 +1185,7 @@ public class OWLTextTest {
 
 		ListIterator<Feature> iter = feature.getChildren().listIterator();
 		while (iter.hasNext()) {
-			Feature child = iter.next();
+			/*Feature child = */iter.next();
 			// assertEquals("wrong order of childs",
 			// feature.getChildren().get(iter.nextIndex()-1), child);
 		}
@@ -1561,6 +1560,7 @@ public class OWLTextTest {
 	}
 
 	// useful for debug
+	/*
 	private void feaResourceToFile(FeaResource loadResource, String outFileName)
 			throws Throwable {
 		File outputFile = new File("./testInput/" + outFileName);
@@ -1568,6 +1568,7 @@ public class OWLTextTest {
 			outputFile.delete();
 		loadResource.save(new FileOutputStream(outputFile, true), null);
 	}
+	*/
 
 	private void validateRootObjectAsOWLRepresentation(EObject rootObject,
 			boolean errorsExpected) throws Exception {

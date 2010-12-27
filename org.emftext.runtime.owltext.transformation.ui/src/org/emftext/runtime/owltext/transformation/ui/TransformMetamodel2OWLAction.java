@@ -13,7 +13,6 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
-import org.emftext.language.owl.OntologyDocument;
 import org.emftext.runtime.owltext.transformation.Ecore2Owl;
 
 
@@ -37,7 +36,7 @@ public class TransformMetamodel2OWLAction implements IObjectActionDelegate {
 							URI targetURI = resource.getURI()
 									.trimFileExtension().appendFileExtension(
 											"owl");
-							OntologyDocument document = new Ecore2Owl()
+							/*OntologyDocument document = */new Ecore2Owl()
 									.transformMetamodel((EPackage) resource
 											.getContents().get(0), targetURI);
 							file.getParent().refreshLocal(Integer.MAX_VALUE,

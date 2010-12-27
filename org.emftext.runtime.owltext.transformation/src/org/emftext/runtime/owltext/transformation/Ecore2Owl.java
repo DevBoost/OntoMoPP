@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.eclipse.core.runtime.internal.adaptor.IModel;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.common.util.TreeIterator;
@@ -491,6 +490,7 @@ public class Ecore2Owl {
 
 	}
 
+	/*
 	private Set<EClass> getSuperclasses(Set<EClass> classes) {
 		Set<EClass> superclasses = new HashSet<EClass>();
 		for (EClass subclass : classes) {
@@ -506,6 +506,7 @@ public class Ecore2Owl {
 			superclasses.addAll(foundSupertypes);
 		return superclasses;
 	}
+	*/
 
 	private Set<EClass> getSubclasses(EClass cls) {
 		Set<EClass> subclasses = new HashSet<EClass>();

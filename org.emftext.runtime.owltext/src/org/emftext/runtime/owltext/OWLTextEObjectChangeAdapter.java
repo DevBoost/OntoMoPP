@@ -137,6 +137,7 @@ public class OWLTextEObjectChangeAdapter implements Adapter {
 	}
 
 	private void removeMany(Notification notification) {
+		@SuppressWarnings("unchecked")
 		Collection<Object> oldValues = (Collection<Object>) notification
 				.getOldValue();
 		for (Object object : oldValues) {
@@ -149,6 +150,7 @@ public class OWLTextEObjectChangeAdapter implements Adapter {
 	}
 
 	private void addMany(Notification notification) {
+		@SuppressWarnings("unchecked")
 		Collection<Object> objects = (Collection<Object>) notification
 				.getNewValue();
 		for (Object object : objects) {

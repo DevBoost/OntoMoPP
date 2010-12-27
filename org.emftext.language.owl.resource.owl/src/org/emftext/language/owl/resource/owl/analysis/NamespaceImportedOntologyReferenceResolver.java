@@ -20,6 +20,7 @@ import org.emftext.language.owl.Ontology;
 import org.emftext.language.owl.OntologyDocument;
 import org.emftext.language.owl.loading.OntologyLoadExeption;
 import org.emftext.language.owl.loading.RemoteLoader;
+import org.emftext.language.owl.resource.owl.OwlEProblemType;
 import org.emftext.language.owl.resource.owl.analysis.custom.CrossResourceIRIResolver;
 import org.emftext.language.owl.resource.owl.mopp.OwlResource;
 
@@ -47,6 +48,7 @@ public class NamespaceImportedOntologyReferenceResolver
 			((OwlResource) container.eResource())
 					.addWarning(
 							"URIs of imported namespaces should end with \"#\", to allow for resolving its declarations by iri",
+							OwlEProblemType.ANALYSIS_PROBLEM,
 							container);
 		}
 		OntologyDocument document = (OntologyDocument) container.eContainer();

@@ -26,6 +26,7 @@ import org.emftext.language.owl.resource.owl.IOwlOptionProvider;
 import org.emftext.language.owl.resource.owl.IOwlOptions;
 import org.emftext.language.owl.resource.owl.IOwlResourcePostProcessor;
 import org.emftext.language.owl.resource.owl.IOwlResourcePostProcessorProvider;
+import org.emftext.language.owl.resource.owl.OwlEProblemType;
 import org.emftext.language.owl.resource.owl.analysis.custom.CrossResourceIRIResolver;
 import org.emftext.language.owl.resource.owl.mopp.OwlResource;
 
@@ -71,10 +72,11 @@ public class ConsistencyChecker implements IOwlResourcePostProcessor,
 						resource
 								.addWarning(
 										"The referenced iri-identified element could not be resolved in the imported ontology",
+										OwlEProblemType.ANALYSIS_PROBLEM,
 										frame);
 					}
 				} catch (OntologyLoadExeption e) {
-					resource.addWarning(e.getMessage(), frame);
+					resource.addWarning(e.getMessage(), OwlEProblemType.ANALYSIS_PROBLEM, frame);
 				}
 
 			}

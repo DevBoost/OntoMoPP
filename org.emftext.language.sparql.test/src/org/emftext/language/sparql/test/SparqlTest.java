@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
-import org.emftext.language.sparql.SparqlQueries;
 import org.emftext.language.sparql.resource.sparql.mopp.RqResource;
 import org.junit.Test;
 
@@ -58,7 +57,7 @@ public class SparqlTest extends AbstractSparqlTestCase {
 	}
 	
 	private void log(String string) {
-		this.log.add(string);
+		SparqlTest.log.add(string);
 	}
 	
 	private void parseAllSubItems(File folder)throws Exception{
@@ -111,7 +110,7 @@ public class SparqlTest extends AbstractSparqlTestCase {
 		
 		wrapFile(new File(getTestInputFolder()+filename));
 		
-		SparqlQueries sQuer = assertParsesToSparqlQueries(typename);
+		/*SparqlQueries sQuer = */assertParsesToSparqlQueries(typename);
 		
 		
 	
@@ -254,7 +253,7 @@ public class SparqlTest extends AbstractSparqlTestCase {
 		}
 		
 		
-		assertTrue(this.log.isEmpty());
+		assertTrue(SparqlTest.log.isEmpty());
 	}
 	
 }
