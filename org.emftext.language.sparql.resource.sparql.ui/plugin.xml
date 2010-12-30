@@ -8,7 +8,8 @@
 	
 	<extension point="org.eclipse.ui.editors">
 		<editor class="org.emftext.language.sparql.resource.sparql.ui.RqEditor" contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor" extensions="rq" icon="icons/editor_icon.gif" id="org.emftext.language.sparql.resource.sparql.ui.RqEditor" name="EMFText rq Editor">
-			<contentTypeBinding contentTypeId="org.emftext.language.sparql.resource.sparql"/>
+			<contentTypeBinding contentTypeId="org.emftext.language.sparql.resource.sparql">
+			</contentTypeBinding>
 		</editor>
 	</extension>
 	
@@ -34,29 +35,37 @@
 	</extension>
 	
 	<extension point="org.eclipse.ui.ide.markerResolution">
-		<markerResolutionGenerator class="org.emftext.language.sparql.resource.sparql.ui.RqMarkerResolutionGenerator" markerType="org.emftext.language.sparql.resource.sparql.problem" />
+		<markerResolutionGenerator class="org.emftext.language.sparql.resource.sparql.ui.RqMarkerResolutionGenerator" markerType="org.emftext.language.sparql.resource.sparql.problem">
+		</markerResolutionGenerator>
 	</extension>
 	
 	<extension point="org.eclipse.core.filebuffers.annotationModelCreation">
-		<factory class="org.emftext.language.sparql.resource.sparql.ui.RqAnnotationModelFactory" extensions="rq" />
+		<factory class="org.emftext.language.sparql.resource.sparql.ui.RqAnnotationModelFactory" extensions="rq">
+		</factory>
 	</extension>
 	
 	<extension point="org.eclipse.core.contenttype.contentTypes">
-		<content-type id="org.emftext.language.sparql.resource.sparql" name=".rq File" base-type="org.eclipse.core.runtime.text" file-extensions="rq"/>
+		<content-type id="org.emftext.language.sparql.resource.sparql" name=".rq File" base-type="org.eclipse.core.runtime.text" file-extensions="rq">
+		</content-type>
 	</extension>
 	
 	<extension point="org.eclipse.ui.editors.documentProviders">
-		<provider class="org.eclipse.ui.editors.text.TextFileDocumentProvider" extensions="rq" id="org.emftext.language.sparql.resource.sparql.ui.provider" />
+		<provider class="org.eclipse.ui.editors.text.TextFileDocumentProvider" extensions="rq" id="org.emftext.language.sparql.resource.sparql.ui.provider">
+		</provider>
 	</extension>
 	
 	<extension point="org.eclipse.ui.editors.annotationTypes">
-		<type name="org.emftext.language.sparql.resource.sparql.ui.occurences" />
-		<type name="org.emftext.language.sparql.resource.sparql.ui.occurences.declaration" super="org.emftext.language.sparql.resource.sparql.ui.occurences" />
+		<type name="org.emftext.language.sparql.resource.sparql.ui.occurences">
+		</type>
+		<type name="org.emftext.language.sparql.resource.sparql.ui.occurences.declaration" super="org.emftext.language.sparql.resource.sparql.ui.occurences">
+		</type>
 	</extension>
 	
 	<extension point="org.eclipse.ui.editors.markerAnnotationSpecification">
-		<specification annotationType="org.emftext.language.sparql.resource.sparql.ui.occurences" label="Occurrences (in .rq files)" icon="/icons/occurrence_icon.gif" textPreferenceKey="rq.occurrenceIndication" textPreferenceValue="false" highlightPreferenceKey="rq.occurrenceHighlighting" highlightPreferenceValue="true" contributesToHeader="false" overviewRulerPreferenceKey="rq.occurrenceIndicationInOverviewRuler" overviewRulerPreferenceValue="true" verticalRulerPreferenceKey="rq.occurrenceIndicationInVerticalRuler" verticalRulerPreferenceValue="false" colorPreferenceKey="rq.occurrenceIndicationColor" colorPreferenceValue="212,212,212" presentationLayer="4" showInNextPrevDropdownToolbarActionKey="rq.showOccurrenceInNextPrevDropdownToolbarAction" showInNextPrevDropdownToolbarAction="true" isGoToNextNavigationTargetKey="rq.isOccurrenceGoToNextNavigationTarget" isGoToNextNavigationTarget="false" isGoToPreviousNavigationTargetKey="rq.isOccurrenceGoToPreviousNavigationTarget" isGoToPreviousNavigationTarget="false" textStylePreferenceKey="rq.occurrenceTextStyle" textStylePreferenceValue="NONE" />
-		<specification annotationType="org.emftext.language.sparql.resource.sparql.ui.occurences.declaration" label="Declarations (in .rq files)" textPreferenceKey="rq.declarationIndication" textPreferenceValue="false" highlightPreferenceKey="rq.declarationHighlighting" highlightPreferenceValue="true" overviewRulerPreferenceKey="rq.declarationIndicationInOverviewRuler" overviewRulerPreferenceValue="true" verticalRulerPreferenceKey="rq.declarationIndicationInVerticalRuler" verticalRulerPreferenceValue="false" colorPreferenceKey="rq.declarationIndicationColor" colorPreferenceValue="240,216,168" presentationLayer="4" textStylePreferenceKey="rq.declarationTextStyle" textStylePreferenceValue="NONE" />
+		<specification annotationType="org.emftext.language.sparql.resource.sparql.ui.occurences" label="Occurrences (in .rq files)" icon="/icons/occurrence_icon.gif" textPreferenceKey="rq.occurrenceIndication" textPreferenceValue="false" highlightPreferenceKey="rq.occurrenceHighlighting" highlightPreferenceValue="true" contributesToHeader="false" overviewRulerPreferenceKey="rq.occurrenceIndicationInOverviewRuler" overviewRulerPreferenceValue="true" verticalRulerPreferenceKey="rq.occurrenceIndicationInVerticalRuler" verticalRulerPreferenceValue="false" colorPreferenceKey="rq.occurrenceIndicationColor" colorPreferenceValue="212,212,212" presentationLayer="4" showInNextPrevDropdownToolbarActionKey="rq.showOccurrenceInNextPrevDropdownToolbarAction" showInNextPrevDropdownToolbarAction="true" isGoToNextNavigationTargetKey="rq.isOccurrenceGoToNextNavigationTarget" isGoToNextNavigationTarget="false" isGoToPreviousNavigationTargetKey="rq.isOccurrenceGoToPreviousNavigationTarget" isGoToPreviousNavigationTarget="false" textStylePreferenceKey="rq.occurrenceTextStyle" textStylePreferenceValue="NONE">
+		</specification>
+		<specification annotationType="org.emftext.language.sparql.resource.sparql.ui.occurences.declaration" label="Declarations (in .rq files)" textPreferenceKey="rq.declarationIndication" textPreferenceValue="false" highlightPreferenceKey="rq.declarationHighlighting" highlightPreferenceValue="true" overviewRulerPreferenceKey="rq.declarationIndicationInOverviewRuler" overviewRulerPreferenceValue="true" verticalRulerPreferenceKey="rq.declarationIndicationInVerticalRuler" verticalRulerPreferenceValue="false" colorPreferenceKey="rq.declarationIndicationColor" colorPreferenceValue="240,216,168" presentationLayer="4" textStylePreferenceKey="rq.declarationTextStyle" textStylePreferenceValue="NONE">
+		</specification>
 	</extension>
 	
 </plugin>

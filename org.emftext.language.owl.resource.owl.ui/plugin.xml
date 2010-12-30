@@ -8,7 +8,8 @@
 	
 	<extension point="org.eclipse.ui.editors">
 		<editor class="org.emftext.language.owl.resource.owl.ui.OwlEditor" contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor" extensions="owl" icon="icons/editor_icon.gif" id="org.emftext.language.owl.resource.owl.ui.OwlEditor" name="EMFText owl Editor">
-			<contentTypeBinding contentTypeId="org.emftext.language.owl.resource.owl"/>
+			<contentTypeBinding contentTypeId="org.emftext.language.owl.resource.owl">
+			</contentTypeBinding>
 		</editor>
 	</extension>
 	
@@ -34,29 +35,37 @@
 	</extension>
 	
 	<extension point="org.eclipse.ui.ide.markerResolution">
-		<markerResolutionGenerator class="org.emftext.language.owl.resource.owl.ui.OwlMarkerResolutionGenerator" markerType="org.emftext.language.owl.resource.owl.problem" />
+		<markerResolutionGenerator class="org.emftext.language.owl.resource.owl.ui.OwlMarkerResolutionGenerator" markerType="org.emftext.language.owl.resource.owl.problem">
+		</markerResolutionGenerator>
 	</extension>
 	
 	<extension point="org.eclipse.core.filebuffers.annotationModelCreation">
-		<factory class="org.emftext.language.owl.resource.owl.ui.OwlAnnotationModelFactory" extensions="owl" />
+		<factory class="org.emftext.language.owl.resource.owl.ui.OwlAnnotationModelFactory" extensions="owl">
+		</factory>
 	</extension>
 	
 	<extension point="org.eclipse.core.contenttype.contentTypes">
-		<content-type id="org.emftext.language.owl.resource.owl" name=".owl File" base-type="org.eclipse.core.runtime.text" file-extensions="owl"/>
+		<content-type id="org.emftext.language.owl.resource.owl" name=".owl File" base-type="org.eclipse.core.runtime.text" file-extensions="owl">
+		</content-type>
 	</extension>
 	
 	<extension point="org.eclipse.ui.editors.documentProviders">
-		<provider class="org.eclipse.ui.editors.text.TextFileDocumentProvider" extensions="owl" id="org.emftext.language.owl.resource.owl.ui.provider" />
+		<provider class="org.eclipse.ui.editors.text.TextFileDocumentProvider" extensions="owl" id="org.emftext.language.owl.resource.owl.ui.provider">
+		</provider>
 	</extension>
 	
 	<extension point="org.eclipse.ui.editors.annotationTypes">
-		<type name="org.emftext.language.owl.resource.owl.ui.occurences" />
-		<type name="org.emftext.language.owl.resource.owl.ui.occurences.declaration" super="org.emftext.language.owl.resource.owl.ui.occurences" />
+		<type name="org.emftext.language.owl.resource.owl.ui.occurences">
+		</type>
+		<type name="org.emftext.language.owl.resource.owl.ui.occurences.declaration" super="org.emftext.language.owl.resource.owl.ui.occurences">
+		</type>
 	</extension>
 	
 	<extension point="org.eclipse.ui.editors.markerAnnotationSpecification">
-		<specification annotationType="org.emftext.language.owl.resource.owl.ui.occurences" label="Occurrences (in .owl files)" icon="/icons/occurrence_icon.gif" textPreferenceKey="owl.occurrenceIndication" textPreferenceValue="false" highlightPreferenceKey="owl.occurrenceHighlighting" highlightPreferenceValue="true" contributesToHeader="false" overviewRulerPreferenceKey="owl.occurrenceIndicationInOverviewRuler" overviewRulerPreferenceValue="true" verticalRulerPreferenceKey="owl.occurrenceIndicationInVerticalRuler" verticalRulerPreferenceValue="false" colorPreferenceKey="owl.occurrenceIndicationColor" colorPreferenceValue="212,212,212" presentationLayer="4" showInNextPrevDropdownToolbarActionKey="owl.showOccurrenceInNextPrevDropdownToolbarAction" showInNextPrevDropdownToolbarAction="true" isGoToNextNavigationTargetKey="owl.isOccurrenceGoToNextNavigationTarget" isGoToNextNavigationTarget="false" isGoToPreviousNavigationTargetKey="owl.isOccurrenceGoToPreviousNavigationTarget" isGoToPreviousNavigationTarget="false" textStylePreferenceKey="owl.occurrenceTextStyle" textStylePreferenceValue="NONE" />
-		<specification annotationType="org.emftext.language.owl.resource.owl.ui.occurences.declaration" label="Declarations (in .owl files)" textPreferenceKey="owl.declarationIndication" textPreferenceValue="false" highlightPreferenceKey="owl.declarationHighlighting" highlightPreferenceValue="true" overviewRulerPreferenceKey="owl.declarationIndicationInOverviewRuler" overviewRulerPreferenceValue="true" verticalRulerPreferenceKey="owl.declarationIndicationInVerticalRuler" verticalRulerPreferenceValue="false" colorPreferenceKey="owl.declarationIndicationColor" colorPreferenceValue="240,216,168" presentationLayer="4" textStylePreferenceKey="owl.declarationTextStyle" textStylePreferenceValue="NONE" />
+		<specification annotationType="org.emftext.language.owl.resource.owl.ui.occurences" label="Occurrences (in .owl files)" icon="/icons/occurrence_icon.gif" textPreferenceKey="owl.occurrenceIndication" textPreferenceValue="false" highlightPreferenceKey="owl.occurrenceHighlighting" highlightPreferenceValue="true" contributesToHeader="false" overviewRulerPreferenceKey="owl.occurrenceIndicationInOverviewRuler" overviewRulerPreferenceValue="true" verticalRulerPreferenceKey="owl.occurrenceIndicationInVerticalRuler" verticalRulerPreferenceValue="false" colorPreferenceKey="owl.occurrenceIndicationColor" colorPreferenceValue="212,212,212" presentationLayer="4" showInNextPrevDropdownToolbarActionKey="owl.showOccurrenceInNextPrevDropdownToolbarAction" showInNextPrevDropdownToolbarAction="true" isGoToNextNavigationTargetKey="owl.isOccurrenceGoToNextNavigationTarget" isGoToNextNavigationTarget="false" isGoToPreviousNavigationTargetKey="owl.isOccurrenceGoToPreviousNavigationTarget" isGoToPreviousNavigationTarget="false" textStylePreferenceKey="owl.occurrenceTextStyle" textStylePreferenceValue="NONE">
+		</specification>
+		<specification annotationType="org.emftext.language.owl.resource.owl.ui.occurences.declaration" label="Declarations (in .owl files)" textPreferenceKey="owl.declarationIndication" textPreferenceValue="false" highlightPreferenceKey="owl.declarationHighlighting" highlightPreferenceValue="true" overviewRulerPreferenceKey="owl.declarationIndicationInOverviewRuler" overviewRulerPreferenceValue="true" verticalRulerPreferenceKey="owl.declarationIndicationInVerticalRuler" verticalRulerPreferenceValue="false" colorPreferenceKey="owl.declarationIndicationColor" colorPreferenceValue="240,216,168" presentationLayer="4" textStylePreferenceKey="owl.declarationTextStyle" textStylePreferenceValue="NONE">
+		</specification>
 	</extension>
 	
 </plugin>

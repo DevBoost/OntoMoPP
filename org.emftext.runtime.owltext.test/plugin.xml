@@ -54,24 +54,29 @@
 	
 	<extension id="org.emftext.runtime.owltext.test.nature" name="fea nature" point="org.eclipse.core.resources.natures">
 		<runtime>
-			<run class="org.owltext.feature.resource.fea.mopp.FeaNature" />
+			<run class="org.owltext.feature.resource.fea.mopp.FeaNature">
+			</run>
 		</runtime>
-		<builder id="org.emftext.runtime.owltext.test.builder" />
+		<builder id="org.emftext.runtime.owltext.test.builder">
+		</builder>
 	</extension>
 	
 	<extension point="org.eclipse.core.resources.builders" id="org.emftext.runtime.owltext.test.builder" name="fea Builder">
 		<builder hasNature="true">
-			<run class="org.owltext.feature.resource.fea.mopp.FeaBuilderAdapter" />
+			<run class="org.owltext.feature.resource.fea.mopp.FeaBuilderAdapter">
+			</run>
 		</builder>
 	</extension>
 	
-	<extension-point id="org.emftext.runtime.owltext.test.default_load_options" name="Default Load Options" schema="schema/default_load_options.exsd"/>
+	<extension-point id="org.emftext.runtime.owltext.test.default_load_options" name="Default Load Options" schema="schema/default_load_options.exsd">
+	</extension-point>
 	
 	<extension point="org.eclipse.emf.ecore.extension_parser">
 		<parser class="org.owltext.feature.resource.fea.mopp.FeaResourceFactoryDelegator" type="fea">
 		</parser>
 	</extension>
 	
-	<extension-point id="org.emftext.runtime.owltext.test.additional_extension_parser" name="Additional Extension Parser" schema="schema/additional_extension_parser.exsd"/>
+	<extension-point id="org.emftext.runtime.owltext.test.additional_extension_parser" name="Additional Extension Parser" schema="schema/additional_extension_parser.exsd">
+	</extension-point>
 	
 </plugin>
