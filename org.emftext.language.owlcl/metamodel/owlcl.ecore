@@ -6,7 +6,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="OWLCLSpec" eSuperTypes="../../org.emftext.language.owl/metamodel/owl.text.ecore#//OntologyDocument">
     <eOperations name="getNamespace" upperBound="-1" eType="ecore:EClass ../../org.emftext.language.owl/metamodel/owl.text.ecore#//Namespace">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="if (super.getNamespace().size() == 0) {&#xA;&#x9;Namespace metamodelNamespace = org.emftext.language.owl.OwlFactory.eINSTANCE.createNamespace();&#xA;&#x9;metamodelNamespace.setPrefix(&quot;&quot;);&#xA;&#x9;org.emftext.runtime.owltext.transformation.Ecore2Owl transformation = new org.emftext.runtime.owltext.transformation.Ecore2Owl();&#xA;&#x9;org.emftext.language.owl.OntologyDocument ontologyDocument = transformation.transformMetamodel(this.getConstrainedMetamodel(), null);&#xA;&#x9;metamodelNamespace.setImportedOntology(ontologyDocument.getOntology());&#xA;&#x9;super.getNamespace().add(metamodelNamespace);&#xA;}&#xA;return super.getNamespace();"/>
+        <details key="body" value="if (super.getNamespace().size() == 0) {&#xA;&#x9;Namespace metamodelNamespace = org.emftext.language.owl.OwlFactory.eINSTANCE.createNamespace();&#xA;&#x9;metamodelNamespace.setPrefix(&quot;&quot;);&#xA;&#x9;metamodelNamespace.setImportedOntology(getOntology());&#xA;&#x9;super.getNamespace().add(metamodelNamespace);&#xA;}&#xA;return super.getNamespace();"/>
       </eAnnotations>
     </eOperations>
     <eOperations name="getOntology" lowerBound="1" eType="ecore:EClass ../../org.emftext.language.owl/metamodel/owl.text.ecore#//Ontology">
