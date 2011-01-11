@@ -1,3 +1,4 @@
+package example;
 /* Invalid PetriNets as OWLText validation example*/
 petrinet "example" {
 	

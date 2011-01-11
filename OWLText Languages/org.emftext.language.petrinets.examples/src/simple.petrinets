@@ -1,15 +1,23 @@
-petrinet "simple"{
-	// no incoming arcs allowed, thus, invalid
-	place "Start"
+package example;
 
-	
-	place "End"
+petrinet "simple" 
+
+import <platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore> <platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel>;
+
+{
+	// no incoming arcs allowed, thus, invalid
+	place "Start" : EInt
+
+	place "End" : EInt
 	transition "go"
+	transition "stop"
 	
+	"go"->"stop"
 	"Start" -> "go"
+	"stop" -> "Start"
 	"Start" -consume-> "go"
 	"Start" -produce-> "go"
 	
-	"go"  -> "Start"
+	
 	 
 }
