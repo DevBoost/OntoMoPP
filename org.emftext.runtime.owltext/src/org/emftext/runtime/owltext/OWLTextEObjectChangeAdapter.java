@@ -58,8 +58,7 @@ public class OWLTextEObjectChangeAdapter implements Adapter {
 			break;
 
 		default:
-			// throw new RuntimeException("unhandeled Event type: " +
-			// notification);
+			throw new RuntimeException("unhandeled Event type: " + notification);
 
 		}
 
@@ -110,10 +109,19 @@ public class OWLTextEObjectChangeAdapter implements Adapter {
 		if (notification.getOldValue() != null) {
 			remove(notification, notification.getOldValue());
 		}
+
 		Description description;
 		EStructuralFeature feature = (EStructuralFeature) notification
 				.getFeature();
 		Object newValue = notification.getNewValue();
+		if (feature.getUpperBound() == 1
+				&& notification.getNotifier() instanceof EObject) {
+			EObject notifier = (EObject) notification.getNotifier();
+			Object oldObject = notifier.eGet(feature);
+			if (oldObject != null) {
+				remove(notification, oldObject);
+			}
+		}
 
 		if (feature instanceof EReference) {
 			description = createDescriptionForReference((EObject) newValue,
@@ -227,10 +235,14 @@ public class OWLTextEObjectChangeAdapter implements Adapter {
 						.getOwlIndividualClass();
 				toRemove = thisObject.findDescriptionForReference(feature,
 						individual);
+			} else if (object instanceof EObject
+					&& ((EObject) object).eIsProxy()) {
+				toRemove = thisObject.findDescriptionForReference(feature,
+						OWLTextEObjectImpl.OWL_THING);
+
 			} else {
 				System.out
 						.println("remove: false input typ. Expect OWLTextEObjectImpl");
-
 			}
 
 		} else { // EAtrributes
@@ -311,8 +323,7 @@ public class OWLTextEObjectChangeAdapter implements Adapter {
 			ClassAtomic classAtomic = factory.createClassAtomic();
 			classAtomic.setClazz(individual);
 			objectPropertySome.setPrimary(classAtomic);
-		}
-		{
+		} else {
 			ClassAtomic classAtomic = factory.createClassAtomic();
 			classAtomic.setClazz(OWLTextEObjectImpl.OWL_THING);
 			objectPropertySome.setPrimary(classAtomic);
