@@ -3,20 +3,21 @@ package petrinets // this is the package name
         "http://www.emftext.org/language/petrinets" // the namespace URI 
 	{
 
-	class PList extends EClassifier {
-		reference EClassifier type (1..1); 
+	class PList extends EClassifier, TypedElement {
+	
 	}
 
 	class PVoid extends EClassifier {}
 
-	abstract
+	abstract class NameableElement {
+		iD attribute EString name (0..1);
+	}
 	
-		class NameableElement {
-			       iD attribute EString name (0..1);
+	abstract class TypedElement {
+		reference EClassifier type (0..1);
 	}
 	
 	@"import"("genmodel"="platform:/plugin/org.eclipse.emf.codegen.ecore/model/GenModel.ecore")
-
 	class PetriNet extends NameableElement {
 		attribute EString pkg (0..-1);
 		reference EPackage ePackages (1..-1); 
@@ -28,9 +29,7 @@ package petrinets // this is the package name
 
 	@"OWL_CONSTRAINT"("Compoments need to be named."="( NameableElement_name exactly 1 xsd:string ) ")
 
-	abstract
-
-	class Component extends NameableElement {
+	abstract class Component extends NameableElement {
 		reference Arc incoming (0..-1) opposite out; 
 		reference Arc outgoing (0..-1) opposite in;
 		reference PetriNet net (1..1) opposite components;
@@ -58,40 +57,29 @@ package petrinets // this is the package name
 
 	@"OWL_DEFINITION"("StartPlace"="( NameableElement_name value \"Start\" ) ", "A Start Place is not allowed to have incoming Arcs."="( Component_incoming exactly 0 Arc ) ")
 
-	class Place extends Component {
-		reference EClassifier type (0..1);
+	class Place extends Component, TypedElement {
 	}
 
 	class Transition extends Component {}
 
-	abstract
-	
-		class ArcStatement {}
+	abstract class ArcStatement extends TypedElement{
+	}
 
 	class Variable extends ArcStatement, NameableElement {
 			containment reference Expression initialisation (1..1);
-			reference EClassifier type (0..1);
 	}
 
-	abstract
-	
-		class Expression extends ArcStatement {
+	abstract class Expression extends ArcStatement {
 		reference Expression previousExpression (0..1) opposite nextExpression;
 			containment reference Expression nextExpression (0..1) opposite previousExpression;
-	    reference EClassifier type (1..1);
-	
 	}
 
-	abstract
-	
-		class Function extends NameableElement {
+	abstract class Function extends NameableElement, TypedElement {
 			containment reference Parameter parameters (0..-1);
-		reference EClassifier type (1..1);
 		reference EClassifier context (1..1);
 	}
 
 	class BasicFunction extends Function {
-	
 	}
 
 	class ListFunction extends Function {
@@ -102,8 +90,7 @@ package petrinets // this is the package name
 	class PGenericType extends EClassifier {
 	}
 
-	class Parameter extends NameableElement {
-		reference EClassifier type (1..1);
+	class Parameter extends NameableElement, TypedElement {
 	}
 
 	class FunctionCall extends Expression {

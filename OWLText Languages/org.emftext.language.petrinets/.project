@@ -40,6 +40,11 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
+		<buildCommand>
+			<name>org.emftext.language.ecore.resource.mecore.builder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
 	</buildSpec>
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
@@ -48,5 +53,6 @@
 		<nature>org.emftext.language.owlcl.resource.owlcl.nature</nature>
 		<nature>owlcl.resource.owlcl.nature</nature>
 		<nature>org.emftext.language.owl.resource.owl.nature</nature>
+		<nature>org.emftext.language.ecore.resource.mecore.nature</nature>
 	</natures>
 </projectDescription>

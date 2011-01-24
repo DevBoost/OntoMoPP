@@ -103,7 +103,6 @@ public class FunctionCache {
 	public EClassifier getContextType(Expression expression) {
 		Expression contextExpression = expression.getPreviousExpression();
 		EClassifier contextType = null;
-
 		if (contextExpression != null) {
 			Expression e = (Expression) contextExpression;
 			contextType = getType(e);
@@ -136,6 +135,7 @@ public class FunctionCache {
 
 	private List<Function> calculateFunctions(EClassifier type) {
 		List<Function> functions = new ArrayList<Function>();
+		if (type.eIsProxy()) return functions;
 		if (type instanceof EClass) {
 			EClass cls = (EClass) type;
 			EList<EStructuralFeature> eStructuralFeatures = cls
@@ -203,12 +203,20 @@ public class FunctionCache {
 				resolveAllRequired(variable, e);
 
 			}
-			Expression expression = variable.getInitialisation();
-			while (expression != null && expression.getNextExpression() != null) {
-				expression = expression.getNextExpression();
+			EClassifier type = variable.getType();
+			if (type == null) {
+				Expression expression = variable.getInitialisation();
+				while (expression != null
+						&& expression.getNextExpression() != null) {
+					expression = expression.getNextExpression();
+				}
+				if (expression != null) {
+					type = getType(expression);
+					expression.setType(type);
+
+				}
 			}
-			EClassifier type = getType(expression);
-			expression.setType(type);
+
 			vc.setType(type);
 			return type;
 		}
@@ -221,32 +229,32 @@ public class FunctionCache {
 			return type;
 		}
 		if (e instanceof StringLiteral) {
-			EClassifier type =  EcorePackage.eINSTANCE.getEString();
+			EClassifier type = EcorePackage.eINSTANCE.getEString();
 			e.setType(type);
 			return type;
 		}
 		if (e instanceof IntegerLiteral) {
-			EClassifier type =  EcorePackage.eINSTANCE.getEInt();
+			EClassifier type = EcorePackage.eINSTANCE.getEInt();
 			e.setType(type);
 			return type;
 		}
 		if (e instanceof DoubleLiteral) {
-			EClassifier type =  EcorePackage.eINSTANCE.getEDouble();
+			EClassifier type = EcorePackage.eINSTANCE.getEDouble();
 			e.setType(type);
 			return type;
 		}
 		if (e instanceof FloatLiteral) {
-			EClassifier type =  EcorePackage.eINSTANCE.getEFloat();
+			EClassifier type = EcorePackage.eINSTANCE.getEFloat();
 			e.setType(type);
 			return type;
 		}
 		if (e instanceof LongLiteral) {
-			EClassifier type =  EcorePackage.eINSTANCE.getELong();
+			EClassifier type = EcorePackage.eINSTANCE.getELong();
 			e.setType(type);
 			return type;
 		}
 		if (e instanceof BooleanLiteral) {
-			EClassifier type =  EcorePackage.eINSTANCE.getEBoolean();
+			EClassifier type = EcorePackage.eINSTANCE.getEBoolean();
 			e.setType(type);
 			return type;
 		}

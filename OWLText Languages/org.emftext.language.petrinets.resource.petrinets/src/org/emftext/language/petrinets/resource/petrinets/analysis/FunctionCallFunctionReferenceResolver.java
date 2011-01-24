@@ -30,13 +30,13 @@ public class FunctionCallFunctionReferenceResolver
 			int position,
 			boolean resolveFuzzy,
 			final org.emftext.language.petrinets.resource.petrinets.IPetrinetsReferenceResolveResult<org.emftext.language.petrinets.Function> result) {
+		
 		List<Function> candidates = FunctionCache.getInstance()
 				.getDeclaredFunctions(container);
 		if (!resolveFuzzy) {
 			setHelpingErrorMessage(identifier, container, result);
 		}
-
-		filterFunctions(candidates, container, identifier, resolveFuzzy, result);
+		filterFunctions(candidates, container, identifier, resolveFuzzy, result);	
 	}
 
 	private void setHelpingErrorMessage(
@@ -45,15 +45,23 @@ public class FunctionCallFunctionReferenceResolver
 			final org.emftext.language.petrinets.resource.petrinets.IPetrinetsReferenceResolveResult<org.emftext.language.petrinets.Function> result) {
 		EClassifier contextType = FunctionCache.getInstance().getContextType(
 				container);
+		String typeNote = "";
+		if (contextType != null) {
+			typeNote = " for '" + contextType.getName() + "'";
+		}
 		String message = "The function '" + identifier
-				+ "' is not defined for '" + contextType.getName() + "'";
+				+ "' is not defined" + typeNote;
 		EList<Expression> parameters = container.getParameters();
 		if (!parameters.isEmpty()) {
 			message += " with argument(s) ";
 			for (Expression expression : parameters) {
 				EClassifier type = FunctionCache.getInstance().getType(
 						expression);
-				message += type.getName() + ", ";
+				String name = "Type";
+				if (type != null) {
+					name = type.getName();
+				}
+				message += name + ", ";
 
 			}
 			message = message.substring(0, message.length()-2);
@@ -95,7 +103,8 @@ public class FunctionCallFunctionReferenceResolver
 			}
 			EClassifier type = FunctionCache.getInstance()
 					.getType(parameterExpression);
-			if (type.getInstanceClassName().equals(
+			if (type == null) return false;
+			if (type.getInstanceClassName() != null && type.getInstanceClassName().equals(
 					parameterType.getInstanceClassName())) {
 				continue;
 			}

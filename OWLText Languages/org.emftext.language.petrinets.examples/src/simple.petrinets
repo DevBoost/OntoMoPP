@@ -5,6 +5,7 @@ petrinet "simple"
 import <platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore> <platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel>;
 
 {
+	"go"->"stop" 
 	// no incoming arcs allowed, thus, invalid
 	place "Start" : EInt
 
@@ -12,7 +13,6 @@ import <platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore> <platform:/plu
 	transition "go"
 	transition "stop"
 	
-	"go"->"stop"
 	"Start" -> "go"
 	"stop" -> "Start"
 	"Start" -consume-> "go"

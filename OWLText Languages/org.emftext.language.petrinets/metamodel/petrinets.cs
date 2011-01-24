@@ -29,9 +29,9 @@ TOKENS {
 TOKENSTYLES {
 	"ML_COMMENT" COLOR #008000, ITALIC;
 	"SL_COMMENT" COLOR #000080, ITALIC;
-}
+}  
  
-RULES {
+RULES { 
 	PetriNet ::= ("package" pkg[IDENTIFIER] ("." pkg[IDENTIFIER])* ";")? "petrinet" name[STRING_LITERAL]?
 				("import" ePackages['<','>'] genModels['<','>'] ";")+
 				("FUNCTIONS:" "{" functions* "}")?

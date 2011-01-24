@@ -7,14 +7,14 @@ import <./math.text.ecore> <./math.text.genmodel>;
 {
   
  	place "dod" : Expression
- 	place "did" : Expression
- 	// invalid as start places are not allowed to have incoming arcs
+ 	place "did" : Expression 
  	place "Start" : Expression
    	transition "t"
  
- 	"dod" -> "t" { 
+ 	"dod" -> "t" {
+ 		y = getElements().get(1).getName().toLowerCase().length(); 
  		a = "a";
- 		p = inToken;
+ 		p = inToken; 
  		xx = getName();
  		eins = 1;
  		zwei = 2.0; 
@@ -22,10 +22,10 @@ import <./math.text.ecore> <./math.text.genmodel>;
  		f = false;
  		t = true;
  		vd = getName().toUpperCase().substring(getName().length(), 3).length();
- 		y = getElements().get(1).getName().toLowerCase().length();
- 	}
+ 		  
+ 	} 
  	"t" -> "did" {
- 		outToken.setName(xx); 
+ 		//outToken.setName(xx); 
  		setName(xx);
  	} 
 }   
