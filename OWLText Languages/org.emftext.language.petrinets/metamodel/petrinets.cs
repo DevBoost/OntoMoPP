@@ -52,7 +52,8 @@ RULES {
 	FunctionCall ::= function[IDENTIFIER] "(" ( parameters ("," parameters)*)?")" 
 		("." nextExpression)?;
 	VariableCall ::= variable[IDENTIFIER] ("." nextExpression)?;
-		
+	ConstructorCall ::= "new" type[IDENTIFIER]"(" ")";
+	
 	ConsumingArc ::= in[STRING_LITERAL] "-consume->" out[STRING_LITERAL];
  	ProducingArc ::= in[STRING_LITERAL] "-produce->" out[STRING_LITERAL];	
 	

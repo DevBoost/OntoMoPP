@@ -97,6 +97,10 @@ package petrinets // this is the package name
 		reference Function function (1..1);
 			containment reference Expression parameters (0..-1);
 	}
+	
+	class ConstructorCall extends Expression {
+		
+	}
 
 	class VariableCall extends Expression {
 		reference Variable variable (1..1);
