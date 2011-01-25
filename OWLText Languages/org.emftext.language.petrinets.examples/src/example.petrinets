@@ -13,19 +13,23 @@ import <./math.text.ecore> <./math.text.genmodel>;
  
  	"dod" -> "t" {
  		y = getElements().get(1).getName().toLowerCase().length(); 
- 		a = "a";
+ 		a = "a"; 
+ 		b = a;
  		p = inToken; 
  		xx = getName();
- 		eins = 1;
+ 		eins = 1; 
  		zwei = 2.0; 
  		drei = 3.0f;
  		f = false;
  		t = true;
  		vd = getName().toUpperCase().substring(getName().length(), 3).length();
+ 		element = getElements().get(0);
  		  
  	} 
  	"t" -> "did" {
- 		//outToken.setName(xx); 
+ 		outToken = new Expression();
+ 		outToken.setName(xx); 
  		setName(xx);
+ 		getElements().remove(element);
  	} 
 }   
