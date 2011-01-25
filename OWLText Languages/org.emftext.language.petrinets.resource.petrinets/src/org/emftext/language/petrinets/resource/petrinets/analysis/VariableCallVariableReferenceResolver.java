@@ -38,15 +38,24 @@ public class VariableCallVariableReferenceResolver
 			int position,
 			boolean resolveFuzzy,
 			final org.emftext.language.petrinets.resource.petrinets.IPetrinetsReferenceResolveResult<org.emftext.language.petrinets.Variable> result) {
+		List<Variable> candidates = collectCandidates(container, resolveFuzzy);
+		FilterCandidates(candidates, identifier, resolveFuzzy, result,
+				container);
+	}
+
+	private List<Variable> collectCandidates(
+			org.emftext.language.petrinets.VariableCall container,
+			boolean resolveFuzzy) {
 		List<Variable> candidates = new ArrayList<Variable>();
 		Arc arc = getContainingArc(container);
 		// outgoing arc
 		if (arc.getIn() instanceof Transition) {
-			Variable outToken = PetrinetsFactoryImpl.eINSTANCE.createVariable();
-			outToken.setName("outToken");
-			outToken.setType(((Place) arc.getOut()).getType());
-			candidates.add(outToken );
-			
+			// Variable outToken =
+			// PetrinetsFactoryImpl.eINSTANCE.createVariable();
+			// outToken.setName("outToken");
+			// outToken.setType(((Place) arc.getOut()).getType());
+			// candidates.add(outToken );
+
 			EList<Arc> consumingArcs = ((Transition) arc.getIn()).getIncoming();
 			if (consumingArcs.isEmpty()) {
 				resolveRequired(arc);
@@ -62,25 +71,33 @@ public class VariableCallVariableReferenceResolver
 			inToken.setType(((Place) arc.getIn()).getType());
 			candidates.add(inToken);
 		}
-		
+		List<ArcStatement> previousStatements = getPreviousStatements(container);	
+		for (ArcStatement arcStatement : previousStatements) {
+			if (arcStatement instanceof Variable) {
+				candidates.add((Variable) arcStatement);
+			}
+		}
 		if (resolveFuzzy) {
-			List<Function> declaredFunctions = FunctionCache.getInstance().getDeclaredFunctions(container);
+			List<Function> declaredFunctions = FunctionCache.getInstance()
+					.getDeclaredFunctions(container);
 			for (Function function : declaredFunctions) {
-				Variable dummyVar = PetrinetsFactoryImpl.eINSTANCE.createVariable();
+				Variable dummyVar = PetrinetsFactoryImpl.eINSTANCE
+						.createVariable();
 				String functionname = function.getName() + "(";
 				EList<Parameter> parameters = function.getParameters();
 				for (Parameter parameter : parameters) {
 					functionname += parameter.getName() + ", ";
 				}
 				if (!parameters.isEmpty()) {
-					functionname = functionname.substring(0, functionname.length()-2);
+					functionname = functionname.substring(0,
+							functionname.length() - 2);
 				}
 				functionname += ")";
 				dummyVar.setName(functionname);
 				candidates.add(dummyVar);
 			}
 		}
-		FilterCandidates(candidates, identifier, resolveFuzzy, result, container);
+		return candidates;
 	}
 
 	private void resolveRequired(Arc container) {
@@ -106,7 +123,8 @@ public class VariableCallVariableReferenceResolver
 
 	private void FilterCandidates(List<Variable> candidates, String identifier,
 			boolean resolveFuzzy,
-			IPetrinetsReferenceResolveResult<Variable> result, VariableCall container) {
+			IPetrinetsReferenceResolveResult<Variable> result,
+			VariableCall container) {
 		for (Variable candidate : candidates) {
 			if (resolveFuzzy) {
 				result.addMapping(candidate.getName(), candidate);
@@ -114,6 +132,7 @@ public class VariableCallVariableReferenceResolver
 				if (candidate.getName().equals(identifier)) {
 					result.addMapping(identifier, candidate);
 					container.setType(candidate.getType());
+
 					return;
 				}
 			}
@@ -144,6 +163,25 @@ public class VariableCallVariableReferenceResolver
 			containing = (Arc) c;
 		}
 		return containing;
+	}
+
+	private List<ArcStatement> getPreviousStatements(VariableCall call) {
+		List<ArcStatement> previousStatements = new ArrayList<ArcStatement>();
+		Arc containing = null;
+		EObject c = call.eContainer();
+		EObject containingStatement = call;
+		while (!(c instanceof Arc) && c != null) {
+			containingStatement = c;
+			c = c.eContainer();
+		}
+		if (c != null) {
+			containing = (Arc) c;
+			int indexOfContainingStatement = containing.getArcStatements()
+					.indexOf(containingStatement);
+			previousStatements = containing.getArcStatements().subList(0,
+					indexOfContainingStatement);
+		}
+		return previousStatements;
 	}
 
 	public String deResolve(org.emftext.language.petrinets.Variable element,

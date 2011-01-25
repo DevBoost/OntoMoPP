@@ -18,7 +18,7 @@ FUNCTIONS: {
 	function EString EString.toLowerCase()
 
 	function PList[T] PList[T].add(T element)
-	function PList[T] PList[T].remove(T element)
+	function EBoolean PList[T].remove(T element)
 	function PList[T] PList[T].sublist(EInt start, EInt end)
 	function T PList[T].get(EInt index)
 	function EInt PList[F].size() 

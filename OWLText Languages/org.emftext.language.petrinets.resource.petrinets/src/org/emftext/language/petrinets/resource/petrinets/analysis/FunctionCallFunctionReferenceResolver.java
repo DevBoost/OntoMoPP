@@ -14,6 +14,8 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.emftext.language.petrinets.Expression;
 import org.emftext.language.petrinets.Function;
 import org.emftext.language.petrinets.FunctionCall;
+import org.emftext.language.petrinets.PGenericType;
+import org.emftext.language.petrinets.PList;
 import org.emftext.language.petrinets.Parameter;
 import org.emftext.language.petrinets.resource.petrinets.IPetrinetsReferenceResolveResult;
 
@@ -30,13 +32,13 @@ public class FunctionCallFunctionReferenceResolver
 			int position,
 			boolean resolveFuzzy,
 			final org.emftext.language.petrinets.resource.petrinets.IPetrinetsReferenceResolveResult<org.emftext.language.petrinets.Function> result) {
-		
+
 		List<Function> candidates = FunctionCache.getInstance()
 				.getDeclaredFunctions(container);
 		if (!resolveFuzzy) {
 			setHelpingErrorMessage(identifier, container, result);
 		}
-		filterFunctions(candidates, container, identifier, resolveFuzzy, result);	
+		filterFunctions(candidates, container, identifier, resolveFuzzy, result);
 	}
 
 	private void setHelpingErrorMessage(
@@ -49,8 +51,13 @@ public class FunctionCallFunctionReferenceResolver
 		if (contextType != null) {
 			typeNote = " for '" + contextType.getName() + "'";
 		}
-		String message = "The function '" + identifier
-				+ "' is not defined" + typeNote;
+		if (contextType instanceof PList
+				&& ((PList) contextType).getType() != null) {
+			typeNote = " for 'List<"
+					+ ((PList) contextType).getType().getName() + ">" + "'";
+		}
+		String message = "The function '" + identifier + "' is not defined"
+				+ typeNote;
 		EList<Expression> parameters = container.getParameters();
 		if (!parameters.isEmpty()) {
 			message += " with argument(s) ";
@@ -61,10 +68,11 @@ public class FunctionCallFunctionReferenceResolver
 				if (type != null) {
 					name = type.getName();
 				}
+				type = FunctionCache.getInstance().getType(expression);
 				message += name + ", ";
 
 			}
-			message = message.substring(0, message.length()-2);
+			message = message.substring(0, message.length() - 2);
 		}
 		message += ".";
 		result.setErrorMessage(message);
@@ -77,11 +85,14 @@ public class FunctionCallFunctionReferenceResolver
 			if (resolveFuzzy) {
 				result.addMapping(function.getName(), function);
 			} else {
+				EClassifier contextType = FunctionCache.getInstance()
+						.getContextType(container);
 				if (function.getName().equals(identifier)) {
 					if (parametersMatch(function.getParameters(),
-							container.getParameters())) {
+							container.getParameters(), contextType)) {
 						result.addMapping(identifier, function);
-						container.setType(FunctionCache.getInstance().getFunctionReturnType(container, function));
+						container.setType(FunctionCache.getInstance()
+								.getFunctionReturnType(container, function));
 						return;
 					}
 				}
@@ -91,7 +102,7 @@ public class FunctionCallFunctionReferenceResolver
 	}
 
 	private boolean parametersMatch(EList<Parameter> expected,
-			EList<Expression> found) {
+			EList<Expression> found, EClassifier contextType) {
 		if (expected.size() != found.size()) {
 			return false;
 		}
@@ -101,27 +112,45 @@ public class FunctionCallFunctionReferenceResolver
 			while (parameterExpression.getNextExpression() != null) {
 				parameterExpression = parameterExpression.getNextExpression();
 			}
-			EClassifier type = FunctionCache.getInstance()
-					.getType(parameterExpression);
-			if (type == null) return false;
-			if (type.getInstanceClassName() != null && type.getInstanceClassName().equals(
-					parameterType.getInstanceClassName())) {
-				continue;
-			}
-			if (parameterType instanceof EClass && type instanceof EClass) {
-				EClass parameterClass = (EClass) parameterType;
-				EClass typeClass = (EClass) type;
-				EList<EClass> eAllSuperTypes = typeClass.getEAllSuperTypes();
-				for (EClass supertype : eAllSuperTypes) {
-					if (supertype.getInstanceClassName().equals(
-							parameterClass.getInstanceClassName())) {
-						break parameterloop;
+			EClassifier argumentType = FunctionCache.getInstance().getType(
+					parameterExpression);
+			if (argumentType == null)
+				return false;
+			if (parameterType instanceof PGenericType) {
+				if (contextType instanceof PList) {
+					if (isSubtype(argumentType, ((PList)contextType).getType()) ) {
+						continue; // check next parameter
+					
 					}
 				}
 			}
+			if (parameterType instanceof EClassifier
+					&& argumentType instanceof EClassifier) {
+				if (isSubtype(argumentType, parameterType)) {
+					continue; // check next parameter
+				}
+			}
+
 			return false;
 		}
 		return true;
+	}
+
+	private boolean isSubtype(EClassifier subtype, EClassifier supertype) {
+		if (subtype instanceof PList && supertype instanceof PList) {
+			return isSubtype(((PList) subtype).getType(),
+					((PList) supertype).getType());
+		}
+		if (subtype.getInstanceClassName() != null) {
+			if (subtype.getInstanceClassName().equals(
+					supertype.getInstanceClassName())) {
+				return true;
+			}
+		}
+		if (supertype instanceof EClass && subtype instanceof EClass) {
+			return ((EClass) supertype).isSuperTypeOf((EClass) subtype);
+		}
+		return false;
 	}
 
 	public String deResolve(org.emftext.language.petrinets.Function element,

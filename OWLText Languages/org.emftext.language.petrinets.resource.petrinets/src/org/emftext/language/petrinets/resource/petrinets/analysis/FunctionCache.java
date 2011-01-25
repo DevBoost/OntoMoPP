@@ -216,7 +216,7 @@ public class FunctionCache {
 
 				}
 			}
-
+			variable.setType(type);
 			vc.setType(type);
 			return type;
 		}
@@ -263,6 +263,9 @@ public class FunctionCache {
 
 	public EClassifier getFunctionReturnType(Expression e, Function function) {
 		EClassifier type = null;
+		if (function.eIsProxy()) {
+			function = (Function) EcoreUtil.resolve(function, e);
+		}
 		if (function instanceof BasicFunction) {
 			type = function.getType();
 		}
