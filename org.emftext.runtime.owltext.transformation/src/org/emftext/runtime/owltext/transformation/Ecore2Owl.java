@@ -32,6 +32,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.emftext.language.owl.AbbreviatedXSDStringLiteral;
 import org.emftext.language.owl.Annotation;
 import org.emftext.language.owl.AnnotationProperty;
+import org.emftext.language.owl.AnnotationValue;
 import org.emftext.language.owl.Class;
 import org.emftext.language.owl.ClassAtomic;
 import org.emftext.language.owl.Conjunction;
@@ -767,12 +768,14 @@ public class Ecore2Owl {
 		stringLiteral.setValue(errorMsg);
 		LiteralTarget lt = owlFactory.createLiteralTarget();
 		lt.setLiteral(stringLiteral);
-		annotation.getTarget().add(lt);
+		AnnotationValue av = owlFactory.createAnnotationValue();
+		av.setTarget(lt);
 		AnnotationProperty annotationProperty = owlFactory
 				.createAnnotationProperty();
 		annotationProperty
 				.setIri(EMFTextPelletReasoner.CONSTRAINT_PROPERTY_NAME);
-		annotation.getAnnotationProperty().add(annotationProperty);
+		av.setAnnotationProperty(annotationProperty);
+		annotation.getAnnotationValues().add(av);
 		constraintClass.getAnnotations().add(annotation);
 
 		ClassAtomic constrainedClassAtomic = owlFactory.createClassAtomic();

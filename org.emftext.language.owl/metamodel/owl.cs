@@ -58,8 +58,10 @@ RULES{
 	OntologyDocument ::= namespace*  ontology;
 
 	Annotation ::= "Annotations:" 
-					( annotations? annotationProperty[IRI] target)? 
-					(!1 "," annotations? annotationProperty[IRI] target)*;
+					( annotations? annotationValues)? 
+					(!1 "," annotations? annotationValues)*;
+	
+	AnnotationValue ::= annotationProperty[IRI] target;
 	
 	IRITarget ::= target[IRI];
 	

@@ -12,6 +12,7 @@ import org.emftext.access.resource.IResource;
 import org.emftext.language.owl.AbbreviatedXSDStringLiteral;
 import org.emftext.language.owl.Annotation;
 import org.emftext.language.owl.AnnotationProperty;
+import org.emftext.language.owl.AnnotationValue;
 import org.emftext.language.owl.Class;
 import org.emftext.language.owl.Frame;
 import org.emftext.language.owl.LiteralTarget;
@@ -89,33 +90,23 @@ public class OWLTextValidationMarker {
 							EMFTextPelletReasoner.CONSTRAINT_CLASS_PREFIX)) {
 						EList<Annotation> annotations = c.getAnnotations();
 						for (Annotation annotation : annotations) {
-							EList<AnnotationProperty> annotationProperties = annotation
-									.getAnnotationProperty();
-							boolean constraintProperty = false;
-							for (AnnotationProperty annotationProperty : annotationProperties) {
+							EList<AnnotationValue> annotationValues = annotation.getAnnotationValues();
+							for (AnnotationValue annotationValue : annotationValues) {
+								AnnotationProperty annotationProperty = annotationValue.getAnnotationProperty();
 								if ("comment".equals(annotationProperty
 										.getIri()) || "rdfs:comment".equals(annotationProperty.getIri())) {
-									constraintProperty = true;
-								}
-							}
-
-							if (!constraintProperty) {
-								continue;
-							}
-							EList<Target> targets = annotation.getTarget();
-							for (Target target : targets) {
-								if (target instanceof LiteralTarget) {
-									LiteralTarget lt = (LiteralTarget) target;
-									if (lt.getLiteral() instanceof AbbreviatedXSDStringLiteral) {
-										AbbreviatedXSDStringLiteral stringLiteral = (AbbreviatedXSDStringLiteral) lt
-												.getLiteral();
-										String errorMsg = stringLiteral
-												.getValue();
-										this.errorMap.put(c.getIri(), errorMsg);
+									if (annotationValue.getTarget() instanceof LiteralTarget) {
+										LiteralTarget lt = (LiteralTarget) annotationValue.getTarget();
+										if (lt.getLiteral() instanceof AbbreviatedXSDStringLiteral) {
+											AbbreviatedXSDStringLiteral stringLiteral = (AbbreviatedXSDStringLiteral) lt
+													.getLiteral();
+											String errorMsg = stringLiteral
+													.getValue();
+											this.errorMap.put(c.getIri(), errorMsg);
+										}
 									}
 								}
 							}
-
 						}
 					}
 				}

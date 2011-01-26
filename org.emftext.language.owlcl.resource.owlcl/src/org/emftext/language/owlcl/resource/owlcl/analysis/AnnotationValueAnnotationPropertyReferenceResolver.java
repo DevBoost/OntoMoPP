@@ -1,24 +1,16 @@
-/*******************************************************************************
- * Copyright (c) 2006-2010 
- * Software Technology Group, Dresden University of Technology
+/**
+ * <copyright>
+ * </copyright>
+ *
  * 
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0 
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors:
- *   Software Technology Group - TU Dresden, Germany 
- *      - initial API and implementation
- ******************************************************************************/
-
+ */
 package org.emftext.language.owlcl.resource.owlcl.analysis;
 
-public class AnnotationAnnotationPropertyReferenceResolver implements org.emftext.language.owlcl.resource.owlcl.IOwlclReferenceResolver<org.emftext.language.owl.Annotation, org.emftext.language.owl.AnnotationProperty> {
+public class AnnotationValueAnnotationPropertyReferenceResolver implements org.emftext.language.owlcl.resource.owlcl.IOwlclReferenceResolver<org.emftext.language.owl.AnnotationValue, org.emftext.language.owl.AnnotationProperty> {
 	
-	private org.emftext.language.owl.resource.owl.analysis.AnnotationAnnotationPropertyReferenceResolver delegate = new org.emftext.language.owl.resource.owl.analysis.AnnotationAnnotationPropertyReferenceResolver();
+	private org.emftext.language.owl.resource.owl.analysis.AnnotationValueAnnotationPropertyReferenceResolver delegate = new org.emftext.language.owl.resource.owl.analysis.AnnotationValueAnnotationPropertyReferenceResolver();
 	
-	public void resolve(String identifier, org.emftext.language.owl.Annotation container, org.eclipse.emf.ecore.EReference reference, int position, boolean resolveFuzzy, final org.emftext.language.owlcl.resource.owlcl.IOwlclReferenceResolveResult<org.emftext.language.owl.AnnotationProperty> result) {
+	public void resolve(String identifier, org.emftext.language.owl.AnnotationValue container, org.eclipse.emf.ecore.EReference reference, int position, boolean resolveFuzzy, final org.emftext.language.owlcl.resource.owlcl.IOwlclReferenceResolveResult<org.emftext.language.owl.AnnotationProperty> result) {
 		delegate.resolve(identifier, container, reference, position, resolveFuzzy, new org.emftext.language.owl.resource.owl.IOwlReferenceResolveResult<org.emftext.language.owl.AnnotationProperty>() {
 			
 			public boolean wasResolvedUniquely() {
@@ -93,7 +85,7 @@ public class AnnotationAnnotationPropertyReferenceResolver implements org.emftex
 		
 	}
 	
-	public String deResolve(org.emftext.language.owl.AnnotationProperty element, org.emftext.language.owl.Annotation container, org.eclipse.emf.ecore.EReference reference) {
+	public String deResolve(org.emftext.language.owl.AnnotationProperty element, org.emftext.language.owl.AnnotationValue container, org.eclipse.emf.ecore.EReference reference) {
 		return delegate.deResolve(element, container, reference);
 	}
 	

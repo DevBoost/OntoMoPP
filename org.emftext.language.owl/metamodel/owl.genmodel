@@ -47,8 +47,11 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//OntologyDocument/namespace"/>
     </genClasses>
     <genClasses ecoreClass="owl.text.ecore#//Annotation">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owl.text.ecore#//Annotation/annotationProperty"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//Annotation/target"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//Annotation/annotationValues"/>
+    </genClasses>
+    <genClasses ecoreClass="owl.text.ecore#//AnnotationValue">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owl.text.ecore#//AnnotationValue/annotationProperty"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//AnnotationValue/target"/>
     </genClasses>
     <genClasses image="false" ecoreClass="owl.text.ecore#//Target"/>
     <genClasses ecoreClass="owl.text.ecore#//IRITarget">

@@ -17,7 +17,7 @@ public class OwlDefaultResolverDelegate<ContainerType extends org.eclipse.emf.ec
 	 */
 	protected void resolve(String identifier, ContainerType container, org.eclipse.emf.ecore.EReference reference, int position, boolean resolveFuzzy, org.emftext.language.owl.resource.owl.IOwlReferenceResolveResult<ReferenceType> result) {
 		// avoid duplicate resolvings
-		if (!resolveFuzzy && result.getMappings().size() > 0) return;
+		if (!resolveFuzzy && result.wasResolved()) return;
 		try {
 			org.eclipse.emf.ecore.EClass type = reference.getEReferenceType();
 			org.eclipse.emf.ecore.EObject root = org.emftext.language.owl.resource.owl.util.OwlEObjectUtil.findRootContainer(container);

@@ -24,8 +24,12 @@ package owl owl "http://org.emftext/owl.ecore" {
 	}
 	
 	class Annotation extends Annotateable {
-			reference AnnotationProperty annotationProperty (1..-1);
-			containment reference Target target (1..-1);
+		containment reference AnnotationValue annotationValues (1..-1);
+	}
+	
+	class AnnotationValue {
+		reference AnnotationProperty annotationProperty (1..1);
+		containment reference Target target (1..1);
 	}
 	
 	abstract class Target {
