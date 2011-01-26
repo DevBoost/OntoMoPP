@@ -19,3 +19,13 @@ Ontology: <http://myBeleg.org/ontologies/test/schemas.owl>
 		Range:  xsd:string 
 		Characteristics: Functional 
 
+	Class: Person
+ 	
+ 	DataProperty: hasJob
+ 		Domain: Person
+ 		Range: xsd:boolean
+ 
+ 	Individual: John
+		Types: Person
+ 		Facts: hasJob false, hasJob "false"^^xsd:boolean
+ 		
