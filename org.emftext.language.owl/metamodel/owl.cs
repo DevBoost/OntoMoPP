@@ -83,7 +83,7 @@ RULES{
 	
 	// ONTOLOGY Property definitions and Axioms			
 	ObjectProperty ::= "ObjectProperty:" iri[IRI] !1 ((annotations !1)
-		| ( "Domain:" propertyDomain ("," propertyDomain)* !1)
+		| ( "Domain:" domain ("," domain)* !1)
 	 	| ( "Range:" propertyRange ("," propertyRange)* !1) 
 	 	| ( "Characteristics:" characteristics[CHARACTERISTICS] ("," characteristics[CHARACTERISTICS])* !1) 
 	 	| ( "SubPropertyOf:" superProperties ("," superProperties)* !1) 

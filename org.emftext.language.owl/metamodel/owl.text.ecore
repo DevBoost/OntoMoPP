@@ -49,10 +49,10 @@ package owl owl "http://org.emftext/owl.ecore" {
 	}
 	
 	abstract class Feature extends Frame {
+		containment reference Description domain (0..-1);
 	}
 	
 	class DataProperty extends Feature, Annotateable {
-			containment reference Description domain (0..-1);
 			containment reference DataRange range (0..-1);
 			attribute Characteristic characteristic (0..-1) ;
 			reference DataProperty superProperties (0..-1);
@@ -74,7 +74,6 @@ package owl owl "http://org.emftext/owl.ecore" {
 	}
 	
 	class ObjectProperty extends Feature, Annotateable {
-			containment reference Description propertyDomain (0..-1);
 			containment reference Description propertyRange (0..-1);
 			attribute Characteristic characteristics (0..-1);
 			containment reference ObjectPropertyReference superProperties (0..-1);

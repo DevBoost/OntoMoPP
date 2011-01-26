@@ -62,9 +62,10 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owl.text.ecore#//Namespace/importedOntology"/>
     </genClasses>
     <genClasses image="false" ecoreClass="owl.text.ecore#//Frame"/>
-    <genClasses image="false" ecoreClass="owl.text.ecore#//Feature"/>
+    <genClasses image="false" ecoreClass="owl.text.ecore#//Feature">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//Feature/domain"/>
+    </genClasses>
     <genClasses ecoreClass="owl.text.ecore#//DataProperty">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//DataProperty/domain"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//DataProperty/range"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.text.ecore#//DataProperty/characteristic"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owl.text.ecore#//DataProperty/superProperties"/>
@@ -83,7 +84,6 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//Class/disjointUnionWithClassesDescriptions"/>
     </genClasses>
     <genClasses ecoreClass="owl.text.ecore#//ObjectProperty">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//ObjectProperty/propertyDomain"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//ObjectProperty/propertyRange"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.text.ecore#//ObjectProperty/characteristics"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//ObjectProperty/superProperties"/>

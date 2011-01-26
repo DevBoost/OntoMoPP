@@ -807,7 +807,7 @@ public class Ecore2Owl {
 					.getEContainingClass());
 			ClassAtomic domainClassAtomic = owlFactory.createClassAtomic();
 			domainClassAtomic.setClazz(domainClass);
-			o.getPropertyDomain().add(domainClassAtomic);
+			o.getDomain().add(domainClassAtomic);
 
 			// is checked using cardinality constraints
 			// if (elem.getUpperBound() == 1)
@@ -854,7 +854,7 @@ public class Ecore2Owl {
 		Class domainClass = (Class) getTypeMapping(elem.getEContainingClass());
 		ClassAtomic domainClassAtomic = owlFactory.createClassAtomic();
 		domainClassAtomic.setClazz(domainClass);
-		o.getPropertyDomain().add(domainClassAtomic);
+		o.getDomain().add(domainClassAtomic);
 
 		// is checked using cardinality constraints
 		// if (elem.getUpperBound() == 1)

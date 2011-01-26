@@ -12,6 +12,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference owlcl.ecore#//OWLCLSpec/constraints"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference owlcl.ecore#//OWLCLSpec/types"/>
       <genOperations ecoreOperation="owlcl.ecore#//OWLCLSpec/getNamespace"/>
+      <genOperations ecoreOperation="owlcl.ecore#//OWLCLSpec/getOntology"/>
     </genClasses>
     <genClasses ecoreClass="owlcl.ecore#//Constraint">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owlcl.ecore#//Constraint/constrainedMetaclass"/>
