@@ -1,0 +1,56 @@
+Prefix: : <http://www.emftext.org/ontologies/datatypes.owl#>
+
+Ontology: <http://www.emftext.org/ontologies/datatypes.owl>
+
+Class: a
+
+	
+DataProperty: gourmetStars
+	Domain: a
+	Range: xsd:ENTITIES, 
+			xsd:ENTITY, 
+			xsd:ID, 
+			xsd:IDREF,
+			xsd:IDREFS,
+			xsd:NCName,
+			xsd:NMToken,
+			xsd:NOTATION,
+			xsd:Name,
+			xsd:QName,
+			xsd:anySimpleType,
+			xsd:anyType,
+			xsd:anyURI,
+			xsd:base64Binary,
+			xsd:boolean,
+			xsd:byte,
+			xsd:date,
+			xsd:dateTime,
+			xsd:dateTimeStamp,
+			xsd:decimal,
+			xsd:double,
+			xsd:duration,
+			xsd:float,
+			xsd:gDay,
+			xsd:gMonth,
+			xsd:gMonthYear,
+			xsd:gYear,
+			xsd:gYearMonth,
+			xsd:hexBinary,
+			xsd:int,
+			xsd:integer,
+			xsd:language,
+			xsd:long,
+			xsd:negativeInteger,
+			xsd:nonNegativeInteger,
+			xsd:nonPositiveInteger,
+			xsd:normalizedString,
+			xsd:positiveInteger,
+			xsd:short,
+			xsd:string,
+			xsd:time,
+			xsd:token,
+			xsd:unsignedByte,
+			xsd:unsignedInt,
+			xsd:unsignedLong,
+			xsd:unsignedShort
+			

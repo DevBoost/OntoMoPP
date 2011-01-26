@@ -60,9 +60,15 @@ public class RemoteLoader {
 		Ontology o = factory.createOntology();
 		resource.getContents().add(o);
 		o.setUri(uri);
-		String[] types = new String[] { "string", "integer", "float",
-				"decimal", "double", "boolean", "long", "short", "byte",
-				"dateTime" };
+		String[] types = new String[] {"ENTITIES", "ENTITY", "ID", "IDREF", "IDREFS",
+				"NCName", "NMToken", "NOTATION", "Name", "QName", "anySimpleType", "anyType",
+				"anyURI", "base64Binary", "boolean", "byte", "date",
+				"dateTime", "dateTimeStamp", "decimal", "double", "duration",
+				"float", "gDay", "gMonth", "gYear", "gMonthYear", "gYear" , "gYearMonth",
+				"hexBinary", "int", "integer", "language", "long", 
+				"negativeInteger", "nonNegativeInteger", "nonPositiveInteger",
+				"normalizedString","positiveInteger", "short","string", "time", "token",
+				"unsignedByte", "unsignedInt", "unsignedLong", "unsignedShort"};
 		for (String type : types) {
 			Datatype datatype = factory.createDatatype();
 			datatype.setIri(type);
