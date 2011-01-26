@@ -314,4 +314,8 @@ package owl owl "http://org.emftext/owl.ecore" {
 			attribute EFloat literal (1..1);
 	}
 	
+	class BooleanLiteral extends Literal {
+			attribute EBoolean value (1..1);
+	}
+	
 }

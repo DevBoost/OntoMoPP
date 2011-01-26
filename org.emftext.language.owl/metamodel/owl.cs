@@ -186,5 +186,5 @@ RULES{
 	DecimalLiteral ::=value[DECIMAL];
 	FloatingPointLiteral ::= literal[FLOAT];
 	IntegerLiteral ::= value[INT];
-	
+	BooleanLiteral ::= value["true":"false"];
 }

@@ -246,5 +246,8 @@
     <genClasses ecoreClass="owl.text.ecore#//FloatingPointLiteral">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.text.ecore#//FloatingPointLiteral/literal"/>
     </genClasses>
+    <genClasses ecoreClass="owl.text.ecore#//BooleanLiteral">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.text.ecore#//BooleanLiteral/value"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>
