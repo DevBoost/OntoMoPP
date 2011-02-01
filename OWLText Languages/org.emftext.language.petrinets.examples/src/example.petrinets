@@ -6,30 +6,26 @@ import <./math.text.ecore> <./math.text.genmodel>;
 
 {
   
- 	place "dod" : Expression
- 	place "did" : Expression 
- 	place "Start" : Expression
-   	transition "t"
+ 	place "Start" : Expression 
+ 	place "Next" : Expression
  
- 	"dod" -> "t" {
- 		y = getElements().get(1).getName().toLowerCase().length(); 
- 		a = "a"; 
+ 	"Start" -consumes-> "t" { dod; }
+ 	"t" -produces-> "Next" { out; }
+ 	
+   	transition "t" do {
+   		y = dod.getElements().get(1).getName().toLowerCase().length(); 
+ 		a = "a";
  		b = a;
- 		p = inToken; 
- 		xx = getName();
- 		eins = 1; 
+ 		p = dod;
+ 		xx = dod.getName();
+ 		eins = 1;
  		zwei = 2.0; 
- 		drei = 3.0f;
+ 		drei = 3.0f; 
  		f = false;
- 		t = true;
- 		vd = getName().toUpperCase().substring(getName().length(), 3).length();
- 		element = getElements().get(0);
- 		  
- 	} 
- 	"t" -> "did" {
- 		outToken = new Expression();
- 		outToken.setName(xx); 
- 		setName(xx);
- 		getElements().remove(element);
- 	} 
+ 		t = true; 
+ 		vd = dod.getName().toUpperCase().substring(dod.getName().length(), 3).length();
+ 		out = dod.getElements().get(0);
+ 	}
+ 
+
 }   
