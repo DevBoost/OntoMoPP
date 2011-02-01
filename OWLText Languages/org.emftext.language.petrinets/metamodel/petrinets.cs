@@ -43,22 +43,25 @@ RULES {
 	
 	Parameter ::= type[IDENTIFIER] name[IDENTIFIER];
 	
-	Arc ::= in[STRING_LITERAL] "->" out[STRING_LITERAL] 
-		("{" ( arcStatements* ";"
-		)* "}")*;
+	ConsumingArc ::= in[STRING_LITERAL] "-consumes->" out[STRING_LITERAL] 
+		("{"  variable ";" "}");
 		
-	Variable ::= name[IDENTIFIER] "=" initialisation; 
+	ProducingArc ::= in[STRING_LITERAL] "-produces->" out[STRING_LITERAL] 
+		("{"  variable ";" "}");	
+		
+	FreeVariable ::= name[IDENTIFIER]; 
+	
+	InitialisedVariable ::= name[IDENTIFIER] "=" initialisation; 
 	
 	FunctionCall ::= function[IDENTIFIER] "(" ( parameters ("," parameters)*)?")" 
 		("." nextExpression)?;
 	VariableCall ::= variable[IDENTIFIER] ("." nextExpression)?;
 	ConstructorCall ::= "new" type[IDENTIFIER]"(" ")";
 	
-	ConsumingArc ::= in[STRING_LITERAL] "-consume->" out[STRING_LITERAL];
- 	ProducingArc ::= in[STRING_LITERAL] "-produce->" out[STRING_LITERAL];	
-	
-	Place ::= "place" name[STRING_LITERAL]? ":" type[IDENTIFIER];
-	Transition ::= "transition" name[STRING_LITERAL]?; 
+	Place ::= "place" name[STRING_LITERAL]? ":" type[IDENTIFIER]?;
+	Transition ::= "transition" name[STRING_LITERAL]? "do" 
+				"{" (statements ";")*
+				"}"; 
 	
 	StringLiteral ::= value[STRING_LITERAL] ("." nextExpression)?;
 	IntegerLiteral ::= value[DECIMAL_INTEGER_LITERAL] ("." nextExpression)?;

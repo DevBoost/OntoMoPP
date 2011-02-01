@@ -7,7 +7,6 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
@@ -21,25 +20,25 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
-import org.emftext.language.petrinets.Arc;
-import org.emftext.language.petrinets.ArcStatement;
 import org.emftext.language.petrinets.BooleanLiteral;
 import org.emftext.language.petrinets.Component;
 import org.emftext.language.petrinets.ConstructorCall;
+import org.emftext.language.petrinets.ConsumingArc;
 import org.emftext.language.petrinets.DoubleLiteral;
 import org.emftext.language.petrinets.Expression;
 import org.emftext.language.petrinets.FloatLiteral;
 import org.emftext.language.petrinets.FunctionCall;
+import org.emftext.language.petrinets.InitialisedVariable;
 import org.emftext.language.petrinets.IntegerLiteral;
-import org.emftext.language.petrinets.Literal;
 import org.emftext.language.petrinets.LongLiteral;
 import org.emftext.language.petrinets.PList;
 import org.emftext.language.petrinets.PetriNet;
 import org.emftext.language.petrinets.Place;
+import org.emftext.language.petrinets.ProducingArc;
+import org.emftext.language.petrinets.Statement;
 import org.emftext.language.petrinets.StringLiteral;
 import org.emftext.language.petrinets.Transition;
 import org.emftext.language.petrinets.TypedElement;
-import org.emftext.language.petrinets.Variable;
 import org.emftext.language.petrinets.VariableCall;
 import org.emftext.language.petrinets.resource.petrinets.PetrinetsEProblemType;
 import org.emftext.language.petrinets.resource.petrinets.analysis.FunctionCache;
@@ -237,9 +236,9 @@ public class PetriNetsCodeGenerator {
 		stringBuffer.appendLine("private boolean transition_"
 				+ trimQuotes(t.getName()) + "_canFire() {");
 		stringBuffer.indent();
-		EList<Arc> incomingArcs = t.getIncoming();
-		for (Arc arc : incomingArcs) {
-			Place in = (Place) arc.getIn();
+		EList<ConsumingArc> incomingArcs = t.getIncoming();
+		for (ConsumingArc arc : incomingArcs) {
+			Place in = arc.getIn();
 			stringBuffer.appendLine("if (" + "_place_"
 					+ trimQuotes(in.getName()) + ".isEmpty() ) return false;");
 		}
@@ -254,82 +253,23 @@ public class PetriNetsCodeGenerator {
 		stringBuffer.appendLine("private void transition_"
 				+ trimQuotes(t.getName()) + "_doFire() {");
 		stringBuffer.indent();
-		Map<Place, String> placeMap = new HashMap<Place, String>();
-		for (Arc arc : incomingArcs) {
-			Place in = (Place) arc.getIn();
-			if (placeMap.get(in) == null) {
-				String placeContext = "_in_" + trimQuotes(in.getName());
-				stringBuffer.appendLine(printType(in) + " " + placeContext
-						+ " = " + "_place_" + trimQuotes(in.getName())
-						+ ".remove(0);");
-				placeMap.put(in, placeContext);
-			}
-		}
-		for (Arc arc : incomingArcs) {
-			EList<ArcStatement> arcStatements = arc.getArcStatements();
+		for (ConsumingArc arc : incomingArcs) {
+			Place in = arc.getIn();
 
-			for (ArcStatement arcStatement : arcStatements) {
-				if (arcStatement instanceof Variable) {
-					Variable v = (Variable) arcStatement;
-					Expression e = v.getInitialisation();
-					while (e.getNextExpression() != null) {
-						e = e.getNextExpression();
-					}
-					if (e instanceof Literal) {
-						FunctionCache.getInstance().calculateType(e);
-					}
-					stringBuffer.appendLine(printType(e) + " " + v.getName()
-							+ ";");
-				}
-			}
-			Place in = (Place) arc.getIn();
-
-			stringBuffer.appendLine("{ // evaluate incomming arcs");
-			stringBuffer.newline();
-			stringBuffer.indent();
-
-			stringBuffer.appendLine(printType(in) + " " + IN_TOKEN_NAME + " = "
-					+ placeMap.get(in) + ";");
-			for (ArcStatement arcStatement : arcStatements) {
-				generateCode(arcStatement);
-			}
-			stringBuffer.unIndent();
-			stringBuffer.appendLine("}");
-		}
-		placeMap = new HashMap<Place, String>();
-		EList<Arc> outgoingArcs = t.getOutgoing();
-		for (Arc arc : outgoingArcs) {
-			Place out = (Place) arc.getOut();
-			if (placeMap.get(out) == null) {
-				String placeContext = "_out_" + trimQuotes(out.getName());
-				stringBuffer.appendLine(printType(out) + " " + placeContext
-						+ ";");
-				placeMap.put(out, placeContext);
-			}
+			stringBuffer.appendLine(printType(in) + " "
+					+ arc.getVariable().getName() + " = " + "_place_"
+					+ trimQuotes(in.getName()) + ".remove(0);");
 		}
 
-		for (Arc arc : outgoingArcs) {
-			stringBuffer.appendLine("{ // evaluate outgoing arcs");
-			stringBuffer.newline();
-			stringBuffer.indent();
-			Place out = (Place) arc.getOut();
-			stringBuffer
-					.appendLine(printType(out) + " " + OUT_TOKEN_NAME + ";");
-
-			EList<ArcStatement> arcStatements = arc.getArcStatements();
-			for (ArcStatement arcStatement : arcStatements) {
-				generateCode(arcStatement);
-			}
-			stringBuffer.appendLine(placeMap.get(out) + " = " + OUT_TOKEN_NAME
-					+ ";");
-			stringBuffer.unIndent();
-			stringBuffer.appendLine("}");
+		EList<Statement> statements = t.getStatements();
+		for (Statement statement : statements) {
+			generateCode(statement);
 		}
-		Set<Place> keySet = placeMap.keySet();
-		for (Place place : keySet) {
-			String placeContext = placeMap.get(place);
-			stringBuffer.appendLine("_place_" + trimQuotes(place.getName())
-					+ ".add(0, " + placeContext + ");");
+
+		for (ProducingArc arc : t.getOutgoing()) {
+			Place out = arc.getOut();
+			stringBuffer.append("_place_" + trimQuotes(out.getName()) + ".add("
+					+ arc.getVariable().getVariable().getName() + ");");
 		}
 
 		stringBuffer.unIndent();
@@ -367,9 +307,16 @@ public class PetriNetsCodeGenerator {
 				type = FunctionCache.getInstance()
 						.getType((Expression) element);
 			}
+			if (element instanceof InitialisedVariable) {
+				Expression initialisation = ((InitialisedVariable) element)
+						.getInitialisation();
+				while (initialisation.getNextExpression() != null) {
+					initialisation = initialisation.getNextExpression();
+				}
+				type = FunctionCache.getInstance().getType(initialisation);
+				((InitialisedVariable) element).setType(type);
+			}
 			if (type == null) {
-				type = FunctionCache.getInstance()
-						.getType((Expression) element);
 				resource.addError("Type was not resolved",
 						PetrinetsEProblemType.BUILDER_ERROR, element);
 				return "UnresolvedType";
@@ -388,8 +335,8 @@ public class PetriNetsCodeGenerator {
 	}
 
 	private void generateCode(EObject o) {
-		if (o instanceof Variable)
-			generateCode((Variable) o);
+		if (o instanceof InitialisedVariable)
+			generateCode((InitialisedVariable) o);
 		else if (o instanceof FunctionCall)
 			generateCode((FunctionCall) o);
 		else if (o instanceof VariableCall)
@@ -460,10 +407,7 @@ public class PetriNetsCodeGenerator {
 			stringBuffer.appendLine(fc.getFunction().getName() + "(");
 		}
 
-		if (fc.getPreviousExpression() == null) {
-			stringBuffer.append(getContextName(fc));
-		} else {
-
+		if (fc.getPreviousExpression() != null) {
 			stringBuffer.append(prevContextVarName);
 		}
 		// api function
@@ -488,25 +432,14 @@ public class PetriNetsCodeGenerator {
 			generateCode(fc.getNextExpression());
 	}
 
-	private String getContextName(FunctionCall fc) {
-		EObject eContainer = fc.eContainer();
-		while (eContainer != null && !(eContainer instanceof Arc)) {
-			eContainer = eContainer.eContainer();
-		}
-		if (((Arc) eContainer).getIn() instanceof Place) {
-			return IN_TOKEN_NAME;
-		} else
-			return OUT_TOKEN_NAME;
-	}
-
-	private void generateCode(Variable v) {
+	private void generateCode(InitialisedVariable v) {
 		stringBuffer.newline();
 		stringBuffer.appendLine("// " + v.getName() + " initialization ");
 		Expression expression = v.getInitialisation();
 		generateCode(expression);
 		String contextVariableName = this.contextVariableName;
-		stringBuffer
-				.appendLine(v.getName() + " = " + contextVariableName + ";");
+		stringBuffer.appendLine(printType(v) + " " + v.getName() + " = "
+				+ contextVariableName + ";");
 	}
 
 	private void generateCode(StringLiteral sl) {

@@ -30,46 +30,59 @@ package petrinets // this is the package name
 	@"OWL_CONSTRAINT"("Compoments need to be named."="( NameableElement_name exactly 1 xsd:string ) ")
 
 	abstract class Component extends NameableElement {
-		reference Arc incoming (0..-1) opposite out; 
-		reference Arc outgoing (0..-1) opposite in;
 		reference PetriNet net (1..1) opposite components;
 	}
 
 	@"OWL_CONSTRAINT"("Arcs need to be either consuming or producing."="( Arc_in exactly 1 Transition and Arc_out exactly 1 Place ) or ( Arc_in exactly 1 Place and Arc_out exactly 1 Transition ) ")
 
-	class Arc {
-		reference Component in (1..1) opposite outgoing;
-		reference Component out (1..1) opposite incoming;
-		containment reference ArcStatement arcStatements (0..-1);
+	abstract class Arc {
 	}
 
 	@"OWL_CONSTRAINT"("Consuming Arcs need to have Places as input."="( Arc_in exactly 1 Place ) ")
 	@"OWL_CONSTRAINT"("Consuming Arcs need to have Transitions as output."="( Arc_out exactly 1 Transition ) ")
 
 	class ConsumingArc extends Arc {
+		reference Place in (1..1) opposite outgoing;
+		reference Transition out (1..1) opposite incoming;
+		containment reference FreeVariable variable (1..1);
 	}
 
 	@"OWL_CONSTRAINT"("Producing Arcs need to have Transitions as input."="( Arc_in exactly 1 Transition ) ")
 	@"OWL_CONSTRAINT"("Producing Arcs need to have Places as output."="( Arc_out exactly 1 Place ) ")
 
 	class ProducingArc extends Arc {
+		reference Transition in (1..1) opposite outgoing;
+		reference Place out (1..1) opposite incoming;
+		containment reference VariableCall variable (1..1);
 	}
 
 	@"OWL_DEFINITION"("StartPlace"="( NameableElement_name value \"Start\" ) ", "A Start Place is not allowed to have incoming Arcs."="( Component_incoming exactly 0 Arc ) ")
 
 	class Place extends Component, TypedElement {
+		reference ProducingArc incoming (0..-1) opposite out; 
+		reference ConsumingArc outgoing (0..-1) opposite in;
 	}
 
-	class Transition extends Component {}
-
-	abstract class ArcStatement extends TypedElement{
+	class Transition extends Component {
+		reference ConsumingArc incoming (0..-1) opposite out; 
+		reference ProducingArc outgoing (0..-1) opposite in;
+		containment reference Statement statements (0..-1);
 	}
 
-	class Variable extends ArcStatement, NameableElement {
-			containment reference Expression initialisation (1..1);
+	abstract class Statement extends TypedElement{
 	}
 
-	abstract class Expression extends ArcStatement {
+	abstract class Variable extends NameableElement, TypedElement {
+	}
+	
+	class FreeVariable extends Variable {
+	}
+	
+	class InitialisedVariable extends Statement, Variable {
+		containment reference Expression initialisation (0..1);
+	} 
+
+	abstract class Expression extends Statement {
 		reference Expression previousExpression (0..1) opposite nextExpression;
 			containment reference Expression nextExpression (0..1) opposite previousExpression;
 	}

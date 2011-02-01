@@ -11,14 +11,12 @@ import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.emftext.language.petrinets.Arc;
-import org.emftext.language.petrinets.ArcStatement;
-import org.emftext.language.petrinets.Component;
+import org.emftext.language.petrinets.ConsumingArc;
 import org.emftext.language.petrinets.Function;
+import org.emftext.language.petrinets.InitialisedVariable;
 import org.emftext.language.petrinets.Parameter;
-import org.emftext.language.petrinets.PetriNet;
-import org.emftext.language.petrinets.Place;
+import org.emftext.language.petrinets.ProducingArc;
+import org.emftext.language.petrinets.Statement;
 import org.emftext.language.petrinets.Transition;
 import org.emftext.language.petrinets.Variable;
 import org.emftext.language.petrinets.VariableCall;
@@ -47,32 +45,13 @@ public class VariableCallVariableReferenceResolver
 			org.emftext.language.petrinets.VariableCall container,
 			boolean resolveFuzzy) {
 		List<Variable> candidates = new ArrayList<Variable>();
-		Arc arc = getContainingArc(container);
-		// outgoing arc
-		if (arc.getIn() instanceof Transition) {
-			// Variable outToken =
-			// PetrinetsFactoryImpl.eINSTANCE.createVariable();
-			// outToken.setName("outToken");
-			// outToken.setType(((Place) arc.getOut()).getType());
-			// candidates.add(outToken );
+		EList<ConsumingArc> arc = getConsumingArcs(container);
+		for (ConsumingArc consuming : arc) {
+			candidates.add(consuming.getVariable());
+		}
 
-			EList<Arc> consumingArcs = ((Transition) arc.getIn()).getIncoming();
-			if (consumingArcs.isEmpty()) {
-				resolveRequired(arc);
-				consumingArcs = ((Transition) arc.getIn()).getIncoming();
-			}
-			for (Arc consuming : consumingArcs) {
-				candidates.addAll(collectVariables(consuming));
-			}
-		}
-		if (arc.getOut() instanceof Transition) {
-			Variable inToken = PetrinetsFactoryImpl.eINSTANCE.createVariable();
-			inToken.setName("inToken");
-			inToken.setType(((Place) arc.getIn()).getType());
-			candidates.add(inToken);
-		}
-		List<ArcStatement> previousStatements = getPreviousStatements(container);	
-		for (ArcStatement arcStatement : previousStatements) {
+		List<Statement> previousStatements = getPreviousStatements(container);
+		for (Statement arcStatement : previousStatements) {
 			if (arcStatement instanceof Variable) {
 				candidates.add((Variable) arcStatement);
 			}
@@ -81,8 +60,8 @@ public class VariableCallVariableReferenceResolver
 			List<Function> declaredFunctions = FunctionCache.getInstance()
 					.getDeclaredFunctions(container);
 			for (Function function : declaredFunctions) {
-				Variable dummyVar = PetrinetsFactoryImpl.eINSTANCE
-						.createVariable();
+				InitialisedVariable dummyVar = PetrinetsFactoryImpl.eINSTANCE
+						.createInitialisedVariable();
 				String functionname = function.getName() + "(";
 				EList<Parameter> parameters = function.getParameters();
 				for (Parameter parameter : parameters) {
@@ -98,27 +77,6 @@ public class VariableCallVariableReferenceResolver
 			}
 		}
 		return candidates;
-	}
-
-	private void resolveRequired(Arc container) {
-		EObject eContainer = container.eContainer();
-		while (eContainer != null && !(eContainer instanceof PetriNet)) {
-			eContainer = eContainer.eContainer();
-		}
-		if (eContainer instanceof PetriNet) {
-			PetriNet pn = (PetriNet) eContainer;
-			EList<Arc> arcs = pn.getArcs();
-			for (Arc arc : arcs) {
-				Component in = arc.getIn();
-				Component out = arc.getOut();
-				if (in.eIsProxy()) {
-					EcoreUtil.resolve(in, pn);
-				}
-				if (out.eIsProxy()) {
-					EcoreUtil.resolve(out, pn);
-				}
-			}
-		}
 	}
 
 	private void FilterCandidates(List<Variable> candidates, String identifier,
@@ -140,46 +98,47 @@ public class VariableCallVariableReferenceResolver
 		return;
 	}
 
-	private List<Variable> collectVariables(Arc consuming) {
-		List<Variable> vs = new ArrayList<Variable>();
-		if (consuming.getIn() instanceof Place) {
-			EList<ArcStatement> arcStatements = consuming.getArcStatements();
-			for (ArcStatement arcStatement : arcStatements) {
-				if (arcStatement instanceof Variable) {
-					vs.add((Variable) arcStatement);
-				}
-			}
-		}
-		return vs;
-	}
-
-	private Arc getContainingArc(VariableCall container) {
-		Arc containing = null;
+	private EList<ConsumingArc> getConsumingArcs(VariableCall container) {
 		EObject c = container.eContainer();
-		while (!(c instanceof Arc) && c != null) {
+		while (!(c instanceof ProducingArc) && !(c instanceof Transition)
+				&& c != null) {
 			c = c.eContainer();
 		}
 		if (c != null) {
-			containing = (Arc) c;
+			if (c instanceof Transition) {
+				Transition t = (Transition) c;
+				return t.getIncoming();
+			}
+			if (c instanceof ProducingArc) {
+				ProducingArc producing = (ProducingArc) c;
+				Transition t = producing.getIn();
+				return t.getIncoming();
+			}
+
 		}
-		return containing;
+		return null;
 	}
 
-	private List<ArcStatement> getPreviousStatements(VariableCall call) {
-		List<ArcStatement> previousStatements = new ArrayList<ArcStatement>();
-		Arc containing = null;
+	private List<Statement> getPreviousStatements(VariableCall call) {
+		List<Statement> previousStatements = new ArrayList<Statement>();
 		EObject c = call.eContainer();
 		EObject containingStatement = call;
-		while (!(c instanceof Arc) && c != null) {
+		while (!(c instanceof Transition) && !(c instanceof ProducingArc)
+				&& c != null) {
 			containingStatement = c;
 			c = c.eContainer();
 		}
-		if (c != null) {
-			containing = (Arc) c;
-			int indexOfContainingStatement = containing.getArcStatements()
+		if (c != null && c instanceof Transition) {
+			Transition containing = (Transition) c;
+			int indexOfContainingStatement = containing.getStatements()
 					.indexOf(containingStatement);
-			previousStatements = containing.getArcStatements().subList(0,
+			previousStatements = containing.getStatements().subList(0,
 					indexOfContainingStatement);
+		}
+		if (c != null && c instanceof ProducingArc) {
+			ProducingArc pa = (ProducingArc) c;
+			Transition in = pa.getIn();
+			previousStatements = in.getStatements();
 		}
 		return previousStatements;
 	}

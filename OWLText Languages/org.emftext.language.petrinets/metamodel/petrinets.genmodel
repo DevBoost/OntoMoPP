@@ -25,22 +25,33 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//PetriNet/arcs"/>
     </genClasses>
     <genClasses image="false" ecoreClass="petrinets.text.ecore#//Component">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//Component/incoming"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//Component/outgoing"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference petrinets.text.ecore#//Component/net"/>
     </genClasses>
-    <genClasses ecoreClass="petrinets.text.ecore#//Arc">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//Arc/in"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//Arc/out"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//Arc/arcStatements"/>
+    <genClasses ecoreClass="petrinets.text.ecore#//Arc"/>
+    <genClasses ecoreClass="petrinets.text.ecore#//ConsumingArc">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//ConsumingArc/in"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//ConsumingArc/out"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//ConsumingArc/variable"/>
     </genClasses>
-    <genClasses ecoreClass="petrinets.text.ecore#//ConsumingArc"/>
-    <genClasses ecoreClass="petrinets.text.ecore#//ProducingArc"/>
-    <genClasses image="false" ecoreClass="petrinets.text.ecore#//Place"/>
-    <genClasses ecoreClass="petrinets.text.ecore#//Transition"/>
-    <genClasses image="false" ecoreClass="petrinets.text.ecore#//ArcStatement"/>
-    <genClasses ecoreClass="petrinets.text.ecore#//Variable">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//Variable/initialisation"/>
+    <genClasses ecoreClass="petrinets.text.ecore#//ProducingArc">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//ProducingArc/in"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//ProducingArc/out"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//ProducingArc/variable"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="petrinets.text.ecore#//Place">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//Place/incoming"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//Place/outgoing"/>
+    </genClasses>
+    <genClasses ecoreClass="petrinets.text.ecore#//Transition">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//Transition/incoming"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//Transition/outgoing"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//Transition/statements"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="petrinets.text.ecore#//Statement"/>
+    <genClasses ecoreClass="petrinets.text.ecore#//Variable"/>
+    <genClasses ecoreClass="petrinets.text.ecore#//FreeVariable"/>
+    <genClasses ecoreClass="petrinets.text.ecore#//InitialisedVariable">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//InitialisedVariable/initialisation"/>
     </genClasses>
     <genClasses image="false" ecoreClass="petrinets.text.ecore#//Expression">
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference petrinets.text.ecore#//Expression/previousExpression"/>
