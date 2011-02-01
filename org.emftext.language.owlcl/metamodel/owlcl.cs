@@ -18,13 +18,13 @@ OPTIONS {
 }
 
 TOKENS {
-	DEFINE X $'df'$;
+	
 }
 
 RULES {
-	OWLCLSpec ::= "import" constrainedMetamodel['"','"'] ("refinements:" "{" types* "}")? constraints*;
+	OWLCLSpec ::= "import" constrainedMetamodel[STRING_LITERAL] ("refinements:" "{" types* "}")? constraints*;
 	
 	Type ::= "type" name[IRI] "refines" eSuperTypes[IRI] ":" typeDescription;
 	
-	Constraint ::= constrainedMetaclass[IRI] "message" errorMsg['"','"'] ":" constraintDescription ";";
+	Constraint ::= constrainedMetaclass[IRI] "message" errorMsg[STRING_LITERAL] ":" constraintDescription ";";
 }
