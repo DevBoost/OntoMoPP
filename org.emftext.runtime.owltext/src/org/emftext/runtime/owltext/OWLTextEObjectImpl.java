@@ -3,15 +3,18 @@ package org.emftext.runtime.owltext;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Set;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -622,11 +625,10 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		while (root.eContainer() != null) {
 			root = (OWLTextEObjectImpl) root.eContainer();
 		}
-
+		
 		addMetamodelImportAxioms(factory, ontologyDocument, ontology, root);
 
 		ontology.getFrames().add(root.getOwlIndividualClass());
-		TreeIterator<EObject> eAllContents = root.eAllContents();
 		List<Class> individuals = new LinkedList<Class>();
 		Class selfIndividual = this.getOwlIndividualClass();
 		clean(selfIndividual);
@@ -636,21 +638,11 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		createdNamings = new ArrayList<String>();
 		createNamedEqivalent(this, selfIndividual, ontology);
 		// collect individuals, fix cardinalities
-		while (eAllContents.hasNext()) {
-			EObject aChild = eAllContents.next();
-			if (!(aChild instanceof OWLTextEObjectImpl))
-				continue;
-			OWLTextEObjectImpl child = (OWLTextEObjectImpl) aChild;
-
-			Class individual = child.getOwlIndividualClass();
-			createNamedEqivalent(child, individual, ontology);
-
-			ontology.getFrames().add(individual);
-			individuals.add(individual);
-			// fix cardinality for all features
-			clean(individual);
-			fixCardinality(child, individual);
-		}
+		Set<EObject> allContainedAndReferencedEObjects = new HashSet<EObject>();
+		allContainedAndReferencedEObjects.addAll(root.eCrossReferences());
+		allContainedAndReferencedEObjects.addAll(root.eContents());
+		
+		addObjectsTransitively(ontology, individuals, allContainedAndReferencedEObjects);
 
 		// uniqueness
 		if (individuals.size() > 1) {
@@ -662,9 +654,35 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 				disjointClasses.getDescriptions().add(ca);
 			}
 		}
+
 		new Ecore2Owl().cleanTransitiveImports(ontology);
 
 		return ontologyDocument;
+	}
+
+	private void addObjectsTransitively(Ontology ontology, List<Class> individuals,
+			Set<EObject> objectsToAdd) {
+		Set<EObject> containedAndReferenced = new HashSet<EObject>();
+		for (EObject eObject : objectsToAdd) {
+			if (!(eObject instanceof OWLTextEObjectImpl))
+				continue;
+			containedAndReferenced.addAll(eObject.eCrossReferences());
+			containedAndReferenced.addAll(eObject.eContents());
+			OWLTextEObjectImpl child = (OWLTextEObjectImpl) eObject;
+
+			Class individual = child.getOwlIndividualClass();
+			createNamedEqivalent(child, individual, ontology);
+
+			ontology.getFrames().add(individual);
+			individuals.add(individual);
+			// fix cardinality for all features
+			clean(individual);
+			fixCardinality(child, individual);
+		}
+		containedAndReferenced.removeAll(objectsToAdd);
+		if (containedAndReferenced.size() > 0) {
+			addObjectsTransitively(ontology, individuals, containedAndReferenced);
+		}
 	}
 
 	private void createNamedEqivalent(OWLTextEObjectImpl child,
@@ -696,7 +714,11 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		EList<EStructuralFeature> eStructuralFeatures = child.eClass()
 				.getEAllStructuralFeatures();
 		for (EStructuralFeature eStructuralFeature : eStructuralFeatures) {
-
+			if (eStructuralFeature instanceof EAttribute
+					&& ((EAttribute) eStructuralFeature).getEType() instanceof EEnum) {
+				continue; // TODO finalise support for Enums and EnumLiterals in
+							// OWLizing
+			}
 			Object value = child.eGet(eStructuralFeature);
 			int size = 0;
 			if (value instanceof Collection<?>) {
@@ -709,7 +731,9 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 				size = 1;
 			}
 			if (size > 1) {
-				size = 2; // TODO should we support other upper bounds?
+				size = 2; // all upper bound greater than 1 are handled as
+							// potentially unbounded, otherwise reasoning is not
+							// performant
 				ObjectPropertyMin opm = factory.createObjectPropertyMin();
 				ObjectProperty objectProperty = factory.createObjectProperty();
 				objectProperty.setIri(OWLTransformationHelper

@@ -187,7 +187,7 @@ public class Ecore2Owl {
 					continue;
 				}
 				toRemove.add(imported);
-				System.out.println("\tremove: " + importUri);
+				
 			}
 		}
 		ontology.getImports().removeAll(toRemove);
@@ -340,6 +340,7 @@ public class Ecore2Owl {
 			EList<EStructuralFeature> allStructuralFeatures = instance.eClass()
 					.getEAllStructuralFeatures();
 			for (EStructuralFeature structuralFeature : allStructuralFeatures) {
+				
 				Object get = instance.eGet(structuralFeature);
 				if (get instanceof EObject) {
 					Individual i = eobject2individual.get(get);
@@ -891,7 +892,7 @@ public class Ecore2Owl {
 		// individual.setIri(eEnumLiteral.toString());
 		Class c = owlFactory.createClass();
 		ontology.getFrames().add(c);
-		c.setIri(eEnumLiteral.getName());
+		c.setIri(OWLTransformationHelper.getSimpleClassIdentificationIRI(eEnumLiteral));
 		addTypeMapping(eEnumLiteral, c);
 	}
 

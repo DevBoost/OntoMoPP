@@ -34,6 +34,9 @@ OPTIONS {
 }
 
 TOKENS {
+	DEFINE STRING_LITERAL $'"'('\\'('b'|'t'|'n'|'f'|'r'|'\"'|'\''|'\\')|('\\''u'('0'..'9'|'a'..'f'|'A'..'F')('0'..'9'|'a'..'f'|'A'..'F')('0'..'9'|'a'..'f'|'A'..'F')('0'..'9'|'a'..'f'|'A'..'F'))|'\\'('0'..'7')|~('\\'|'"'))*'"'$;
+	
+
 	DEFINE WHITESPACE $(' '|'\t'|'\f')$;
 	DEFINE LINEBREAKS $('\r\n'|'\r'|'\n')$;
 	DEFINE NOT $'not'$;
@@ -180,9 +183,9 @@ RULES{
 	
 	// Literals
 	
-	TypedLiteral ::= lexicalValue['"','"'] "^^" theDatatype[IRI];
-	AbbreviatedRDFTextLiteral ::= value['"','"'] "@" languageTag[IRI];
-	AbbreviatedXSDStringLiteral ::= value['"','"'];
+	TypedLiteral ::= lexicalValue[STRING_LITERAL] "^^" theDatatype[IRI];
+	AbbreviatedRDFTextLiteral ::= value[STRING_LITERAL] "@" languageTag[IRI];
+	AbbreviatedXSDStringLiteral ::= value[STRING_LITERAL];
 	DecimalLiteral ::=value[DECIMAL];
 	FloatingPointLiteral ::= literal[FLOAT];
 	IntegerLiteral ::= value[INT];

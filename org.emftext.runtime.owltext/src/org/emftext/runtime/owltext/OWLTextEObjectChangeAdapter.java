@@ -6,6 +6,8 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -31,6 +33,10 @@ public class OWLTextEObjectChangeAdapter implements Adapter {
 	}
 
 	public void notifyChanged(Notification notification) {
+		Object feature = notification.getFeature();
+		if (feature instanceof EAttribute && ((EAttribute)feature).getEType() instanceof EEnum) {
+			return; // TODO finalise support for EEnums and EEnum Literals in OWLizing
+		}
 		switch (notification.getEventType()) {
 		case Notification.ADD:
 			add(notification);
@@ -56,7 +62,8 @@ public class OWLTextEObjectChangeAdapter implements Adapter {
 		case Notification.RESOLVE:
 			resolved(notification);
 			break;
-
+		case Notification.REMOVING_ADAPTER:
+			break;
 		default:
 			throw new RuntimeException("unhandeled Event type: " + notification);
 

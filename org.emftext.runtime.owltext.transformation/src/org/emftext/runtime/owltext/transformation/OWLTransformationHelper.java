@@ -1,17 +1,22 @@
 package org.emftext.runtime.owltext.transformation;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.impl.EEnumImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.emftext.language.owl.Ontology;
+import org.emftext.language.owl.OntologyDocument;
 import org.emftext.language.owl.loading.OntologyLoadExeption;
 import org.emftext.language.owl.resource.owl.analysis.custom.CrossResourceIRIResolver;
+import org.emftext.language.owl.resource.owl.mopp.OwlResource;
 
 public class OWLTransformationHelper {
 
@@ -141,6 +146,10 @@ public class OWLTransformationHelper {
 	public static String getSimpleClassIdentificationIRI(EClassifier eClass) {
 		return eClass.getName();
 	}
+	
+	public static String getSimpleClassIdentificationIRI(EEnumLiteral literal) {
+		return literal.getName();
+	}
 
 	public static String getObjectIdentificationIRI(EObject eObject) {
 		return "individual_" + getUniqueId(eObject);
@@ -197,20 +206,20 @@ public class OWLTransformationHelper {
 			metamodelPath = metamodelPath.appendSegment(ePackage.getName()
 					+ ".mm.owl");
 
-			transformation.transformMetamodel(ePackage, metamodelPath);
+			OntologyDocument transformedMetamodel = transformation.transformMetamodel(ePackage, metamodelPath);
 
-			// OwlResource outResource = (OwlResource) root.eResource()
-			// .getResourceSet().createResource(metamodelPath);
-			//
-			// outResource.getContents().add(transformedMetamodel);
+			OwlResource outResource = (OwlResource) root.eResource()
+			 .getResourceSet().createResource(metamodelPath);
+			
+			outResource.getContents().add(transformedMetamodel);
 			try {
-				// outResource.save(Collections.EMPTY_MAP);
+				outResource.save(Collections.EMPTY_MAP);
 				String identifier = metamodelPath.lastSegment();
 				ontology = CrossResourceIRIResolver.theInstance()
 						.getRemoteLoader().loadOntology(identifier, root);
 				packageOntologyMap.put(ePackage, ontology);
 
-			} catch (OntologyLoadExeption e) {
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
