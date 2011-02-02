@@ -8,7 +8,7 @@ Class: Element
 Class: DependentElement 
 	SubClassOf: Element and
 				depends_on max 1 Element	
-
+ 
 
 ObjectProperty: depends_on
 	Domain: DependentElement

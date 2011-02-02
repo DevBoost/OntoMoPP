@@ -13,7 +13,7 @@ DataProperty: gourmetStars
 			xsd:IDREF,
 			xsd:IDREFS,
 			xsd:NCName,
-			xsd:NMToken,
+			xsd:NMToken, 
 			xsd:NOTATION,
 			xsd:Name,
 			xsd:QName,

@@ -6,4 +6,4 @@ Prefix: : <http://emftext/testontotology#>
 	Individual: exampleIndividual
 		Types: testProperty value "TestValue"
 
-	DataProperty: testProperty 
+	DataProperty: testProperty  

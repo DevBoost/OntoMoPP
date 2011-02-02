@@ -14,7 +14,8 @@ Annotations:
     owl:versionInfo "version 1.5"^^xsd:string
 
 ObjectProperty: isBaseOf
-
+ 
+ 
     Characteristics: 
         Functional,
         InverseFunctional
