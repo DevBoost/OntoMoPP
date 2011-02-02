@@ -77,7 +77,7 @@ public class SparqlTest extends AbstractSparqlTestCase {
 	}
 	
 	//funktioniert nicht richtig da arq.qparse die JavaVM einfach beendet bei einem Fehler
-	//Dieser fehler lässt sich nicht abfangen
+	//Dieser fehler laesst sich nicht abfangen
 	public void wrapFile(File file) throws Exception{
 		BufferedReader br;		
 		br = new BufferedReader(new FileReader(file));			

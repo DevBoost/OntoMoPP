@@ -22,6 +22,7 @@ import java.util.List;
 
 import junit.framework.Assert;
 
+// TODO I think this is just a copy from the C# test plug-in an can be removed
 public class CheckCSSyntaxWrapper {
 	
 	private final String CSSEXE="CSharpSyntaxCheck" + File.separator + "CheckCSSyntax.exe";
@@ -93,8 +94,8 @@ public class CheckCSSyntaxWrapper {
 			
 			String input;
 			
-			//readLine hängt sich auf vom InputStream
-			//Problem noch nicht gelöst
+			//readLine haengt sich auf vom InputStream
+			//Problem noch nicht geloest
 			/*
 			while((input=brIs.readLine())!=null){
 				System.out.println(input);
