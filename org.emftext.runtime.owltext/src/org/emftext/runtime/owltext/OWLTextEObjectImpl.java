@@ -12,7 +12,6 @@ import java.util.Set;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EObject;
@@ -227,7 +226,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 							(NestedDescription) description)) {
 						count++;
 
-						T t = getObjectFromDescription(
+						T t = (T) getObjectFromDescription(
 								eDynamicFeature(featureID),
 								(NestedDescription) description);
 						a[count] = (AT) t;
@@ -247,7 +246,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		 * Intercepts the get calls on ELists and retrieves the according axioms
 		 * from the ontology
 		 */
-
+		@SuppressWarnings("unchecked")
 		public T get(int index) {
 			// System.out.println("get at " + thisObject.eClass().getName() +
 			// "."
@@ -265,7 +264,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 
 						if (count == index) {// Pruefe ob es sich um aktuelles
 												// Object handelt
-							return getObjectFromDescription(
+							return (T) getObjectFromDescription(
 									eDynamicFeature(featureID),
 									(NestedDescription) description);
 						}
