@@ -329,7 +329,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 									ObjectPropertyValue property = (ObjectPropertyValue) ((NestedDescription) description)
 											.getDescription();
 
-									// TODO: Literal vergleich bisher nur über
+									// TODO: Literal vergleich bisher nur ueber
 									// Zeichenketten
 									if (property.getLiteral() != null
 											&& property.getLiteral().toString()
@@ -396,7 +396,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 									ObjectPropertyValue property = (ObjectPropertyValue) ((NestedDescription) description)
 											.getDescription();
 
-									// TODO: Literal vergleich bisher nur über
+									// TODO: Literal vergleich bisher nur ueber
 									// Zeichenketten
 									if (property.getLiteral() != null
 											&& property.getLiteral().toString()
