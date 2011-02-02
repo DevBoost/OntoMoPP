@@ -1,5 +1,7 @@
 package org.emftext.language.owl.test.printing;
 
+import static org.junit.Assert.*;
+
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
@@ -20,6 +22,7 @@ import org.emftext.language.owl.OntologyDocument;
 import org.emftext.language.owl.OwlFactory;
 import org.emftext.language.owl.OwlPackage;
 import org.emftext.language.owl.impl.OwlFactoryImpl;
+import org.emftext.language.owl.resource.owl.mopp.OwlResource;
 import org.junit.Test;
 
 public class TestOwlPrinting {
@@ -49,7 +52,7 @@ public class TestOwlPrinting {
 		od.getNamespace().add(local);
 		
 		Class employee = owlFactory.createClass();
-		employee.setIri("here:Employee");
+		employee.setIri("Employee");
 		o.getFrames().add(employee);
 			
 		Class employeeIdDomain = owlFactory.createClass();
@@ -72,7 +75,15 @@ public class TestOwlPrinting {
 		URI uri = URI.createURI("./src/printingTest.owl");
 		Resource newResource = rs.createResource(uri);
 		newResource.getContents().add(od);
+		
 		newResource.save(Collections.EMPTY_MAP);
+		newResource.unload();
+		
+		// reparse test, would fail when generated resource is invalid
+		Resource reloadedResource = rs.getResource(uri, true);
+		assertTrue(reloadedResource.getContents().size() == 1);
+		assertTrue(reloadedResource instanceof OwlResource);
+		assertTrue(((OwlResource) reloadedResource).getErrors().size() == 0);
 		
 	}
 }
