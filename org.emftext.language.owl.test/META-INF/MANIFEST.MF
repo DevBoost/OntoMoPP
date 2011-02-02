@@ -7,5 +7,8 @@ Export-Package: org.emftext.language.owl.test
 Require-Bundle: org.junit4,
  org.emftext.language.owl,
  org.emftext.language.owl.reasoning,
- org.emftext.language.owl.resource.owl
+ org.emftext.language.owl.resource.owl,
+ org.eclipse.emf.compare,
+ org.eclipse.emf.compare.diff,
+ org.eclipse.emf.compare.match
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
