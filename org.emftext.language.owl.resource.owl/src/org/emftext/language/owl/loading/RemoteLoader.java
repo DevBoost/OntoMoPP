@@ -56,19 +56,21 @@ public class RemoteLoader {
 
 	static {
 		String uri = "http://www.w3.org/2001/XMLSchema#";
-		Resource resource = new OwlResourceFactory().createResource(org.eclipse.emf.common.util.URI.createURI(uri));
+		Resource resource = new OwlResourceFactory()
+				.createResource(org.eclipse.emf.common.util.URI.createURI(uri));
 		Ontology o = factory.createOntology();
 		resource.getContents().add(o);
 		o.setUri(uri);
-		String[] types = new String[] {"ENTITIES", "ENTITY", "ID", "IDREF", "IDREFS",
-				"NCName", "NMToken", "NOTATION", "Name", "QName", "anySimpleType", "anyType",
-				"anyURI", "base64Binary", "boolean", "byte", "date",
-				"dateTime", "dateTimeStamp", "decimal", "double", "duration",
-				"float", "gDay", "gMonth", "gYear", "gMonthYear", "gYear" , "gYearMonth",
-				"hexBinary", "int", "integer", "language", "long", 
-				"negativeInteger", "nonNegativeInteger", "nonPositiveInteger",
-				"normalizedString","positiveInteger", "short","string", "time", "token",
-				"unsignedByte", "unsignedInt", "unsignedLong", "unsignedShort"};
+		String[] types = new String[] { "ENTITIES", "ENTITY", "ID", "IDREF",
+				"IDREFS", "NCName", "NMToken", "NOTATION", "Name", "QName",
+				"anySimpleType", "anyType", "anyURI", "base64Binary",
+				"boolean", "byte", "date", "dateTime", "dateTimeStamp",
+				"decimal", "double", "duration", "float", "gDay", "gMonth",
+				"gYear", "gMonthYear", "gYear", "gYearMonth", "hexBinary",
+				"int", "integer", "language", "long", "negativeInteger",
+				"nonNegativeInteger", "nonPositiveInteger", "normalizedString",
+				"positiveInteger", "short", "string", "time", "token",
+				"unsignedByte", "unsignedInt", "unsignedLong", "unsignedShort" };
 		for (String type : types) {
 			Datatype datatype = factory.createDatatype();
 			datatype.setIri(type);
@@ -92,7 +94,30 @@ public class RemoteLoader {
 		return ontology;
 	}
 
-	public org.eclipse.emf.common.util.URI getLocationHintURI(
+	public void addUriMapping(String uri, Ontology ontology) {
+		url2ontologies.put(uri, ontology);
+	}
+
+//	public List<IRIIdentified> getOntologyElement(String identifier,
+//			boolean resolveFuzzy) {
+//		return findEntity(identifier, ontology, resolveFuzzy);
+//	}
+
+	public List<IRIIdentified> getOntologyElement(String identifier,
+			Ontology ontology, boolean resolveFuzzy) {
+		return findEntity(identifier, ontology, resolveFuzzy);
+	}
+
+	public void flushLocalCache() {
+		for (String uri : url2irimaps.keySet()) {
+			if (!(isRemoteUri(uri))) {
+				url2irimaps.remove(uri);
+				url2ontologies.remove(uri);
+			}
+		}
+	}
+
+	private org.eclipse.emf.common.util.URI getLocationHintURI(
 			String locationHint, EObject container) {
 		org.eclipse.emf.common.util.URI hintURI = null;
 
@@ -119,11 +144,15 @@ public class RemoteLoader {
 
 	private void initialise(String uri, EObject container)
 			throws OntologyLoadExeption {
-		if (uri.startsWith("http")) {
+		if (isRemoteUri(uri)) {
 			initialiseRemoteUri(uri);
 		} else {
 			initialiseLocalUri(uri, container);
 		}
+	}
+
+	private boolean isRemoteUri(String uri) {
+		return uri.startsWith("http");
 	}
 
 	private void initialiseLocalUri(String uri, EObject container) {
@@ -155,10 +184,6 @@ public class RemoteLoader {
 				}
 			}
 		}
-	}
-
-	public void addUriMapping(String uri, Ontology ontology) {
-		url2ontologies.put(uri, ontology);
 	}
 
 	private void initialiseRemoteUri(String uri) throws OntologyLoadExeption {
@@ -221,28 +246,19 @@ public class RemoteLoader {
 		return o;
 	}
 
-	public Ontology getOntology() {
-		return this.ontology;
-	}
-
-	public List<IRIIdentified> getOntologyElement(String identifier, boolean resolveFuzzy) {
-		return findEntity(identifier, ontology, resolveFuzzy);
-	}
-	
-	public List<IRIIdentified> getOntologyElement(String identifier, Ontology ontology, boolean resolveFuzzy) {
-		return findEntity(identifier, ontology, resolveFuzzy);
-	}
-
-	private List<IRIIdentified> findEntity(String identifier, Ontology onto, boolean resolveFuzzy) {
+	private List<IRIIdentified> findEntity(String identifier, Ontology onto,
+			boolean resolveFuzzy) {
 		List<IRIIdentified> results = new ArrayList<IRIIdentified>();
-		if (onto == null) return results;
+		if (onto == null)
+			return results;
 		Map<String, Frame> iriMap = url2irimaps.get(onto.getUri());
 		if (iriMap == null) {
 			iriMap = intialiseIriMap(onto);
 		}
-		if (! resolveFuzzy) {
+		if (!resolveFuzzy) {
 			Frame frame = iriMap.get(identifier);
-			if (frame != null) results.add(frame);
+			if (frame != null)
+				results.add(frame);
 			return results;
 		} else {
 			Set<String> keySet = iriMap.keySet();

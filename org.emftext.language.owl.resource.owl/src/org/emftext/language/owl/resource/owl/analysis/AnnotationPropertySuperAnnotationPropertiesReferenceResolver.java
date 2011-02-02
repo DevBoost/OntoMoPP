@@ -40,11 +40,12 @@ public class AnnotationPropertySuperAnnotationPropertiesReferenceResolver
 			int position,
 			boolean resolveFuzzy,
 			IOwlReferenceResolveResult<org.emftext.language.owl.AnnotationProperty> result) {
+		delegate.resolve(identifier, container, reference, position,
+				resolveFuzzy, result);
 		CrossResourceIRIResolver.theInstance().doResolve(identifier, container,
 				resolveFuzzy, result,
 				org.emftext.language.owl.AnnotationProperty.class);
-		delegate.resolve(identifier, container, reference, position,
-				resolveFuzzy, result);
+	
 	}
 
 	public void setOptions(Map<?, ?> options) {

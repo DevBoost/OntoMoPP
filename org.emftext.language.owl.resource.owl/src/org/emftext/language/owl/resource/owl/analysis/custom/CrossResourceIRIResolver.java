@@ -76,6 +76,7 @@ public class CrossResourceIRIResolver {
 	public <RESULT extends IRIIdentified> void doResolve(String identifier,
 			EObject containerObject, boolean resolveFuzzy,
 			IOwlReferenceResolveResult<RESULT> result, Class<RESULT> c) {
+		if (result.wasResolved() && !resolveFuzzy) return;
 		RESULT r = null;
 		String iriPrefix;
 		if (!hasPrefix(identifier)) {
@@ -140,12 +141,13 @@ public class CrossResourceIRIResolver {
 			boolean resolveFuzzy) throws OntologyLoadExeption {
 		String uri = standardNamespaces.get(iriPrefix);
 		if (uri != null) {
-			remoteLoader.loadOntology(uri, ontologyDocument);
+			Ontology ontology = remoteLoader.loadOntology(uri, ontologyDocument);
 			List<IRIIdentified> entity = remoteLoader.getOntologyElement(
-					identifier, resolveFuzzy);
+					identifier, ontology, resolveFuzzy);
 			return entity;
 		}
 		if ("".equals(iriPrefix)) {
+			//Ontology ontology = remoteLoader.loadOntology(uri, ontologyDocument);
 			return remoteLoader.getOntologyElement(identifier,
 					ontologyDocument.getOntology(), resolveFuzzy);
 
@@ -161,7 +163,7 @@ public class CrossResourceIRIResolver {
 						|| namespace.getImportedOntology().eIsProxy()) {
 					remoteLoader.loadOntology(uri, ontologyDocument);
 					entity = remoteLoader.getOntologyElement(identifier,
-							resolveFuzzy);
+							namespace.getImportedOntology(), resolveFuzzy);
 				} else {
 					remoteLoader.addUriMapping(uri,
 							namespace.getImportedOntology());
@@ -172,7 +174,7 @@ public class CrossResourceIRIResolver {
 				return entity;
 			}
 		}
-		return null;
+		return Collections.EMPTY_LIST;
 	}
 
 	public String getPrefix(String identifier) {

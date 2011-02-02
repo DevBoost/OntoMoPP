@@ -40,11 +40,12 @@ public class ObjectPropertyFactIndividualReferenceResolver
 			int position,
 			boolean resolveFuzzy,
 			IOwlReferenceResolveResult<org.emftext.language.owl.Individual> result) {
+		delegate.resolve(identifier, container, reference, position,
+				resolveFuzzy, result);
 		CrossResourceIRIResolver.theInstance()
 				.doResolve(identifier, container, resolveFuzzy, result,
 						org.emftext.language.owl.Individual.class);
-		delegate.resolve(identifier, container, reference, position,
-				resolveFuzzy, result);
+		
 	}
 
 	public void setOptions(Map<?, ?> options) {

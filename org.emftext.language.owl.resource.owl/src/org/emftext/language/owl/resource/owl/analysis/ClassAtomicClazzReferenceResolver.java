@@ -37,10 +37,11 @@ public class ClassAtomicClazzReferenceResolver
 			org.eclipse.emf.ecore.EReference reference, int position,
 			boolean resolveFuzzy,
 			IOwlReferenceResolveResult<org.emftext.language.owl.Class> result) {
-		CrossResourceIRIResolver.theInstance().doResolve(identifier, container,
-				resolveFuzzy, result, org.emftext.language.owl.Class.class);
 		delegate.resolve(identifier, container, reference, position,
 				resolveFuzzy, result);
+		CrossResourceIRIResolver.theInstance().doResolve(identifier, container,
+				resolveFuzzy, result, org.emftext.language.owl.Class.class);
+		
 	}
 
 	public void setOptions(Map<?, ?> options) {

@@ -37,10 +37,11 @@ public class FeatureRestrictionFeatureReferenceResolver
 			org.eclipse.emf.ecore.EReference reference, int position,
 			boolean resolveFuzzy,
 			IOwlReferenceResolveResult<org.emftext.language.owl.Feature> result) {
-		CrossResourceIRIResolver.theInstance().doResolve(identifier, container,
-				resolveFuzzy, result, org.emftext.language.owl.Feature.class);
+		
 		delegate.resolve(identifier, container, reference, position,
 				resolveFuzzy, result);
+		CrossResourceIRIResolver.theInstance().doResolve(identifier, container,
+				resolveFuzzy, result, org.emftext.language.owl.Feature.class);
 	}
 
 	public void setOptions(Map<?, ?> options) {

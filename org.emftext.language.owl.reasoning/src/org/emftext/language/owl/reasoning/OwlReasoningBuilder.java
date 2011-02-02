@@ -25,6 +25,7 @@ import org.emftext.language.owl.resource.owl.IOwlQuickFix;
 import org.emftext.language.owl.resource.owl.IOwlTextDiagnostic;
 import org.emftext.language.owl.resource.owl.OwlEProblemSeverity;
 import org.emftext.language.owl.resource.owl.OwlEProblemType;
+import org.emftext.language.owl.resource.owl.analysis.custom.CrossResourceIRIResolver;
 import org.emftext.language.owl.resource.owl.mopp.OwlBuilderAdapter;
 import org.emftext.language.owl.resource.owl.mopp.OwlMarkerHelper;
 import org.emftext.language.owl.resource.owl.mopp.OwlResource;

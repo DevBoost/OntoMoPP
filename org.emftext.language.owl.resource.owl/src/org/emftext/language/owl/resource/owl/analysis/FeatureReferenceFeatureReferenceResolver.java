@@ -21,11 +21,12 @@ public class FeatureReferenceFeatureReferenceResolver
 			int position,
 			boolean resolveFuzzy,
 			final org.emftext.language.owl.resource.owl.IOwlReferenceResolveResult<org.emftext.language.owl.Feature> result) {
+		delegate.resolve(identifier, container, reference, position,
+				resolveFuzzy, result);
 		CrossResourceIRIResolver.theInstance()
 				.doResolve(identifier, container, resolveFuzzy, result,
 						org.emftext.language.owl.Feature.class);
-		//delegate.resolve(identifier, container, reference, position,
-			//	resolveFuzzy, result);
+		
 
 	}
 
