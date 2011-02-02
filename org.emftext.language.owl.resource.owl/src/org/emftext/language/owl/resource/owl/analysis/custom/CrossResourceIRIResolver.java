@@ -159,17 +159,15 @@ public class CrossResourceIRIResolver {
 				if (uri == null)
 					return null;
 				List<IRIIdentified> entity;
-				if (namespace.getImportedOntology() == null
-						|| namespace.getImportedOntology().eIsProxy()) {
-					remoteLoader.loadOntology(uri, ontologyDocument);
+//				if (namespace.getImportedOntology() == null
+//						|| namespace.getImportedOntology().eIsProxy()) {
+//					remoteLoader.loadOntology(uri, ontologyDocument);
 					entity = remoteLoader.getOntologyElement(identifier,
 							namespace.getImportedOntology(), resolveFuzzy);
-				} else {
-					remoteLoader.addUriMapping(uri,
-							namespace.getImportedOntology());
-					entity = remoteLoader.getOntologyElement(identifier,
-							namespace.getImportedOntology(), resolveFuzzy);
-				}
+				// } else {
+				// entity = remoteLoader.getOntologyElement(identifier,
+				// namespace.getImportedOntology(), resolveFuzzy);
+				// }
 
 				return entity;
 			}

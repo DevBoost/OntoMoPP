@@ -49,10 +49,10 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 public class RemoteLoader {
 
-	private Ontology ontology;
+	// private Ontology ontology;
 	private static OwlFactory factory = OwlFactory.eINSTANCE;
-	private static Map<String, Ontology> url2ontologies = new HashMap<String, Ontology>();
-	private Map<String, Map<String, Frame>> url2irimaps = new HashMap<String, Map<String, Frame>>();
+	private static Map<String, Ontology> url2remoteontologies = new HashMap<String, Ontology>();
+	private Map<String, Map<String, Frame>> remoteurl2irimaps = new HashMap<String, Map<String, Frame>>();
 
 	static {
 		String uri = "http://www.w3.org/2001/XMLSchema#";
@@ -76,7 +76,7 @@ public class RemoteLoader {
 			datatype.setIri(type);
 			o.getFrames().add(datatype);
 		}
-		url2ontologies.put(uri, o);
+		url2remoteontologies.put(uri, o);
 
 	}
 
@@ -86,35 +86,25 @@ public class RemoteLoader {
 
 	public Ontology loadOntology(String uri, EObject container)
 			throws OntologyLoadExeption {
-		ontology = url2ontologies.get(uri);
+		Ontology ontology = url2remoteontologies.get(uri);
 		if (ontology == null) {
-			initialise(uri, container);
-			ontology = url2ontologies.get(uri);
+			ontology = initialise(uri, container);
 		}
 		return ontology;
 	}
 
-	public void addUriMapping(String uri, Ontology ontology) {
-		url2ontologies.put(uri, ontology);
+	public void addRemoteUriMapping(String uri, Ontology ontology) {
+		url2remoteontologies.put(uri, ontology);
 	}
 
-//	public List<IRIIdentified> getOntologyElement(String identifier,
-//			boolean resolveFuzzy) {
-//		return findEntity(identifier, ontology, resolveFuzzy);
-//	}
+	// public List<IRIIdentified> getOntologyElement(String identifier,
+	// boolean resolveFuzzy) {
+	// return findEntity(identifier, ontology, resolveFuzzy);
+	// }
 
 	public List<IRIIdentified> getOntologyElement(String identifier,
 			Ontology ontology, boolean resolveFuzzy) {
 		return findEntity(identifier, ontology, resolveFuzzy);
-	}
-
-	public void flushLocalCache() {
-		for (String uri : url2irimaps.keySet()) {
-			if (!(isRemoteUri(uri))) {
-				url2irimaps.remove(uri);
-				url2ontologies.remove(uri);
-			}
-		}
 	}
 
 	private org.eclipse.emf.common.util.URI getLocationHintURI(
@@ -142,12 +132,12 @@ public class RemoteLoader {
 		return hintURI;
 	}
 
-	private void initialise(String uri, EObject container)
+	private Ontology initialise(String uri, EObject container)
 			throws OntologyLoadExeption {
 		if (isRemoteUri(uri)) {
-			initialiseRemoteUri(uri);
+			return initialiseRemoteUri(uri);
 		} else {
-			initialiseLocalUri(uri, container);
+			return initialiseLocalUri(uri, container);
 		}
 	}
 
@@ -155,11 +145,11 @@ public class RemoteLoader {
 		return uri.startsWith("http");
 	}
 
-	private void initialiseLocalUri(String uri, EObject container) {
+	private Ontology initialiseLocalUri(String uri, EObject container) {
 		ResourceSet rs = container.eResource().getResourceSet();
 
 		if (uri == null) {
-			return;
+			return null;
 		}
 		org.eclipse.emf.common.util.URI loadUri = getLocationHintURI(uri,
 				container);
@@ -179,20 +169,24 @@ public class RemoteLoader {
 			if (contents != null && contents.size() > 0) {
 				if (contents.get(0) instanceof OntologyDocument) {
 					OntologyDocument d = (OntologyDocument) contents.get(0);
-					ontology = d.getOntology();
-					addUriMapping(uri, ontology);
+					Ontology ontology = d.getOntology();
+					return ontology;
 				}
 			}
 		}
+		return null;
 	}
 
-	private void initialiseRemoteUri(String uri) throws OntologyLoadExeption {
+	private Ontology initialiseRemoteUri(String uri)
+			throws OntologyLoadExeption {
 		OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
+		Ontology ontology;
 		// Load the ontology
 		try {
 			OWLOntology owlOnto = manager.loadOntology(IRI.create(uri));
 			ontology = propagate(owlOnto);
 			ontology.setUri(uri);
+			intialiseIriMap(ontology);
 		} catch (OWLOntologyCreationException e) {
 			// ontology = propagate(manager.
 			// createOntology(Collections.EMPTY_SET));
@@ -202,12 +196,21 @@ public class RemoteLoader {
 
 			// e.printStackTrace();
 		}
-		addUriMapping(uri, ontology);
+		if (ontology != null) {
+			addRemoteUriMapping(uri, ontology);
+		}
+		return ontology;
 	}
 
 	private Ontology propagate(OWLOntology owlOntology) {
-		final Ontology o = factory.createOntology();
-		o.setUri(owlOntology.getOntologyID().getOntologyIRI().toString());
+		String uri = owlOntology.getOntologyID().getOntologyIRI().toString();
+
+		Resource resource = new OwlResourceFactory()
+				.createResource(org.eclipse.emf.common.util.URI.createURI(uri));
+		Ontology o = factory.createOntology();
+		resource.getContents().add(o);
+
+		o.setUri(uri);
 		Set<OWLClass> classes = owlOntology.getClassesInSignature();
 		for (OWLClass clazz : classes) {
 			Class newClass = factory.createClass();
@@ -251,23 +254,30 @@ public class RemoteLoader {
 		List<IRIIdentified> results = new ArrayList<IRIIdentified>();
 		if (onto == null)
 			return results;
-		Map<String, Frame> iriMap = url2irimaps.get(onto.getUri());
-		if (iriMap == null) {
-			iriMap = intialiseIriMap(onto);
-		}
-		if (!resolveFuzzy) {
-			Frame frame = iriMap.get(identifier);
-			if (frame != null)
-				results.add(frame);
-			return results;
-		} else {
-			Set<String> keySet = iriMap.keySet();
-			for (String idKey : keySet) {
-				if (idKey.startsWith(identifier)) {
-					Frame candidate = iriMap.get(idKey);
-					results.add(candidate);
+		Map<String, Frame> iriMap = remoteurl2irimaps.get(onto.getUri());
+		if (iriMap != null) {
+			if (!resolveFuzzy) {
+				Frame frame = iriMap.get(identifier);
+				if (frame != null) {
+					results.add(frame);
 				}
+				return results;
+			} else {
+				results.addAll(iriMap.values());
 			}
+		} else {
+			EList<Frame> frames = onto.getFrames();
+			if (!resolveFuzzy) {
+				for (Frame frame : frames) {
+					if (frame.getIri().equals(identifier)) {
+						results.add(frame);
+						return results;
+					}
+				}
+			} else {
+				results.addAll(frames);
+			}
+
 		}
 		return results;
 	}
@@ -283,7 +293,7 @@ public class RemoteLoader {
 				iriMap.put(frame.getIri(), frame);
 			}
 		}
-		url2irimaps.put(onto.getUri(), iriMap);
+		remoteurl2irimaps.put(onto.getUri(), iriMap);
 		return iriMap;
 	}
 

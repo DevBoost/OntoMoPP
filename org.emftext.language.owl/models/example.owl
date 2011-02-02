@@ -3,7 +3,7 @@ Prefix: : <http://myBeleg.org/ontologies/test/schemas.owl#>
 Ontology: <http://myBeleg.org/ontologies/test/schemas.owl>
 
 	Class: NamedElement
-		SubClassOf:
+		SubClassOf: owl:Thing, 
 		name  exactly 1 xsd:string
 		 
 	Class: Table

@@ -12,5 +12,6 @@ Class: InvalidTest
 
 Class: ecore:EClass
 
+
 Class: ecore:EPackage
     

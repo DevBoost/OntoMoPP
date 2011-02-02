@@ -8,7 +8,7 @@ Class: MyExample
     SubClassOf: owl:Thing and pizza:Pizza 
     
 Class: pizza:Pizza
-
+ 
  
 Class: pizza:IceCream    
        
