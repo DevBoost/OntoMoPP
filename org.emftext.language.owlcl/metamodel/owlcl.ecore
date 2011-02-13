@@ -11,7 +11,7 @@
     </eOperations>
     <eOperations name="getOntology" lowerBound="1" eType="ecore:EClass ../../org.emftext.language.owl/metamodel/owl.text.ecore#//Ontology">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="if (super.getOntology() == null) {&#xD;&#xA;&#x9;org.emftext.runtime.owltext.transformation.Ecore2Owl transformation = new org.emftext.runtime.owltext.transformation.Ecore2Owl();&#xD;&#xA;&#x9;org.emftext.language.owl.OntologyDocument ontologyDocument = transformation.transformMetamodel(this.getConstrainedMetamodel(), null);&#xD;&#xA;&#x9;super.setOntology(ontologyDocument.getOntology());&#xD;&#xA;}&#xD;&#xA;return super.getOntology();"/>
+        <details key="body" value="if (super.getOntology() == null) {&#xD;&#xA;&#x9;org.emftext.runtime.owltext.transformation.Ecore2Owl transformation = new org.emftext.runtime.owltext.transformation.Ecore2Owl();&#xD;&#xA;      org.eclipse.emf.ecore.EPackage metamodel = this.getConstrainedMetamodel();&#xD;&#xA;      if (metamodel != null) {&#xD;&#xA;    &#x9;  org.emftext.language.owl.OntologyDocument ontologyDocument = transformation.transformMetamodel(metamodel, null);&#xD;&#xA;    &#x9;  super.setOntology(ontologyDocument.getOntology());&#xD;&#xA;      }&#xD;&#xA;}&#xD;&#xA;return super.getOntology();"/>
       </eAnnotations>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="constrainedMetamodel" lowerBound="1"
