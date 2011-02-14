@@ -1,15 +1,15 @@
 To parse language models also into an ontology 
 instead of only an EMF resource using OWLText do the following:
 
-* add a dependency of your language plug-in to org.emftext.runtime.owltext
-(be sure not to override the Manifest.MF during parser generation)
-* adapt the .genmodel for the language:
+* Add a dependency of your language resource plug-in to org.emftext.runtime.owltext
+  (use either the following option in your .cs file: 
+   additionalDependencies="org.emftext.runtime.owltext"; 
+   or be sure not to override the Manifest.MF during parser generation)
+* Adapt the .genmodel for the language:
  * Model > Feature Delegation: Reflective
- * Model > Minimal Reflecitve Methods: True
+ * Model > Minimal Reflective Methods: True
  * Model Class Defaults > Root Extends Class: org.emftext.runtime.owltext.OWLTextEObjectImpl
 * Regenerate the model code 
 * Provide an OWL-based representation besides the language metamodel that 
-every OWL-based language model will import and refer to (will be 
-automated using a model tranformation)
-
-
+  every OWL-based language model will import and refer to (will be 
+  automated using a model transformation)
