@@ -28,6 +28,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.emftext.language.owl.AbbreviatedXSDStringLiteral;
 import org.emftext.language.owl.Annotation;
@@ -162,8 +163,14 @@ public class Ecore2Owl {
 		propagateMetamodel(metamodel);
 		cleanTransitiveImports(ontology);
 		
-		if (targetURI != null)
-			saveOntology(targetURI, d);
+		Resource resource = metamodel.eResource();
+		ResourceSet resourceSet = null;
+		if (resource != null) {
+			resourceSet = resource.getResourceSet();
+		}
+		if (targetURI != null) {
+			saveOntology(targetURI, d, resourceSet);
+		}
 		return d;
 	}
 
@@ -193,11 +200,21 @@ public class Ecore2Owl {
 		ontology.getImports().removeAll(toRemove);
 	}
 
-	
-
-	private void saveOntology(URI targetURI, OntologyDocument d) {
-		Resource documentResource = new ResourceSetImpl()
-				.createResource(targetURI);
+	/**
+	 * Save the given ontology in the resource with the given target URI. If 'resourceSet'
+	 * is null, a new one is created. Otherwise, the resource set is used to create the
+	 * target resource. 
+	 * 
+	 * @param targetURI the URI where to save the ontology to
+	 * @param d the ontology
+	 * @param resourceSet the resource to use, or null if a new one shall be created
+	 */
+	private void saveOntology(URI targetURI, OntologyDocument d, ResourceSet resourceSet) {
+		ResourceSet resourceSetToUse = new ResourceSetImpl();
+		if (resourceSet != null) {
+			resourceSetToUse = resourceSet;
+		}
+		Resource documentResource = resourceSetToUse.createResource(targetURI);
 		documentResource.getContents().add(d);
 		try {
 			documentResource.save(null);
