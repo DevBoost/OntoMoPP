@@ -10,11 +10,9 @@ import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.impl.EEnumImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.emftext.language.owl.Ontology;
 import org.emftext.language.owl.OntologyDocument;
-import org.emftext.language.owl.loading.OntologyLoadExeption;
 import org.emftext.language.owl.resource.owl.analysis.custom.CrossResourceIRIResolver;
 import org.emftext.language.owl.resource.owl.mopp.OwlResource;
 
