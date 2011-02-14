@@ -1758,7 +1758,7 @@ public class OWLTextTest {
 		options.put(MatchOptions.OPTION_IGNORE_ID, true);
 		options.put(MatchOptions.OPTION_IGNORE_XMI_ID, true);
 		options.put(MatchOptions.OPTION_SEARCH_WINDOW, Integer.valueOf(30)); // Toleranzwert
-																				// für
+																				// fuer
 																				// die
 																				// Zahlen!!!
 		MatchModel matchResult = MatchService.doContentMatch(
