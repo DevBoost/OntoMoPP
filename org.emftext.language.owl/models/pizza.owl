@@ -13,7 +13,7 @@ Annotations:
     owl:versionInfo "v.1.4. Added Food class (used in domain/range of hasIngredient), Added several hasCountryOfOrigin restrictions on pizzas, Made hasTopping invers functional"@en,
     owl:versionInfo "version 1.5"^^xsd:string
  
-ObjectProperty: isBaseOf
+ObjectProperty: isBaseOf 
  
  
     Characteristics: 

@@ -2,7 +2,7 @@ Prefix: : <http://www.emftext.org/ontologies/example.owl#>
 
 Ontology: <http://www.emftext.org/ontologies/example.owl>
 
-Class: Person
+Class: Person 
  
 Class: Employee
-    SubClassOf: Person
+    SubClassOf: Persons  
