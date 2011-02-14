@@ -269,7 +269,7 @@ public class RemoteLoader {
 			EList<Frame> frames = onto.getFrames();
 			if (!resolveFuzzy) {
 				for (Frame frame : frames) {
-					if (frame.getIri().equals(identifier)) {
+					if (frame.getIri() != null && frame.getIri().equals(identifier)) {
 						results.add(frame);
 						return results;
 					}
