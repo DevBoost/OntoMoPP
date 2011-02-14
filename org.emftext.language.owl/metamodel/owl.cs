@@ -17,7 +17,7 @@ FOR <http://org.emftext/owl.ecore> <owl.genmodel>
 START OntologyDocument
 
 OPTIONS {	
-	licenceHeader ="platform:/resource/org.reuseware/licence.txt";
+	licenceHeader ="../../org.dropsbox/licence.txt";
 	//generateCodeFromGeneratorModel = "true";
 	overrideManifest = "false";
 	overrideBuildProperties = "false";
