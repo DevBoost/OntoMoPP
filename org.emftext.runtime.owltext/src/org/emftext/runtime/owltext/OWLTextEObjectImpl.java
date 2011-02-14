@@ -41,6 +41,7 @@ import org.emftext.language.owl.ObjectPropertyValue;
 import org.emftext.language.owl.Ontology;
 import org.emftext.language.owl.OntologyDocument;
 import org.emftext.language.owl.OwlFactory;
+import org.emftext.language.owl.resource.owl.analysis.custom.CrossResourceIRIResolver;
 import org.emftext.runtime.owltext.transformation.Ecore2Owl;
 import org.emftext.runtime.owltext.transformation.OWLTransformationHelper;
 
@@ -624,7 +625,7 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		while (root.eContainer() != null) {
 			root = (OWLTextEObjectImpl) root.eContainer();
 		}
-		
+
 		addMetamodelImportAxioms(factory, ontologyDocument, ontology, root);
 
 		ontology.getFrames().add(root.getOwlIndividualClass());
@@ -640,8 +641,9 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		Set<EObject> allContainedAndReferencedEObjects = new HashSet<EObject>();
 		allContainedAndReferencedEObjects.addAll(root.eCrossReferences());
 		allContainedAndReferencedEObjects.addAll(root.eContents());
-		
-		addObjectsTransitively(ontology, individuals, allContainedAndReferencedEObjects);
+
+		addObjectsTransitively(ontology, individuals,
+				allContainedAndReferencedEObjects);
 
 		// uniqueness
 		if (individuals.size() > 1) {
@@ -659,8 +661,8 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		return ontologyDocument;
 	}
 
-	private void addObjectsTransitively(Ontology ontology, List<Class> individuals,
-			Set<EObject> objectsToAdd) {
+	private void addObjectsTransitively(Ontology ontology,
+			List<Class> individuals, Set<EObject> objectsToAdd) {
 		Set<EObject> containedAndReferenced = new HashSet<EObject>();
 		for (EObject eObject : objectsToAdd) {
 			if (!(eObject instanceof OWLTextEObjectImpl))
@@ -680,7 +682,8 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		}
 		containedAndReferenced.removeAll(objectsToAdd);
 		if (containedAndReferenced.size() > 0) {
-			addObjectsTransitively(ontology, individuals, containedAndReferenced);
+			addObjectsTransitively(ontology, individuals,
+					containedAndReferenced);
 		}
 	}
 
@@ -838,7 +841,9 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		for (Namespace namespace : od.getNamespace()) {
 			if ((":").equals(namespace.getPrefix())) {
 				continue;
-			} else {
+			} else if (!CrossResourceIRIResolver.standardNamespaces
+					.containsKey(namespace.getPrefix())) {
+
 				Namespace n = factory.createNamespace();
 				n.setImportedOntology(namespace.getImportedOntology());
 				n.setPrefix(namespace.getPrefix());
@@ -859,12 +864,13 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		namespace.setPrefix(metaModelNamespacePrefix + ":");
 		namespace.setImportedOntology(importedMetamodelOntology);
 		ontologyDocument.getNamespace().add(namespace);
-		addImportedFrames(factory, ontology, importedMetamodelOntology,
-				metaModelNamespacePrefix + ":");
+		// addImportedFrames(factory, ontology, importedMetamodelOntology,
+		// metaModelNamespacePrefix + ":");
 	}
 
 	private void addImportedFrames(OwlFactory factory, Ontology ontology,
 			Ontology importedMetamodelOntology, String metaModelNamespacePrefix) {
+
 		EList<Frame> frames = importedMetamodelOntology.getFrames();
 		for (Frame frame : frames) {
 			if (frame.getIri() != null && frame.getIri().length() > 0) {
