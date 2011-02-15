@@ -1,0 +1,30 @@
+Prefix: rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+Prefix: xsd: <http://www.w3.org/2001/XMLSchema#>
+Prefix: rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+Prefix: owl: <http://www.w3.org/2002/07/owl#>
+
+Prefix: : <test://mapping#>
+
+Ontology: <test://mapping>
+
+Class: Entity
+	DisjointWith: Enum
+	SubClassOf: owl:Thing
+
+Class: Enum
+	DisjointWith: Entity
+	SubClassOf: owl:Thing
+
+Class: Paragraph
+	SubClassOf: owl:Thing
+
+Class: OtherClass
+	SubClassOf: owl:Thing
+
+Class: MEntityParagraph
+	SubClassOf: Paragraph
+	EquivalentTo: Entity
+
+Class: MEnumParagraph
+	SubClassOf: Paragraph
+	EquivalentTo: Enum
