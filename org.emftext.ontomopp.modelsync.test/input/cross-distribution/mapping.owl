@@ -1,0 +1,41 @@
+Prefix: rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+Prefix: xsd: <http://www.w3.org/2001/XMLSchema#>
+Prefix: rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+Prefix: owl: <http://www.w3.org/2002/07/owl#>
+
+Prefix: : <test://mapping#>
+
+Ontology: <test://mapping>
+
+Class: NamedElement
+	SubClassOf: owl:Thing
+
+DataProperty: isAbstract 
+	Domain: Entity
+	Range:  xsd:boolean 
+	Characteristics: Functional 
+
+Class: Entity
+	DisjointWith: Enum
+	SubClassOf: NamedElement
+
+Class: Enum
+	DisjointWith: Entity
+	SubClassOf: NamedElement
+
+Class: Paragraph
+	DisjointWith: Figure
+	SubClassOf: owl:Thing
+
+Class: Figure
+	DisjointWith: Paragraph
+	SubClassOf: owl:Thing
+
+Class: MEntityParagraph
+	SubClassOf: Paragraph
+	EquivalentTo: Entity and isAbstract value true
+
+Class: MEntityFigure
+	SubClassOf: Figure
+	EquivalentTo: Entity and isAbstract value false
+

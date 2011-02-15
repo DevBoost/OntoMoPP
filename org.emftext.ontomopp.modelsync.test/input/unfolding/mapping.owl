@@ -1,0 +1,28 @@
+Prefix: rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+Prefix: xsd: <http://www.w3.org/2001/XMLSchema#>
+Prefix: rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+Prefix: owl: <http://www.w3.org/2002/07/owl#>
+
+Prefix: : <test://mapping#>
+
+Ontology: <test://mapping>
+
+Class: Package
+	SubClassOf: owl:Thing
+
+Class: Chapter
+	DisjointWith: Section
+	SubClassOf: owl:Thing
+
+Class: Section
+	DisjointWith: Chapter
+	SubClassOf: owl:Thing
+
+Class: OtherClass
+	SubClassOf: owl:Thing
+
+Class: MChapter
+	SubClassOf: Chapter
+
+Class: MSection
+	SubClassOf: Section
