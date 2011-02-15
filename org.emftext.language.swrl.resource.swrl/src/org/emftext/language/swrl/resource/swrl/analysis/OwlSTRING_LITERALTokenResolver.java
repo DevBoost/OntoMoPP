@@ -6,9 +6,9 @@
  */
 package org.emftext.language.swrl.resource.swrl.analysis;
 
-public class OwlQUOTED_34_34TokenResolver implements org.emftext.language.swrl.resource.swrl.ISwrlTokenResolver {
+public class OwlSTRING_LITERALTokenResolver implements org.emftext.language.swrl.resource.swrl.ISwrlTokenResolver {
 	
-	private org.emftext.language.owl.resource.owl.analysis.OwlQUOTED_34_34TokenResolver importedResolver = new org.emftext.language.owl.resource.owl.analysis.OwlQUOTED_34_34TokenResolver();
+	private org.emftext.language.owl.resource.owl.analysis.OwlSTRING_LITERALTokenResolver importedResolver = new org.emftext.language.owl.resource.owl.analysis.OwlSTRING_LITERALTokenResolver();
 	
 	public String deResolve(Object value, org.eclipse.emf.ecore.EStructuralFeature feature, org.eclipse.emf.ecore.EObject container) {
 		String result = importedResolver.deResolve(value, feature, container);

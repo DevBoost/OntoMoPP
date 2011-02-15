@@ -6,11 +6,11 @@
  */
 package org.emftext.language.swrl.resource.swrl.analysis;
 
-public class AnnotationAnnotationPropertyReferenceResolver implements org.emftext.language.swrl.resource.swrl.ISwrlReferenceResolver<org.emftext.language.owl.Annotation, org.emftext.language.owl.AnnotationProperty> {
+public class AnnotationValueAnnotationPropertyReferenceResolver implements org.emftext.language.swrl.resource.swrl.ISwrlReferenceResolver<org.emftext.language.owl.AnnotationValue, org.emftext.language.owl.AnnotationProperty> {
 	
-	private org.emftext.language.owl.resource.owl.analysis.AnnotationAnnotationPropertyReferenceResolver delegate = new org.emftext.language.owl.resource.owl.analysis.AnnotationAnnotationPropertyReferenceResolver();
+	private org.emftext.language.owl.resource.owl.analysis.AnnotationValueAnnotationPropertyReferenceResolver delegate = new org.emftext.language.owl.resource.owl.analysis.AnnotationValueAnnotationPropertyReferenceResolver();
 	
-	public void resolve(String identifier, org.emftext.language.owl.Annotation container, org.eclipse.emf.ecore.EReference reference, int position, boolean resolveFuzzy, final org.emftext.language.swrl.resource.swrl.ISwrlReferenceResolveResult<org.emftext.language.owl.AnnotationProperty> result) {
+	public void resolve(String identifier, org.emftext.language.owl.AnnotationValue container, org.eclipse.emf.ecore.EReference reference, int position, boolean resolveFuzzy, final org.emftext.language.swrl.resource.swrl.ISwrlReferenceResolveResult<org.emftext.language.owl.AnnotationProperty> result) {
 		delegate.resolve(identifier, container, reference, position, resolveFuzzy, new org.emftext.language.owl.resource.owl.IOwlReferenceResolveResult<org.emftext.language.owl.AnnotationProperty>() {
 			
 			public boolean wasResolvedUniquely() {
@@ -85,7 +85,7 @@ public class AnnotationAnnotationPropertyReferenceResolver implements org.emftex
 		
 	}
 	
-	public String deResolve(org.emftext.language.owl.AnnotationProperty element, org.emftext.language.owl.Annotation container, org.eclipse.emf.ecore.EReference reference) {
+	public String deResolve(org.emftext.language.owl.AnnotationProperty element, org.emftext.language.owl.AnnotationValue container, org.eclipse.emf.ecore.EReference reference) {
 		return delegate.deResolve(element, container, reference);
 	}
 	

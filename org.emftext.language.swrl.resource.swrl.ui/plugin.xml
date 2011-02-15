@@ -8,7 +8,8 @@
 	
 	<extension point="org.eclipse.ui.editors">
 		<editor class="org.emftext.language.swrl.resource.swrl.ui.SwrlEditor" contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor" extensions="swrl" icon="icons/editor_icon.gif" id="org.emftext.language.swrl.resource.swrl.ui.SwrlEditor" name="EMFText swrl Editor">
-			<contentTypeBinding contentTypeId="org.emftext.language.swrl.resource.swrl"/>
+			<contentTypeBinding contentTypeId="org.emftext.language.swrl.resource.swrl">
+			</contentTypeBinding>
 		</editor>
 	</extension>
 	
@@ -34,29 +35,37 @@
 	</extension>
 	
 	<extension point="org.eclipse.ui.ide.markerResolution">
-		<markerResolutionGenerator class="org.emftext.language.swrl.resource.swrl.ui.SwrlMarkerResolutionGenerator" markerType="org.emftext.language.swrl.resource.swrl.problem" />
+		<markerResolutionGenerator class="org.emftext.language.swrl.resource.swrl.ui.SwrlMarkerResolutionGenerator" markerType="org.emftext.language.swrl.resource.swrl.problem">
+		</markerResolutionGenerator>
 	</extension>
 	
 	<extension point="org.eclipse.core.filebuffers.annotationModelCreation">
-		<factory class="org.emftext.language.swrl.resource.swrl.ui.SwrlAnnotationModelFactory" extensions="swrl" />
+		<factory class="org.emftext.language.swrl.resource.swrl.ui.SwrlAnnotationModelFactory" extensions="swrl">
+		</factory>
 	</extension>
 	
 	<extension point="org.eclipse.core.contenttype.contentTypes">
-		<content-type id="org.emftext.language.swrl.resource.swrl" name=".swrl File" base-type="org.eclipse.core.runtime.text" file-extensions="swrl"/>
+		<content-type id="org.emftext.language.swrl.resource.swrl" name=".swrl File" base-type="org.eclipse.core.runtime.text" file-extensions="swrl">
+		</content-type>
 	</extension>
 	
 	<extension point="org.eclipse.ui.editors.documentProviders">
-		<provider class="org.eclipse.ui.editors.text.TextFileDocumentProvider" extensions="swrl" id="org.emftext.language.swrl.resource.swrl.ui.provider" />
+		<provider class="org.eclipse.ui.editors.text.TextFileDocumentProvider" extensions="swrl" id="org.emftext.language.swrl.resource.swrl.ui.provider">
+		</provider>
 	</extension>
 	
 	<extension point="org.eclipse.ui.editors.annotationTypes">
-		<type name="org.emftext.language.swrl.resource.swrl.ui.occurences" />
-		<type name="org.emftext.language.swrl.resource.swrl.ui.occurences.declaration" super="org.emftext.language.swrl.resource.swrl.ui.occurences" />
+		<type name="org.emftext.language.swrl.resource.swrl.ui.occurences">
+		</type>
+		<type name="org.emftext.language.swrl.resource.swrl.ui.occurences.declaration" super="org.emftext.language.swrl.resource.swrl.ui.occurences">
+		</type>
 	</extension>
 	
 	<extension point="org.eclipse.ui.editors.markerAnnotationSpecification">
-		<specification annotationType="org.emftext.language.swrl.resource.swrl.ui.occurences" label="Occurrences (in .swrl files)" icon="/icons/occurrence_icon.gif" textPreferenceKey="swrl.occurrenceIndication" textPreferenceValue="false" highlightPreferenceKey="swrl.occurrenceHighlighting" highlightPreferenceValue="true" contributesToHeader="false" overviewRulerPreferenceKey="swrl.occurrenceIndicationInOverviewRuler" overviewRulerPreferenceValue="true" verticalRulerPreferenceKey="swrl.occurrenceIndicationInVerticalRuler" verticalRulerPreferenceValue="false" colorPreferenceKey="swrl.occurrenceIndicationColor" colorPreferenceValue="212,212,212" presentationLayer="4" showInNextPrevDropdownToolbarActionKey="swrl.showOccurrenceInNextPrevDropdownToolbarAction" showInNextPrevDropdownToolbarAction="true" isGoToNextNavigationTargetKey="swrl.isOccurrenceGoToNextNavigationTarget" isGoToNextNavigationTarget="false" isGoToPreviousNavigationTargetKey="swrl.isOccurrenceGoToPreviousNavigationTarget" isGoToPreviousNavigationTarget="false" textStylePreferenceKey="swrl.occurrenceTextStyle" textStylePreferenceValue="NONE" />
-		<specification annotationType="org.emftext.language.swrl.resource.swrl.ui.occurences.declaration" label="Declarations (in .swrl files)" textPreferenceKey="swrl.declarationIndication" textPreferenceValue="false" highlightPreferenceKey="swrl.declarationHighlighting" highlightPreferenceValue="true" overviewRulerPreferenceKey="swrl.declarationIndicationInOverviewRuler" overviewRulerPreferenceValue="true" verticalRulerPreferenceKey="swrl.declarationIndicationInVerticalRuler" verticalRulerPreferenceValue="false" colorPreferenceKey="swrl.declarationIndicationColor" colorPreferenceValue="240,216,168" presentationLayer="4" textStylePreferenceKey="swrl.declarationTextStyle" textStylePreferenceValue="NONE" />
+		<specification annotationType="org.emftext.language.swrl.resource.swrl.ui.occurences" label="Occurrences (in .swrl files)" icon="/icons/occurrence_icon.gif" textPreferenceKey="swrl.occurrenceIndication" textPreferenceValue="false" highlightPreferenceKey="swrl.occurrenceHighlighting" highlightPreferenceValue="true" contributesToHeader="false" overviewRulerPreferenceKey="swrl.occurrenceIndicationInOverviewRuler" overviewRulerPreferenceValue="true" verticalRulerPreferenceKey="swrl.occurrenceIndicationInVerticalRuler" verticalRulerPreferenceValue="false" colorPreferenceKey="swrl.occurrenceIndicationColor" colorPreferenceValue="212,212,212" presentationLayer="4" showInNextPrevDropdownToolbarActionKey="swrl.showOccurrenceInNextPrevDropdownToolbarAction" showInNextPrevDropdownToolbarAction="true" isGoToNextNavigationTargetKey="swrl.isOccurrenceGoToNextNavigationTarget" isGoToNextNavigationTarget="false" isGoToPreviousNavigationTargetKey="swrl.isOccurrenceGoToPreviousNavigationTarget" isGoToPreviousNavigationTarget="false" textStylePreferenceKey="swrl.occurrenceTextStyle" textStylePreferenceValue="NONE">
+		</specification>
+		<specification annotationType="org.emftext.language.swrl.resource.swrl.ui.occurences.declaration" label="Declarations (in .swrl files)" textPreferenceKey="swrl.declarationIndication" textPreferenceValue="false" highlightPreferenceKey="swrl.declarationHighlighting" highlightPreferenceValue="true" overviewRulerPreferenceKey="swrl.declarationIndicationInOverviewRuler" overviewRulerPreferenceValue="true" verticalRulerPreferenceKey="swrl.declarationIndicationInVerticalRuler" verticalRulerPreferenceValue="false" colorPreferenceKey="swrl.declarationIndicationColor" colorPreferenceValue="240,216,168" presentationLayer="4" textStylePreferenceKey="swrl.declarationTextStyle" textStylePreferenceValue="NONE">
+		</specification>
 	</extension>
 	
 </plugin>
