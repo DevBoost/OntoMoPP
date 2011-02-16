@@ -1,0 +1,43 @@
+Prefix: rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+Prefix: xsd: <http://www.w3.org/2001/XMLSchema#>
+Prefix: rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+Prefix: owl: <http://www.w3.org/2002/07/owl#>
+
+Prefix: : <test://mapping#>
+
+Ontology: <test://mapping>
+
+Class: Package
+	DisjointWith: Entity, Service
+	SubClassOf: owl:Thing
+
+ObjectProperty: entities
+	Domain: Package
+	Range:  Type
+
+Class: Type
+	DisjointWith: Package
+	SubClassOf: owl:Thing
+
+Class: Entity
+	DisjointWith: Service
+	SubClassOf: Type
+
+Class: Service
+	DisjointWith: Entity
+	SubClassOf: Type
+
+
+Class: Section
+	DisjointWith: Table
+	SubClassOf: owl:Thing
+
+ObjectProperty: tables
+	Domain: Section
+	Range:  Table
+
+Class: Table
+	DisjointWith: Section
+	SubClassOf: owl:Thing
+
+	

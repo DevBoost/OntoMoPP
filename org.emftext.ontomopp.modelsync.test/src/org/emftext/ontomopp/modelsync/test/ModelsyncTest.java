@@ -16,7 +16,6 @@ import org.eclipse.emf.common.util.URI;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mindswap.pellet.utils.Pair;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -26,6 +25,7 @@ import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLDataPropertyExpression;
 import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
@@ -76,6 +76,46 @@ public class ModelsyncTest {
 		assertIsInstance(mOnto, leftClass, rightObject);
 		assertIsInstance(mOnto, rightClass, rightObject);
 		assertNotIsInstance(mOnto, otherClass, rightObject);
+	}
+
+	@Test
+	public void testReference() {
+		String testcaseName = "reference";
+		OWLOntology mOnto = loadOntology(testcaseName);
+
+		OWLClass packageClass = findClass("Package");
+		OWLClass entityClass = findClass("Entity");
+		OWLObjectProperty entitiesProperty = findObjectProperty("entities");
+		
+		OWLClass sectionClass = findClass("Section");
+		OWLClass tableClass = findClass("Table");
+		OWLObjectProperty tablesProperty = findObjectProperty("tables");
+		
+		// create a package that contains an entity
+        OWLIndividual package1 = addIndividual(mOnto, packageClass, "package1");
+        OWLIndividual entity1 = addIndividual(mOnto, entityClass, "entity1");
+        manager.addAxiom(mOnto, factory.getOWLObjectPropertyAssertionAxiom(entitiesProperty, package1, entity1));
+        
+        assertIsInstance(mOnto, packageClass, package1);
+        assertIsInstance(mOnto, entityClass, entity1);
+        
+        // add SWRL rule:
+        // Package(?x) and entities(?x,?y) and Entity(?y) =>
+        // Section(?x) and tables(?x,?y) and Table(?y)
+		List<SWRLAtom> from = new ArrayList<SWRLAtom>();
+		from.add(createSWRLClassAtom(packageClass, "x"));
+		from.add(createSWRLObjectPropertyAtom(entitiesProperty, "x", "y"));
+		from.add(createSWRLClassAtom(entityClass, "y"));
+		
+		List<SWRLAtom> to = new ArrayList<SWRLAtom>();
+		to.add(createSWRLClassAtom(sectionClass, "x"));
+		to.add(createSWRLObjectPropertyAtom(tablesProperty, "x", "y"));
+		to.add(createSWRLClassAtom(tableClass, "y"));
+
+		createSWRLRule(mOnto, to, from);
+        clearReasoner();
+        assertIsInstance(mOnto, sectionClass, package1);
+        assertIsInstance(mOnto, tableClass, entity1);
 	}
 
 	@Test
@@ -192,13 +232,13 @@ public class ModelsyncTest {
 		OWLClass mSectionClass = findClass("MSection");
 
 		// Package(?x) -> MChapter(?x) and MSection(?x)
-		List<Pair<String, OWLClass>> from = new ArrayList<Pair<String, OWLClass>>();
-		from.add(new Pair<String, OWLClass>("x", packageClass));
+		List<SWRLAtom> from = new ArrayList<SWRLAtom>();
+		from.add(createSWRLClassAtom(packageClass, "x"));
 		
-		List<Pair<String, OWLClass>> to = new ArrayList<Pair<String, OWLClass>>();
-		to.add(new Pair<String, OWLClass>("x", mChapterClass));
+		List<SWRLAtom> to = new ArrayList<SWRLAtom>();
+		to.add(createSWRLClassAtom(mChapterClass, "x"));
 
-		createSWRLRule(mOnto, from, to);
+		createSWRLRule(mOnto, to, from);
 		//createSWRLRule(mOnto, packageClass, mSectionClass);
 
         OWLIndividual packageObject = addIndividual(mOnto, packageClass, "package1");
@@ -213,26 +253,31 @@ public class ModelsyncTest {
 
 	private SWRLRule createSWRLRule(
 			OWLOntology ontology, 
-			List<Pair<String, OWLClass>> from, 
-			List<Pair<String, OWLClass>> to) {
+			List<SWRLAtom> headAtoms, 
+			List<SWRLAtom> bodyAtoms) {
 		
 		Set<SWRLAtom> body = new LinkedHashSet<SWRLAtom>();
+		body.addAll(bodyAtoms);
 		Set<SWRLAtom> head = new LinkedHashSet<SWRLAtom>();
+		head.addAll(headAtoms);
 		// Rule( antecedent(From(?x)) consequent(To(?x)) )
-		for (Pair<String, OWLClass> nextFrom : from) {
-			SWRLIArgument var = createVariable(nextFrom.first);
-			body.add(factory.getSWRLClassAtom(nextFrom.second, var));
-		}
-		for (Pair<String, OWLClass> nextTo : to) {
-			SWRLIArgument var = createVariable(nextTo.first);
-			head.add(factory.getSWRLClassAtom(nextTo.second, var));
-		}
 		//SWRLBuiltInsVocabulary.
 
 		SWRLRule swrlRule = factory.getSWRLRule(body, head);
 		manager.addAxiom(ontology, swrlRule);
 		System.out.println("ModelsyncTest.createSWRLRule() " + swrlRule);
 		return swrlRule;
+	}
+
+	private SWRLAtom createSWRLClassAtom(OWLClass owlClass, String variableName) {
+		SWRLIArgument var = createVariable(variableName);
+		return factory.getSWRLClassAtom(owlClass, var);
+	}
+
+	private SWRLAtom createSWRLObjectPropertyAtom(OWLObjectProperty property, String variable1, String variable2) {
+		SWRLIArgument var1 = createVariable(variable1);
+		SWRLIArgument var2 = createVariable(variable2);
+		return factory.getSWRLObjectPropertyAtom(property, var1, var2);
 	}
 
 	private SWRLVariable createVariable(String name) {
@@ -349,6 +394,11 @@ public class ModelsyncTest {
 	private OWLDataProperty findDataProperty(String name) {
 		OWLDataProperty dataProperty = factory.getOWLDataProperty(IRI.create(NS + name));
 		return dataProperty;
+	}
+
+	private OWLObjectProperty findObjectProperty(String name) {
+		OWLObjectProperty objectProperty = factory.getOWLObjectProperty(IRI.create(NS + name));
+		return objectProperty;
 	}
 
 	private boolean isInstanceOf(OWLOntology mOnto, OWLIndividual individual, OWLClass aClass) {
