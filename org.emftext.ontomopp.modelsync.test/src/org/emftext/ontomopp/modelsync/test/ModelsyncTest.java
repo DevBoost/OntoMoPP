@@ -1,17 +1,22 @@
 package org.emftext.ontomopp.modelsync.test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.URI;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mindswap.pellet.utils.Pair;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
@@ -27,6 +32,9 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.SWRLAtom;
 import org.semanticweb.owlapi.model.SWRLIArgument;
 import org.semanticweb.owlapi.model.SWRLRule;
+import org.semanticweb.owlapi.model.SWRLVariable;
+
+import aterm.ATermAppl;
 
 import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
 
@@ -55,18 +63,18 @@ public class ModelsyncTest {
         // add an instance of LeftClass and check whether it is recognized as instance
 		// of RightClass too
         OWLIndividual leftObject = addIndividual(mOnto, leftClass, "left");
-		assetIsInstance(mOnto, leftRightClass, leftObject);
-		assetIsInstance(mOnto, leftClass, leftObject);
-		assetIsInstance(mOnto, rightClass, leftObject);
+		assertIsInstance(mOnto, leftRightClass, leftObject);
+		assertIsInstance(mOnto, leftClass, leftObject);
+		assertIsInstance(mOnto, rightClass, leftObject);
 		assertNotIsInstance(mOnto, otherClass, leftObject);
 		
 		// add an instance of RightClass and check whether it is recognized as instance
 		// of LeftClass too
 		clearReasoner();
         OWLIndividual rightObject = addIndividual(mOnto, rightClass, "right");
-		assetIsInstance(mOnto, leftRightClass, rightObject);
-		assetIsInstance(mOnto, leftClass, rightObject);
-		assetIsInstance(mOnto, rightClass, rightObject);
+		assertIsInstance(mOnto, leftRightClass, rightObject);
+		assertIsInstance(mOnto, leftClass, rightObject);
+		assertIsInstance(mOnto, rightClass, rightObject);
 		assertNotIsInstance(mOnto, otherClass, rightObject);
 	}
 
@@ -75,23 +83,108 @@ public class ModelsyncTest {
 		String testcaseName = "cross-distribution";
 		OWLOntology mOnto = loadOntology(testcaseName);
 
-		OWLClass entityClass = findClass("Entity");
-		OWLClass paragraphClass = findClass("Paragraph");
-		OWLClass figureClass = findClass("Figure");
+		OWLClass methodClass = findClass("Method");
+		OWLClass fieldClass = findClass("Field");
+		OWLClass entryClass = findClass("Entry");
 
-		// add abstract entity1
-        OWLIndividual entity1Object = addIndividual(mOnto, entityClass, "entity1");
-		setDataProperty(mOnto, entity1Object, "isAbstract", true);
+		// add abstract method1
+        OWLIndividual method1Object = addIndividual(mOnto, methodClass, "method1");
+		setDataProperty(mOnto, method1Object, "isAbstract", true);
 		
-		assetIsInstance(mOnto, entityClass, entity1Object);
-		assetIsInstance(mOnto, paragraphClass, entity1Object);
+		assertIsInstance(mOnto, methodClass, method1Object);
+		assertIsInstance(mOnto, entryClass, method1Object);
 
-		// add concrete entity2
-        OWLIndividual entity2Object = addIndividual(mOnto, entityClass, "entity2");
-		setDataProperty(mOnto, entity2Object, "isAbstract", false);
+		// add concrete field1
+        OWLIndividual field1Object = addIndividual(mOnto, fieldClass, "field1");
+		setDataProperty(mOnto, field1Object, "isAbstract", false);
 		clearReasoner();
-		assetIsInstance(mOnto, entityClass, entity2Object);
-		assetIsInstance(mOnto, figureClass, entity2Object);
+		assertIsInstance(mOnto, fieldClass, field1Object);
+		assertNotIsInstance(mOnto, methodClass, field1Object);
+		assertIsInstance(mOnto, entryClass, field1Object);
+
+		{
+			// add a plain entry and see what it corresponds to
+	        OWLIndividual entry1 = addIndividual(mOnto, entryClass, "entry1");
+			setDataProperty(mOnto, entry1, "isBold", false);
+			setDataProperty(mOnto, entry1, "isItalic", false);
+			clearReasoner();
+			assertIsInstance(mOnto, entryClass, entry1);
+			assertDataPropertyValue("entry1", "isAbstract", false);
+			assertIsInstance(mOnto, methodClass, entry1);
+			assertNotIsInstance(mOnto, fieldClass, entry1);
+		}
+
+		{
+			// make entry italic - result: method gets abstract
+	        OWLIndividual entry2 = addIndividual(mOnto, entryClass, "entry2");
+			setDataProperty(mOnto, entry2, "isBold", false);
+			setDataProperty(mOnto, entry2, "isItalic", true);
+			clearReasoner();
+			assertIsInstance(mOnto, entryClass, entry2);
+			assertIsInstance(mOnto, methodClass, entry2);
+			assertDataPropertyValue("entry2", "isAbstract", true);
+			assertNotIsInstance(mOnto, fieldClass, entry2);
+		}
+
+		{
+			// make entry bold - result: concrete field
+	        OWLIndividual entry3 = addIndividual(mOnto, entryClass, "entry3");
+			setDataProperty(mOnto, entry3, "isBold", true);
+			setDataProperty(mOnto, entry3, "isItalic", false);
+			clearReasoner();
+			assertIsInstance(mOnto, entryClass, entry3);
+			assertNotIsInstance(mOnto, methodClass, entry3);
+			assertIsInstance(mOnto, fieldClass, entry3);
+			assertDataPropertyValue("entry3", "isAbstract", false);
+		}
+
+		{
+			// make entry bold AND italic - result: abstract field
+	        OWLIndividual entry4 = addIndividual(mOnto, entryClass, "entry4");
+			setDataProperty(mOnto, entry4, "isBold", true);
+			setDataProperty(mOnto, entry4, "isItalic", true);
+			clearReasoner();
+			assertIsInstance(mOnto, entryClass, entry4);
+			assertNotIsInstance(mOnto, methodClass, entry4);
+			assertIsInstance(mOnto, fieldClass, entry4);
+			assertDataPropertyValue("entry4", "isAbstract", true);
+		}
+	}
+
+	private void assertDataPropertyValue(String individualName, String propertyName, boolean value) {
+		ATermAppl property = findDataPropertyInReasoner(propertyName);
+		assertNotNull(property);
+		
+		ATermAppl individual = findIndividualInReasoner(individualName);
+		assertNotNull(individual);
+		
+		List<ATermAppl> dataPropertyValues = reasoner.getKB().getDataPropertyValues(property, individual);
+		System.out.println(individualName + "." + propertyName + " = " + dataPropertyValues);
+		assertEquals(1, dataPropertyValues.size());
+		ATermAppl first = dataPropertyValues.get(0);
+		assertEquals(value, first.toString().equals("literal(true,(),http://www.w3.org/2001/XMLSchema#boolean)"));
+	}
+
+	private ATermAppl findDataPropertyInReasoner(String name) {
+		Set<ATermAppl> dataProperties = reasoner.getKB().getDataProperties();
+		for (ATermAppl dataProperty : dataProperties) {
+			if (dataProperty.getName().equals(NS + name)) {
+				System.out.println("findDataPropertyInReasoner()" + dataProperty);
+				return dataProperty;
+			}
+		}
+		return null;
+	}
+
+	private ATermAppl findIndividualInReasoner(String name) {
+		Set<ATermAppl> individuals = reasoner.getKB().getIndividuals();
+		for (ATermAppl individual : individuals) {
+			if (individual.getName().equals(NS + name)) {
+				System.out.println("findIndividualInReasoner()" + individual);
+				return individual;
+			}
+		}
+		return null;
 	}
 
 	private void setDataProperty(OWLOntology ontology, OWLIndividual individual,
@@ -106,29 +199,44 @@ public class ModelsyncTest {
 		String testcaseName = "unfolding";
 		OWLOntology mOnto = loadOntology(testcaseName);
 		OWLClass packageClass = findClass("Package");
-		OWLClass chapterClass = findClass("MChapter");
-		OWLClass sectionClass = findClass("MSection");
+		OWLClass mChapterClass = findClass("MChapter");
+		OWLClass mSectionClass = findClass("MSection");
 
-		createSWRLRule(mOnto, packageClass, chapterClass);
-		createSWRLRule(mOnto, packageClass, sectionClass);
+		// Package(?x) -> MChapter(?x) and MSection(?x)
+		List<Pair<String, OWLClass>> from = new ArrayList<Pair<String, OWLClass>>();
+		from.add(new Pair<String, OWLClass>("x", packageClass));
+		
+		List<Pair<String, OWLClass>> to = new ArrayList<Pair<String, OWLClass>>();
+		to.add(new Pair<String, OWLClass>("x", mChapterClass));
+
+		createSWRLRule(mOnto, from, to);
+		//createSWRLRule(mOnto, packageClass, mSectionClass);
 
         OWLIndividual packageObject = addIndividual(mOnto, packageClass, "package1");
-		assetIsInstance(mOnto, packageClass, packageObject);
+		assertIsInstance(mOnto, packageClass, packageObject);
 		reasoner.getKB().realize();
 		reasoner.getKB().printClassTree();
 
 		// check rule execution
-		assetIsInstance(mOnto, chapterClass, packageObject);
+		assertIsInstance(mOnto, mChapterClass, packageObject);
+		assertIsInstance(mOnto, mSectionClass, packageObject);
 	}
 
-	private SWRLRule createSWRLRule(OWLOntology ontology, OWLClass from, OWLClass... to) {
+	private SWRLRule createSWRLRule(
+			OWLOntology ontology, 
+			List<Pair<String, OWLClass>> from, 
+			List<Pair<String, OWLClass>> to) {
+		
 		Set<SWRLAtom> body = new LinkedHashSet<SWRLAtom>();
 		Set<SWRLAtom> head = new LinkedHashSet<SWRLAtom>();
 		// Rule( antecedent(From(?x)) consequent(To(?x)) )
-		SWRLIArgument varX = factory.getSWRLVariable(IRI.create(NS + "x"));
-		body.add(factory.getSWRLClassAtom(from, varX));
-		for (OWLClass nextTo : to) {
-			head.add(factory.getSWRLClassAtom(nextTo, varX));
+		for (Pair<String, OWLClass> nextFrom : from) {
+			SWRLIArgument var = createVariable(nextFrom.first);
+			body.add(factory.getSWRLClassAtom(nextFrom.second, var));
+		}
+		for (Pair<String, OWLClass> nextTo : to) {
+			SWRLIArgument var = createVariable(nextTo.first);
+			head.add(factory.getSWRLClassAtom(nextTo.second, var));
 		}
 		//SWRLBuiltInsVocabulary.
 
@@ -136,6 +244,10 @@ public class ModelsyncTest {
 		manager.addAxiom(ontology, swrlRule);
 		System.out.println("ModelsyncTest.createSWRLRule() " + swrlRule);
 		return swrlRule;
+	}
+
+	private SWRLVariable createVariable(String name) {
+		return factory.getSWRLVariable(IRI.create(NS + name));
 	}
 
 	@Test
@@ -151,8 +263,8 @@ public class ModelsyncTest {
 		// add an instance of Entity and check whether it is recognized as instance
 		// of Paragraph too
         OWLIndividual entityObject = addIndividual(mOnto, entityClass, "entity1");
-		assetIsInstance(mOnto, entityClass, entityObject);
-		assetIsInstance(mOnto, paragraphClass, entityObject);
+		assertIsInstance(mOnto, entityClass, entityObject);
+		assertIsInstance(mOnto, paragraphClass, entityObject);
 		assertNotIsInstance(mOnto, enumClass, entityObject);
 		assertNotIsInstance(mOnto, otherClass, entityObject);
 
@@ -161,18 +273,18 @@ public class ModelsyncTest {
 		clearReasoner();
         OWLIndividual enumObject = addIndividual(mOnto, enumClass, "enum1");
         assertNotIsInstance(mOnto, entityClass, enumObject);
-		assetIsInstance(mOnto, paragraphClass, enumObject);
-		assetIsInstance(mOnto, enumClass, enumObject);
+		assertIsInstance(mOnto, paragraphClass, enumObject);
+		assertIsInstance(mOnto, enumClass, enumObject);
 		assertNotIsInstance(mOnto, otherClass, enumObject);
 
 		// add an instance of Paragraph and check whether it is recognized as instance
 		// of Entity or Enum too
 		clearReasoner();
-        OWLIndividual fruitObject = addIndividual(mOnto, paragraphClass, "fruit1");
-        assertNotIsInstance(mOnto, entityClass, fruitObject);
-		assetIsInstance(mOnto, paragraphClass, fruitObject);
-		assertNotIsInstance(mOnto, enumClass, fruitObject);
-		assertNotIsInstance(mOnto, otherClass, fruitObject);
+        OWLIndividual paragraphObject = addIndividual(mOnto, paragraphClass, "paragraph1");
+        assertNotIsInstance(mOnto, entityClass, paragraphObject);
+		assertIsInstance(mOnto, paragraphClass, paragraphObject);
+		assertNotIsInstance(mOnto, enumClass, paragraphObject);
+		assertNotIsInstance(mOnto, otherClass, paragraphObject);
 	}
 
 	private void clearReasoner() {
@@ -184,7 +296,7 @@ public class ModelsyncTest {
 		assertFalse(object + " must not be instance of " + aClass, isInstanceOf(ontology, object, aClass));
 	}
 
-	private void assetIsInstance(OWLOntology ontology, OWLClass aClass,
+	private void assertIsInstance(OWLOntology ontology, OWLClass aClass,
 			OWLIndividual object) {
 		assertTrue(object + " should be instance of " + aClass, isInstanceOf(ontology, object, aClass));
 	}
@@ -237,11 +349,15 @@ public class ModelsyncTest {
 	*/
 
 	private OWLClass findClass(String className) {
-		OWLClass leftClass = factory.getOWLClass(IRI.create(NS + className));
-		return leftClass;
+		return findClass(NS, className);
 	}
 
-	private OWLDataPropertyExpression findDataProperty(String name) {
+	private OWLClass findClass(String namespace, String className) {
+		OWLClass foundClass = factory.getOWLClass(IRI.create(namespace + className));
+		return foundClass;
+	}
+
+	private OWLDataProperty findDataProperty(String name) {
 		OWLDataProperty dataProperty = factory.getOWLDataProperty(IRI.create(NS + name));
 		return dataProperty;
 	}

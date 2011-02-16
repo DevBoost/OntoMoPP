@@ -7,6 +7,11 @@ Prefix: : <test://mapping#>
 
 Ontology: <test://mapping>
 
+DataProperty: isThing 
+	Domain: owl:Thing
+	Range:  xsd:boolean 
+	Characteristics: Functional 
+
 Class: Package
 	SubClassOf: owl:Thing
 

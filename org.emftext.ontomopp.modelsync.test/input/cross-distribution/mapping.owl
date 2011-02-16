@@ -7,35 +7,51 @@ Prefix: : <test://mapping#>
 
 Ontology: <test://mapping>
 
-Class: NamedElement
+Class: Member
 	SubClassOf: owl:Thing
 
 DataProperty: isAbstract 
-	Domain: Entity
+	Domain: Member
 	Range:  xsd:boolean 
 	Characteristics: Functional 
 
-Class: Entity
-	DisjointWith: Enum
-	SubClassOf: NamedElement
+DataProperty: name 
+	Domain: Member
+	Range:  xsd:string 
+	Characteristics: Functional 
 
-Class: Enum
-	DisjointWith: Entity
-	SubClassOf: NamedElement
+Class: Method
+	DisjointWith: Field
+	SubClassOf: Member
 
-Class: Paragraph
-	DisjointWith: Figure
+Class: Field
+	DisjointWith: Method
+	SubClassOf: Member
+
+Class: Entry
 	SubClassOf: owl:Thing
 
-Class: Figure
-	DisjointWith: Paragraph
-	SubClassOf: owl:Thing
+DataProperty: isItalic 
+	Domain: Entry
+	Range:  xsd:boolean 
+	Characteristics: Functional 
 
-Class: MEntityParagraph
-	SubClassOf: Paragraph
-	EquivalentTo: Entity and isAbstract value true
+DataProperty: isBold 
+	Domain: Entry
+	Range:  xsd:boolean 
+	Characteristics: Functional 
 
-Class: MEntityFigure
-	SubClassOf: Figure
-	EquivalentTo: Entity and isAbstract value false
+DataProperty: text 
+	Domain: Entry
+	Range:  xsd:string 
+	Characteristics: Functional 
 
+
+Class: MAbstractMethodEntry
+	EquivalentTo: Method and isAbstract value true, Entry and isItalic value true and isBold value false
+Class: MConcreteMethodEntry
+	EquivalentTo: Method and isAbstract value false, Entry and isItalic value false and isBold value false
+Class: MAbstractFieldEntry
+	EquivalentTo: Field and isAbstract value true, Entry and isItalic value true and isBold value true
+Class: MConcreteFieldEntry
+	EquivalentTo: Field and isAbstract value false, Entry and isItalic value false and isBold value true
