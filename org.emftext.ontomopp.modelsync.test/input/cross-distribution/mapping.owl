@@ -11,7 +11,7 @@ Class: Member
 	SubClassOf: owl:Thing
 
 DataProperty: isAbstract 
-	Domain: Member
+	Domain: Method
 	Range:  xsd:boolean 
 	Characteristics: Functional 
 
@@ -31,6 +31,14 @@ Class: Field
 Class: Entry
 	SubClassOf: owl:Thing
 
+Class: FullEntry
+	DisjointWith: BasicEntry
+	SubClassOf: Entry
+
+Class: BasicEntry
+	DisjointWith: FullEntry
+	SubClassOf: Entry
+
 DataProperty: isItalic 
 	Domain: Entry
 	Range:  xsd:boolean 
@@ -47,11 +55,9 @@ DataProperty: text
 	Characteristics: Functional 
 
 
-Class: MAbstractMethodEntry
-	EquivalentTo: Method and isAbstract value true, Entry and isItalic value true and isBold value false
-Class: MConcreteMethodEntry
-	EquivalentTo: Method and isAbstract value false, Entry and isItalic value false and isBold value false
-Class: MAbstractFieldEntry
-	EquivalentTo: Field and isAbstract value true, Entry and isItalic value true and isBold value true
-Class: MConcreteFieldEntry
-	EquivalentTo: Field and isAbstract value false, Entry and isItalic value false and isBold value true
+Class: MAbstractMethodBasicEntry
+	EquivalentTo: Method and isAbstract value true, BasicEntry and isItalic value true and isBold value false
+Class: MConcreteMethodFullEntry
+	EquivalentTo: Method and isAbstract value false, FullEntry and isItalic value false and isBold value false
+Class: MFieldBasicEntry
+	EquivalentTo: Field, BasicEntry and isItalic value false and isBold value true

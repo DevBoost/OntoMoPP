@@ -85,69 +85,58 @@ public class ModelsyncTest {
 
 		OWLClass methodClass = findClass("Method");
 		OWLClass fieldClass = findClass("Field");
-		OWLClass entryClass = findClass("Entry");
+		OWLClass basicEntryClass = findClass("BasicEntry");
+		OWLClass fullEntryClass = findClass("FullEntry");
 
 		// add abstract method1
         OWLIndividual method1Object = addIndividual(mOnto, methodClass, "method1");
 		setDataProperty(mOnto, method1Object, "isAbstract", true);
 		
 		assertIsInstance(mOnto, methodClass, method1Object);
-		assertIsInstance(mOnto, entryClass, method1Object);
+		assertIsInstance(mOnto, basicEntryClass, method1Object);
+		assertNotIsInstance(mOnto, fullEntryClass, method1Object);
 
-		// add concrete field1
+		// add field1
         OWLIndividual field1Object = addIndividual(mOnto, fieldClass, "field1");
-		setDataProperty(mOnto, field1Object, "isAbstract", false);
+		//setDataProperty(mOnto, field1Object, "isAbstract", false);
 		clearReasoner();
 		assertIsInstance(mOnto, fieldClass, field1Object);
 		assertNotIsInstance(mOnto, methodClass, field1Object);
-		assertIsInstance(mOnto, entryClass, field1Object);
+		assertIsInstance(mOnto, basicEntryClass, field1Object);
 
 		{
-			// add a plain entry and see what it corresponds to
-	        OWLIndividual entry1 = addIndividual(mOnto, entryClass, "entry1");
+			// add a full entry and see what it corresponds to
+	        OWLIndividual entry1 = addIndividual(mOnto, fullEntryClass, "entry1");
 			setDataProperty(mOnto, entry1, "isBold", false);
 			setDataProperty(mOnto, entry1, "isItalic", false);
 			clearReasoner();
-			assertIsInstance(mOnto, entryClass, entry1);
+			assertIsInstance(mOnto, fullEntryClass, entry1);
 			assertDataPropertyValue("entry1", "isAbstract", false);
 			assertIsInstance(mOnto, methodClass, entry1);
 			assertNotIsInstance(mOnto, fieldClass, entry1);
 		}
 
 		{
-			// make entry italic - result: method gets abstract
-	        OWLIndividual entry2 = addIndividual(mOnto, entryClass, "entry2");
+			// make basic entry italic - result: method gets abstract
+	        OWLIndividual entry2 = addIndividual(mOnto, basicEntryClass, "entry2");
 			setDataProperty(mOnto, entry2, "isBold", false);
 			setDataProperty(mOnto, entry2, "isItalic", true);
 			clearReasoner();
-			assertIsInstance(mOnto, entryClass, entry2);
+			assertIsInstance(mOnto, basicEntryClass, entry2);
 			assertIsInstance(mOnto, methodClass, entry2);
 			assertDataPropertyValue("entry2", "isAbstract", true);
 			assertNotIsInstance(mOnto, fieldClass, entry2);
 		}
 
 		{
-			// make entry bold - result: concrete field
-	        OWLIndividual entry3 = addIndividual(mOnto, entryClass, "entry3");
+			// make basic entry bold - result: concrete field
+	        OWLIndividual entry3 = addIndividual(mOnto, basicEntryClass, "entry3");
 			setDataProperty(mOnto, entry3, "isBold", true);
 			setDataProperty(mOnto, entry3, "isItalic", false);
 			clearReasoner();
-			assertIsInstance(mOnto, entryClass, entry3);
+			assertIsInstance(mOnto, basicEntryClass, entry3);
 			assertNotIsInstance(mOnto, methodClass, entry3);
 			assertIsInstance(mOnto, fieldClass, entry3);
-			assertDataPropertyValue("entry3", "isAbstract", false);
-		}
-
-		{
-			// make entry bold AND italic - result: abstract field
-	        OWLIndividual entry4 = addIndividual(mOnto, entryClass, "entry4");
-			setDataProperty(mOnto, entry4, "isBold", true);
-			setDataProperty(mOnto, entry4, "isItalic", true);
-			clearReasoner();
-			assertIsInstance(mOnto, entryClass, entry4);
-			assertNotIsInstance(mOnto, methodClass, entry4);
-			assertIsInstance(mOnto, fieldClass, entry4);
-			assertDataPropertyValue("entry4", "isAbstract", true);
 		}
 	}
 
@@ -160,7 +149,7 @@ public class ModelsyncTest {
 		
 		List<ATermAppl> dataPropertyValues = reasoner.getKB().getDataPropertyValues(property, individual);
 		System.out.println(individualName + "." + propertyName + " = " + dataPropertyValues);
-		assertEquals(1, dataPropertyValues.size());
+		assertEquals("Can't find values for data property: " + propertyName, 1, dataPropertyValues.size());
 		ATermAppl first = dataPropertyValues.get(0);
 		assertEquals(value, first.toString().equals("literal(true,(),http://www.w3.org/2001/XMLSchema#boolean)"));
 	}
