@@ -30,10 +30,13 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.SWRLAtom;
+import org.semanticweb.owlapi.model.SWRLDArgument;
 import org.semanticweb.owlapi.model.SWRLIArgument;
 import org.semanticweb.owlapi.model.SWRLRule;
 import org.semanticweb.owlapi.model.SWRLVariable;
+import org.semanticweb.owlapi.vocab.SWRLBuiltInsVocabulary;
 
+import aterm.ATerm;
 import aterm.ATermAppl;
 
 import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
@@ -76,6 +79,50 @@ public class ModelsyncTest {
 		assertIsInstance(mOnto, leftClass, rightObject);
 		assertIsInstance(mOnto, rightClass, rightObject);
 		assertNotIsInstance(mOnto, otherClass, rightObject);
+	}
+
+	@Test
+	public void testStringOperations() {
+		String testcaseName = "string-operations";
+		OWLOntology mOnto = loadOntology(testcaseName);
+
+		// find meta elements
+		OWLClass packageClass = findClass("Package");
+		OWLClass sectionClass = findClass("Section");
+		OWLDataProperty packageNameProperty = findDataProperty("packageName");
+		OWLDataProperty sectionNameProperty = findDataProperty("sectionName");
+		
+		// create a package with name 'p1' 
+        OWLIndividual package1 = addIndividual(mOnto, packageClass, "package1");
+        setDataProperty(mOnto, package1, "packageName", "p1");
+        
+        // create SWRL rule
+        // Package(?x) and packageName(?x,?y) and concat(?z, "prefix_", ?y) =>
+        // Section(?x) and sectionName(?x,?z)
+		List<SWRLAtom> from = new ArrayList<SWRLAtom>();
+		from.add(createSWRLClassAtom(packageClass, "x"));
+		from.add(createSWRLDataPropertyAtom(packageNameProperty, "x", "y"));
+		
+		List<SWRLDArgument> concatArgs = new ArrayList<SWRLDArgument>();
+		concatArgs.add(createVariable("z"));
+		concatArgs.add(createConstant("prefix_"));
+		concatArgs.add(createVariable("y"));
+		from.add(factory.getSWRLBuiltInAtom(SWRLBuiltInsVocabulary.STRING_CONCAT.getIRI(), concatArgs));
+
+		List<SWRLAtom> to = new ArrayList<SWRLAtom>();
+		to.add(createSWRLClassAtom(sectionClass, "x"));
+		to.add(createSWRLDataPropertyAtom(sectionNameProperty, "x", "z"));
+		
+		createSWRLRule(mOnto, to, from);
+        clearReasoner();
+        assertIsInstance(mOnto, sectionClass, package1);
+        // check sectionName of package1
+        assertDataPropertyValue("package1", "packageName", "p1");
+        assertDataPropertyValue("package1", "sectionName", "prefix_p1");
+	}
+
+	private SWRLDArgument createConstant(String text) {
+		return factory.getSWRLLiteralArgument(factory.getOWLStringLiteral(text));
 	}
 
 	@Test
@@ -194,6 +241,21 @@ public class ModelsyncTest {
 		assertEquals(value, first.toString().equals("literal(true,(),http://www.w3.org/2001/XMLSchema#boolean)"));
 	}
 
+	private void assertDataPropertyValue(String individualName, String propertyName, String value) {
+		ATermAppl property = findDataPropertyInReasoner(propertyName);
+		assertNotNull(property);
+		
+		ATermAppl individual = findIndividualInReasoner(individualName);
+		assertNotNull(individual);
+		
+		List<ATermAppl> dataPropertyValues = reasoner.getKB().getDataPropertyValues(property, individual);
+		System.out.println(individualName + "." + propertyName + " = " + dataPropertyValues);
+		assertEquals("Can't find values for data property: " + propertyName, 1, dataPropertyValues.size());
+		ATermAppl first = dataPropertyValues.get(0);
+		ATerm argument = first.getArgument(0);
+		assertEquals(value, argument.toString());
+	}
+
 	private ATermAppl findDataPropertyInReasoner(String name) {
 		Set<ATermAppl> dataProperties = reasoner.getKB().getDataProperties();
 		for (ATermAppl dataProperty : dataProperties) {
@@ -218,6 +280,13 @@ public class ModelsyncTest {
 
 	private void setDataProperty(OWLOntology ontology, OWLIndividual individual,
 			String name, boolean value) {
+		OWLDataPropertyExpression property = findDataProperty(name);
+		OWLAxiom axiom = factory.getOWLDataPropertyAssertionAxiom(property, individual, value);
+		manager.addAxiom(ontology, axiom);
+	}
+
+	private void setDataProperty(OWLOntology ontology, OWLIndividual individual,
+			String name, String value) {
 		OWLDataPropertyExpression property = findDataProperty(name);
 		OWLAxiom axiom = factory.getOWLDataPropertyAssertionAxiom(property, individual, value);
 		manager.addAxiom(ontology, axiom);
@@ -278,6 +347,12 @@ public class ModelsyncTest {
 		SWRLIArgument var1 = createVariable(variable1);
 		SWRLIArgument var2 = createVariable(variable2);
 		return factory.getSWRLObjectPropertyAtom(property, var1, var2);
+	}
+
+	private SWRLAtom createSWRLDataPropertyAtom(OWLDataProperty property, String variable1, String variable2) {
+		SWRLIArgument var1 = createVariable(variable1);
+		SWRLDArgument var2 = createVariable(variable2);
+		return factory.getSWRLDataPropertyAtom(property, var1, var2);
 	}
 
 	private SWRLVariable createVariable(String name) {
