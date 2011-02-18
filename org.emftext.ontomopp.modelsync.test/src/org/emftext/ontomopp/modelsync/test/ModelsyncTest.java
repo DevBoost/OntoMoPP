@@ -26,6 +26,7 @@ import org.semanticweb.owlapi.model.OWLDataPropertyExpression;
 import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
@@ -60,7 +61,6 @@ public class ModelsyncTest {
 
 		OWLClass packageClass = findClass("Package");
 		OWLClass typeClass = findClass("Type");
-		OWLClass tableClass = findClass("Table");
 		OWLClass entryClass = findClass("Entry");
 		
 		OWLObjectProperty typesProperty = findObjectProperty("types");
@@ -234,9 +234,13 @@ public class ModelsyncTest {
         assertIsInstance(mOnto, tableClass, entity1);
 	}
 
-	private void setObjectProperty(OWLOntology mOnto, OWLIndividual source,
-			OWLObjectProperty property, OWLIndividual target) {
-		manager.addAxiom(mOnto, factory.getOWLObjectPropertyAssertionAxiom(property, source, target));
+	private void setObjectProperty(
+			OWLOntology ontology, 
+			OWLIndividual source,
+			OWLObjectProperty property, 
+			OWLIndividual target) {
+		OWLObjectPropertyAssertionAxiom axiom = factory.getOWLObjectPropertyAssertionAxiom(property, source, target);
+		manager.addAxiom(ontology, axiom);
 	}
 
 	@Test
