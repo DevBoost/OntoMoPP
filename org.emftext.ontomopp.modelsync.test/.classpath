@@ -4,5 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="/org.emftext.language.owl.reasoning/lib/xsdlib/relaxngDatatype.jar"/>
+	<classpathentry kind="lib" path="lib/jaxb/jaxb-api.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

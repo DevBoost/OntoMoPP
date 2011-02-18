@@ -91,38 +91,86 @@ public class ModelsyncTest {
 		OWLClass sectionClass = findClass("Section");
 		OWLDataProperty packageNameProperty = findDataProperty("packageName");
 		OWLDataProperty sectionNameProperty = findDataProperty("sectionName");
-		
+
 		// create a package with name 'p1' 
         OWLIndividual package1 = addIndividual(mOnto, packageClass, "package1");
         setDataProperty(mOnto, package1, "packageName", "p1");
         
         // create SWRL rule
-        // Package(?x) and packageName(?x,?y) and concat(?z, "prefix_", ?y) =>
+        // Package(?x) and packageName(?x,?y) and stringConcat(?z, "prefix_", ?y) =>
         // Section(?x) and sectionName(?x,?z)
-		List<SWRLAtom> from = new ArrayList<SWRLAtom>();
-		from.add(createSWRLClassAtom(packageClass, "x"));
-		from.add(createSWRLDataPropertyAtom(packageNameProperty, "x", "y"));
-		
-		List<SWRLDArgument> concatArgs = new ArrayList<SWRLDArgument>();
-		concatArgs.add(createVariable("z"));
-		concatArgs.add(createConstant("prefix_"));
-		concatArgs.add(createVariable("y"));
-		from.add(factory.getSWRLBuiltInAtom(SWRLBuiltInsVocabulary.STRING_CONCAT.getIRI(), concatArgs));
-
-		List<SWRLAtom> to = new ArrayList<SWRLAtom>();
-		to.add(createSWRLClassAtom(sectionClass, "x"));
-		to.add(createSWRLDataPropertyAtom(sectionNameProperty, "x", "z"));
-		
-		createSWRLRule(mOnto, to, from);
+        {
+			List<SWRLAtom> from = new ArrayList<SWRLAtom>();
+			from.add(createSWRLClassAtom(packageClass, "x"));
+			from.add(createSWRLDataPropertyAtom(packageNameProperty, "x", "y"));
+			
+			List<SWRLDArgument> concatArgs = new ArrayList<SWRLDArgument>();
+			concatArgs.add(createVariable("z"));
+			concatArgs.add(createConstant("prefix_"));
+			concatArgs.add(createVariable("y"));
+			from.add(factory.getSWRLBuiltInAtom(SWRLBuiltInsVocabulary.STRING_CONCAT.getIRI(), concatArgs));
+	
+			List<SWRLAtom> to = new ArrayList<SWRLAtom>();
+			to.add(createSWRLClassAtom(sectionClass, "x"));
+			to.add(createSWRLDataPropertyAtom(sectionNameProperty, "x", "z"));
+			
+			createSWRLRule(mOnto, to, from);
+        }
         clearReasoner();
         assertIsInstance(mOnto, sectionClass, package1);
         // check sectionName of package1
         assertDataPropertyValue("package1", "packageName", "p1");
         assertDataPropertyValue("package1", "sectionName", "prefix_p1");
+        
+        // now add an individual of type section and check whether the other direction
+        // does also work
+        OWLIndividual section1 = addIndividual(mOnto, sectionClass, "section1");
+        setDataProperty(mOnto, section1, "sectionName", "prefix_s1");
+        
+        // add SWRL rule for backward transformation
+        // Section(?x) and sectionName(?x,?y) and stringLength(?length, "prefix_") and
+        // add(?total, ?length, 1) and substring(?z,?y,?total) =>
+        // Package(?x) and packageName(?x,?z)
+        {
+			List<SWRLAtom> from = new ArrayList<SWRLAtom>();
+			from.add(createSWRLClassAtom(sectionClass, "x"));
+			from.add(createSWRLDataPropertyAtom(sectionNameProperty, "x", "y"));
+			
+			List<SWRLDArgument> concatArgs1 = new ArrayList<SWRLDArgument>();
+			concatArgs1.add(createVariable("length"));
+			concatArgs1.add(createConstant("prefix_"));
+			from.add(factory.getSWRLBuiltInAtom(SWRLBuiltInsVocabulary.STRING_LENGTH.getIRI(), concatArgs1));
+	
+			List<SWRLDArgument> concatArgs2 = new ArrayList<SWRLDArgument>();
+			concatArgs2.add(createVariable("total"));
+			concatArgs2.add(createVariable("length"));
+			concatArgs2.add(createConstant(1));
+			from.add(factory.getSWRLBuiltInAtom(SWRLBuiltInsVocabulary.ADD.getIRI(), concatArgs2));
+	
+			List<SWRLDArgument> concatArgs3 = new ArrayList<SWRLDArgument>();
+			concatArgs3.add(createVariable("z"));
+			concatArgs3.add(createVariable("y"));
+			concatArgs3.add(createVariable("total"));
+			from.add(factory.getSWRLBuiltInAtom(SWRLBuiltInsVocabulary.SUBSTRING.getIRI(), concatArgs3));
+	
+			List<SWRLAtom> to = new ArrayList<SWRLAtom>();
+			to.add(createSWRLClassAtom(packageClass, "x"));
+			to.add(createSWRLDataPropertyAtom(packageNameProperty, "x", "z"));
+			
+			createSWRLRule(mOnto, to, from);
+        }
+        clearReasoner();
+
+        assertIsInstance(mOnto, packageClass, section1);
+        assertDataPropertyValue("section1", "packageName", "s1");
 	}
 
-	private SWRLDArgument createConstant(String text) {
-		return factory.getSWRLLiteralArgument(factory.getOWLStringLiteral(text));
+	private SWRLDArgument createConstant(String value) {
+		return factory.getSWRLLiteralArgument(factory.getOWLStringLiteral(value));
+	}
+
+	private SWRLDArgument createConstant(int value) {
+		return factory.getSWRLLiteralArgument(factory.getOWLTypedLiteral(value));
 	}
 
 	@Test
