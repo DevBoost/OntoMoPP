@@ -1,0 +1,44 @@
+Prefix: rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+Prefix: xsd: <http://www.w3.org/2001/XMLSchema#>
+Prefix: rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+Prefix: owl: <http://www.w3.org/2002/07/owl#>
+
+Prefix: : <test://mapping#>
+
+Ontology: <test://mapping>
+
+Class: Container
+	SubClassOf: owl:Thing
+
+Class: ContainedElement
+	SubClassOf: owl:Thing
+
+ObjectProperty: contains
+	Domain: Container
+	Range:  ContainedElement
+
+Class: Package
+	DisjointWith: Type
+	SubClassOf: Container
+
+Class: Type
+	DisjointWith: Package
+	SubClassOf: ContainedElement
+
+ObjectProperty: types
+	Domain: Package
+	Range:  Type
+	EquivalentTo: contains
+
+Class: Table
+	DisjointWith: Entry
+	SubClassOf: Container
+
+Class: Entry
+	DisjointWith: Table
+	SubClassOf: ContainedElement
+
+ObjectProperty: entries
+	Domain: Table
+	Range:  Entry
+	EquivalentTo: contains

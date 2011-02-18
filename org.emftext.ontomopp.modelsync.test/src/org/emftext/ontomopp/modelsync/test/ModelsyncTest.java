@@ -52,6 +52,27 @@ public class ModelsyncTest {
 	private OWLOntologyManager manager;
 	private OWLDataFactory factory;
 	private PelletReasoner reasoner;
+
+	@Test
+	public void testUpperOntology() {
+		String testcaseName = "upper-ontology";
+		OWLOntology mOnto = loadOntology(testcaseName);
+
+		OWLClass packageClass = findClass("Package");
+		OWLClass typeClass = findClass("Type");
+		OWLClass tableClass = findClass("Table");
+		OWLClass entryClass = findClass("Entry");
+		
+		OWLObjectProperty typesProperty = findObjectProperty("types");
+		
+        OWLIndividual package1 = addIndividual(mOnto, packageClass, "package1");
+        OWLIndividual type1 = addIndividual(mOnto, typeClass, "type1");
+        assertNotIsInstance(mOnto, entryClass, type1);
+        clearReasoner();
+        setObjectProperty(mOnto, package1, typesProperty, type1);
+        
+        assertIsInstance(mOnto, entryClass, type1);
+	}
 	
 	@Test
 	public void testRenaming() {
@@ -189,7 +210,7 @@ public class ModelsyncTest {
 		// create a package that contains an entity
         OWLIndividual package1 = addIndividual(mOnto, packageClass, "package1");
         OWLIndividual entity1 = addIndividual(mOnto, entityClass, "entity1");
-        manager.addAxiom(mOnto, factory.getOWLObjectPropertyAssertionAxiom(entitiesProperty, package1, entity1));
+        setObjectProperty(mOnto, package1, entitiesProperty, entity1);
         
         assertIsInstance(mOnto, packageClass, package1);
         assertIsInstance(mOnto, entityClass, entity1);
@@ -211,6 +232,11 @@ public class ModelsyncTest {
         clearReasoner();
         assertIsInstance(mOnto, sectionClass, package1);
         assertIsInstance(mOnto, tableClass, entity1);
+	}
+
+	private void setObjectProperty(OWLOntology mOnto, OWLIndividual source,
+			OWLObjectProperty property, OWLIndividual target) {
+		manager.addAxiom(mOnto, factory.getOWLObjectPropertyAssertionAxiom(property, source, target));
 	}
 
 	@Test
