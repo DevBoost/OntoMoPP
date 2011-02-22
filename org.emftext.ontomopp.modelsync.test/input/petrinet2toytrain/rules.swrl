@@ -1,0 +1,5 @@
+import <mapping.owl>
+
+Track(?a) => Arc(?a)
+
+Track(?a) and Out(?o) => Arc(?a)

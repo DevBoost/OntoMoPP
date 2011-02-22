@@ -1,0 +1,102 @@
+Prefix: owl: <http://www.w3.org/2002/07/owl#>
+Prefix: : <test://mapping#>
+
+Ontology: <test://mapping>
+
+Class: PetriNet
+	DisjointWith: Node, Arc, Token
+	SubClassOf: owl:Thing
+ObjectProperty: arcs
+	Domain: PetriNet
+	Range:  Arc
+ObjectProperty: nodes
+	Domain: Node
+	Range:  Arc
+
+Class: Node
+	DisjointWith: PetriNet, Arc, Token
+	SubClassOf: owl:Thing
+
+Class: Arc
+	DisjointWith: PetriNet, Node, Token
+	SubClassOf: owl:Thing
+ObjectProperty: source
+	Domain: Arc
+	Range:  Node
+ObjectProperty: target
+	Domain: Arc
+	Range:  Node
+
+Class: Place
+	DisjointWith: Transition
+	SubClassOf: Node
+ObjectProperty: target
+	Domain: Place
+	Range:  Token
+
+Class: Transition
+	DisjointWith: Place
+	SubClassOf: Node
+
+Class: Token
+	DisjointWith: PetriNet, Arc, Node
+	SubClassOf: owl:Thing
+
+
+Class: Project
+	DisjointWith: Connection, Port, Component, Train
+	SubClassOf: owl:Thing
+
+Class: Connection
+	DisjointWith: Project, Port, Component, Train
+	SubClassOf: owl:Thing
+
+Class: Port
+	DisjointWith: Connection, Project, Component, Train
+	SubClassOf: owl:Thing
+
+Class: In
+	DisjointWith: Out
+	SubClassOf: Port
+
+Class: Out
+	DisjointWith: In
+	SubClassOf: Port
+
+Class: Component
+	DisjointWith: Connection, Port, Project, Train
+	SubClassOf: owl:Thing
+
+Class: Track
+	DisjointWith: Switch
+	SubClassOf: Component
+
+Class: Switch
+	DisjointWith: Track
+	SubClassOf: Component
+
+Class: Train
+	DisjointWith: Connection, Port, Component, Project
+	SubClassOf: owl:Thing
+
+	
+
+Class: Petrinet2Project
+	EquivalentTo: PetriNet, Project
+	SubClassOf: owl:Thing
+
+Class: Place2Out
+	EquivalentTo: Place, Out
+	SubClassOf: owl:Thing
+	
+Class: Transition2In
+	EquivalentTo: Transition, In
+	SubClassOf: owl:Thing
+
+Class: Track2Arc
+	EquivalentTo: Track
+	SubClassOf: Arc
+
+Class: Switch2Arc
+	EquivalentTo: Switch
+	SubClassOf: Arc
