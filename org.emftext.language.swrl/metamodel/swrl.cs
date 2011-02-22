@@ -14,6 +14,7 @@ OPTIONS {
 TOKENS {
 	DEFINE WHITESPACE $(' '|'\t'|'\f')$;
 	DEFINE LINEBREAKS $('\r\n'|'\r'|'\n')$;
+	// copied from OWL syntax
 	DEFINE IRI $(('<')(~('>')|('\\''>'))*('>'))|(('A'..'Z' | ':' | 'a'..'z' | '0'..'9' | '_' | '-' )+)$;
 }
 
@@ -23,14 +24,23 @@ RULES {
 		rules+;
 
 	Rule ::= antecedent "=>" consequent;
-	Antecedent ::= body;
-	Consequent ::= body;
+
+	Antecedent ::= body ("and" body)*;
+	Consequent ::= body ("and" body)*;
 	
-	DescriptionAtom ::= description[IRI] "(" object ")";
+	DescriptionAtom ::= description "(" object ")";
+	
 	//DataRangeAtom   ::= dataRange[IRI]   "(" object ")";
 
 	// TODO DVariable ::= uri[];
 	//DLiteral  ::= literal;
 	
-	IVariable ::= iri[IRI];
+	IVariable ::= "?" iri[IRI];
+
+	// adapted from OWL syntax
+	//@Operator(type = "primitive", weight="2", superclass="Description")
+	ClassAtomic ::= not["not" : ""] clazz[IRI];
+
+	//@Operator(type = "binary_left_associative", weight="1", superclass="Description")
+	//Conjunction ::= primaries "and" primaries;
 }

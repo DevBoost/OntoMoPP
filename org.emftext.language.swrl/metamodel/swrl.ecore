@@ -26,7 +26,8 @@
   <eClassifiers xsi:type="ecore:EClass" name="Atom" abstract="true"/>
   <eClassifiers xsi:type="ecore:EClass" name="DescriptionAtom" eSuperTypes="#//Atom">
     <eStructuralFeatures xsi:type="ecore:EReference" name="description" lowerBound="1"
-        eType="ecore:EClass ../../org.emftext.language.owl/metamodel/owl.text.ecore#//Description"/>
+        eType="ecore:EClass ../../org.emftext.language.owl/metamodel/owl.text.ecore#//Description"
+        containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="object" lowerBound="1"
         eType="#//IObject" containment="true"/>
   </eClassifiers>
