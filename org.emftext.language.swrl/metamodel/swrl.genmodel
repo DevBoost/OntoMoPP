@@ -8,6 +8,10 @@
   <foreignModel>../../org.emftext.language.owl/metamodel/owl.text.ecore</foreignModel>
   <genPackages prefix="Swrl" basePackage="org.emftext.language" disposableProviderFactory="true"
       ecorePackage="swrl.ecore#/">
+    <genClasses ecoreClass="swrl.ecore#//SWRLDocument">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference swrl.ecore#//SWRLDocument/imports"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference swrl.ecore#//SWRLDocument/rules"/>
+    </genClasses>
     <genClasses ecoreClass="swrl.ecore#//Rule">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference swrl.ecore#//Rule/antecedent"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference swrl.ecore#//Rule/consequent"/>
@@ -27,6 +31,11 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference swrl.ecore#//DataRangeAtom/dataRange"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference swrl.ecore#//DataRangeAtom/object"/>
     </genClasses>
+    <genClasses ecoreClass="swrl.ecore#//IndividualvaluedPropertyAtom"/>
+    <genClasses ecoreClass="swrl.ecore#//DatavaluedPropertyAtom"/>
+    <genClasses ecoreClass="swrl.ecore#//SameAsAtom"/>
+    <genClasses ecoreClass="swrl.ecore#//DifferentFromAtom"/>
+    <genClasses ecoreClass="swrl.ecore#//BuiltinAtom"/>
     <genClasses image="false" ecoreClass="swrl.ecore#//IObject"/>
     <genClasses image="false" ecoreClass="swrl.ecore#//DObject"/>
     <genClasses ecoreClass="swrl.ecore#//IVariable"/>
