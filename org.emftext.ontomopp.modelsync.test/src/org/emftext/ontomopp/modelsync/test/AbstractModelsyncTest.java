@@ -13,6 +13,7 @@ import java.util.Set;
 
 import org.eclipse.emf.common.util.URI;
 import org.mindswap.pellet.PelletOptions;
+import org.mindswap.pellet.exceptions.InconsistentOntologyException;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
@@ -62,18 +63,18 @@ public class AbstractModelsyncTest {
 
 	protected void assertDataPropertyValue(OWLOntology ontology, String individualName, String propertyName,
 			boolean value) {
-				ATermAppl property = findDataPropertyInReasoner(propertyName);
-				assertNotNull(property);
-				
-				ATermAppl individual = findIndividualInReasoner(ontology, individualName);
-				assertNotNull(individual);
-				
-				List<ATermAppl> dataPropertyValues = reasoner.getKB().getDataPropertyValues(property, individual);
-				System.out.println(individualName + "." + propertyName + " = " + dataPropertyValues);
-				assertEquals("Can't find values for data property: " + propertyName, 1, dataPropertyValues.size());
-				ATermAppl first = dataPropertyValues.get(0);
-				assertEquals(value, first.toString().equals("literal(true,(),http://www.w3.org/2001/XMLSchema#boolean)"));
-			}
+		ATermAppl property = findDataPropertyInReasoner(ontology, propertyName);
+		assertNotNull(property);
+		
+		ATermAppl individual = findIndividualInReasoner(ontology, individualName);
+		assertNotNull(individual);
+		
+		List<ATermAppl> dataPropertyValues = reasoner.getKB().getDataPropertyValues(property, individual);
+		System.out.println(individualName + "." + propertyName + " = " + dataPropertyValues);
+		assertEquals("Can't find values for data property: " + propertyName, 1, dataPropertyValues.size());
+		ATermAppl first = dataPropertyValues.get(0);
+		assertEquals(value, first.toString().equals("literal(true,(),http://www.w3.org/2001/XMLSchema#boolean)"));
+	}
 
 	protected void assertObjectPropertyValue(
 			OWLOntology ontology, 
@@ -86,14 +87,20 @@ public class AbstractModelsyncTest {
 		ATermAppl property = findObjectPropertyInReasoner(propertyName);
 		List<ATermAppl> objectPropertyValues = reasoner.getKB().getObjectPropertyValues(property, individual);
 		System.out.println(individualName + "." + propertyName + " = " + objectPropertyValues);
-		assertEquals("Can't find values for object property: " + propertyName, 1, objectPropertyValues.size());
-		ATermAppl first = objectPropertyValues.get(0);
-		assertEquals(target, first);
+		boolean foundTarget = false;
+		for (ATermAppl aTermAppl : objectPropertyValues) {
+			if (aTermAppl.equals(target)) {
+				foundTarget = true;
+			}
+		}
+		if (!foundTarget) {
+			fail("Can't find target '" + targetName + "' for object property: " + propertyName);
+		}
 	}
 
 	protected void assertDataPropertyValue(OWLOntology ontology, String individualName, String propertyName,
 			String value) {
-				ATermAppl property = findDataPropertyInReasoner(propertyName);
+				ATermAppl property = findDataPropertyInReasoner(ontology, propertyName);
 				assertNotNull(property);
 				
 				ATermAppl individual = findIndividualInReasoner(ontology, individualName);
@@ -107,8 +114,8 @@ public class AbstractModelsyncTest {
 				assertEquals(value, argument.toString());
 			}
 
-	private ATermAppl findDataPropertyInReasoner(String name) {
-		Set<ATermAppl> dataProperties = reasoner.getKB().getDataProperties();
+	private ATermAppl findDataPropertyInReasoner(OWLOntology ontology, String name) {
+		Set<ATermAppl> dataProperties = getReasoner(ontology).getKB().getDataProperties();
 		for (ATermAppl dataProperty : dataProperties) {
 			if (dataProperty.getName().equals(NS + name)) {
 				System.out.println("findDataPropertyInReasoner()" + dataProperty);
@@ -199,11 +206,11 @@ public class AbstractModelsyncTest {
 	}
 
 	protected void assertNotIsInstance(OWLOntology ontology, OWLClass aClass, OWLIndividual object) {
-		assertFalse(object + " must not be instance of " + aClass, isInstanceOf(ontology, object, aClass));
+		assertFalse(object + " must not be instance of " + aClass, isInstanceOf(ontology, aClass, object));
 	}
 
 	protected void assertIsInstance(OWLOntology ontology, OWLClass aClass, OWLIndividual object) {
-		assertTrue(object + " should be instance of " + aClass, isInstanceOf(ontology, object, aClass));
+		assertTrue(object + " should be instance of " + aClass, isInstanceOf(ontology, aClass, object));
 	}
 
 	protected OWLIndividual addIndividual(OWLOntology ontology, OWLClass aClass, String name) {
@@ -233,7 +240,7 @@ public class AbstractModelsyncTest {
 		return objectProperty;
 	}
 
-	private boolean isInstanceOf(OWLOntology mOnto, OWLIndividual individual, OWLClass aClass) {
+	protected boolean isInstanceOf(OWLOntology mOnto, OWLClass aClass, OWLIndividual individual) {
 		getReasoner(mOnto);
 	
 		Set<OWLNamedIndividual> individuals = reasoner.getInstances(aClass, false).getFlattened();
@@ -251,7 +258,16 @@ public class AbstractModelsyncTest {
 			PelletExplanation.setup();
 			PelletOptions.USE_UNIQUE_NAME_ASSUMPTION = true;
 			reasoner = com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory.getInstance().createReasoner(mOnto);
-			reasoner.getKB().realize();
+			try {
+				reasoner.getKB().realize();
+			} catch (InconsistentOntologyException e) {
+				PelletExplanation explanation = new PelletExplanation(mOnto);
+				Set<OWLAxiom> axioms = explanation.getInconsistencyExplanation();
+				for (OWLAxiom owlAxiom : axioms) {
+					System.out.println("Axiom involved in inconsistency: " + owlAxiom);
+				}
+				fail(e.getMessage());
+			}
 		}
 		return reasoner;
 	}

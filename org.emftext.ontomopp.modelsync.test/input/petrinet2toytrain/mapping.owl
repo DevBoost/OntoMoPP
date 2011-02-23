@@ -103,3 +103,8 @@ Class: Track2Arc
 Class: Switch2Arc
 	EquivalentTo: Switch
 	SubClassOf: Arc
+
+DataProperty: isMulti 
+	Domain: Transition
+	Range: xsd:boolean 
+	Characteristics: Functional 

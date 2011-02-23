@@ -190,19 +190,22 @@ public class ModelsyncTest extends AbstractModelsyncTest {
 			assertIsInstance(mOnto, switchClass, switch1);
 			assertIsInstance(mOnto, arcClass, switch1);
 		}
-		
+
+		loadSWRLRules(mOnto, testcaseName, "rules");
+
 		{
 			// test arc,place,transition -> track,in,out
 			OWLIndividual arc2 = addIndividual(mOnto, arcClass, "arc2");
 			OWLIndividual place2 = addIndividual(mOnto, placeClass, "place2");
 			OWLIndividual transition2 = addIndividual(mOnto, transitionClass, "transition2");
-			setObjectProperty(mOnto, arc2, sourceProperty, place2);
-			setObjectProperty(mOnto, arc2, targetProperty, transition2);
-			clearReasoner();
-			assertObjectPropertyValue(mOnto, "arc2", "source", "place2");
-			assertObjectPropertyValue(mOnto, "arc2", "target", "transition2");
+			setObjectProperty(mOnto, arc2, sourceProperty, transition2);
+			setObjectProperty(mOnto, arc2, targetProperty, place2);
+			setDataProperty(mOnto, transition2, "isMulti", false);
+			assertDataPropertyValue(mOnto, "transition2", "isMulti", false);
 
-			loadSWRLRules(mOnto, testcaseName, "rules");
+			assertObjectPropertyValue(mOnto, "arc2", "source", "transition2");
+			assertObjectPropertyValue(mOnto, "arc2", "target", "place2");
+
 			assertIsInstance(mOnto, arcClass, arc2);
 			assertIsInstance(mOnto, placeClass, place2);
 			assertIsInstance(mOnto, transitionClass, transition2);
@@ -210,6 +213,36 @@ public class ModelsyncTest extends AbstractModelsyncTest {
 			assertIsInstance(mOnto, outClass, place2);
 			assertIsInstance(mOnto, inClass, transition2);
 			assertIsInstance(mOnto, trackClass, arc2);
+		}
+
+		{
+			// test arc,placeA,placeB,transition -> switch,outA,outB,in
+			OWLIndividual arc3a = addIndividual(mOnto, arcClass, "arc3a");
+			OWLIndividual arc3b = addIndividual(mOnto, arcClass, "arc3b");
+			OWLIndividual place3a = addIndividual(mOnto, placeClass, "place3a");
+			OWLIndividual place3b = addIndividual(mOnto, placeClass, "place3b");
+			OWLIndividual transition3 = addIndividual(mOnto, transitionClass, "transition3");
+			setObjectProperty(mOnto, arc3a, targetProperty, place3a);
+			setObjectProperty(mOnto, arc3b, targetProperty, place3b);
+			setObjectProperty(mOnto, arc3a, sourceProperty, transition3);
+			setObjectProperty(mOnto, arc3b, sourceProperty, transition3);
+
+			assertObjectPropertyValue(mOnto, "arc3a", "source", "transition3");
+			assertObjectPropertyValue(mOnto, "arc3a", "target", "place3a");
+			assertObjectPropertyValue(mOnto, "arc3b", "source", "transition3");
+			assertObjectPropertyValue(mOnto, "arc3b", "target", "place3b");
+			assertDataPropertyValue(mOnto, "transition3", "isMulti", true);
+
+			assertIsInstance(mOnto, arcClass, arc3a);
+			assertIsInstance(mOnto, arcClass, arc3b);
+			assertIsInstance(mOnto, placeClass, place3a);
+			assertIsInstance(mOnto, placeClass, place3b);
+			assertIsInstance(mOnto, transitionClass, transition3);
+
+			assertIsInstance(mOnto, outClass, place3a);
+			assertIsInstance(mOnto, outClass, place3b);
+			assertIsInstance(mOnto, inClass, transition3);
+			assertTrue(isInstanceOf(mOnto, switchClass, arc3a) || isInstanceOf(mOnto, switchClass, arc3b));
 		}
 	}
 	
