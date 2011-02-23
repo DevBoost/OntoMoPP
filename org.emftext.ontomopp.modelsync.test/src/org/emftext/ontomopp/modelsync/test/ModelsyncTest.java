@@ -57,9 +57,15 @@ public class ModelsyncTest extends AbstractModelsyncTest {
 
 	@Test
 	public void testSWRLRuleLoading() {
+		String testcaseName = "petrinet2toytrain";
+		String ruleFileName = "rules";
+		List<SWRLRule> rules = loadSWRLRules(null, testcaseName, ruleFileName);
+		assertFalse(rules.isEmpty());
+	}
+
+	private List<SWRLRule> loadSWRLRules(OWLOntology ontology, String testcaseName, String ruleFileName) {
 		new OwlMetaInformation().registerResourceFactory();
-		
-		SwrlResource resource = SwrlTextResourceUtil.getResource(getInputModelURI("petrinet2toytrain", "rules", "swrl"));
+		SwrlResource resource = SwrlTextResourceUtil.getResource(getInputModelURI(testcaseName, ruleFileName, "swrl"));
 		SWRLDocument document = (SWRLDocument) resource.getContents().get(0);
 		Set<EObject> unresolvedProxies = SwrlResourceUtil.findUnresolvedProxies(resource);
 		for (EObject proxy : unresolvedProxies) {
@@ -69,7 +75,43 @@ public class ModelsyncTest extends AbstractModelsyncTest {
 		
 		SWRLRuleBuilder builder = new SWRLRuleBuilder();
 		List<SWRLRule> rules = builder.getRules(document);
-		assertFalse(rules.isEmpty());
+		if (ontology != null) {
+			for (SWRLRule swrlRule : rules) {
+				manager.addAxiom(ontology, swrlRule);
+			}
+		}
+		clearReasoner();
+		return rules;
+	}
+
+	@Test
+	public void testSwrlObjectPropertyRule() {
+		String testcaseName = "swrl-object-property";
+		OWLOntology mOnto = loadOntology(testcaseName);
+
+		OWLClass classA = findClass("A");
+		OWLClass classB = findClass("B");
+		OWLClass classC = findClass("C");
+		OWLClass classD = findClass("D");
+		
+		// create a,b,prop(a,b)
+		OWLIndividual a = addIndividual(mOnto, classA, "a");
+		OWLIndividual b = addIndividual(mOnto, classB, "b");
+		OWLObjectProperty property1 = findObjectProperty("prop1");
+		setObjectProperty(mOnto, a, property1, b);
+		
+		List<SWRLRule> rules = loadSWRLRules(mOnto, testcaseName, "rules");
+		System.out.println("ModelsyncTest.testSwrlObjectPropertyRule()" + rules.get(0));
+
+		getReasoner(mOnto).getKB().printClassTree();
+
+		assertIsInstance(mOnto, classA, a);
+		assertObjectPropertyValue(mOnto, "a", "prop1", "b");
+		assertIsInstance(mOnto, classB, b);
+
+		assertIsInstance(mOnto, classC, a);
+		assertObjectPropertyValue(mOnto, "a", "prop2", "b");
+		assertIsInstance(mOnto, classD, b);
 	}
 	
 	@Test
@@ -89,6 +131,9 @@ public class ModelsyncTest extends AbstractModelsyncTest {
 		OWLClass switchClass = findClass("Switch");
 		OWLClass outClass = findClass("Out");
 		OWLClass inClass = findClass("In");
+		
+		OWLObjectProperty sourceProperty = findObjectProperty("source");
+		OWLObjectProperty targetProperty = findObjectProperty("target");
 
 		{
 			// add petri net instance, check mapping to project
@@ -119,7 +164,7 @@ public class ModelsyncTest extends AbstractModelsyncTest {
 		}
 
 		{
-			// add in port, check mapping to transition
+			// add out port, check mapping to transition
 			OWLIndividual in1 = addIndividual(mOnto, inClass, "in1");
 			assertIsInstance(mOnto, inClass, in1);
 			assertIsInstance(mOnto, transitionClass, in1);
@@ -144,6 +189,27 @@ public class ModelsyncTest extends AbstractModelsyncTest {
 			OWLIndividual switch1 = addIndividual(mOnto, switchClass, "switch1");
 			assertIsInstance(mOnto, switchClass, switch1);
 			assertIsInstance(mOnto, arcClass, switch1);
+		}
+		
+		{
+			// test arc,place,transition -> track,in,out
+			OWLIndividual arc2 = addIndividual(mOnto, arcClass, "arc2");
+			OWLIndividual place2 = addIndividual(mOnto, placeClass, "place2");
+			OWLIndividual transition2 = addIndividual(mOnto, transitionClass, "transition2");
+			setObjectProperty(mOnto, arc2, sourceProperty, place2);
+			setObjectProperty(mOnto, arc2, targetProperty, transition2);
+			clearReasoner();
+			assertObjectPropertyValue(mOnto, "arc2", "source", "place2");
+			assertObjectPropertyValue(mOnto, "arc2", "target", "transition2");
+
+			loadSWRLRules(mOnto, testcaseName, "rules");
+			assertIsInstance(mOnto, arcClass, arc2);
+			assertIsInstance(mOnto, placeClass, place2);
+			assertIsInstance(mOnto, transitionClass, transition2);
+
+			assertIsInstance(mOnto, outClass, place2);
+			assertIsInstance(mOnto, inClass, transition2);
+			assertIsInstance(mOnto, trackClass, arc2);
 		}
 	}
 	
@@ -213,8 +279,8 @@ public class ModelsyncTest extends AbstractModelsyncTest {
         clearReasoner();
         assertIsInstance(mOnto, sectionClass, package1);
         // check sectionName of package1
-        assertDataPropertyValue("package1", "packageName", "p1");
-        assertDataPropertyValue("package1", "sectionName", "prefix_p1");
+        assertDataPropertyValue(mOnto, "package1", "packageName", "p1");
+        assertDataPropertyValue(mOnto, "package1", "sectionName", "prefix_p1");
         
         // now add an individual of type section and check whether the other direction
         // does also work
@@ -256,7 +322,7 @@ public class ModelsyncTest extends AbstractModelsyncTest {
         clearReasoner();
 
         assertIsInstance(mOnto, packageClass, section1);
-        assertDataPropertyValue("section1", "packageName", "s1");
+        assertDataPropertyValue(mOnto, "section1", "packageName", "s1");
 	}
 
 	@Test
@@ -294,7 +360,6 @@ public class ModelsyncTest extends AbstractModelsyncTest {
 		to.add(createSWRLClassAtom(tableClass, "y"));
 
 		createSWRLRule(mOnto, to, from);
-        clearReasoner();
         assertIsInstance(mOnto, sectionClass, package1);
         assertIsInstance(mOnto, tableClass, entity1);
 	}
@@ -332,7 +397,7 @@ public class ModelsyncTest extends AbstractModelsyncTest {
 			setDataProperty(mOnto, entry1, "isItalic", false);
 			clearReasoner();
 			assertIsInstance(mOnto, fullEntryClass, entry1);
-			assertDataPropertyValue("entry1", "isAbstract", false);
+			assertDataPropertyValue(mOnto, "entry1", "isAbstract", false);
 			assertIsInstance(mOnto, methodClass, entry1);
 			assertNotIsInstance(mOnto, fieldClass, entry1);
 		}
@@ -345,7 +410,7 @@ public class ModelsyncTest extends AbstractModelsyncTest {
 			clearReasoner();
 			assertIsInstance(mOnto, basicEntryClass, entry2);
 			assertIsInstance(mOnto, methodClass, entry2);
-			assertDataPropertyValue("entry2", "isAbstract", true);
+			assertDataPropertyValue(mOnto, "entry2", "isAbstract", true);
 			assertNotIsInstance(mOnto, fieldClass, entry2);
 		}
 

@@ -1,5 +1,9 @@
 import <mapping.owl>
 
-Track(?a) => Arc(?a)
+//Arc(?x) => Switch(?x)
 
-Track(?a) and Out(?o) => Arc(?a)
+// rule 2
+Arc(?x) and Place(?y) and Transition(?z) 
+	and	source(?x, ?y) and target(?x, ?z) =>
+Track(?x) and Out(?y) and In(?z) 
+	and ports(?x, ?y) and ports(?x, ?z)

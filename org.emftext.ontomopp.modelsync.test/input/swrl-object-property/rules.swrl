@@ -1,0 +1,4 @@
+import <mapping.owl>
+
+A(?x) and prop1(?x, ?y) and B(?y) => 
+C(?x) and prop2(?x, ?y) and D(?y)

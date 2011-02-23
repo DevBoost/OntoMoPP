@@ -30,7 +30,7 @@ ObjectProperty: target
 Class: Place
 	DisjointWith: Transition
 	SubClassOf: Node
-ObjectProperty: target
+ObjectProperty: marking
 	Domain: Place
 	Range:  Token
 
@@ -66,6 +66,9 @@ Class: Out
 Class: Component
 	DisjointWith: Connection, Port, Project, Train
 	SubClassOf: owl:Thing
+ObjectProperty: ports
+	Domain: Component
+	Range:  Port
 
 Class: Track
 	DisjointWith: Switch

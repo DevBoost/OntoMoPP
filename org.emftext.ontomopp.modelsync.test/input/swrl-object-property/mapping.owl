@@ -1,0 +1,24 @@
+Prefix: owl: <http://www.w3.org/2002/07/owl#>
+Prefix: : <test://mapping#>
+
+Ontology: <test://mapping>
+
+Class: A
+	SubClassOf: owl:Thing
+
+Class: B
+	SubClassOf: owl:Thing
+
+Class: C
+	SubClassOf: owl:Thing
+
+Class: D
+	SubClassOf: owl:Thing
+
+ObjectProperty: prop1
+	Domain: A
+	Range:  B
+
+ObjectProperty: prop2
+	Domain: C
+	Range:  D
