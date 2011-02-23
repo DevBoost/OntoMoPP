@@ -64,7 +64,7 @@ public class AbstractModelsyncTest {
 	protected void assertDataPropertyValue(OWLOntology ontology, String individualName, String propertyName,
 			boolean value) {
 		ATermAppl property = findDataPropertyInReasoner(ontology, propertyName);
-		assertNotNull(property);
+		assertNotNull("Can't find data property " + propertyName, property);
 		
 		ATermAppl individual = findIndividualInReasoner(ontology, individualName);
 		assertNotNull(individual);
@@ -73,7 +73,7 @@ public class AbstractModelsyncTest {
 		System.out.println(individualName + "." + propertyName + " = " + dataPropertyValues);
 		assertEquals("Can't find values for data property: " + propertyName, 1, dataPropertyValues.size());
 		ATermAppl first = dataPropertyValues.get(0);
-		assertEquals(value, first.toString().equals("literal(true,(),http://www.w3.org/2001/XMLSchema#boolean)"));
+		assertEquals("Data property " + individualName + "." + propertyName + " must be " + value, value, first.toString().equals("literal(true,(),http://www.w3.org/2001/XMLSchema#boolean)"));
 	}
 
 	protected void assertObjectPropertyValue(

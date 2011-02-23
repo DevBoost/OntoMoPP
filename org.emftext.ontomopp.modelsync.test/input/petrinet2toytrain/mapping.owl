@@ -104,7 +104,12 @@ Class: Switch2Arc
 	EquivalentTo: Switch
 	SubClassOf: Arc
 
-DataProperty: isMulti 
+DataProperty: hasMultipleOutgoingArcs 
 	Domain: Transition
 	Range: xsd:boolean 
 	Characteristics: Functional 
+
+DataProperty: hasMultipleIncomingArcs 
+	Domain: Transition
+	Range: xsd:boolean 
+	Characteristics: Functional

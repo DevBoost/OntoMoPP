@@ -200,8 +200,8 @@ public class ModelsyncTest extends AbstractModelsyncTest {
 			OWLIndividual transition2 = addIndividual(mOnto, transitionClass, "transition2");
 			setObjectProperty(mOnto, arc2, sourceProperty, transition2);
 			setObjectProperty(mOnto, arc2, targetProperty, place2);
-			setDataProperty(mOnto, transition2, "isMulti", false);
-			assertDataPropertyValue(mOnto, "transition2", "isMulti", false);
+			setDataProperty(mOnto, transition2, "hasMultipleOutgoingArcs", false);
+			assertDataPropertyValue(mOnto, "transition2", "hasMultipleOutgoingArcs", false);
 
 			assertObjectPropertyValue(mOnto, "arc2", "source", "transition2");
 			assertObjectPropertyValue(mOnto, "arc2", "target", "place2");
@@ -216,7 +216,8 @@ public class ModelsyncTest extends AbstractModelsyncTest {
 		}
 
 		{
-			// test arc,placeA,placeB,transition -> switch,outA,outB,in
+			// test arcA,arcB,placeA,placeB,transition -> switch,outA,outB,in
+			// (switch type one)
 			OWLIndividual arc3a = addIndividual(mOnto, arcClass, "arc3a");
 			OWLIndividual arc3b = addIndividual(mOnto, arcClass, "arc3b");
 			OWLIndividual place3a = addIndividual(mOnto, placeClass, "place3a");
@@ -231,7 +232,7 @@ public class ModelsyncTest extends AbstractModelsyncTest {
 			assertObjectPropertyValue(mOnto, "arc3a", "target", "place3a");
 			assertObjectPropertyValue(mOnto, "arc3b", "source", "transition3");
 			assertObjectPropertyValue(mOnto, "arc3b", "target", "place3b");
-			assertDataPropertyValue(mOnto, "transition3", "isMulti", true);
+			assertDataPropertyValue(mOnto, "transition3", "hasMultipleOutgoingArcs", true);
 
 			assertIsInstance(mOnto, arcClass, arc3a);
 			assertIsInstance(mOnto, arcClass, arc3b);
@@ -243,6 +244,36 @@ public class ModelsyncTest extends AbstractModelsyncTest {
 			assertIsInstance(mOnto, outClass, place3b);
 			assertIsInstance(mOnto, inClass, transition3);
 			assertTrue(isInstanceOf(mOnto, switchClass, arc3a) || isInstanceOf(mOnto, switchClass, arc3b));
+		}
+
+		{
+			// test place,arcA,transition,arcB,arcC -> switch,out,inA,inB
+			// (switch type two)
+			OWLIndividual arc4a = addIndividual(mOnto, arcClass, "arc4a");
+			OWLIndividual arc4b = addIndividual(mOnto, arcClass, "arc4b");
+			OWLIndividual arc4c = addIndividual(mOnto, arcClass, "arc4c");
+			OWLIndividual place4 = addIndividual(mOnto, placeClass, "place4");
+			OWLIndividual transition4 = addIndividual(mOnto, transitionClass, "transition4");
+			setObjectProperty(mOnto, arc4a, sourceProperty, transition4);
+			setObjectProperty(mOnto, arc4a, targetProperty, place4);
+			setObjectProperty(mOnto, arc4b, targetProperty, transition4);
+			setObjectProperty(mOnto, arc4c, targetProperty, transition4);
+
+			assertObjectPropertyValue(mOnto, "arc4a", "source", "transition4");
+			assertObjectPropertyValue(mOnto, "arc4a", "target", "place4");
+			assertObjectPropertyValue(mOnto, "arc4b", "target", "transition4");
+			assertObjectPropertyValue(mOnto, "arc4c", "target", "transition4");
+			assertDataPropertyValue(mOnto, "transition4", "hasMultipleIncomingArcs", true);
+
+			assertIsInstance(mOnto, arcClass, arc4a);
+			assertIsInstance(mOnto, arcClass, arc4b);
+			assertIsInstance(mOnto, arcClass, arc4c);
+			assertIsInstance(mOnto, placeClass, place4);
+			assertIsInstance(mOnto, transitionClass, transition4);
+
+			assertIsInstance(mOnto, outClass, place4);
+			assertIsInstance(mOnto, switchClass, arc4a);
+			assertIsInstance(mOnto, inClass, transition4);
 		}
 	}
 	
