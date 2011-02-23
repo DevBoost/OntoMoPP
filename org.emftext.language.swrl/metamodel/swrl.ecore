@@ -37,20 +37,27 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="object" lowerBound="1"
         eType="#//DObject" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="IndividualPropertyAtom" eSuperTypes="#//Atom">
+  <eClassifiers xsi:type="ecore:EClass" name="PropertyAtom" eSuperTypes="#//Atom">
     <eStructuralFeatures xsi:type="ecore:EReference" name="property" lowerBound="1"
-        eType="ecore:EClass ../../org.emftext.language.owl/metamodel/owl.text.ecore#//ObjectProperty"/>
+        eType="ecore:EClass ../../org.emftext.language.owl/metamodel/owl.text.ecore#//Feature"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
         eType="#//IObject" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+        eType="#//UnknownObject" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IndividualPropertyAtom" eSuperTypes="#//PropertyAtom"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DatavaluedPropertyAtom" eSuperTypes="#//PropertyAtom"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SameAsAtom" eSuperTypes="#//Atom"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DifferentFromAtom" eSuperTypes="#//Atom">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objectA" lowerBound="1"
+        eType="#//IObject" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objectB" lowerBound="1"
         eType="#//IObject" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="DatavaluedPropertyAtom" eSuperTypes="#//Atom"/>
-  <eClassifiers xsi:type="ecore:EClass" name="SameAsAtom" eSuperTypes="#//Atom"/>
-  <eClassifiers xsi:type="ecore:EClass" name="DifferentFromAtom" eSuperTypes="#//Atom"/>
   <eClassifiers xsi:type="ecore:EClass" name="BuiltinAtom" eSuperTypes="#//Atom"/>
-  <eClassifiers xsi:type="ecore:EClass" name="IObject" abstract="true"/>
-  <eClassifiers xsi:type="ecore:EClass" name="DObject" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UnknownObject"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IObject" abstract="true" eSuperTypes="#//UnknownObject"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DObject" abstract="true" eSuperTypes="#//UnknownObject"/>
   <eClassifiers xsi:type="ecore:EClass" name="IVariable" eSuperTypes="#//IObject ../../org.emftext.language.owl/metamodel/owl.text.ecore#//IRIIdentified"/>
   <eClassifiers xsi:type="ecore:EClass" name="DVariable" eSuperTypes="#//DObject ../../org.emftext.language.owl/metamodel/owl.text.ecore#//IRIIdentified"/>
   <eClassifiers xsi:type="ecore:EClass" name="DLiteral" eSuperTypes="#//DObject">

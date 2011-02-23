@@ -31,15 +31,20 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference swrl.ecore#//DataRangeAtom/dataRange"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference swrl.ecore#//DataRangeAtom/object"/>
     </genClasses>
-    <genClasses ecoreClass="swrl.ecore#//IndividualPropertyAtom">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference swrl.ecore#//IndividualPropertyAtom/property"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference swrl.ecore#//IndividualPropertyAtom/source"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference swrl.ecore#//IndividualPropertyAtom/target"/>
+    <genClasses image="false" ecoreClass="swrl.ecore#//PropertyAtom">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference swrl.ecore#//PropertyAtom/property"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference swrl.ecore#//PropertyAtom/source"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference swrl.ecore#//PropertyAtom/target"/>
     </genClasses>
+    <genClasses ecoreClass="swrl.ecore#//IndividualPropertyAtom"/>
     <genClasses ecoreClass="swrl.ecore#//DatavaluedPropertyAtom"/>
     <genClasses ecoreClass="swrl.ecore#//SameAsAtom"/>
-    <genClasses ecoreClass="swrl.ecore#//DifferentFromAtom"/>
+    <genClasses ecoreClass="swrl.ecore#//DifferentFromAtom">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference swrl.ecore#//DifferentFromAtom/objectA"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference swrl.ecore#//DifferentFromAtom/objectB"/>
+    </genClasses>
     <genClasses ecoreClass="swrl.ecore#//BuiltinAtom"/>
+    <genClasses ecoreClass="swrl.ecore#//UnknownObject"/>
     <genClasses image="false" ecoreClass="swrl.ecore#//IObject"/>
     <genClasses image="false" ecoreClass="swrl.ecore#//DObject"/>
     <genClasses ecoreClass="swrl.ecore#//IVariable"/>

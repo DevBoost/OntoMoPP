@@ -34,20 +34,19 @@ RULES {
 	Consequent ::= body ("and" body)*;
 	
 	DescriptionAtom ::= description "(" object ")";
-	IndividualPropertyAtom ::= property[IRI] "(" source "," target ")";
-	
+	PropertyAtom ::= property[IRI] "(" source "," target ")";
 	//DataRangeAtom   ::= dataRange[IRI]   "(" object ")";
+	DifferentFromAtom ::= "differentFrom" "(" objectA "," objectB ")";
 
 	// TODO DVariable ::= uri[];
-	//DLiteral  ::= literal;
+	DLiteral  ::= literal;
 	
 	IVariable ::= "?" iri[IRI];
 	DVariable ::= "?" iri[IRI];
 
 	// adapted from OWL syntax
-	//@Operator(type = "primitive", weight="2", superclass="Description")
 	ClassAtomic ::= not["not" : ""] clazz[IRI];
-
-	//@Operator(type = "binary_left_associative", weight="1", superclass="Description")
-	//Conjunction ::= primaries "and" primaries;
+	//NestedDescription ::= not["not" : ""] description : ClassAtomic;
+	
+	BooleanLiteral ::= value["true":"false"];
 }
