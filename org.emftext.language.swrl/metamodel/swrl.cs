@@ -12,10 +12,15 @@ OPTIONS {
 }
 
 TOKENS {
+	DEFINE COMMENTS $'//'(~('\n'|'\r'))*$;
 	DEFINE WHITESPACE $(' '|'\t'|'\f')$;
 	DEFINE LINEBREAKS $('\r\n'|'\r'|'\n')$;
 	// copied from OWL syntax
 	DEFINE IRI $(('<')(~('>')|('\\''>'))*('>'))|(('A'..'Z' | ':' | 'a'..'z' | '0'..'9' | '_' | '-' )+)$;
+}
+
+TOKENSTYLES {
+	"COMMENTS" COLOR #008000;
 }
 
 RULES {
@@ -29,6 +34,7 @@ RULES {
 	Consequent ::= body ("and" body)*;
 	
 	DescriptionAtom ::= description "(" object ")";
+	IndividualPropertyAtom ::= property[IRI] "(" source "," target ")";
 	
 	//DataRangeAtom   ::= dataRange[IRI]   "(" object ")";
 
@@ -36,6 +42,7 @@ RULES {
 	//DLiteral  ::= literal;
 	
 	IVariable ::= "?" iri[IRI];
+	DVariable ::= "?" iri[IRI];
 
 	// adapted from OWL syntax
 	//@Operator(type = "primitive", weight="2", superclass="Description")

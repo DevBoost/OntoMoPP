@@ -37,7 +37,14 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="object" lowerBound="1"
         eType="#//DObject" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="IndividualvaluedPropertyAtom" eSuperTypes="#//Atom"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IndividualPropertyAtom" eSuperTypes="#//Atom">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="property" lowerBound="1"
+        eType="ecore:EClass ../../org.emftext.language.owl/metamodel/owl.text.ecore#//ObjectProperty"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="#//IObject" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+        eType="#//IObject" containment="true"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DatavaluedPropertyAtom" eSuperTypes="#//Atom"/>
   <eClassifiers xsi:type="ecore:EClass" name="SameAsAtom" eSuperTypes="#//Atom"/>
   <eClassifiers xsi:type="ecore:EClass" name="DifferentFromAtom" eSuperTypes="#//Atom"/>
@@ -45,7 +52,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="IObject" abstract="true"/>
   <eClassifiers xsi:type="ecore:EClass" name="DObject" abstract="true"/>
   <eClassifiers xsi:type="ecore:EClass" name="IVariable" eSuperTypes="#//IObject ../../org.emftext.language.owl/metamodel/owl.text.ecore#//IRIIdentified"/>
-  <eClassifiers xsi:type="ecore:EClass" name="DVariable" eSuperTypes="#//DObject"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DVariable" eSuperTypes="#//DObject ../../org.emftext.language.owl/metamodel/owl.text.ecore#//IRIIdentified"/>
   <eClassifiers xsi:type="ecore:EClass" name="DLiteral" eSuperTypes="#//DObject">
     <eStructuralFeatures xsi:type="ecore:EReference" name="literal" lowerBound="1"
         eType="ecore:EClass ../../org.emftext.language.owl/metamodel/owl.text.ecore#//Literal"
