@@ -337,7 +337,8 @@ public class ModelsyncTest extends AbstractModelsyncTest {
 			OWLIndividual in6 = addIndividual(mOnto, inClass, "in6");
 			OWLIndividual switch6 = addIndividual(mOnto, switchClass, "switch6");
 			
-			OWLIndividual dummy6 = addIndividual(mOnto, dummyClass, "dummy6");
+			// we must create dummy objects to bind free variables
+			addIndividual(mOnto, dummyClass, "dummy6");
 			
 			setObjectProperty(mOnto, switch6, portsProperty, out6a);
 			setObjectProperty(mOnto, switch6, portsProperty, out6b);
@@ -367,7 +368,8 @@ public class ModelsyncTest extends AbstractModelsyncTest {
 			OWLIndividual out7 = addIndividual(mOnto, outClass, "out7");
 			OWLIndividual switch7 = addIndividual(mOnto, switchClass, "switch7");
 			
-			OWLIndividual dummy7 = addIndividual(mOnto, dummyClass, "dummy7");
+			// we must create dummy objects to bind free variables
+			addIndividual(mOnto, dummyClass, "dummy7");
 			
 			setObjectProperty(mOnto, switch7, portsProperty, in7a);
 			setObjectProperty(mOnto, switch7, portsProperty, in7b);
