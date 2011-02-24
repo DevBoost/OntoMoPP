@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
@@ -189,9 +190,13 @@ public class OWLTransformationHelper {
 	}
 
 	public static String getSimpleFeatureIdentificationIRI(
-			EStructuralFeature feature) {
-		String iri = getSimpleClassIdentificationIRI(feature
-				.getEContainingClass()) + "_" + feature.getName();
+			EStructuralFeature feature, boolean usePrefix) {
+		EClass containingClass = feature.getEContainingClass();
+		String prefix = "";
+		if (usePrefix) {
+			prefix = getSimpleClassIdentificationIRI(containingClass) + "_";
+		}
+		String iri = prefix + feature.getName();
 		return iri;
 	}
 

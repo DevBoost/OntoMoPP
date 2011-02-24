@@ -3,8 +3,10 @@ package org.emftext.runtime.owltext.transformation;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -70,14 +72,14 @@ public class Ecore2Owl {
 
 	private OwlFactory owlFactory = OwlFactory.eINSTANCE;
 	private Ontology ontology;
-	private HashMap<ENamedElement, Frame> eType2owlClass = new HashMap<ENamedElement, Frame>();
-	private HashMap<EStructuralFeature, Feature> references2objectProperties = new HashMap<EStructuralFeature, Feature>();
+	private HashMap<ENamedElement, Frame> eType2owlClass = new LinkedHashMap<ENamedElement, Frame>();
+	private HashMap<EStructuralFeature, Feature> references2objectProperties = new LinkedHashMap<EStructuralFeature, Feature>();
 	private int constraintCounter = 0;
-	private HashMap<EClass, List<EClass>> allSupertypes = new HashMap<EClass, List<EClass>>();
-	private HashMap<EClass, List<EClass>> allSubtypes = new HashMap<EClass, List<EClass>>();
-	private HashMap<EClass, List<EClass>> directSubtypes = new HashMap<EClass, List<EClass>>();
+	private HashMap<EClass, List<EClass>> allSupertypes = new LinkedHashMap<EClass, List<EClass>>();
+	private HashMap<EClass, List<EClass>> allSubtypes = new LinkedHashMap<EClass, List<EClass>>();
+	private HashMap<EClass, List<EClass>> directSubtypes = new LinkedHashMap<EClass, List<EClass>>();
 	private EPackage currentMetamodel;
-	private HashMap<EPackage, HashMap<ENamedElement, Frame>> importedTypeMaps = new HashMap<EPackage, HashMap<ENamedElement, Frame>>();
+	private HashMap<EPackage, HashMap<ENamedElement, Frame>> importedTypeMaps = new LinkedHashMap<EPackage, HashMap<ENamedElement, Frame>>();
 	private URI targetURI;
 
 	private void addSubtype(EClass key, EClass subtype) {
@@ -152,6 +154,10 @@ public class Ecore2Owl {
 	}
 
 	public OntologyDocument transformMetamodel(EPackage metamodel, URI targetURI) {
+		return transformMetamodel(metamodel, targetURI, Collections.<Ecore2OwlOptions, Object>emptyMap());
+	}
+
+	public OntologyDocument transformMetamodel(EPackage metamodel, URI targetURI, Map<Ecore2OwlOptions, Object> options) {
 		this.targetURI = targetURI;
 		currentMetamodel = metamodel;
 		OntologyDocument d = owlFactory.createOntologyDocument();
@@ -160,7 +166,7 @@ public class Ecore2Owl {
 		initDatatypes();
 		initStandardImports(d, metamodel);
 		ontology.setUri(metamodel.getNsURI());
-		propagateMetamodel(metamodel);
+		propagateMetamodel(metamodel, options);
 		cleanTransitiveImports(ontology);
 		
 		Resource resource = metamodel.eResource();
@@ -314,8 +320,11 @@ public class Ecore2Owl {
 	// namespaces, ePackage.getESubpackages());
 	// }
 	// }
-
 	public OntologyDocument transform(Collection<EObject> eObjects) {
+		return transform(eObjects, Collections.<Ecore2OwlOptions, Object>emptyMap());
+	}
+
+	public OntologyDocument transform(Collection<EObject> eObjects, Map<Ecore2OwlOptions, Object> options) {
 		OntologyDocument d = owlFactory.createOntologyDocument();
 		ontology = owlFactory.createOntology();
 		initDatatypes();
@@ -327,7 +336,7 @@ public class Ecore2Owl {
 			while (metamodel.getESuperPackage() != null) {
 				metamodel = metamodel.getESuperPackage();
 			}
-			propagateMetamodel(metamodel);
+			propagateMetamodel(metamodel, options);
 			propagateInstances(eObject);
 		}
 		cleanTransitiveImports(ontology);
@@ -381,7 +390,7 @@ public class Ecore2Owl {
 		}
 	}
 
-	private void propagateMetamodel(EPackage metamodel) {
+	private void propagateMetamodel(EPackage metamodel, Map<Ecore2OwlOptions, Object> options) {
 		TreeIterator<EObject> allContents = metamodel.eAllContents();
 		while (allContents.hasNext()) {
 			EObject elem = allContents.next();
@@ -397,19 +406,22 @@ public class Ecore2Owl {
 				for (EClass directSupertype : directSuperTypes) {
 					addDirectSubtype(directSupertype, eClass);
 				}
-			} else if (elem instanceof EEnum)
+			} else if (elem instanceof EEnum) {
 				transformEEnum((EEnum) elem);
-			else if (elem instanceof EDataType)
+			} else if (elem instanceof EDataType) {
 				transformEDatatype((EDataType) elem);
-
+			}
 		}
 		allContents = metamodel.eAllContents();
 		while (allContents.hasNext()) {
 			EObject elem = allContents.next();
-			if (elem instanceof EReference)
-				transformEReference((EReference) elem);
-			if (elem instanceof EAttribute)
-				transformEAttribute((EAttribute) elem);
+			boolean addPrefix = options.get(Ecore2OwlOptions.PREFIX_PROPERTIES_WITH_CLASSNAME) != Boolean.FALSE;
+			if (elem instanceof EReference) {
+				transformEReference((EReference) elem, addPrefix);
+			}
+			if (elem instanceof EAttribute) {
+				transformEAttribute((EAttribute) elem, addPrefix);
+			}
 		}
 
 		Set<EClass> allClasses = new HashSet<EClass>();
@@ -812,11 +824,11 @@ public class Ecore2Owl {
 		restriction.setFeatureReference(reference);
 	}
 
-	private void transformEAttribute(EAttribute elem) {
+	private void transformEAttribute(EAttribute elem, boolean addPrefix) {
 		if (elem.getEAttributeType() instanceof EEnum) { // EEnum
 			ObjectProperty o = owlFactory.createObjectProperty();
 			o.setIri(OWLTransformationHelper
-					.getSimpleFeatureIdentificationIRI(elem));
+					.getSimpleFeatureIdentificationIRI(elem, addPrefix));
 			ontology.getFrames().add(o);
 
 			Class rangeClass = (Class) getTypeMapping(elem.getEType());
@@ -840,7 +852,7 @@ public class Ecore2Owl {
 			DataProperty d = owlFactory.createDataProperty();
 			ontology.getFrames().add(d);
 			d.setIri(OWLTransformationHelper
-					.getSimpleFeatureIdentificationIRI(elem));
+					.getSimpleFeatureIdentificationIRI(elem, addPrefix));
 			Class domainClass = (Class) getTypeMapping(elem
 					.getEContainingClass());
 			ClassAtomic domainClassAtomic = owlFactory.createClassAtomic();
@@ -861,10 +873,9 @@ public class Ecore2Owl {
 		}
 	}
 
-	private void transformEReference(EReference elem) {
+	private void transformEReference(EReference elem, boolean addPrefix) {
 		ObjectProperty o = owlFactory.createObjectProperty();
-		o.setIri(OWLTransformationHelper
-				.getSimpleFeatureIdentificationIRI(elem));
+		o.setIri(OWLTransformationHelper.getSimpleFeatureIdentificationIRI(elem, addPrefix));
 		ontology.getFrames().add(o);
 
 		Class rangeClass = (Class) getTypeMapping(elem.getEType());
