@@ -17,4 +17,7 @@ Require-Bundle: org.junit,
  org.emftext.language.owl.reasoning,
  org.emftext.language.swrl,
  org.emftext.language.swrl.resource.swrl,
- org.emftext.language.swrl.util
+ org.emftext.language.swrl.util,
+ org.emftext.runtime.owltext.transformation,
+ org.emftext.language.petrinet,
+ org.emftext.language.rails

@@ -582,25 +582,4 @@ public class ModelsyncTest extends AbstractModelsyncTest {
 	public void tearDown() {
 		manager = null;
 	}
-
-	/*
-	private URI getOutputModelURI(String testcaseName, String modelName, String extension) {
-		File outputFolder = new File("output" + File.separator + testcaseName);
-		outputFolder.mkdirs();
-		
-		URI targetURI = URI.createFileURI(outputFolder.getAbsolutePath() + File.separator + modelName + "." + extension);
-		return targetURI;
-	}
-	
-	private ResourceSet getResourceSet() {
-		// this is just to register the Ecore language
-		EcorePackage.eINSTANCE.getEClass();
-		
-		ResourceSet rs = new ResourceSetImpl();
-		Map<String, Object> extensionToFactoryMap = rs.getResourceFactoryRegistry().getExtensionToFactoryMap();
-		extensionToFactoryMap.put("ecore", new XMIResourceFactoryImpl());
-		extensionToFactoryMap.put("owl", new OwlResourceFactory());
-		return rs;
-	}
-	*/
 }
