@@ -99,10 +99,7 @@ public class ModelsyncTest extends AbstractModelsyncTest {
 		OWLObjectProperty property1 = findObjectProperty("prop1");
 		setObjectProperty(mOnto, a, property1, b);
 		
-		List<SWRLRule> rules = loadSWRLRules(mOnto, testcaseName, "rules");
-		System.out.println("ModelsyncTest.testSwrlObjectPropertyRule()" + rules.get(0));
-
-		getReasoner(mOnto).getKB().printClassTree();
+		loadSWRLRules(mOnto, testcaseName, "rules");
 
 		assertIsInstance(mOnto, classA, a);
 		assertObjectPropertyValue(mOnto, "a", "prop1", "b");
@@ -628,8 +625,6 @@ public class ModelsyncTest extends AbstractModelsyncTest {
 
         OWLIndividual packageObject = addIndividual(mOnto, packageClass, "package1");
 		assertIsInstance(mOnto, packageClass, packageObject);
-		reasoner.getKB().realize();
-		reasoner.getKB().printClassTree();
 
 		// check rule execution
 		assertIsInstance(mOnto, mChapterClass, packageObject);
