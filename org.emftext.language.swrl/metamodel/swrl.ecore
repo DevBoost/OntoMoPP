@@ -47,7 +47,12 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IndividualPropertyAtom" eSuperTypes="#//PropertyAtom"/>
   <eClassifiers xsi:type="ecore:EClass" name="DatavaluedPropertyAtom" eSuperTypes="#//PropertyAtom"/>
-  <eClassifiers xsi:type="ecore:EClass" name="SameAsAtom" eSuperTypes="#//Atom"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SameAsAtom" eSuperTypes="#//Atom">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objectA" lowerBound="1"
+        eType="#//IObject" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objectB" lowerBound="1"
+        eType="#//IObject" containment="true"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DifferentFromAtom" eSuperTypes="#//Atom">
     <eStructuralFeatures xsi:type="ecore:EReference" name="objectA" lowerBound="1"
         eType="#//IObject" containment="true"/>

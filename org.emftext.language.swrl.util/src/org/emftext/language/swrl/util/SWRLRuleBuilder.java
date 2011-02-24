@@ -27,6 +27,7 @@ import org.emftext.language.swrl.IVariable;
 import org.emftext.language.swrl.PropertyAtom;
 import org.emftext.language.swrl.Rule;
 import org.emftext.language.swrl.SWRLDocument;
+import org.emftext.language.swrl.SameAsAtom;
 import org.emftext.language.swrl.UnknownObject;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
@@ -91,6 +92,8 @@ public class SWRLRuleBuilder {
 			return getSWRLObjectPropertyAtom((PropertyAtom) atom);
 		} else if (atom instanceof DifferentFromAtom) {
 			return getSWRLDifferentFromAtom((DifferentFromAtom) atom);
+		} else if (atom instanceof SameAsAtom) {
+			return getSWRLSameAsAtom((SameAsAtom) atom);
 		}
 		throw new RuntimeException("Found unknown atom (" + atom + ") in SWRL rule.");
 	}
@@ -101,6 +104,14 @@ public class SWRLRuleBuilder {
 		SWRLIArgument argumentA = getSWRLArgument(objectA);
 		SWRLIArgument argumentB = getSWRLArgument(objectB);
 		return factory.getSWRLDifferentIndividualsAtom(argumentA, argumentB);
+	}
+
+	private SWRLAtom getSWRLSameAsAtom(SameAsAtom atom) {
+		IObject objectA = atom.getObjectA();
+		IObject objectB = atom.getObjectB();
+		SWRLIArgument argumentA = getSWRLArgument(objectA);
+		SWRLIArgument argumentB = getSWRLArgument(objectB);
+		return factory.getSWRLSameIndividualAtom(argumentA, argumentB);
 	}
 
 	private SWRLAtom getSWRLObjectPropertyAtom(PropertyAtom propertyAtom) {

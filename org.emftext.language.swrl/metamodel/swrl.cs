@@ -37,6 +37,7 @@ RULES {
 	PropertyAtom ::= property[IRI] "(" source "," target ")";
 	//DataRangeAtom   ::= dataRange[IRI]   "(" object ")";
 	DifferentFromAtom ::= "differentFrom" "(" objectA "," objectB ")";
+	SameAsAtom        ::= "sameAs" "(" objectA "," objectB ")";
 
 	// TODO DVariable ::= uri[];
 	DLiteral  ::= literal;
