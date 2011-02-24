@@ -70,7 +70,7 @@ RULES{
 	
 	LiteralTarget ::= literal;
 	
-	Namespace ::= "Prefix:" prefix[IRI]? importedOntology[IRI] !1;
+	Namespace ::= "Prefix:" prefix[IRI]? importedOntology[IRI] !0;
 	
 	Ontology ::= "Ontology:" (uri[IRI] versionIRI[IRI] ? !1)? 
 					("Import:" imports[IRI] !1)* 
