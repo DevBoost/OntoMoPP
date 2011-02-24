@@ -12,8 +12,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.URI;
-import org.mindswap.pellet.PelletOptions;
-import org.mindswap.pellet.exceptions.InconsistentOntologyException;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
@@ -25,7 +23,6 @@ import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.SWRLAtom;
 import org.semanticweb.owlapi.model.SWRLDArgument;
@@ -36,7 +33,6 @@ import org.semanticweb.owlapi.model.SWRLVariable;
 import aterm.ATerm;
 import aterm.ATermAppl;
 
-import com.clarkparsia.owlapi.explanation.PelletExplanation;
 import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
 
 public class AbstractModelsyncTest {
@@ -253,36 +249,15 @@ public class AbstractModelsyncTest {
 		return false;
 	}
 
-	protected PelletReasoner getReasoner(OWLOntology mOnto) {
+	protected PelletReasoner getReasoner(OWLOntology ontology) {
 		if (reasoner == null) {
-			PelletExplanation.setup();
-			PelletOptions.USE_UNIQUE_NAME_ASSUMPTION = true;
-			reasoner = com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory.getInstance().createReasoner(mOnto);
-			try {
-				reasoner.getKB().realize();
-			} catch (InconsistentOntologyException e) {
-				PelletExplanation explanation = new PelletExplanation(mOnto);
-				Set<OWLAxiom> axioms = explanation.getInconsistencyExplanation();
-				for (OWLAxiom owlAxiom : axioms) {
-					System.out.println("Axiom involved in inconsistency: " + owlAxiom);
-				}
-				fail(e.getMessage());
-			}
+			reasoner = new OWLTestHelper().createReasoner(ontology);
 		}
 		return reasoner;
 	}
 
 	protected OWLOntology loadOntology(URI uri) {
-		String fileString = uri.toFileString();
-		IRI iri = IRI.create(new File(fileString));
-		try {
-			OWLOntology ontology = manager.loadOntologyFromOntologyDocument(iri);
-			return ontology;
-		} catch (OWLOntologyCreationException e) {
-			e.printStackTrace();
-			fail(e.getMessage());
-			return null;
-		}
+		return new OWLTestHelper().loadOntology(manager, uri);
 	}
 
 	protected URI getInputModelURI(String testcaseName, String modelName, String extension) {

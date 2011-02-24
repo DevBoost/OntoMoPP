@@ -1,0 +1,167 @@
+Prefix: rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+Prefix: : <http://www.emftext.org/language/petrinet#>
+Prefix: xsd: <http://www.w3.org/2001/XMLSchema#>
+Prefix: petrinet: <http://www.emftext.org/language/petrinet#>
+Prefix: rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+Prefix: owl: <http://www.w3.org/2002/07/owl#>
+Ontology: <http://www.emftext.org/language/petrinet>
+	Class: PetriNet
+		
+		SubClassOf: owl:Thing
+	
+	
+	Class: Node
+				
+				SubClassOf: owl:Thing
+	
+	
+	Class: Arc
+				
+				SubClassOf: owl:Thing
+	
+	
+	Class: Transition
+				
+				SubClassOf: Node
+	
+	
+	Class: Place
+				
+				SubClassOf: Node
+	
+	
+	Class: Token
+				
+				SubClassOf: owl:Thing
+	
+	
+	DataProperty: PetriNet_name
+				
+				Domain: PetriNet
+				
+				
+				Range: xsd:string
+	
+	
+	ObjectProperty: PetriNet_nodes
+				
+				Domain: PetriNet
+				
+				
+				Range: Node
+	
+	
+	ObjectProperty: PetriNet_arcs
+				
+				Domain: PetriNet
+				
+				
+				Range: Arc
+	
+	
+	DataProperty: Node_name
+				
+				Domain: Node
+				
+				
+				Range: xsd:string
+	
+	
+	DataProperty: Arc_name
+				
+				Domain: Arc
+				
+				
+				Range: xsd:string
+	
+	
+	ObjectProperty: Arc_target
+				
+				Domain: Arc
+				
+				
+				Range: Node
+	
+	
+	ObjectProperty: Arc_source
+				
+				Domain: Arc
+				
+				
+				Range: Node
+	
+	
+	ObjectProperty: Place_marking
+				
+				Domain: Place
+				
+				
+				Range: Token
+	
+	
+	DataProperty: Token_name
+				
+				Domain: Token
+				
+				
+				Range: xsd:string
+	
+	
+	DisjointClasses: Node , Token , Arc , PetriNet
+	
+	DisjointClasses: Place , Transition
+	
+	Class: __c__PetriNet0_max_1_name
+			Annotations: rdfs:comment "The maximal cardinality of \'1\' for attribute \'name\' is not satisfied."
+			
+			
+			EquivalentTo: PetriNet and not ( PetriNet_name max 1 xsd:string )
+	
+	
+	Class: __c__Node1_max_1_name
+				Annotations: rdfs:comment "The maximal cardinality of \'1\' for attribute \'name\' is not satisfied."
+				
+				
+				EquivalentTo: Node and not ( Node_name max 1 xsd:string )
+	
+	
+	Class: __c__Arc2_max_1_name
+				Annotations: rdfs:comment "The maximal cardinality of \'1\' for attribute \'name\' is not satisfied."
+				
+				
+				EquivalentTo: Arc and not ( Arc_name max 1 xsd:string )
+	
+	
+	Class: __c__Arc3_min_1_target
+				Annotations: rdfs:comment "The minimal cardinality of \'1\' for reference \'target\' is not satisfied."
+				
+				
+				EquivalentTo: Arc and not ( Arc_target min 1 Node )
+	
+	
+	Class: __c__Arc4_max_1_target
+				Annotations: rdfs:comment "The maximal cardinality of \'1\' for reference \'target\' is not satisfied."
+				
+				
+				EquivalentTo: Arc and not ( Arc_target max 1 Node )
+	
+	
+	Class: __c__Arc5_min_1_source
+				Annotations: rdfs:comment "The minimal cardinality of \'1\' for reference \'source\' is not satisfied."
+				
+				
+				EquivalentTo: Arc and not ( Arc_source min 1 Node )
+	
+	
+	Class: __c__Arc6_max_1_source
+				Annotations: rdfs:comment "The maximal cardinality of \'1\' for reference \'source\' is not satisfied."
+				
+				
+				EquivalentTo: Arc and not ( Arc_source max 1 Node )
+	
+	
+	Class: __c__Token7_max_1_name
+				Annotations: rdfs:comment "The maximal cardinality of \'1\' for attribute \'name\' is not satisfied."
+				
+				
+				EquivalentTo: Token and not ( Token_name max 1 xsd:string ) 

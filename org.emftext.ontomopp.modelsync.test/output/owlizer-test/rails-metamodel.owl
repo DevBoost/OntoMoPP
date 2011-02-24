@@ -1,0 +1,207 @@
+Prefix: rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+Prefix: : <http://www.emftext.org/language/rails#>
+Prefix: xsd: <http://www.w3.org/2001/XMLSchema#>
+Prefix: rails: <http://www.emftext.org/language/rails#>
+Prefix: rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+Prefix: owl: <http://www.w3.org/2002/07/owl#>
+Ontology: <http://www.emftext.org/language/rails>
+	Class: Component
+		
+		SubClassOf: owl:Thing
+	
+	
+	Class: Train
+				
+				SubClassOf: owl:Thing
+	
+	
+	Class: Project
+				
+				SubClassOf: owl:Thing
+	
+	
+	Class: Track
+				
+				SubClassOf: Component
+	
+	
+	Class: Switch
+				
+				SubClassOf: Component
+	
+	
+	Class: Port
+				
+				SubClassOf: owl:Thing
+	
+	
+	Class: Connection
+				
+				SubClassOf: owl:Thing
+	
+	
+	Class: Out
+				
+				SubClassOf: Port
+	
+	
+	Class: In
+				
+				SubClassOf: Port
+	
+	
+	DataProperty: Component_name
+				
+				Domain: Component
+				
+				
+				Range: xsd:string
+	
+	
+	ObjectProperty: Component_trains
+				
+				Domain: Component
+				
+				
+				Range: Train
+	
+	
+	ObjectProperty: Component_ports
+				
+				Domain: Component
+				
+				
+				Range: Port
+	
+	
+	DataProperty: Train_name
+				
+				Domain: Train
+				
+				
+				Range: xsd:string
+	
+	
+	ObjectProperty: Project_components
+				
+				Domain: Project
+				
+				
+				Range: Component
+	
+	
+	DataProperty: Project_name
+				
+				Domain: Project
+				
+				
+				Range: xsd:string
+	
+	
+	ObjectProperty: Project_connections
+				
+				Domain: Project
+				
+				
+				Range: Connection
+	
+	
+	DataProperty: Port_name
+				
+				Domain: Port
+				
+				
+				Range: xsd:string
+	
+	
+	ObjectProperty: Connection_from
+				
+				Domain: Connection
+				
+				
+				Range: Out
+	
+	
+	ObjectProperty: Connection_to
+				
+				Domain: Connection
+				
+				
+				Range: In
+	
+	
+	DataProperty: Connection_name
+				
+				Domain: Connection
+				
+				
+				Range: xsd:string
+	
+	
+	DisjointClasses: Connection , Component , Train , Project , Port
+	
+	DisjointClasses: Switch , Track
+	
+	DisjointClasses: In , Out
+	
+	Class: __c__Component0_max_1_name
+			Annotations: rdfs:comment "The maximal cardinality of \'1\' for attribute \'name\' is not satisfied."
+			
+			
+			EquivalentTo: Component and not ( Component_name max 1 xsd:string )
+	
+	
+	Class: __c__Train1_max_1_name
+				Annotations: rdfs:comment "The maximal cardinality of \'1\' for attribute \'name\' is not satisfied."
+				
+				
+				EquivalentTo: Train and not ( Train_name max 1 xsd:string )
+	
+	
+	Class: __c__Project2_max_1_name
+				Annotations: rdfs:comment "The maximal cardinality of \'1\' for attribute \'name\' is not satisfied."
+				
+				
+				EquivalentTo: Project and not ( Project_name max 1 xsd:string )
+	
+	
+	Class: __c__Port3_max_1_name
+				Annotations: rdfs:comment "The maximal cardinality of \'1\' for attribute \'name\' is not satisfied."
+				
+				
+				EquivalentTo: Port and not ( Port_name max 1 xsd:string )
+	
+	
+	Class: __c__Connection4_max_1_name
+				Annotations: rdfs:comment "The maximal cardinality of \'1\' for attribute \'name\' is not satisfied."
+				
+				
+				EquivalentTo: Connection and not ( Connection_name max 1 xsd:string )
+	
+	
+	Class: __c__Connection5_min_1_from
+				Annotations: rdfs:comment "The minimal cardinality of \'1\' for reference \'from\' is not satisfied."
+				
+				
+				EquivalentTo: Connection and not ( Connection_from min 1 Out )
+	
+	
+	Class: __c__Connection6_max_1_from
+				Annotations: rdfs:comment "The maximal cardinality of \'1\' for reference \'from\' is not satisfied."
+				
+				
+				EquivalentTo: Connection and not ( Connection_from max 1 Out )
+	
+	
+	Class: __c__Connection7_min_1_to
+				Annotations: rdfs:comment "The minimal cardinality of \'1\' for reference \'to\' is not satisfied."
+				
+				
+				EquivalentTo: Connection and not ( Connection_to min 1 In )
+	
+	
+	Class: __c__Connection8_max_1_to
+				Annotations: rdfs:comment "The maximal cardinality of \'1\' for reference \'to\' is not satisfied."
+				
+				
+				EquivalentTo: Connection and not ( Connection_to max 1 In ) 
