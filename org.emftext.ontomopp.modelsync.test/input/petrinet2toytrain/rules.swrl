@@ -1,12 +1,22 @@
 import <mapping.owl>
 
-// rule1: maps arcs to tracks
+// rule1a: maps arcs to tracks
 Arc(?x) and Transition(?z) and Place(?y) 
 	and	source(?x, ?z) and target(?x, ?y)
 	and hasMultipleOutgoingArcs(?z, false) 
 	=>
 Track(?x) and Out(?y) and In(?z) 
 	and ports(?x, ?y) and ports(?x, ?z)
+
+
+// rule1b: maps tracks to arcs
+Track(?x) and Out(?y) and In(?z) 
+	and ports(?x, ?y) and ports(?x, ?z)
+	=>
+Arc(?x) and Transition(?z) and Place(?y) 
+	and	source(?x, ?z) and target(?x, ?y)
+	//and hasMultipleOutgoingArcs(?z, false) 
+
 
 // helper for rule2 - sets property 'hasMultipleOutgoingArcs' to true
 // if the transition is the source of multiple arcs
@@ -43,5 +53,32 @@ Arc(?x) and Transition(?z) and Place(?y)
 	=>
 Switch(?x) and In(?z) and Out(?y) 
 	and ports(?x, ?y) 
-	and ports(?x, ?y) 
 	and ports(?x, ?z)
+	
+// rule4: maps switches (type one) to arcs
+Switch(?x1) and Out(?y1) and Out(?y2) and In(?z) 
+	and ports(?x1, ?y1) 
+	and ports(?x1, ?y2) 
+	and ports(?x1, ?z)
+	and differentFrom(?y1, ?y2)
+	and Dummy(?x2)
+	=>	
+Arc(?x1) and Arc(?x2) and Transition(?z) and Place(?y1) and Place(?y2) 
+	and	source(?x1, ?z) and source(?x2, ?z) 
+	and target(?x1, ?y1) and target(?x2, ?y2)
+
+// rule5: maps switches (type two) to arcs
+Switch(?x) and In(?z1) and In(?z2) and Out(?y) 
+	and ports(?x, ?y) 
+	and ports(?x, ?z1) 
+	and ports(?x, ?z2)
+	and Dummy(?new1)
+	and Dummy(?new2)
+	and differentFrom(?z1, ?z2)
+	and differentFrom(?new1, ?new2)
+	=>
+Arc(?x) and Arc(?new1) and Arc(?new2) and Transition(?z1) and Place(?y) 
+	and	source(?x, ?z1)  
+	and target(?x, ?y) 
+	and target(?new1, ?z1) 
+	and target(?new2, ?z1) 

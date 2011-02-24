@@ -3,6 +3,9 @@ Prefix: : <test://mapping#>
 
 Ontology: <test://mapping>
 
+Class: Dummy
+	SubClassOf: owl:Thing
+
 Class: PetriNet
 	DisjointWith: Node, Arc, Token
 	SubClassOf: owl:Thing
@@ -95,14 +98,6 @@ Class: Place2Out
 Class: Transition2In
 	EquivalentTo: Transition, In
 	SubClassOf: owl:Thing
-
-Class: Track2Arc
-	EquivalentTo: Track
-	SubClassOf: Arc
-
-Class: Switch2Arc
-	EquivalentTo: Switch
-	SubClassOf: Arc
 
 DataProperty: hasMultipleOutgoingArcs 
 	Domain: Transition

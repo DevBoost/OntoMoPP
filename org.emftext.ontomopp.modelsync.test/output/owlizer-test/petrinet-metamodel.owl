@@ -107,7 +107,7 @@ Ontology: <http://www.emftext.org/language/petrinet>
 				Range: xsd:string
 	
 	
-	DisjointClasses: Node , Token , Arc , PetriNet
+	DisjointClasses: Token , PetriNet , Node , Arc
 	
 	DisjointClasses: Place , Transition
 	

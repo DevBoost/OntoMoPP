@@ -132,8 +132,11 @@ public class ModelsyncTest extends AbstractModelsyncTest {
 		OWLClass outClass = findClass("Out");
 		OWLClass inClass = findClass("In");
 		
+		OWLClass dummyClass = findClass("Dummy");
+		
 		OWLObjectProperty sourceProperty = findObjectProperty("source");
 		OWLObjectProperty targetProperty = findObjectProperty("target");
+		OWLObjectProperty portsProperty = findObjectProperty("ports");
 
 		{
 			// add petri net instance, check mapping to project
@@ -177,6 +180,7 @@ public class ModelsyncTest extends AbstractModelsyncTest {
 			assertIsInstance(mOnto, inClass, transition1);
 		}
 
+		/* disabled, because only properly connected tracks/switches are mapped to arcs
 		{
 			// add track instance, check mapping to arc
 			OWLIndividual track1 = addIndividual(mOnto, trackClass, "track1");
@@ -190,6 +194,7 @@ public class ModelsyncTest extends AbstractModelsyncTest {
 			assertIsInstance(mOnto, switchClass, switch1);
 			assertIsInstance(mOnto, arcClass, switch1);
 		}
+		*/
 
 		loadSWRLRules(mOnto, testcaseName, "rules");
 
@@ -213,6 +218,30 @@ public class ModelsyncTest extends AbstractModelsyncTest {
 			assertIsInstance(mOnto, outClass, place2);
 			assertIsInstance(mOnto, inClass, transition2);
 			assertIsInstance(mOnto, trackClass, arc2);
+		}
+
+		{
+			// TODO test track,in,out -> arc,place,transition 
+			OWLIndividual track5 = addIndividual(mOnto, trackClass, "track5");
+			OWLIndividual in5 = addIndividual(mOnto, inClass, "in5");
+			OWLIndividual out5 = addIndividual(mOnto, outClass, "out5");
+			setObjectProperty(mOnto, track5, portsProperty, in5);
+			setObjectProperty(mOnto, track5, portsProperty, out5);
+			//setDataProperty(mOnto, transition2, "hasMultipleOutgoingArcs", false);
+			//assertDataPropertyValue(mOnto, "transition2", "hasMultipleOutgoingArcs", false);
+
+			assertObjectPropertyValue(mOnto, "track5", "ports", "in5");
+			assertObjectPropertyValue(mOnto, "track5", "ports", "out5");
+
+			assertIsInstance(mOnto, trackClass, track5);
+			assertIsInstance(mOnto, inClass, in5);
+			assertIsInstance(mOnto, outClass, out5);
+
+			assertIsInstance(mOnto, transitionClass, in5);
+			assertIsInstance(mOnto, placeClass, out5);
+			assertIsInstance(mOnto, arcClass, track5);
+			assertObjectPropertyValue(mOnto, "track5", "source", "in5");
+			assertObjectPropertyValue(mOnto, "track5", "target", "out5");
 		}
 
 		{
@@ -274,6 +303,73 @@ public class ModelsyncTest extends AbstractModelsyncTest {
 			assertIsInstance(mOnto, outClass, place4);
 			assertIsInstance(mOnto, switchClass, arc4a);
 			assertIsInstance(mOnto, inClass, transition4);
+		}
+
+		{
+			// test switch,outA,outB,in -> arcA,arcB,placeA,placeB,transition 
+			// (switch type one)
+			OWLIndividual out6a = addIndividual(mOnto, outClass, "out6a");
+			OWLIndividual out6b = addIndividual(mOnto, outClass, "out6b");
+			OWLIndividual in6 = addIndividual(mOnto, inClass, "in6");
+			OWLIndividual switch6 = addIndividual(mOnto, switchClass, "switch6");
+			
+			OWLIndividual dummy6 = addIndividual(mOnto, dummyClass, "dummy6");
+			
+			setObjectProperty(mOnto, switch6, portsProperty, out6a);
+			setObjectProperty(mOnto, switch6, portsProperty, out6b);
+			setObjectProperty(mOnto, switch6, portsProperty, in6);
+
+			assertObjectPropertyValue(mOnto, "switch6", "ports", "out6a");
+			assertObjectPropertyValue(mOnto, "switch6", "ports", "out6b");
+			assertObjectPropertyValue(mOnto, "switch6", "ports", "in6");
+			//assertDataPropertyValue(mOnto, "transition3", "hasMultipleOutgoingArcs", true);
+
+			assertIsInstance(mOnto, outClass, out6a);
+			assertIsInstance(mOnto, outClass, out6b);
+			assertIsInstance(mOnto, inClass, in6);
+			assertIsInstance(mOnto, switchClass, switch6);
+
+			assertIsInstance(mOnto, placeClass, out6a);
+			assertIsInstance(mOnto, placeClass, out6b);
+			assertIsInstance(mOnto, transitionClass, in6);
+			assertIsInstance(mOnto, arcClass, switch6);
+		}
+
+		{
+			// test switch,inA,inB,out -> arcA,arcB,placeA,placeB,transition 
+			// (switch type two)
+			OWLIndividual in7a = addIndividual(mOnto, inClass, "in7a");
+			OWLIndividual in7b = addIndividual(mOnto, inClass, "in7b");
+			OWLIndividual out7 = addIndividual(mOnto, outClass, "out7");
+			OWLIndividual switch7 = addIndividual(mOnto, switchClass, "switch7");
+			
+			OWLIndividual dummy7 = addIndividual(mOnto, dummyClass, "dummy7");
+			
+			setObjectProperty(mOnto, switch7, portsProperty, in7a);
+			setObjectProperty(mOnto, switch7, portsProperty, in7b);
+			setObjectProperty(mOnto, switch7, portsProperty, out7);
+
+			assertObjectPropertyValue(mOnto, "switch7", "ports", "in7a");
+			assertObjectPropertyValue(mOnto, "switch7", "ports", "in7b");
+			assertObjectPropertyValue(mOnto, "switch7", "ports", "out7");
+
+			assertIsInstance(mOnto, inClass, in7a);
+			assertIsInstance(mOnto, inClass, in7b);
+			assertIsInstance(mOnto, outClass, out7);
+			assertIsInstance(mOnto, switchClass, switch7);
+
+			assertIsInstance(mOnto, placeClass, out7);
+			assertTrue(
+				isInstanceOf(mOnto, transitionClass, in7a) ||
+				isInstanceOf(mOnto, transitionClass, in7b)
+			);
+			assertIsInstance(mOnto, arcClass, switch7);
+			// TODO check references
+			assertTrue(
+				hasObjectPropertyValue(mOnto, "switch7", "source", "in7a") ||
+				hasObjectPropertyValue(mOnto, "switch7", "source", "in7b")
+			);
+			assertObjectPropertyValue(mOnto, "switch7", "target", "out7");
 		}
 	}
 	

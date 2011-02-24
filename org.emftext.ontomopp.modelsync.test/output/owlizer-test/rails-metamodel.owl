@@ -138,7 +138,7 @@ Ontology: <http://www.emftext.org/language/rails>
 				Range: xsd:string
 	
 	
-	DisjointClasses: Connection , Component , Train , Project , Port
+	DisjointClasses: Connection , Project , Component , Train , Port
 	
 	DisjointClasses: Switch , Track
 	

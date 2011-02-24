@@ -35,7 +35,7 @@ import aterm.ATermAppl;
 
 import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
 
-public class AbstractModelsyncTest {
+public abstract class AbstractModelsyncTest {
 
 	public static final String NS = "test://mapping#";
 	protected OWLOntologyManager manager;
@@ -66,7 +66,7 @@ public class AbstractModelsyncTest {
 		assertNotNull(individual);
 		
 		List<ATermAppl> dataPropertyValues = reasoner.getKB().getDataPropertyValues(property, individual);
-		System.out.println(individualName + "." + propertyName + " = " + dataPropertyValues);
+		//System.out.println(individualName + "." + propertyName + " = " + dataPropertyValues);
 		assertEquals("Can't find values for data property: " + propertyName, 1, dataPropertyValues.size());
 		ATermAppl first = dataPropertyValues.get(0);
 		assertEquals("Data property " + individualName + "." + propertyName + " must be " + value, value, first.toString().equals("literal(true,(),http://www.w3.org/2001/XMLSchema#boolean)"));
@@ -78,20 +78,27 @@ public class AbstractModelsyncTest {
 			String propertyName,
 			String targetName) {
 
+		boolean foundTarget = hasObjectPropertyValue(ontology, individualName,
+				propertyName, targetName);
+		if (!foundTarget) {
+			fail("Can't find target '" + targetName + "' for object property: " + propertyName);
+		}
+	}
+
+	protected boolean hasObjectPropertyValue(OWLOntology ontology,
+			String individualName, String propertyName, String targetName) {
 		ATermAppl individual = findIndividualInReasoner(ontology, individualName);
 		ATermAppl target = findIndividualInReasoner(ontology, targetName);
 		ATermAppl property = findObjectPropertyInReasoner(propertyName);
 		List<ATermAppl> objectPropertyValues = reasoner.getKB().getObjectPropertyValues(property, individual);
-		System.out.println(individualName + "." + propertyName + " = " + objectPropertyValues);
+		//System.out.println(individualName + "." + propertyName + " = " + objectPropertyValues);
 		boolean foundTarget = false;
 		for (ATermAppl aTermAppl : objectPropertyValues) {
 			if (aTermAppl.equals(target)) {
 				foundTarget = true;
 			}
 		}
-		if (!foundTarget) {
-			fail("Can't find target '" + targetName + "' for object property: " + propertyName);
-		}
+		return foundTarget;
 	}
 
 	protected void assertDataPropertyValue(OWLOntology ontology, String individualName, String propertyName,
@@ -103,7 +110,7 @@ public class AbstractModelsyncTest {
 				assertNotNull(individual);
 				
 				List<ATermAppl> dataPropertyValues = reasoner.getKB().getDataPropertyValues(property, individual);
-				System.out.println(individualName + "." + propertyName + " = " + dataPropertyValues);
+				//System.out.println(individualName + "." + propertyName + " = " + dataPropertyValues);
 				assertEquals("Can't find values for data property: " + propertyName, 1, dataPropertyValues.size());
 				ATermAppl first = dataPropertyValues.get(0);
 				ATerm argument = first.getArgument(0);
@@ -114,7 +121,7 @@ public class AbstractModelsyncTest {
 		Set<ATermAppl> dataProperties = getReasoner(ontology).getKB().getDataProperties();
 		for (ATermAppl dataProperty : dataProperties) {
 			if (dataProperty.getName().equals(NS + name)) {
-				System.out.println("findDataPropertyInReasoner()" + dataProperty);
+				//System.out.println("findDataPropertyInReasoner()" + dataProperty);
 				return dataProperty;
 			}
 		}
@@ -125,11 +132,11 @@ public class AbstractModelsyncTest {
 		Set<ATermAppl> objectProperties = reasoner.getKB().getObjectProperties();
 		for (ATermAppl objectProperty : objectProperties) {
 			if (objectProperty.getName().equals(NS + name)) {
-				System.out.println("findObjectPropertyInReasoner(" + name + ") : " + objectProperty);
+				//System.out.println("findObjectPropertyInReasoner(" + name + ") : " + objectProperty);
 				return objectProperty;
 			}
 		}
-		System.out.println("findObjectPropertyInReasoner(" + name + ") : null");
+		//System.out.println("findObjectPropertyInReasoner(" + name + ") : null");
 		return null;
 	}
 
@@ -137,7 +144,7 @@ public class AbstractModelsyncTest {
 		Set<ATermAppl> individuals = getReasoner(ontology).getKB().getIndividuals();
 		for (ATermAppl individual : individuals) {
 			if (individual.getName().equals(NS + name)) {
-				System.out.println("findIndividualInReasoner()" + individual);
+				//System.out.println("findIndividualInReasoner()" + individual);
 				return individual;
 			}
 		}
@@ -169,7 +176,7 @@ public class AbstractModelsyncTest {
 	
 		SWRLRule swrlRule = factory.getSWRLRule(body, head);
 		manager.addAxiom(ontology, swrlRule);
-		System.out.println("ModelsyncTest.createSWRLRule() " + swrlRule);
+		//System.out.println("ModelsyncTest.createSWRLRule() " + swrlRule);
         clearReasoner();
 		return swrlRule;
 	}
