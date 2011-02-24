@@ -118,6 +118,7 @@ public class ModelsyncTest extends AbstractModelsyncTest {
 	public void testPetrinet2Toytrain() {
 		String testcaseName = "petrinet2toytrain";
 		OWLOntology mOnto = loadOntology(testcaseName);
+		loadSWRLRules(mOnto, testcaseName, "rules");
 
 		// get petri net classes
 		OWLClass petrinetClass = findClass("PetriNet");
@@ -131,12 +132,15 @@ public class ModelsyncTest extends AbstractModelsyncTest {
 		OWLClass switchClass = findClass("Switch");
 		OWLClass outClass = findClass("Out");
 		OWLClass inClass = findClass("In");
+		OWLClass connectionClass = findClass("Connection");
 		
 		OWLClass dummyClass = findClass("Dummy");
 		
 		OWLObjectProperty sourceProperty = findObjectProperty("source");
 		OWLObjectProperty targetProperty = findObjectProperty("target");
 		OWLObjectProperty portsProperty = findObjectProperty("ports");
+		OWLObjectProperty fromProperty = findObjectProperty("from");
+		OWLObjectProperty toProperty = findObjectProperty("to");
 
 		{
 			// add petri net instance, check mapping to project
@@ -180,24 +184,6 @@ public class ModelsyncTest extends AbstractModelsyncTest {
 			assertIsInstance(mOnto, inClass, transition1);
 		}
 
-		/* disabled, because only properly connected tracks/switches are mapped to arcs
-		{
-			// add track instance, check mapping to arc
-			OWLIndividual track1 = addIndividual(mOnto, trackClass, "track1");
-			assertIsInstance(mOnto, trackClass, track1);
-			assertIsInstance(mOnto, arcClass, track1);
-		}
-
-		{
-			// add switch instance, check mapping to arc
-			OWLIndividual switch1 = addIndividual(mOnto, switchClass, "switch1");
-			assertIsInstance(mOnto, switchClass, switch1);
-			assertIsInstance(mOnto, arcClass, switch1);
-		}
-		*/
-
-		loadSWRLRules(mOnto, testcaseName, "rules");
-
 		{
 			// test arc,place,transition -> track,in,out
 			OWLIndividual arc2 = addIndividual(mOnto, arcClass, "arc2");
@@ -221,7 +207,7 @@ public class ModelsyncTest extends AbstractModelsyncTest {
 		}
 
 		{
-			// TODO test track,in,out -> arc,place,transition 
+			// test track,in,out -> arc,place,transition 
 			OWLIndividual track5 = addIndividual(mOnto, trackClass, "track5");
 			OWLIndividual in5 = addIndividual(mOnto, inClass, "in5");
 			OWLIndividual out5 = addIndividual(mOnto, outClass, "out5");
@@ -242,6 +228,48 @@ public class ModelsyncTest extends AbstractModelsyncTest {
 			assertIsInstance(mOnto, arcClass, track5);
 			assertObjectPropertyValue(mOnto, "track5", "source", "in5");
 			assertObjectPropertyValue(mOnto, "track5", "target", "out5");
+		}
+
+		{
+			// TODO test place-arc-transition -> out-connection-in
+			OWLIndividual arc8 = addIndividual(mOnto, arcClass, "arc8");
+			OWLIndividual place8 = addIndividual(mOnto, placeClass, "place8");
+			OWLIndividual transition8 = addIndividual(mOnto, transitionClass, "transition8");
+			setObjectProperty(mOnto, arc8, targetProperty, transition8);
+			setObjectProperty(mOnto, arc8, sourceProperty, place8);
+
+			assertObjectPropertyValue(mOnto, "arc8", "source", "place8");
+			assertObjectPropertyValue(mOnto, "arc8", "target", "transition8");
+
+			assertIsInstance(mOnto, arcClass, arc8);
+			assertIsInstance(mOnto, placeClass, place8);
+			assertIsInstance(mOnto, transitionClass, transition8);
+
+			assertIsInstance(mOnto, outClass, place8);
+			assertIsInstance(mOnto, inClass, transition8);
+			assertIsInstance(mOnto, connectionClass, arc8);
+		}
+
+		{
+			// TODO test out-connection-in -> place-arc-transition
+			OWLIndividual connection9 = addIndividual(mOnto, connectionClass, "connection9");
+			OWLIndividual in9 = addIndividual(mOnto, inClass, "in9");
+			OWLIndividual out9 = addIndividual(mOnto, outClass, "out9");
+			setObjectProperty(mOnto, connection9, toProperty, in9);
+			setObjectProperty(mOnto, connection9, fromProperty, out9);
+
+			assertObjectPropertyValue(mOnto, "connection9", "to", "in9");
+			assertObjectPropertyValue(mOnto, "connection9", "from", "out9");
+
+			assertIsInstance(mOnto, connectionClass, connection9);
+			assertIsInstance(mOnto, inClass, in9);
+			assertIsInstance(mOnto, outClass, out9);
+
+			assertIsInstance(mOnto, transitionClass, in9);
+			assertIsInstance(mOnto, placeClass, out9);
+			assertIsInstance(mOnto, arcClass, connection9);
+			assertObjectPropertyValue(mOnto, "connection9", "source", "out9");
+			assertObjectPropertyValue(mOnto, "connection9", "target", "in9");
 		}
 
 		{
@@ -364,7 +392,7 @@ public class ModelsyncTest extends AbstractModelsyncTest {
 				isInstanceOf(mOnto, transitionClass, in7b)
 			);
 			assertIsInstance(mOnto, arcClass, switch7);
-			// TODO check references
+			// check references
 			assertTrue(
 				hasObjectPropertyValue(mOnto, "switch7", "source", "in7a") ||
 				hasObjectPropertyValue(mOnto, "switch7", "source", "in7b")

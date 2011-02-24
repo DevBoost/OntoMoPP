@@ -53,6 +53,12 @@ Class: Project
 Class: Connection
 	DisjointWith: Project, Port, Component, Train
 	SubClassOf: owl:Thing
+ObjectProperty: from
+	Domain: Connection
+	Range:  Port
+ObjectProperty: to
+	Domain: Connection
+	Range:  Port
 
 Class: Port
 	DisjointWith: Connection, Project, Component, Train

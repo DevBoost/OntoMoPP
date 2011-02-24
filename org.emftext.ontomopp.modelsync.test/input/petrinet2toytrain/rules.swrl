@@ -1,5 +1,23 @@
 import <mapping.owl>
 
+// rule - maps Connections to Arcs
+Connection(?x) and Out(?y) and In(?z)
+	and from(?x, ?y)
+	and to(?x, ?z)
+	=> 
+Arc(?x) and Place(?y) and Transition(?z)
+	and source(?x, ?y)
+	and target(?x, ?z)
+
+// rule - maps Arcs to Connections
+Arc(?x) and Place(?y) and Transition(?z)
+	and source(?x, ?y)
+	and target(?x, ?z)
+	=>
+Connection(?x) and Out(?y) and In(?z)
+	and from(?x, ?y)
+	and to(?x, ?z)
+
 // rule1a: maps arcs to tracks
 Arc(?x) and Transition(?z) and Place(?y) 
 	and	source(?x, ?z) and target(?x, ?y)
