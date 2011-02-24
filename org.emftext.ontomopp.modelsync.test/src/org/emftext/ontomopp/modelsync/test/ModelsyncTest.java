@@ -13,7 +13,6 @@ import org.emftext.language.owl.resource.owl.mopp.OwlMetaInformation;
 import org.emftext.language.swrl.SWRLDocument;
 import org.emftext.language.swrl.resource.swrl.mopp.SwrlResource;
 import org.emftext.language.swrl.resource.swrl.util.SwrlResourceUtil;
-import org.emftext.language.swrl.resource.swrl.util.SwrlTextResourceUtil;
 import org.emftext.language.swrl.util.SWRLRuleBuilder;
 import org.junit.After;
 import org.junit.Before;
@@ -65,7 +64,7 @@ public class ModelsyncTest extends AbstractModelsyncTest {
 
 	private List<SWRLRule> loadSWRLRules(OWLOntology ontology, String testcaseName, String ruleFileName) {
 		new OwlMetaInformation().registerResourceFactory();
-		SwrlResource resource = SwrlTextResourceUtil.getResource(getInputModelURI(testcaseName, ruleFileName, "swrl"));
+		SwrlResource resource = SwrlResourceUtil.getResource(getInputModelURI(testcaseName, ruleFileName, "swrl"));
 		SWRLDocument document = (SWRLDocument) resource.getContents().get(0);
 		Set<EObject> unresolvedProxies = SwrlResourceUtil.findUnresolvedProxies(resource);
 		for (EObject proxy : unresolvedProxies) {
@@ -231,7 +230,7 @@ public class ModelsyncTest extends AbstractModelsyncTest {
 		}
 
 		{
-			// TODO test place-arc-transition -> out-connection-in
+			// test place-arc-transition -> out-connection-in
 			OWLIndividual arc8 = addIndividual(mOnto, arcClass, "arc8");
 			OWLIndividual place8 = addIndividual(mOnto, placeClass, "place8");
 			OWLIndividual transition8 = addIndividual(mOnto, transitionClass, "transition8");
@@ -251,7 +250,7 @@ public class ModelsyncTest extends AbstractModelsyncTest {
 		}
 
 		{
-			// TODO test out-connection-in -> place-arc-transition
+			// test out-connection-in -> place-arc-transition
 			OWLIndividual connection9 = addIndividual(mOnto, connectionClass, "connection9");
 			OWLIndividual in9 = addIndividual(mOnto, inClass, "in9");
 			OWLIndividual out9 = addIndividual(mOnto, outClass, "out9");
