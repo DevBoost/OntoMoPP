@@ -48,7 +48,7 @@ public class ModelsyncTest extends AbstractModelsyncTest {
         OWLIndividual package1 = addIndividual(mOnto, packageClass, "package1");
         OWLIndividual type1 = addIndividual(mOnto, typeClass, "type1");
         assertNotIsInstance(mOnto, entryClass, type1);
-        clearReasoner();
+
         setObjectProperty(mOnto, package1, typesProperty, type1);
         
         assertIsInstance(mOnto, entryClass, type1);
@@ -420,7 +420,6 @@ public class ModelsyncTest extends AbstractModelsyncTest {
 		
 		// add an instance of RightClass and check whether it is recognized as instance
 		// of LeftClass too
-		clearReasoner();
         OWLIndividual rightObject = addIndividual(mOnto, nameableClass, "right");
 		assertIsInstance(mOnto, mNameClass, rightObject);
 		assertIsInstance(mOnto, namedElementClass, rightObject);
@@ -463,7 +462,6 @@ public class ModelsyncTest extends AbstractModelsyncTest {
 			
 			createSWRLRule(mOnto, to, from);
         }
-        clearReasoner();
         assertIsInstance(mOnto, sectionClass, package1);
         // check sectionName of package1
         assertDataPropertyValue(mOnto, "package1", "packageName", "p1");
@@ -506,7 +504,6 @@ public class ModelsyncTest extends AbstractModelsyncTest {
 			
 			createSWRLRule(mOnto, to, from);
         }
-        clearReasoner();
 
         assertIsInstance(mOnto, packageClass, section1);
         assertDataPropertyValue(mOnto, "section1", "packageName", "s1");
@@ -572,7 +569,6 @@ public class ModelsyncTest extends AbstractModelsyncTest {
 		// add field1
         OWLIndividual field1Object = addIndividual(mOnto, fieldClass, "field1");
 		//setDataProperty(mOnto, field1Object, "isAbstract", false);
-		clearReasoner();
 		assertIsInstance(mOnto, fieldClass, field1Object);
 		assertNotIsInstance(mOnto, methodClass, field1Object);
 		assertIsInstance(mOnto, basicEntryClass, field1Object);
@@ -582,7 +578,6 @@ public class ModelsyncTest extends AbstractModelsyncTest {
 	        OWLIndividual entry1 = addIndividual(mOnto, fullEntryClass, "entry1");
 			setDataProperty(mOnto, entry1, "isBold", false);
 			setDataProperty(mOnto, entry1, "isItalic", false);
-			clearReasoner();
 			assertIsInstance(mOnto, fullEntryClass, entry1);
 			assertDataPropertyValue(mOnto, "entry1", "isAbstract", false);
 			assertIsInstance(mOnto, methodClass, entry1);
@@ -594,7 +589,7 @@ public class ModelsyncTest extends AbstractModelsyncTest {
 	        OWLIndividual entry2 = addIndividual(mOnto, basicEntryClass, "entry2");
 			setDataProperty(mOnto, entry2, "isBold", false);
 			setDataProperty(mOnto, entry2, "isItalic", true);
-			clearReasoner();
+			
 			assertIsInstance(mOnto, basicEntryClass, entry2);
 			assertIsInstance(mOnto, methodClass, entry2);
 			assertDataPropertyValue(mOnto, "entry2", "isAbstract", true);
@@ -606,7 +601,7 @@ public class ModelsyncTest extends AbstractModelsyncTest {
 	        OWLIndividual entry3 = addIndividual(mOnto, basicEntryClass, "entry3");
 			setDataProperty(mOnto, entry3, "isBold", true);
 			setDataProperty(mOnto, entry3, "isItalic", false);
-			clearReasoner();
+
 			assertIsInstance(mOnto, basicEntryClass, entry3);
 			assertNotIsInstance(mOnto, methodClass, entry3);
 			assertIsInstance(mOnto, fieldClass, entry3);
@@ -662,7 +657,6 @@ public class ModelsyncTest extends AbstractModelsyncTest {
 
 		// add an instance of Enum and check whether it is recognized as instance
 		// of Paragraph too
-		clearReasoner();
         OWLIndividual enumObject = addIndividual(mOnto, enumClass, "enum1");
         assertNotIsInstance(mOnto, entityClass, enumObject);
 		assertIsInstance(mOnto, paragraphClass, enumObject);
@@ -671,7 +665,6 @@ public class ModelsyncTest extends AbstractModelsyncTest {
 
 		// add an instance of Paragraph and check whether it is recognized as instance
 		// of Entity or Enum too
-		clearReasoner();
         OWLIndividual paragraphObject = addIndividual(mOnto, paragraphClass, "paragraph1");
         assertNotIsInstance(mOnto, entityClass, paragraphObject);
 		assertIsInstance(mOnto, paragraphClass, paragraphObject);
