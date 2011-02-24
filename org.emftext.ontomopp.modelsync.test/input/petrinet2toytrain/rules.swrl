@@ -38,19 +38,17 @@ Arc(?x) and Transition(?z) and Place(?y)
 
 // helper for rule2 - sets property 'hasMultipleOutgoingArcs' to true
 // if the transition is the source of multiple arcs
-Transition(?z) and Arc(?x1) and Arc(?x2) and
-	differentFrom(?x1, ?x2)
-	and	source(?x1, ?z) and source(?x2, ?z) 
-=>
-hasMultipleOutgoingArcs(?z, true)
+Transition(?t) and Arc(?a1) and Arc(?a2) and
+	source(?a1, ?t) and source(?a2, ?t) and 
+	differentFrom(?a1, ?a2)
+=> hasMultipleOutgoingArcs(?t, true)
 
 // helper for rule3 - sets property 'hasMultipleIncomingArcs' to true
 // if the transition is the target of multiple arcs
-Transition(?z) and Arc(?x1) and Arc(?x2) and
-	differentFrom(?x1, ?x2)
-	and	target(?x1, ?z) and target(?x2, ?z) 
-=>
-hasMultipleIncomingArcs(?z, true)
+Transition(?t) and Arc(?a1) and Arc(?a2) and
+	target(?a1, ?t) and target(?a2, ?t) and 
+	differentFrom(?a1, ?a2)
+=> hasMultipleIncomingArcs(?t, true)
 
 // rule2: maps arcs to switches (type one)
 Arc(?x1) and Arc(?x2) and Transition(?z) and Place(?y1) and Place(?y2) 
