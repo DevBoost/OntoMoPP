@@ -1,17 +1,33 @@
+package org.emftext.languages.petrinets.lib;
+
 petrinet "standardlib" 
 
 import <platform:/resource/org.emftext.language.petrinets/metamodel/petrinets.text.ecore> <platform:/resource/org.emftext.language.petrinets/metamodel/petrinets.genmodel>;
 import <platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore> <platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel> ;
 
 FUNCTIONS: {
-
-	function EInt EInt.add(EInt argument)
-	function EInt EInt.sub(EInt argument) 
-	function EInt EInt.mult(EInt argument)
-	function EInt EInt.div(EInt argument) 
-	function EInt EInt.power(EInt argument)
 	
-	function EString EString.append(EString argument)
+	library function EBoolean EJavaObject.isNull()
+	library function EBoolean EJavaObject.isNotNull()
+	 
+	function EBoolean EClass.isInstance(EJavaObject object)
+	function EBoolean EClass.isSupertypeOf(EClass class)
+	
+	function EClass EObject.eClass()
+
+	library function EInt EInt.add(EInt argument)
+	library function EInt EInt.sub(EInt argument) 
+	library function EInt EInt.mult(EInt argument)
+	library function EInt EInt.div(EInt argument) 
+	library function EInt EInt.power(EInt argument)
+	
+	//library function EBoolean EBoolean.and(EBoolean argument)
+	//library function EBoolean EBoolean.or(EBoolean argument)
+	//library function EBoolean EBoolean.not()
+	
+	
+	
+	library function EString EString.append(EString argument)
 	function EString EString.substring(EInt start, EInt end)
 	function EInt EString.length() 
 	function EString EString.toUpperCase()
@@ -22,6 +38,7 @@ FUNCTIONS: {
 	function PList[T] PList[T].sublist(EInt start, EInt end)
 	function T PList[T].get(EInt index)
 	function EInt PList[F].size() 
+	function EBoolean PList[F].isEmpty()
 	
 }
 

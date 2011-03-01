@@ -44,7 +44,7 @@ package petrinets // this is the package name
 	class ConsumingArc extends Arc {
 		reference Place in (1..1) opposite outgoing;
 		reference Transition out (1..1) opposite incoming;
-		containment reference FreeVariable variable (1..1);
+		containment reference FreeVariable freeVariable (1..1);
 	}
 
 	@"OWL_CONSTRAINT"("Producing Arcs need to have Transitions as input."="( Arc_in exactly 1 Transition ) ")
@@ -53,7 +53,7 @@ package petrinets // this is the package name
 	class ProducingArc extends Arc {
 		reference Transition in (1..1) opposite outgoing;
 		reference Place out (1..1) opposite incoming;
-		containment reference VariableCall variable (1..1);
+		reference Variable output (1..1);
 	}
 
 	@"OWL_DEFINITION"("StartPlace"="( NameableElement_name value \"Start\" ) ", "A Start Place is not allowed to have incoming Arcs."="( Component_incoming exactly 0 Arc ) ")
@@ -66,6 +66,7 @@ package petrinets // this is the package name
 	class Transition extends Component {
 		reference ConsumingArc incoming (0..-1) opposite out; 
 		reference ProducingArc outgoing (0..-1) opposite in;
+		containment reference Expression guard (0..1); 
 		containment reference Statement statements (0..-1);
 	}
 
@@ -90,6 +91,7 @@ package petrinets // this is the package name
 	abstract class Function extends NameableElement, TypedElement {
 			containment reference Parameter parameters (0..-1);
 		reference EClassifier context (1..1);
+		attribute EBoolean library (1..1);
 	}
 
 	class BasicFunction extends Function {
@@ -106,9 +108,23 @@ package petrinets // this is the package name
 	class Parameter extends NameableElement, TypedElement {
 	}
 
+	class BooleanExpression extends Expression {
+		attribute EString operator (1..1);
+		containment reference Expression left (1..1);
+		containment reference Expression right (1..1);
+	}
+
 	class FunctionCall extends Expression {
 		reference Function function (1..1);
 			containment reference Expression parameters (0..-1);
+	}
+	
+	class Cast extends Expression {
+		containment reference Expression expression (1..1);
+	}
+	
+	class NestedExpression extends Expression {
+		containment reference Expression expression (1..1);
 	}
 	
 	class ConstructorCall extends Expression {
@@ -125,6 +141,10 @@ package petrinets // this is the package name
 
 	class StringLiteral extends Literal {
 		attribute EString value (1..1);
+	}
+	
+	class EClassLiteral extends Literal {
+		reference EClass clazz (1..1);
 	}
 
 	class IntegerLiteral extends Literal {

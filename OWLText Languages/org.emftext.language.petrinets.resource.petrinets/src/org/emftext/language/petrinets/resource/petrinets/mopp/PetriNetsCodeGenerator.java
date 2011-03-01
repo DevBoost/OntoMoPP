@@ -20,17 +20,22 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
+import org.emftext.language.petrinets.BooleanExpression;
 import org.emftext.language.petrinets.BooleanLiteral;
+import org.emftext.language.petrinets.Cast;
 import org.emftext.language.petrinets.Component;
 import org.emftext.language.petrinets.ConstructorCall;
 import org.emftext.language.petrinets.ConsumingArc;
 import org.emftext.language.petrinets.DoubleLiteral;
+import org.emftext.language.petrinets.EClassLiteral;
 import org.emftext.language.petrinets.Expression;
 import org.emftext.language.petrinets.FloatLiteral;
+import org.emftext.language.petrinets.Function;
 import org.emftext.language.petrinets.FunctionCall;
 import org.emftext.language.petrinets.InitialisedVariable;
 import org.emftext.language.petrinets.IntegerLiteral;
 import org.emftext.language.petrinets.LongLiteral;
+import org.emftext.language.petrinets.NestedExpression;
 import org.emftext.language.petrinets.PList;
 import org.emftext.language.petrinets.PetriNet;
 import org.emftext.language.petrinets.Place;
@@ -198,9 +203,8 @@ public class PetriNetsCodeGenerator {
 				stringBuffer.appendLine("if(transition_"
 						+ trimQuotes(t.getName()) + "_canFire()) {");
 				stringBuffer.indent();
-				stringBuffer.appendLine("transition_" + trimQuotes(t.getName())
-						+ "_doFire();");
-				stringBuffer.appendLine("petrinetWasUpdated = true;");
+				stringBuffer.appendLine("petrinetWasUpdated = transition_"
+						+ trimQuotes(t.getName()) + "_doFire();");
 				stringBuffer.unIndent();
 				stringBuffer.appendLine("}");
 			}
@@ -250,28 +254,47 @@ public class PetriNetsCodeGenerator {
 
 		stringBuffer.newline();
 
-		stringBuffer.appendLine("private void transition_"
+		stringBuffer.appendLine("private boolean transition_"
 				+ trimQuotes(t.getName()) + "_doFire() {");
 		stringBuffer.indent();
 		for (ConsumingArc arc : incomingArcs) {
 			Place in = arc.getIn();
 
 			stringBuffer.appendLine(printType(in) + " "
-					+ arc.getVariable().getName() + " = " + "_place_"
-					+ trimQuotes(in.getName()) + ".remove(0);");
+					+ arc.getFreeVariable().getName() + " = " + "_place_"
+					+ trimQuotes(in.getName()) + ".get(0);");
 		}
+		stringBuffer.appendLine("// evaluate guard expression");
+		stringBuffer.appendLine("boolean guardSatisfied = false;");
+		generateCode(t.getGuard());
+		String contextVariableName = this.contextVariableName;
+		stringBuffer
+				.appendLine("guardSatisfied = " + contextVariableName + ";");
+		stringBuffer.appendLine("if (guardSatisfied) {");
+		stringBuffer.indent();
+		for (ConsumingArc arc : incomingArcs) {
+			Place in = arc.getIn();
+
+			stringBuffer.appendLine(arc.getFreeVariable().getName() + " = "
+					+ "_place_" + trimQuotes(in.getName()) + ".remove(0);");
+		}
+		stringBuffer.unIndent();
+		stringBuffer.appendLine("}");
+		stringBuffer.appendLine("else return false;");
 
 		EList<Statement> statements = t.getStatements();
 		for (Statement statement : statements) {
 			generateCode(statement);
 		}
 
+		stringBuffer.appendLine("// init out places");
 		for (ProducingArc arc : t.getOutgoing()) {
 			Place out = arc.getOut();
-			stringBuffer.append("_place_" + trimQuotes(out.getName()) + ".add("
-					+ arc.getVariable().getVariable().getName() + ");");
+			stringBuffer.appendLine("_place_" + trimQuotes(out.getName())
+					+ ".add(" + arc.getOutput().getName() + ");");
 		}
 
+		stringBuffer.appendLine("return true;");
 		stringBuffer.unIndent();
 		stringBuffer.appendLine("}");
 
@@ -335,7 +358,9 @@ public class PetriNetsCodeGenerator {
 	}
 
 	private void generateCode(EObject o) {
-		if (o instanceof InitialisedVariable)
+		if (o == null)
+			return;
+		else if (o instanceof InitialisedVariable)
 			generateCode((InitialisedVariable) o);
 		else if (o instanceof FunctionCall)
 			generateCode((FunctionCall) o);
@@ -357,9 +382,22 @@ public class PetriNetsCodeGenerator {
 			generateCode((BooleanLiteral) o);
 		else if (o instanceof LongLiteral)
 			generateCode((LongLiteral) o);
+		else if (o instanceof EClassLiteral)
+			generateCode((EClassLiteral) o);
+		else if (o instanceof Cast)
+			generateCode((Cast) o);
+		else if (o instanceof BooleanExpression)
+			generateCode((BooleanExpression) o);
+		else if (o instanceof NestedExpression)
+			generateCode((NestedExpression) o);
 		else
 			throw new RuntimeException("No codegeneration routine found for "
 					+ o);
+		if (o instanceof Expression) {
+			Expression e = (Expression) o;
+			if (e.getNextExpression() != null)
+				generateCode(e.getNextExpression());
+		}
 
 	}
 
@@ -370,8 +408,8 @@ public class PetriNetsCodeGenerator {
 		stringBuffer.newline();
 		this.contextVariableName = contextVar;
 
-		if (vc.getNextExpression() != null)
-			generateCode(vc.getNextExpression());
+		// if (vc.getNextExpression() != null)
+		// generateCode(vc.getNextExpression());
 	}
 
 	private void generateCode(ConstructorCall cc) {
@@ -381,12 +419,13 @@ public class PetriNetsCodeGenerator {
 		stringBuffer.newline();
 		this.contextVariableName = contextVar;
 
-		if (cc.getNextExpression() != null)
-			generateCode(cc.getNextExpression());
+		// if (cc.getNextExpression() != null)
+		// generateCode(cc.getNextExpression());
 	}
 
 	private void generateCode(FunctionCall fc) {
-		stringBuffer.appendLine("// ." + fc.getFunction().getName() + "()");
+		Function function = fc.getFunction();
+		stringBuffer.appendLine("// ." + function.getName() + "()");
 		String prevContextVarName = this.contextVariableName;
 		EList<Expression> parameters = fc.getParameters();
 		Map<Expression, String> argumentVars = new HashMap<Expression, String>();
@@ -402,20 +441,29 @@ public class PetriNetsCodeGenerator {
 			stringBuffer.appendLine("");
 		}
 		// library function
-		if ((fc.getFunction().getParameters().size() + 1) == fc.getParameters()
-				.size()) {
-			stringBuffer.appendLine(fc.getFunction().getName() + "(");
+		if (function.isLibrary()) {
+			PetriNet net = (PetriNet) function.eResource().getContents().get(0);
+			EList<String> pkgs = net.getPkg();
+			String libraryName = "";
+			for (String pkg : pkgs) {
+				libraryName = libraryName + pkg + ".";
+			}
+			libraryName = libraryName + toFirstUpper(trimQuotes(net.getName()));
+			libraryName = libraryName + "SemanticsLibrary";
+
+			stringBuffer.appendLine(libraryName + "." + function.getName()
+					+ "(");
 		}
 
 		if (fc.getPreviousExpression() != null) {
 			stringBuffer.append(prevContextVarName);
 		}
 		// api function
-		if ((fc.getFunction().getParameters().size()) == fc.getParameters()
-				.size()) {
-			stringBuffer.append("." + fc.getFunction().getName() + "(");
+		if (!function.isLibrary()) {
+			stringBuffer.append("." + function.getName() + "(");
 		} else {
-			stringBuffer.append(", ");
+			if (parameters.size() > 0)
+				stringBuffer.append(", ");
 		}
 		int i = 0;
 		for (Expression expression : parameters) {
@@ -428,8 +476,8 @@ public class PetriNetsCodeGenerator {
 		}
 		stringBuffer.append(");");
 		this.contextVariableName = contextVar;
-		if (fc.getNextExpression() != null)
-			generateCode(fc.getNextExpression());
+		// if (fc.getNextExpression() != null)
+		// generateCode(fc.getNextExpression());
 	}
 
 	private void generateCode(InitialisedVariable v) {
@@ -446,7 +494,6 @@ public class PetriNetsCodeGenerator {
 		this.contextVariableName = generateContextVariableName();
 		stringBuffer.appendLine("String " + this.contextVariableName + " = "
 				+ "\"" + sl.getValue() + "\";");
-
 	}
 
 	private void generateCode(IntegerLiteral il) {
@@ -460,6 +507,13 @@ public class PetriNetsCodeGenerator {
 		this.contextVariableName = generateContextVariableName();
 		stringBuffer.appendLine("long " + this.contextVariableName + " = "
 				+ ll.getValue() + ";");
+
+	}
+
+	private void generateCode(EClassLiteral ecl) {
+		this.contextVariableName = generateContextVariableName();
+		stringBuffer.appendLine("Class " + this.contextVariableName + " = "
+				+ ecl.getClazz().getName() + ".class;");
 
 	}
 
@@ -482,5 +536,50 @@ public class PetriNetsCodeGenerator {
 		stringBuffer.appendLine("boolean " + this.contextVariableName + " = "
 				+ bl.isValue() + ";");
 
+	}
+
+	private void generateCode(Cast cast) {
+		String castVariable = generateContextVariableName();
+		generateCode(cast.getExpression());
+		String expressionVariable = this.contextVariableName;
+		stringBuffer.appendLine(printType(cast) +  " " + castVariable + " = " + "("
+				+ printType(cast) + ")" + expressionVariable + ";");
+		this.contextVariableName = castVariable;
+	}
+	
+	private void generateCode(NestedExpression ne) {
+		String nv = generateContextVariableName();
+		generateCode(ne.getExpression());
+		String expressionVariable = this.contextVariableName;
+		stringBuffer.appendLine(printType(ne) +  " " + nv + " = " + expressionVariable + ";");
+		this.contextVariableName = nv;
+	}
+	
+	private void generateCode(BooleanExpression be) {
+		String booleanExpressionResult = generateContextVariableName();
+		generateCode(be.getLeft());
+		String leftResult = this.contextVariableName;
+		if (be.getOperator().equals("&&")) {
+			stringBuffer.appendLine("boolean " + booleanExpressionResult + " = " + leftResult + ";");
+			stringBuffer.appendLine("if (" + booleanExpressionResult + ") {");
+			stringBuffer.indent();
+			generateCode(be.getRight());
+			String rightResult = this.contextVariableName;
+			stringBuffer.appendLine(booleanExpressionResult + " = " + rightResult + ";");
+			stringBuffer.unIndent();
+			stringBuffer.append("}");
+		} else // || operator 
+		{
+			stringBuffer.appendLine("boolean " + booleanExpressionResult + " = " + leftResult + ";");
+			stringBuffer.appendLine("if (!" + booleanExpressionResult + ") {");
+			stringBuffer.indent();
+			generateCode(be.getRight());
+			String rightResult = this.contextVariableName;
+			stringBuffer.appendLine(booleanExpressionResult + " = " + rightResult + ";");
+			stringBuffer.unIndent();
+			stringBuffer.append("}");
+		}
+
+		this.contextVariableName = booleanExpressionResult;
 	}
 }

@@ -33,7 +33,7 @@ public class FunctionCallFunctionReferenceResolver
 			boolean resolveFuzzy,
 			final org.emftext.language.petrinets.resource.petrinets.IPetrinetsReferenceResolveResult<org.emftext.language.petrinets.Function> result) {
 
-		List<Function> candidates = FunctionCache.getInstance()
+ 		List<Function> candidates = FunctionCache.getInstance()
 				.getDeclaredFunctions(container);
 		if (!resolveFuzzy) {
 			setHelpingErrorMessage(identifier, container, result);
@@ -112,7 +112,7 @@ public class FunctionCallFunctionReferenceResolver
 			while (parameterExpression.getNextExpression() != null) {
 				parameterExpression = parameterExpression.getNextExpression();
 			}
-			EClassifier argumentType = FunctionCache.getInstance().getType(
+ 			EClassifier argumentType = FunctionCache.getInstance().getType(
 					parameterExpression);
 			if (argumentType == null)
 				return false;
@@ -150,6 +150,7 @@ public class FunctionCallFunctionReferenceResolver
 		if (supertype instanceof EClass && subtype instanceof EClass) {
 			return ((EClass) supertype).isSuperTypeOf((EClass) subtype);
 		}
+ 		if (supertype.getInstanceClass().getName().equals("java.lang.Object")) return true;
 		return false;
 	}
 

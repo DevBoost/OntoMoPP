@@ -3,15 +3,13 @@ package math // this is the package name
         "http://org.emftext/languages/math.ecore" // the namespace URI 
 	{
 
-	class Expression {
+	class Expression extends Element {
 		attribute Operator operator (1..1);
-		containment reference Elements elements (1..-1);
-		attribute EString name (1..1);
+		containment reference Element elements (1..-1);
 	}
 	
-	class Elements {
+	class Element {
 		attribute EInt value (1..1);
-		attribute EString name (1..1);
 	}
 	
 	serializable enum Operator {

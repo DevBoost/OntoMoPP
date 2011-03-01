@@ -31,12 +31,12 @@
     <genClasses ecoreClass="petrinets.text.ecore#//ConsumingArc">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//ConsumingArc/in"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//ConsumingArc/out"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//ConsumingArc/variable"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//ConsumingArc/freeVariable"/>
     </genClasses>
     <genClasses ecoreClass="petrinets.text.ecore#//ProducingArc">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//ProducingArc/in"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//ProducingArc/out"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//ProducingArc/variable"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//ProducingArc/output"/>
     </genClasses>
     <genClasses image="false" ecoreClass="petrinets.text.ecore#//Place">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//Place/incoming"/>
@@ -45,6 +45,7 @@
     <genClasses ecoreClass="petrinets.text.ecore#//Transition">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//Transition/incoming"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//Transition/outgoing"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//Transition/guard"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//Transition/statements"/>
     </genClasses>
     <genClasses image="false" ecoreClass="petrinets.text.ecore#//Statement"/>
@@ -60,6 +61,7 @@
     <genClasses ecoreClass="petrinets.text.ecore#//Function">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//Function/parameters"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//Function/context"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute petrinets.text.ecore#//Function/library"/>
     </genClasses>
     <genClasses ecoreClass="petrinets.text.ecore#//BasicFunction"/>
     <genClasses ecoreClass="petrinets.text.ecore#//ListFunction">
@@ -68,9 +70,20 @@
     </genClasses>
     <genClasses ecoreClass="petrinets.text.ecore#//PGenericType"/>
     <genClasses ecoreClass="petrinets.text.ecore#//Parameter"/>
+    <genClasses ecoreClass="petrinets.text.ecore#//BooleanExpression">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute petrinets.text.ecore#//BooleanExpression/operator"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//BooleanExpression/left"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//BooleanExpression/right"/>
+    </genClasses>
     <genClasses ecoreClass="petrinets.text.ecore#//FunctionCall">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//FunctionCall/function"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//FunctionCall/parameters"/>
+    </genClasses>
+    <genClasses ecoreClass="petrinets.text.ecore#//Cast">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//Cast/expression"/>
+    </genClasses>
+    <genClasses ecoreClass="petrinets.text.ecore#//NestedExpression">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//NestedExpression/expression"/>
     </genClasses>
     <genClasses ecoreClass="petrinets.text.ecore#//ConstructorCall"/>
     <genClasses ecoreClass="petrinets.text.ecore#//VariableCall">
@@ -79,6 +92,9 @@
     <genClasses image="false" ecoreClass="petrinets.text.ecore#//Literal"/>
     <genClasses ecoreClass="petrinets.text.ecore#//StringLiteral">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute petrinets.text.ecore#//StringLiteral/value"/>
+    </genClasses>
+    <genClasses ecoreClass="petrinets.text.ecore#//EClassLiteral">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//EClassLiteral/clazz"/>
     </genClasses>
     <genClasses ecoreClass="petrinets.text.ecore#//IntegerLiteral">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute petrinets.text.ecore#//IntegerLiteral/value"/>

@@ -12,6 +12,8 @@ TOKENS {
  	DEFINE SL_COMMENT $'//'(~('\n'|'\r'|'\uffff'))* $;
 	DEFINE ML_COMMENT $'/*'.*'*/'$;
 	DEFINE PLIST $'PList'$;
+	
+	DEFINE BOOLEAN_OPERATOR $('&&'|'||')$;
 	DEFINE IDENTIFIER $('A'..'Z' | 'a'..'z'| '_' | '-' )('A'..'Z' | 'a'..'z' | '0'..'9' | '_' | '-' | '::')*$;
 	
 	DEFINE WHITESPACE $(' '|'\t'|'\f')$;
@@ -29,6 +31,7 @@ TOKENS {
 TOKENSTYLES {
 	"ML_COMMENT" COLOR #008000, ITALIC;
 	"SL_COMMENT" COLOR #000080, ITALIC;
+	"library" COLOR #7F0055, BOLD;
 }  
  
 RULES { 
@@ -37,37 +40,69 @@ RULES {
 				("FUNCTIONS:" "{" functions* "}")?
 				"{" (components | arcs)* "}";
 				
-	BasicFunction ::= "function" type[IDENTIFIER] context[IDENTIFIER]"."name[IDENTIFIER] "(" (parameters ("," parameters)*)? ")";
-	ListFunction ::= "function" (type[IDENTIFIER] | type[PLIST] "[" returnListType[IDENTIFIER] "]") context[PLIST] "[" listTypeDef "]" "."name[IDENTIFIER] "(" (parameters ("," parameters)*)? ")";
+	Place ::= "place" name[STRING_LITERAL]? ":" type[IDENTIFIER]?;
+	
+	Transition ::= "transition" name[STRING_LITERAL]? ("if" "(" guard ")")? "do" 
+				"{" (statements:Statement,Expression ";")*
+				"}"; 
+				
+	BasicFunction ::= library["library": ""]?  "function" type[IDENTIFIER] context[IDENTIFIER]"."name[IDENTIFIER] "(" (parameters ("," parameters)*)? ")";
+	ListFunction ::= library["library": ""]? "function" (type[IDENTIFIER] | type[PLIST] "[" returnListType[IDENTIFIER] "]") context[PLIST] "[" listTypeDef "]" "."name[IDENTIFIER] "(" (parameters ("," parameters)*)? ")";
 	PGenericType ::= name[IDENTIFIER];
 	
 	Parameter ::= type[IDENTIFIER] name[IDENTIFIER];
 	
 	ConsumingArc ::= in[STRING_LITERAL] "-consumes->" out[STRING_LITERAL] 
-		("{"  variable ";" "}");
+		("{"  freeVariable ";" "}");
+
+	FreeVariable ::= name[IDENTIFIER]; 
 		
 	ProducingArc ::= in[STRING_LITERAL] "-produces->" out[STRING_LITERAL] 
-		("{"  variable ";" "}");	
-		
-	FreeVariable ::= name[IDENTIFIER]; 
+		("{"  output[IDENTIFIER] ";" "}");	
 	
 	InitialisedVariable ::= name[IDENTIFIER] "=" initialisation; 
 	
+	
+	@Operator(type="binary_left_associative", weight="1", superclass="Expression")
+	BooleanExpression ::= left (operator[BOOLEAN_OPERATOR]) right;
+
+	@Operator(type="primitive", weight="5", superclass="Expression")
 	FunctionCall ::= function[IDENTIFIER] "(" ( parameters ("," parameters)*)?")" 
 		("." nextExpression)?;
+		
+	@Operator(type="primitive", weight="5", superclass="Expression")
 	VariableCall ::= variable[IDENTIFIER] ("." nextExpression)?;
+	
+	@Operator(type="primitive", weight="5", superclass="Expression")
 	ConstructorCall ::= "new" type[IDENTIFIER]"(" ")";
 	
-	Place ::= "place" name[STRING_LITERAL]? ":" type[IDENTIFIER]?;
-	Transition ::= "transition" name[STRING_LITERAL]? "do" 
-				"{" (statements ";")*
-				"}"; 
+	@Operator(type="primitive", weight="5", superclass="Expression")
+	Cast ::= "(" type[IDENTIFIER] ")" expression;
 	
+	@Operator(type="primitive", weight="5", superclass="Expression")
+	NestedExpression ::= "(" expression ")"  ("." nextExpression)?;
+	
+				
+	@Operator(type="primitive", weight="5", superclass="Expression")
 	StringLiteral ::= value[STRING_LITERAL] ("." nextExpression)?;
+	
+	@Operator(type="primitive", weight="5", superclass="Expression")
 	IntegerLiteral ::= value[DECIMAL_INTEGER_LITERAL] ("." nextExpression)?;
+	
+	@Operator(type="primitive", weight="5", superclass="Expression")
 	FloatLiteral ::= value[DECIMAL_FLOAT_LITERAL] ("." nextExpression)?;
+	
+	@Operator(type="primitive", weight="5", superclass="Expression")
 	DoubleLiteral ::= value[DECIMAL_DOUBLE_LITERAL] ("." nextExpression)?;
+	
+	@Operator(type="primitive", weight="5", superclass="Expression")
 	LongLiteral ::= value[DECIMAL_LONG_LITERAL] ("." nextExpression)?;
+	
+	@Operator(type="primitive", weight="5", superclass="Expression")
 	BooleanLiteral ::= value["true":"false"] ("." nextExpression)?;
+	
+	@Operator(type="primitive", weight="5", superclass="Expression")
+	EClassLiteral ::= "@" clazz[IDENTIFIER] ("." nextExpression)?;
+	
 
 }

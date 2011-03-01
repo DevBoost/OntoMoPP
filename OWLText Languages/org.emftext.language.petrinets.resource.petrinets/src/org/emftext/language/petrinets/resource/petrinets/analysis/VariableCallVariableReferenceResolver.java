@@ -47,7 +47,7 @@ public class VariableCallVariableReferenceResolver
 		List<Variable> candidates = new ArrayList<Variable>();
 		EList<ConsumingArc> arc = getConsumingArcs(container);
 		for (ConsumingArc consuming : arc) {
-			candidates.add(consuming.getVariable());
+			candidates.add(consuming.getFreeVariable());
 		}
 
 		List<Statement> previousStatements = getPreviousStatements(container);
@@ -132,7 +132,7 @@ public class VariableCallVariableReferenceResolver
 			Transition containing = (Transition) c;
 			int indexOfContainingStatement = containing.getStatements()
 					.indexOf(containingStatement);
-			previousStatements = containing.getStatements().subList(0,
+			if (indexOfContainingStatement > 0) previousStatements = containing.getStatements().subList(0,
 					indexOfContainingStatement);
 		}
 		if (c != null && c instanceof ProducingArc) {

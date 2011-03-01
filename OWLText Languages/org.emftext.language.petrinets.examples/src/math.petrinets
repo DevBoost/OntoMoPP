@@ -1,0 +1,25 @@
+package math.semantics;
+/* Invalid PetriNets as OWLText validation example*/
+petrinet "Math" 
+
+import <math.text.ecore> <math.text.genmodel>;
+
+{
+  
+ 	place "InitialPlace" : Element 
+ 	place "EndPlace" : Element
+ 	
+ 	"InitialPlace" -consumes-> "add" { e; }
+ 	"add" -produces-> "EndPlace" { e; }
+ 	
+   	transition "add"  
+	if ( ( @Expression.isInstance(e)) && e.getValue().isNull() ) 
+   	do { 
+   		expression = (Expression) e; 
+   	  	left = expression.getElements().get(0).getValue();
+   		right = expression.getElements().get(1).getValue();
+   		e.setValue(left.add(right));
+ 	}  
+ 
+ 
+}    

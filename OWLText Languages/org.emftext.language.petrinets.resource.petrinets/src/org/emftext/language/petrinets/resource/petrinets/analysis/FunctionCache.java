@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.coode.owlapi.rdfxml.parser.TypeNamedIndividualHandler;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
@@ -17,9 +18,11 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.petrinets.Arc;
 import org.emftext.language.petrinets.BasicFunction;
+import org.emftext.language.petrinets.BooleanExpression;
 import org.emftext.language.petrinets.BooleanLiteral;
 import org.emftext.language.petrinets.ConsumingArc;
 import org.emftext.language.petrinets.DoubleLiteral;
+import org.emftext.language.petrinets.EClassLiteral;
 import org.emftext.language.petrinets.Expression;
 import org.emftext.language.petrinets.FloatLiteral;
 import org.emftext.language.petrinets.Function;
@@ -28,6 +31,7 @@ import org.emftext.language.petrinets.InitialisedVariable;
 import org.emftext.language.petrinets.IntegerLiteral;
 import org.emftext.language.petrinets.ListFunction;
 import org.emftext.language.petrinets.LongLiteral;
+import org.emftext.language.petrinets.NestedExpression;
 import org.emftext.language.petrinets.PGenericType;
 import org.emftext.language.petrinets.PList;
 import org.emftext.language.petrinets.Parameter;
@@ -66,7 +70,12 @@ public class FunctionCache {
 				if (function instanceof BasicFunction) {
 					EClassifier context = ((BasicFunction) function)
 							.getContext();
-					addBasicFunction(context.getInstanceClassName(), function);
+					if (context.getInstanceClassName() != null) {
+						addBasicFunction(context.getInstanceClassName(),
+								function);
+					}
+					addBasicFunction(context.getName(), function);
+
 				}
 				if (function instanceof ListFunction) {
 					PList eList = PetrinetsFactory.eINSTANCE.createPList();
@@ -123,7 +132,7 @@ public class FunctionCache {
 	}
 
 	public void addFunctions(List<Function> functions, EClassifier type) {
-		List<Function> basics = basicFunctions.get(type.getInstanceClassName());
+		List<Function> basics = getMatchingBasicFunctions(type);
 		if (basics != null) {
 			functions.addAll(basics);
 		}
@@ -134,6 +143,29 @@ public class FunctionCache {
 		}
 		functions.addAll(cachedFunctions);
 
+	}
+
+	private List<Function> getMatchingBasicFunctions(EClassifier type) {
+		List<Function> fs = new ArrayList<Function>();
+		List<String> types = new ArrayList<String>();
+		types.add(type.getInstanceClassName());
+		types.add(type.getName());
+		types.add("java.lang.Object");
+		if (type instanceof EClass) {
+			EClass c = (EClass) type;
+			EList<EClass> eAllSuperTypes = c.getEAllSuperTypes();
+			for (EClass st : eAllSuperTypes) {
+				types.add(st.getInstanceClassName());
+				types.add(st.getName());
+			}
+		}
+		for(String typename : types ) {
+			List<Function> typeFunctions = basicFunctions.get(typename);
+			if (typeFunctions != null)
+				fs.addAll(typeFunctions);
+		}
+		
+		return fs;
 	}
 
 	private List<Function> calculateFunctions(EClassifier type) {
@@ -207,7 +239,8 @@ public class FunctionCache {
 				resolveAllRequired(variable, e);
 
 			}
-			if (variable == null || variable.eIsProxy()) return null;
+			if (variable == null || variable.eIsProxy())
+				return null;
 			EClassifier type = variable.getType();
 			if (type == null) {
 				if (variable instanceof InitialisedVariable) {
@@ -270,6 +303,26 @@ public class FunctionCache {
 			EClassifier type = EcorePackage.eINSTANCE.getEBoolean();
 			e.setType(type);
 			return type;
+		}
+		if (e instanceof BooleanExpression) {
+			EClassifier type = EcorePackage.eINSTANCE.getEBoolean();
+			e.setType(type);
+			return type;
+		}
+		if (e instanceof EClassLiteral) {
+			EClassifier type = EcorePackage.eINSTANCE.getEClass();
+			e.setType(type);
+			return type;
+		}
+		if (e instanceof NestedExpression) {
+			NestedExpression ne = (NestedExpression) e;
+			Expression expression = ne.getExpression();
+			while (expression.getNextExpression() != null) {
+				expression = expression.getNextExpression();
+			}
+			EClassifier calculateType = calculateType(expression);
+			if (calculateType != null) e.setType(calculateType);
+			return calculateType;
 		}
 		return null;
 	}
