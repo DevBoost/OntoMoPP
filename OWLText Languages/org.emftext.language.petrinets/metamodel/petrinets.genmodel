@@ -55,10 +55,7 @@
     <genClasses ecoreClass="petrinets.text.ecore#//InitialisedVariable">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//InitialisedVariable/initialisation"/>
     </genClasses>
-    <genClasses image="false" ecoreClass="petrinets.text.ecore#//Expression">
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference petrinets.text.ecore#//Expression/previousExpression"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//Expression/nextExpression"/>
-    </genClasses>
+    <genClasses image="false" ecoreClass="petrinets.text.ecore#//Expression"/>
     <genClasses ecoreClass="petrinets.text.ecore#//Function">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//Function/parameters"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//Function/context"/>
@@ -76,6 +73,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//BooleanExpression/left"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//BooleanExpression/right"/>
     </genClasses>
+    <genClasses image="false" ecoreClass="petrinets.text.ecore#//Call"/>
     <genClasses ecoreClass="petrinets.text.ecore#//FunctionCall">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//FunctionCall/function"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//FunctionCall/parameters"/>
@@ -89,6 +87,10 @@
     <genClasses ecoreClass="petrinets.text.ecore#//ConstructorCall"/>
     <genClasses ecoreClass="petrinets.text.ecore#//VariableCall">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//VariableCall/variable"/>
+    </genClasses>
+    <genClasses ecoreClass="petrinets.text.ecore#//MemberCallExpression">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//MemberCallExpression/target"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//MemberCallExpression/calls"/>
     </genClasses>
     <genClasses image="false" ecoreClass="petrinets.text.ecore#//Literal"/>
     <genClasses ecoreClass="petrinets.text.ecore#//StringLiteral">

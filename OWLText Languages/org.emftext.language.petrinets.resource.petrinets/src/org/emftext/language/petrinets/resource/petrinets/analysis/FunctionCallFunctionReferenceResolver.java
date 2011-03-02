@@ -92,7 +92,7 @@ public class FunctionCallFunctionReferenceResolver
 							container.getParameters(), contextType)) {
 						result.addMapping(identifier, function);
 						container.setType(FunctionCache.getInstance()
-								.getFunctionReturnType(container, function));
+								.getFunctionReturnType(null, function));
 						return;
 					}
 				}
@@ -109,9 +109,7 @@ public class FunctionCallFunctionReferenceResolver
 		parameterloop: for (int i = 0; i < expected.size(); i++) {
 			EClassifier parameterType = expected.get(i).getType();
 			Expression parameterExpression = found.get(i);
-			while (parameterExpression.getNextExpression() != null) {
-				parameterExpression = parameterExpression.getNextExpression();
-			}
+		
  			EClassifier argumentType = FunctionCache.getInstance().getType(
 					parameterExpression);
 			if (argumentType == null)

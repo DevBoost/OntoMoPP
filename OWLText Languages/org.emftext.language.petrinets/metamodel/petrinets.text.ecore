@@ -85,8 +85,8 @@ package petrinets // this is the package name
 	} 
 
 	abstract class Expression extends Statement {
-		reference Expression previousExpression (0..1) opposite nextExpression;
-			containment reference Expression nextExpression (0..1) opposite previousExpression;
+		//reference Expression previousExpression (0..1) opposite nextExpression;
+		//containment reference Expression nextExpression (0..1) opposite previousExpression;
 	}
 
 	abstract class Function extends NameableElement, TypedElement {
@@ -115,9 +115,13 @@ package petrinets // this is the package name
 		containment reference Expression right (1..1);
 	}
 
-	class FunctionCall extends Expression {
+	abstract class Call extends TypedElement {
+		
+	}
+
+	class FunctionCall extends Call {
 		reference Function function (1..1);
-			containment reference Expression parameters (0..-1);
+		containment reference Expression parameters (0..-1);
 	}
 	
 	class Cast extends Expression {
@@ -125,15 +129,20 @@ package petrinets // this is the package name
 	}
 	
 	class NestedExpression extends Expression {
-		containment reference Expression expression (1..1);
+		containment reference Expression expression (1..1); 
 	}
-	
+
 	class ConstructorCall extends Expression {
 		
 	}
 
 	class VariableCall extends Expression {
 		reference Variable variable (1..1);
+	}
+
+	class MemberCallExpression extends Expression {
+		containment reference Expression target (1..1);
+		containment reference Call calls (1..-1);
 	}
 
 	abstract

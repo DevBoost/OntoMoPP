@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
 import org.emftext.language.petrinets.BooleanExpression;
 import org.emftext.language.petrinets.BooleanLiteral;
+import org.emftext.language.petrinets.Call;
 import org.emftext.language.petrinets.Cast;
 import org.emftext.language.petrinets.Component;
 import org.emftext.language.petrinets.ConstructorCall;
@@ -35,6 +36,7 @@ import org.emftext.language.petrinets.FunctionCall;
 import org.emftext.language.petrinets.InitialisedVariable;
 import org.emftext.language.petrinets.IntegerLiteral;
 import org.emftext.language.petrinets.LongLiteral;
+import org.emftext.language.petrinets.MemberCallExpression;
 import org.emftext.language.petrinets.NestedExpression;
 import org.emftext.language.petrinets.PList;
 import org.emftext.language.petrinets.PetriNet;
@@ -266,10 +268,15 @@ public class PetriNetsCodeGenerator {
 		}
 		stringBuffer.appendLine("// evaluate guard expression");
 		stringBuffer.appendLine("boolean guardSatisfied = false;");
-		generateCode(t.getGuard());
-		String contextVariableName = this.contextVariableName;
+		String guardEvaluationResult = null;
+		if (t.getGuard() != null) {
+			generateCode(t.getGuard());
+			guardEvaluationResult = this.contextVariableName;
+		} else {
+			guardEvaluationResult = "true";
+		}
 		stringBuffer
-				.appendLine("guardSatisfied = " + contextVariableName + ";");
+				.appendLine("guardSatisfied = " + guardEvaluationResult + ";");
 		stringBuffer.appendLine("if (guardSatisfied) {");
 		stringBuffer.indent();
 		for (ConsumingArc arc : incomingArcs) {
@@ -333,9 +340,6 @@ public class PetriNetsCodeGenerator {
 			if (element instanceof InitialisedVariable) {
 				Expression initialisation = ((InitialisedVariable) element)
 						.getInitialisation();
-				while (initialisation.getNextExpression() != null) {
-					initialisation = initialisation.getNextExpression();
-				}
 				type = FunctionCache.getInstance().getType(initialisation);
 				((InitialisedVariable) element).setType(type);
 			}
@@ -362,8 +366,8 @@ public class PetriNetsCodeGenerator {
 			return;
 		else if (o instanceof InitialisedVariable)
 			generateCode((InitialisedVariable) o);
-		else if (o instanceof FunctionCall)
-			generateCode((FunctionCall) o);
+		else if (o instanceof MemberCallExpression)
+			generateCode((MemberCallExpression) o);
 		else if (o instanceof VariableCall)
 			generateCode((VariableCall) o);
 		else if (o instanceof ConstructorCall)
@@ -393,12 +397,6 @@ public class PetriNetsCodeGenerator {
 		else
 			throw new RuntimeException("No codegeneration routine found for "
 					+ o);
-		if (o instanceof Expression) {
-			Expression e = (Expression) o;
-			if (e.getNextExpression() != null)
-				generateCode(e.getNextExpression());
-		}
-
 	}
 
 	private void generateCode(VariableCall vc) {
@@ -423,10 +421,19 @@ public class PetriNetsCodeGenerator {
 		// generateCode(cc.getNextExpression());
 	}
 
-	private void generateCode(FunctionCall fc) {
+	private void generateCode(MemberCallExpression mce) {
+		Expression target = mce.getTarget();
+		generateCode(target);
+		String prevContextVarName = this.contextVariableName;
+		for (Call c : mce.getCalls()) {
+			generateCode((FunctionCall) c, prevContextVarName);
+			prevContextVarName = this.contextVariableName;
+		}
+	}
+
+	private void generateCode(FunctionCall fc, String prevContextVarName) {
 		Function function = fc.getFunction();
 		stringBuffer.appendLine("// ." + function.getName() + "()");
-		String prevContextVarName = this.contextVariableName;
 		EList<Expression> parameters = fc.getParameters();
 		Map<Expression, String> argumentVars = new HashMap<Expression, String>();
 		for (Expression expression : parameters) {
@@ -454,8 +461,7 @@ public class PetriNetsCodeGenerator {
 			stringBuffer.appendLine(libraryName + "." + function.getName()
 					+ "(");
 		}
-
-		if (fc.getPreviousExpression() != null) {
+		if (prevContextVarName != null) {
 			stringBuffer.append(prevContextVarName);
 		}
 		// api function
@@ -542,40 +548,45 @@ public class PetriNetsCodeGenerator {
 		String castVariable = generateContextVariableName();
 		generateCode(cast.getExpression());
 		String expressionVariable = this.contextVariableName;
-		stringBuffer.appendLine(printType(cast) +  " " + castVariable + " = " + "("
-				+ printType(cast) + ")" + expressionVariable + ";");
+		stringBuffer.appendLine(printType(cast) + " " + castVariable + " = "
+				+ "(" + printType(cast) + ")" + expressionVariable + ";");
 		this.contextVariableName = castVariable;
 	}
-	
+
 	private void generateCode(NestedExpression ne) {
 		String nv = generateContextVariableName();
 		generateCode(ne.getExpression());
 		String expressionVariable = this.contextVariableName;
-		stringBuffer.appendLine(printType(ne) +  " " + nv + " = " + expressionVariable + ";");
+		stringBuffer.appendLine(printType(ne) + " " + nv + " = "
+				+ expressionVariable + ";");
 		this.contextVariableName = nv;
 	}
-	
+
 	private void generateCode(BooleanExpression be) {
 		String booleanExpressionResult = generateContextVariableName();
 		generateCode(be.getLeft());
 		String leftResult = this.contextVariableName;
 		if (be.getOperator().equals("&&")) {
-			stringBuffer.appendLine("boolean " + booleanExpressionResult + " = " + leftResult + ";");
+			stringBuffer.appendLine("boolean " + booleanExpressionResult
+					+ " = " + leftResult + ";");
 			stringBuffer.appendLine("if (" + booleanExpressionResult + ") {");
 			stringBuffer.indent();
 			generateCode(be.getRight());
 			String rightResult = this.contextVariableName;
-			stringBuffer.appendLine(booleanExpressionResult + " = " + rightResult + ";");
+			stringBuffer.appendLine(booleanExpressionResult + " = "
+					+ rightResult + ";");
 			stringBuffer.unIndent();
 			stringBuffer.appendLine("}");
-		} else // || operator 
+		} else // || operator
 		{
-			stringBuffer.appendLine("boolean " + booleanExpressionResult + " = " + leftResult + ";");
+			stringBuffer.appendLine("boolean " + booleanExpressionResult
+					+ " = " + leftResult + ";");
 			stringBuffer.appendLine("if (!" + booleanExpressionResult + ") {");
 			stringBuffer.indent();
 			generateCode(be.getRight());
 			String rightResult = this.contextVariableName;
-			stringBuffer.appendLine(booleanExpressionResult + " = " + rightResult + ";");
+			stringBuffer.appendLine(booleanExpressionResult + " = "
+					+ rightResult + ";");
 			stringBuffer.unIndent();
 			stringBuffer.append("}");
 		}

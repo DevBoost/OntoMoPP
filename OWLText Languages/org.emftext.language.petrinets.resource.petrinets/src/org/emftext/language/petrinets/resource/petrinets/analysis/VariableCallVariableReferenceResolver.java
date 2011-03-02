@@ -56,26 +56,7 @@ public class VariableCallVariableReferenceResolver
 				candidates.add((Variable) arcStatement);
 			}
 		}
-		if (resolveFuzzy) {
-			List<Function> declaredFunctions = FunctionCache.getInstance()
-					.getDeclaredFunctions(container);
-			for (Function function : declaredFunctions) {
-				InitialisedVariable dummyVar = PetrinetsFactoryImpl.eINSTANCE
-						.createInitialisedVariable();
-				String functionname = function.getName() + "(";
-				EList<Parameter> parameters = function.getParameters();
-				for (Parameter parameter : parameters) {
-					functionname += parameter.getName() + ", ";
-				}
-				if (!parameters.isEmpty()) {
-					functionname = functionname.substring(0,
-							functionname.length() - 2);
-				}
-				functionname += ")";
-				dummyVar.setName(functionname);
-				candidates.add(dummyVar);
-			}
-		}
+		
 		return candidates;
 	}
 

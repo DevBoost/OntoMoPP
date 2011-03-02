@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.coode.owlapi.rdfxml.parser.TypeNamedIndividualHandler;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
@@ -20,6 +19,7 @@ import org.emftext.language.petrinets.Arc;
 import org.emftext.language.petrinets.BasicFunction;
 import org.emftext.language.petrinets.BooleanExpression;
 import org.emftext.language.petrinets.BooleanLiteral;
+import org.emftext.language.petrinets.Call;
 import org.emftext.language.petrinets.ConsumingArc;
 import org.emftext.language.petrinets.DoubleLiteral;
 import org.emftext.language.petrinets.EClassLiteral;
@@ -31,6 +31,7 @@ import org.emftext.language.petrinets.InitialisedVariable;
 import org.emftext.language.petrinets.IntegerLiteral;
 import org.emftext.language.petrinets.ListFunction;
 import org.emftext.language.petrinets.LongLiteral;
+import org.emftext.language.petrinets.MemberCallExpression;
 import org.emftext.language.petrinets.NestedExpression;
 import org.emftext.language.petrinets.PGenericType;
 import org.emftext.language.petrinets.PList;
@@ -40,6 +41,7 @@ import org.emftext.language.petrinets.PetrinetsFactory;
 import org.emftext.language.petrinets.Place;
 import org.emftext.language.petrinets.ProducingArc;
 import org.emftext.language.petrinets.StringLiteral;
+import org.emftext.language.petrinets.TypedElement;
 import org.emftext.language.petrinets.Variable;
 import org.emftext.language.petrinets.VariableCall;
 import org.emftext.language.petrinets.impl.PetrinetsFactoryImpl;
@@ -102,9 +104,9 @@ public class FunctionCache {
 		return theInstance;
 	}
 
-	public List<Function> getDeclaredFunctions(Expression expression) {
+	public List<Function> getDeclaredFunctions(FunctionCall container) {
 		List<Function> functions = new ArrayList<Function>();
-		EClassifier contextType = getContextType(expression);
+		EClassifier contextType = getContextType(container);
 
 		if (contextType != null) {
 			addFunctionsToList(functions, contextType);
@@ -112,15 +114,23 @@ public class FunctionCache {
 		return functions;
 	}
 
-	public EClassifier getContextType(Expression expression) {
-		Expression contextExpression = expression.getPreviousExpression();
+	public EClassifier getContextType(Call call) {
+		MemberCallExpression memberCalLExp = (MemberCallExpression) call.eContainer();
 		EClassifier contextType = null;
-		if (contextExpression != null) {
-			Expression e = (Expression) contextExpression;
-			contextType = getType(e);
+		
+		int index = memberCalLExp.getCalls().indexOf(call);
+		if (index > 0) {
+			Call previousCall = memberCalLExp.getCalls().get(index-1);
+			if (previousCall != null) {
+				contextType = getType(previousCall);
+				return contextType;
+			}
+		}
+		else {
+			contextType = getType(memberCalLExp.getTarget());
 			return contextType;
 		}
-		EObject container = expression.eContainer();
+		EObject container = call.eContainer();
 
 		while (!(container instanceof Arc) && container != null) {
 			container = container.eContainer();
@@ -220,7 +230,7 @@ public class FunctionCache {
 		return null;
 	}
 
-	public EClassifier getType(Expression e) {
+	public EClassifier getType(TypedElement e) {
 		if (e == null)
 			return null;
 		EClassifier type = e.getType();
@@ -231,12 +241,12 @@ public class FunctionCache {
 		return type;
 	}
 
-	public EClassifier calculateType(Expression e) {
+	public EClassifier calculateType(TypedElement e) {
 		if (e instanceof VariableCall) {
 			VariableCall vc = (VariableCall) e;
 			Variable variable = vc.getVariable();
 			if (variable.eIsProxy()) {
-				resolveAllRequired(variable, e);
+				resolveAllRequired(variable, vc);
 
 			}
 			if (variable == null || variable.eIsProxy())
@@ -246,14 +256,9 @@ public class FunctionCache {
 				if (variable instanceof InitialisedVariable) {
 					Expression expression = ((InitialisedVariable) variable)
 							.getInitialisation();
-					while (expression != null
-							&& expression.getNextExpression() != null) {
-						expression = expression.getNextExpression();
-					}
 					if (expression != null) {
 						type = getType(expression);
 						expression.setType(type);
-
 					}
 				} else {
 					ConsumingArc ca = (ConsumingArc) variable.eContainer();
@@ -268,10 +273,16 @@ public class FunctionCache {
 		}
 		if (e instanceof FunctionCall) {
 			FunctionCall fc = (FunctionCall) e;
-			Function function = fc.getFunction();
-			EClassifier type = null;
-			type = getFunctionReturnType(e, function);
-			fc.setType(type);
+			EClassifier contextType = getContextType(fc);
+			EClassifier type = getFunctionReturnType(contextType, fc.getFunction());
+			e.setType(type);
+			return type;
+		}
+		if (e instanceof MemberCallExpression) {
+			MemberCallExpression fc = (MemberCallExpression) e;
+			Call call = fc.getCalls().get(fc.getCalls().size()-1);
+			EClassifier type  = getType(call);
+			e.setType(type);
 			return type;
 		}
 		if (e instanceof StringLiteral) {
@@ -317,9 +328,6 @@ public class FunctionCache {
 		if (e instanceof NestedExpression) {
 			NestedExpression ne = (NestedExpression) e;
 			Expression expression = ne.getExpression();
-			while (expression.getNextExpression() != null) {
-				expression = expression.getNextExpression();
-			}
 			EClassifier calculateType = calculateType(expression);
 			if (calculateType != null) e.setType(calculateType);
 			return calculateType;
@@ -327,10 +335,10 @@ public class FunctionCache {
 		return null;
 	}
 
-	public EClassifier getFunctionReturnType(Expression e, Function function) {
+	public EClassifier getFunctionReturnType(EClassifier contextType, Function function) {
 		EClassifier type = null;
 		if (function.eIsProxy()) {
-			function = (Function) EcoreUtil.resolve(function, e);
+			function = (Function) EcoreUtil.resolve(function, function.eContainer());
 		}
 		if (function instanceof BasicFunction) {
 			type = function.getType();
@@ -338,19 +346,19 @@ public class FunctionCache {
 		if (function instanceof ListFunction) {
 			type = function.getType();
 			if (type instanceof PGenericType) {
-				type = getGenericTypeBinding(e);
+				type = getGenericTypeBinding(contextType);
 			}
 			if (type instanceof PList) {
 				PList listType = (PList) type;
-				listType.setType(getGenericTypeBinding(e));
+				listType.setType(getGenericTypeBinding(contextType));
 				type = listType;
 			}
 		}
 		return type;
 	}
 
-	private EClassifier getGenericTypeBinding(Expression e) {
-		EClassifier contextType = getContextType(e);
+	private EClassifier getGenericTypeBinding(EClassifier contextType) {
+		//EClassifier contextType = getContextType(previousCall);
 		// PLIST.getContextBinding
 		if (contextType instanceof PList) {
 			PList listtype = (PList) contextType;

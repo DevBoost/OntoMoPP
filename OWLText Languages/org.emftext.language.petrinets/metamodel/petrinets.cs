@@ -66,12 +66,12 @@ RULES {
 	@Operator(type="binary_right_associative", weight="1", superclass="Expression")
 	BooleanExpression ::= left (operator[BOOLEAN_OPERATOR]) right;
 
+	@Operator(type="unary_postfix", weight="4", superclass="Expression")
+	MemberCallExpression ::= target "." calls ("." calls)*;
+ 	FunctionCall ::= function[IDENTIFIER] "(" ( parameters ("," parameters)*)?")" ;
+	
 	@Operator(type="primitive", weight="5", superclass="Expression")
-	FunctionCall ::= function[IDENTIFIER] "(" ( parameters ("," parameters)*)?")" 
-		("." nextExpression)?;
-		
-	@Operator(type="primitive", weight="5", superclass="Expression")
-	VariableCall ::= variable[IDENTIFIER] ("." nextExpression)?;
+	VariableCall ::= variable[IDENTIFIER];
 	
 	@Operator(type="primitive", weight="5", superclass="Expression")
 	ConstructorCall ::= "new" type[IDENTIFIER]"(" ")";
@@ -80,29 +80,28 @@ RULES {
 	Cast ::= "(" type[IDENTIFIER] ")" expression;
 	
 	@Operator(type="primitive", weight="5", superclass="Expression")
-	NestedExpression ::= "(" expression ")"  ("." nextExpression)?;
-	
+	NestedExpression ::= "(" expression ")" ;
 				
 	@Operator(type="primitive", weight="5", superclass="Expression")
-	StringLiteral ::= value[STRING_LITERAL] ("." nextExpression)?;
+	StringLiteral ::= value[STRING_LITERAL];
 	
 	@Operator(type="primitive", weight="5", superclass="Expression")
-	IntegerLiteral ::= value[DECIMAL_INTEGER_LITERAL] ("." nextExpression)?;
+	IntegerLiteral ::= value[DECIMAL_INTEGER_LITERAL];
 	
 	@Operator(type="primitive", weight="5", superclass="Expression")
-	FloatLiteral ::= value[DECIMAL_FLOAT_LITERAL] ("." nextExpression)?;
+	FloatLiteral ::= value[DECIMAL_FLOAT_LITERAL];
 	
 	@Operator(type="primitive", weight="5", superclass="Expression")
-	DoubleLiteral ::= value[DECIMAL_DOUBLE_LITERAL] ("." nextExpression)?;
+	DoubleLiteral ::= value[DECIMAL_DOUBLE_LITERAL] ;
 	
 	@Operator(type="primitive", weight="5", superclass="Expression")
-	LongLiteral ::= value[DECIMAL_LONG_LITERAL] ("." nextExpression)?;
+	LongLiteral ::= value[DECIMAL_LONG_LITERAL] ;
 	
 	@Operator(type="primitive", weight="5", superclass="Expression")
-	BooleanLiteral ::= value["true":"false"] ("." nextExpression)?;
+	BooleanLiteral ::= value["true":"false"] ;
 	
 	@Operator(type="primitive", weight="5", superclass="Expression")
-	EClassLiteral ::= "@" clazz[IDENTIFIER] ("." nextExpression)?;
+	EClassLiteral ::= "@" clazz[IDENTIFIER];
 	
 
 }

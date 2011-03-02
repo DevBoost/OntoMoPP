@@ -11,14 +11,14 @@ import <math.text.ecore> <math.text.genmodel>;
  	InitialPlace -consumes-> add { e; }
  	add -produces-> EndPlace { e; }
  	 
-   	transition add 
-	if ( ( (@Expression.isInstance(e)) && e.getValue().isNull()) && e.isNull()) 
-   	do {
+   	transition add
+	//if ( ( (@Expression . isInstance(e)) && e.getValue().isNull()) && e.isNull()) 
+   	do { 
    		expression = (Expression) e;
    	  	left = expression.getElements().get(0).getValue();
    		right = expression.getElements().get(1).getValue();
-   		e.setValue(left.add(right));
- 	}  
+   		e.setValue(left.add(right)); 
+ 	} 
  
  
 }    
