@@ -7,14 +7,28 @@ import org.eclipse.emf.ecore.*;
 public class StandardlibSemanticsEvaluation {
 
 
+	List<PendingChange> pendingChanges = new LinkedList<PendingChange>();
+
+	private class PendingChange {
+		private String transitionName;
+		private List<Object> arguments;
+		public PendingChange(String transitionName, List<Object> arguments) {
+			this.transitionName = transitionName;
+			this.arguments = arguments;
+		}
+	}
+
+	private void addPendingChange(String transitionName, List<Object> arguments) {
+		this.pendingChanges.add(new PendingChange(transitionName, arguments));
+	}
+
 	public void intialisePlaces(EObject model) {
 		// TODO implement place initialisation for places w/o incomming arcs.
 	}
 
 	public void evaluatePetriNet() {
-		boolean petrinetWasUpdated = true;
-		while(petrinetWasUpdated) {;
-			petrinetWasUpdated = false;
+		while(this.pendingChanges.size() > 0) {;
+			PendingChange pc = pendingChanges.remove(0);
 		}
 	}
 

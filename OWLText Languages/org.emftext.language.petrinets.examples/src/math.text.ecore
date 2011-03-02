@@ -4,7 +4,7 @@ package math // this is the package name
 	{
 
 	class Expression extends Element {
-		attribute Operator operator (1..1);
+		attribute EString operator (1..1);
 		containment reference Element elements (1..-1);
 	}
 	
@@ -12,9 +12,4 @@ package math // this is the package name
 		attribute EInt value (1..1);
 	}
 	
-	serializable enum Operator {
-		1 : PLUS = "add";
-		2 : MINUS = "subtract";
-		3 : STAR = "multiply";
-	}
 }

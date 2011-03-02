@@ -46,4 +46,6 @@ public class StandardlibSemanticsLibrary {
 	public static boolean isNotNull(Object arg1) {
 		return ! (arg1 == null);
 	}
+
+
 }

@@ -4,21 +4,51 @@ petrinet Math
 
 import <math.text.ecore> <math.text.genmodel>;
 {
-  
  	place InitialPlace : Element 
  	place EndPlace : Element
  	
- 	InitialPlace -consumes-> add { e; }
- 	add -produces-> EndPlace { e; }
+ 	InitialPlace -consumes-> add { e; } 
+ 	add -produces-> InitialPlace { e; }
+ 	
+ 	
  	 
    	transition add
-	//if ( ( (@Expression . isInstance(e)) && e.getValue().isNull()) && e.isNull()) 
-   	do { 
-   		expression = (Expression) e;
+	if ( @Expression.isInstance(e) 
+			&& e.getValue().isNull() 
+			&& ((Expression) e).getOperator().equals("+") )
+   	do {
+   		expression = ((Expression) e);
    	  	left = expression.getElements().get(0).getValue();
    		right = expression.getElements().get(1).getValue();
-   		e.setValue(left.add(right)); 
+   		e.setValue(left.add(right));
  	} 
+ 	
+ 	InitialPlace -consumes-> sub { e; } 
+ 	sub -produces-> InitialPlace { e; }
  
+ 	transition sub
+	if ( @Expression.isInstance(e) 
+			&& e.getValue().isNull() 
+			&& ((Expression) e).getOperator().equals("-") )
+   	do {
+   		expression = ((Expression) e);
+   	  	left = expression.getElements().get(0).getValue();
+   		right = expression.getElements().get(1).getValue();
+   		e.setValue(left.sub(right));
+ 	} 
+ 	
+ 	InitialPlace -consumes-> mul { e; } 
+ 	mul -produces-> InitialPlace { e; }
+ 
+ 	transition mul
+	if ( @Expression.isInstance(e) 
+			&& e.getValue().isNull() 
+			&& ((Expression) e).getOperator().equals("*") )
+   	do {
+   		expression = ((Expression) e);
+   	  	left = expression.getElements().get(0).getValue();
+   		right = expression.getElements().get(1).getValue();
+   		e.setValue(left.mult(right));
+ 	} 
  
 }    

@@ -328,7 +328,7 @@ public class FunctionCache {
 		if (e instanceof NestedExpression) {
 			NestedExpression ne = (NestedExpression) e;
 			Expression expression = ne.getExpression();
-			EClassifier calculateType = calculateType(expression);
+			EClassifier calculateType = getType(expression);
 			if (calculateType != null) e.setType(calculateType);
 			return calculateType;
 		}

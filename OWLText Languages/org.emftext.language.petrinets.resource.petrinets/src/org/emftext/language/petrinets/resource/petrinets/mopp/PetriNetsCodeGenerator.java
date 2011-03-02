@@ -183,6 +183,35 @@ public class PetriNetsCodeGenerator {
 			if (component instanceof Place)
 				generateCode((Place) component);
 		}
+
+		stringBuffer.newline();
+		stringBuffer
+				.appendLine("List<PendingChange> pendingChanges = new LinkedList<PendingChange>();");
+		stringBuffer.newline();
+		stringBuffer.appendLine("private class PendingChange {");
+		stringBuffer.indent();
+		stringBuffer.appendLine("private String transitionName;");
+		stringBuffer.appendLine("private List<Object> arguments;");
+		stringBuffer
+				.appendLine("public PendingChange(String transitionName, List<Object> arguments) {");
+		stringBuffer.indent();
+		stringBuffer.appendLine("this.transitionName = transitionName;");
+		stringBuffer.appendLine("this.arguments = arguments;");
+		stringBuffer.unIndent();
+		stringBuffer.appendLine("}");
+
+		stringBuffer.unIndent();
+		stringBuffer.appendLine("}");
+
+		stringBuffer.newline();
+		stringBuffer
+				.appendLine("private void addPendingChange(String transitionName, List<Object> arguments) {");
+		stringBuffer.indent();
+		stringBuffer
+				.appendLine("this.pendingChanges.add(new PendingChange(transitionName, arguments));");
+		stringBuffer.unIndent();
+		stringBuffer.appendLine("}");
+
 		stringBuffer.newline();
 		stringBuffer.appendLine("public void intialisePlaces(EObject model) {");
 		stringBuffer.indent();
@@ -195,20 +224,33 @@ public class PetriNetsCodeGenerator {
 
 		stringBuffer.appendLine("public void evaluatePetriNet() {");
 		stringBuffer.indent();
-		stringBuffer.appendLine("boolean petrinetWasUpdated = true;");
-		stringBuffer.appendLine("while(petrinetWasUpdated) {;");
+		stringBuffer.appendLine("while(this.pendingChanges.size() > 0) {;");
 		stringBuffer.indent();
-		stringBuffer.appendLine("petrinetWasUpdated = false;");
+		stringBuffer.appendLine("PendingChange pc = pendingChanges.remove(0);");
 		for (Component component : components) {
 			if (component instanceof Transition) {
 				Transition t = (Transition) component;
-				stringBuffer.appendLine("if(transition_"
-						+ trimQuotes(t.getName()) + "_canFire()) {");
+				stringBuffer.appendLine("if (pc.transitionName.equals(\""
+						+ t.getName() + "\") ) {");
 				stringBuffer.indent();
-				stringBuffer.appendLine("petrinetWasUpdated = transition_"
-						+ trimQuotes(t.getName()) + "_doFire();");
+				stringBuffer.appendLine("transition_" + t.getName()
+						+ "_doFire(");
+				EList<ConsumingArc> incoming = t.getIncoming();
+				for (ConsumingArc consumingArc : incoming) {
+					int index = incoming.indexOf(consumingArc);
+					stringBuffer.append("(" + printType(consumingArc.getIn())
+							+ ") pc.arguments.get(" + index + ")");
+					if (index < incoming.size() - 1) {
+						stringBuffer.append(", ");
+					}
+				}
+				stringBuffer.append(");");
 				stringBuffer.unIndent();
 				stringBuffer.appendLine("}");
+				
+				stringBuffer.newline();
+			
+
 			}
 		}
 		stringBuffer.unIndent();
@@ -236,36 +278,134 @@ public class PetriNetsCodeGenerator {
 		stringBuffer.appendLine("private List<" + printType(p) + "> "
 				+ "_place_" + trimQuotes(p.getName()) + " = new ArrayList<"
 				+ printType(p) + ">();");
-	}
-
-	private void generateCode(Transition t) {
-		stringBuffer.appendLine("private boolean transition_"
-				+ trimQuotes(t.getName()) + "_canFire() {");
+		stringBuffer.newline();
+		stringBuffer.appendLine("private void add_to_place_"
+				+ trimQuotes(p.getName()) + "(" + printType(p) + " object) {");
 		stringBuffer.indent();
-		EList<ConsumingArc> incomingArcs = t.getIncoming();
-		for (ConsumingArc arc : incomingArcs) {
-			Place in = arc.getIn();
-			stringBuffer.appendLine("if (" + "_place_"
-					+ trimQuotes(in.getName()) + ".isEmpty() ) return false;");
+		EList<ConsumingArc> outgoing = p.getOutgoing();
+		for (ConsumingArc consumingArc : outgoing) {
+			stringBuffer.appendLine("{");
+			stringBuffer.indent();
+			
+			Transition involvedTransition = consumingArc.getOut();
+			EList<ConsumingArc> incoming = involvedTransition.getIncoming();
+			for (ConsumingArc transitionArcs : incoming) {
+				Place in = transitionArcs.getIn();
+				if (!in.equals(p)) {
+					stringBuffer.appendLine("for(" + printType(p) + " "
+							+ in.getName() + " : _place_"
+							+ trimQuotes(in.getName()) + ") {");
+					stringBuffer.indent();
+				}
+			}
+			;
+			stringBuffer
+					.appendLine("List<Object> args = new ArrayList<Object>();");
+			for (ConsumingArc transitionArcs : incoming) {
+				Place in = transitionArcs.getIn();
+				if (!in.equals(p)) {
+					stringBuffer.appendLine("args.add(" + in.getName() + ");");
+				} else {
+					stringBuffer.appendLine("args.add(object);");
+				}
+			}
+			;
+			stringBuffer.appendLine("addPendingChange(\""
+					+ involvedTransition.getName() + "\", args);");
+			for (ConsumingArc transitionArcs : incoming) {
+				Place in = transitionArcs.getIn();
+				if (!in.equals(p)) {
+					stringBuffer.unIndent();
+					stringBuffer.append("}");
+				}
+			}
+			stringBuffer.unIndent();
+			stringBuffer.appendLine("}");
 		}
-
-		stringBuffer.appendLine("return true;");
-
+		
+	
+		stringBuffer.appendLine("_place_" + trimQuotes(p.getName())
+				+ ".add(object);");
 		stringBuffer.unIndent();
 		stringBuffer.appendLine("}");
 
 		stringBuffer.newline();
 
-		stringBuffer.appendLine("private boolean transition_"
-				+ trimQuotes(t.getName()) + "_doFire() {");
+		stringBuffer.appendLine("private void remove_from_place_"
+				+ trimQuotes(p.getName()) + "(" + printType(p) + " object) {");
 		stringBuffer.indent();
+		EList<ConsumingArc> outgoingArcs = p.getOutgoing();
+		stringBuffer
+				.appendLine("List<String> involvedTransitions = new LinkedList<String>();");
+		for (ConsumingArc consumingArc : outgoingArcs) {
+			stringBuffer.appendLine("{");
+			stringBuffer.indent();
+		
+			
+			Transition involvedTransition = consumingArc.getOut();
+			stringBuffer.appendLine("involvedTransitions.add(\""
+					+ involvedTransition.getName() + "\");");
+			stringBuffer
+					.appendLine("List<PendingChange> toRemove = new ArrayList<PendingChange>();");
+			stringBuffer
+					.appendLine("for (PendingChange p : this.pendingChanges) {");
+			stringBuffer.indent();
+			stringBuffer
+					.appendLine("if (involvedTransitions.contains(p.transitionName) ) {");
+			stringBuffer.indent();
+			EList<ConsumingArc> incoming = involvedTransition.getIncoming();
+			int placeIndex = -1;
+			int i = 0;
+			for (ConsumingArc arc : incoming) {
+				if (arc.getIn().equals(p)) {
+					placeIndex = i;
+					break;
+				}
+				i++;
+			}
+			stringBuffer.appendLine("if (p.arguments.get(" + placeIndex
+					+ ").equals(object)) toRemove.add(p);");
+
+			stringBuffer.unIndent();
+			stringBuffer.appendLine("}");
+			stringBuffer.unIndent();
+			stringBuffer.appendLine("}");
+			stringBuffer.appendLine("pendingChanges.removeAll(toRemove);");
+			
+			stringBuffer.unIndent();
+			stringBuffer.appendLine("}");
+		}
+		
+		
+	
+		stringBuffer.appendLine("_place_" + trimQuotes(p.getName())
+				+ ".remove(object);");
+		stringBuffer.unIndent();
+		stringBuffer.appendLine("}");
+
+	}
+
+	private void generateCode(Transition t) {
+		
+		EList<ConsumingArc> incomingArcs = t.getIncoming();
+		
+		stringBuffer.newline();
+
+		stringBuffer.appendLine("private boolean transition_"
+				+ trimQuotes(t.getName()) + "_doFire(");
+
 		for (ConsumingArc arc : incomingArcs) {
 			Place in = arc.getIn();
 
-			stringBuffer.appendLine(printType(in) + " "
-					+ arc.getFreeVariable().getName() + " = " + "_place_"
-					+ trimQuotes(in.getName()) + ".get(0);");
+			stringBuffer.append(printType(in) + " "
+					+ arc.getFreeVariable().getName());
+			if (incomingArcs.indexOf(arc) < incomingArcs.size() - 1) {
+				stringBuffer.append(", ");
+			}
 		}
+		stringBuffer.append(") {");
+		stringBuffer.newline();
+		stringBuffer.indent();
 		stringBuffer.appendLine("// evaluate guard expression");
 		stringBuffer.appendLine("boolean guardSatisfied = false;");
 		String guardEvaluationResult = null;
@@ -275,15 +415,16 @@ public class PetriNetsCodeGenerator {
 		} else {
 			guardEvaluationResult = "true";
 		}
-		stringBuffer
-				.appendLine("guardSatisfied = " + guardEvaluationResult + ";");
+		stringBuffer.appendLine("guardSatisfied = " + guardEvaluationResult
+				+ ";");
 		stringBuffer.appendLine("if (guardSatisfied) {");
 		stringBuffer.indent();
 		for (ConsumingArc arc : incomingArcs) {
 			Place in = arc.getIn();
 
-			stringBuffer.appendLine(arc.getFreeVariable().getName() + " = "
-					+ "_place_" + trimQuotes(in.getName()) + ".remove(0);");
+			stringBuffer.appendLine("remove_from_place_"
+					+ trimQuotes(in.getName()) + "("
+					+ arc.getFreeVariable().getName() + ");");
 		}
 		stringBuffer.unIndent();
 		stringBuffer.appendLine("}");
@@ -297,8 +438,8 @@ public class PetriNetsCodeGenerator {
 		stringBuffer.appendLine("// init out places");
 		for (ProducingArc arc : t.getOutgoing()) {
 			Place out = arc.getOut();
-			stringBuffer.appendLine("_place_" + trimQuotes(out.getName())
-					+ ".add(" + arc.getOutput().getName() + ");");
+			stringBuffer.appendLine("add_to_place_" + trimQuotes(out.getName())
+					+ "(" + arc.getOutput().getName() + ");");
 		}
 
 		stringBuffer.appendLine("return true;");

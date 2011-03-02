@@ -1,5 +1,5 @@
 /**
-  * <copyright>
+ * <copyright>
  * </copyright>
  *
  * 
@@ -33,7 +33,7 @@ public class FunctionCallFunctionReferenceResolver
 			boolean resolveFuzzy,
 			final org.emftext.language.petrinets.resource.petrinets.IPetrinetsReferenceResolveResult<org.emftext.language.petrinets.Function> result) {
 
- 		List<Function> candidates = FunctionCache.getInstance()
+		List<Function> candidates = FunctionCache.getInstance()
 				.getDeclaredFunctions(container);
 		if (!resolveFuzzy) {
 			setHelpingErrorMessage(identifier, container, result);
@@ -109,16 +109,16 @@ public class FunctionCallFunctionReferenceResolver
 		parameterloop: for (int i = 0; i < expected.size(); i++) {
 			EClassifier parameterType = expected.get(i).getType();
 			Expression parameterExpression = found.get(i);
-		
- 			EClassifier argumentType = FunctionCache.getInstance().getType(
+
+			EClassifier argumentType = FunctionCache.getInstance().getType(
 					parameterExpression);
 			if (argumentType == null)
 				return false;
 			if (parameterType instanceof PGenericType) {
 				if (contextType instanceof PList) {
-					if (isSubtype(argumentType, ((PList)contextType).getType()) ) {
+					if (isSubtype(argumentType, ((PList) contextType).getType())) {
 						continue; // check next parameter
-					
+
 					}
 				}
 			}
@@ -135,10 +135,15 @@ public class FunctionCallFunctionReferenceResolver
 	}
 
 	private boolean isSubtype(EClassifier subtype, EClassifier supertype) {
+
 		if (subtype instanceof PList && supertype instanceof PList) {
 			return isSubtype(((PList) subtype).getType(),
 					((PList) supertype).getType());
 		}
+		if (supertype.getInstanceClass() != null
+				&& supertype.getInstanceClass().getName()
+						.equals("java.lang.Object"))
+			return true;
 		if (subtype.getInstanceClassName() != null) {
 			if (subtype.getInstanceClassName().equals(
 					supertype.getInstanceClassName())) {
@@ -148,7 +153,7 @@ public class FunctionCallFunctionReferenceResolver
 		if (supertype instanceof EClass && subtype instanceof EClass) {
 			return ((EClass) supertype).isSuperTypeOf((EClass) subtype);
 		}
- 		if (supertype.getInstanceClass().getName().equals("java.lang.Object")) return true;
+
 		return false;
 	}
 

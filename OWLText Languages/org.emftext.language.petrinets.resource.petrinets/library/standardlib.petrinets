@@ -8,6 +8,7 @@ import <platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore> <platform:/plu
 FUNCTIONS: {
 	
 	library function EBoolean EJavaObject.isNull()
+	function EBoolean EJavaObject.equals(EJavaObject o)
 	library function EBoolean EJavaObject.isNotNull()
 	 
 	function EBoolean EClass.isInstance(EJavaObject object)
