@@ -43,6 +43,7 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//Place/outgoing"/>
     </genClasses>
     <genClasses ecoreClass="petrinets.text.ecore#//Transition">
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference petrinets.text.ecore#//Transition/alias"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//Transition/incoming"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//Transition/outgoing"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//Transition/guard"/>

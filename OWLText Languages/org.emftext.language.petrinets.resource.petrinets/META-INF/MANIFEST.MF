@@ -17,9 +17,8 @@ Require-Bundle: org.eclipse.core.resources,
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.emftext.language.petrinets.resource.petrinets,
- org.emftext.language.petrinets.resource.petrinets.analysis,
- org.emftext.language.petrinets.resource.petrinets.grammar,
- org.emftext.language.petrinets.resource.petrinets.mopp,
- org.emftext.language.petrinets.resource.petrinets.util,
- org.emftext.languages.petrinets.lib
+  org.emftext.language.petrinets.resource.petrinets.analysis,
+  org.emftext.language.petrinets.resource.petrinets.mopp,
+  org.emftext.language.petrinets.resource.petrinets.grammar,
+  org.emftext.language.petrinets.resource.petrinets.util
 Bundle-Activator: org.emftext.language.petrinets.resource.petrinets.mopp.PetrinetsPlugin

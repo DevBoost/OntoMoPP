@@ -64,6 +64,7 @@ package petrinets // this is the package name
 	}
 
 	class Transition extends Component {
+		reference Transition alias (0..1);
 		reference ConsumingArc incoming (0..-1) opposite out; 
 		reference ProducingArc outgoing (0..-1) opposite in;
 		containment reference Expression guard (0..1); 

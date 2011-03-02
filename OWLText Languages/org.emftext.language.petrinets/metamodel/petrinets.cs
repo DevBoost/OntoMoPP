@@ -35,14 +35,14 @@ TOKENSTYLES {
 }  
  
 RULES { 
-	PetriNet ::= ("package" pkg[IDENTIFIER] ("." pkg[IDENTIFIER])* ";")? "petrinet" name[STRING_LITERAL]?
+	PetriNet ::= ("package" pkg[IDENTIFIER] ("." pkg[IDENTIFIER])* ";")? "petrinet" name[IDENTIFIER]?
 				("import" ePackages['<','>'] genModels['<','>'] ";")+
 				("FUNCTIONS:" "{" functions* "}")?
 				"{" (components | arcs)* "}";
 				
-	Place ::= "place" name[STRING_LITERAL]? ":" type[IDENTIFIER]?;
+	Place ::= "place" name[IDENTIFIER]? ":" type[IDENTIFIER]?;
 	
-	Transition ::= "transition" name[STRING_LITERAL]? ("if" "(" guard ")")? "do" 
+	Transition ::= "transition"  name[IDENTIFIER] ( "->" alias[IDENTIFIER] )? ("if" "(" guard ")")? "do" 
 				"{" (statements:Statement,Expression ";")*
 				"}"; 
 				
@@ -52,18 +52,18 @@ RULES {
 	
 	Parameter ::= type[IDENTIFIER] name[IDENTIFIER];
 	
-	ConsumingArc ::= in[STRING_LITERAL] "-consumes->" out[STRING_LITERAL] 
+	ConsumingArc ::= in[IDENTIFIER] "-consumes->" out[IDENTIFIER] 
 		("{"  freeVariable ";" "}");
 
 	FreeVariable ::= name[IDENTIFIER]; 
 		
-	ProducingArc ::= in[STRING_LITERAL] "-produces->" out[STRING_LITERAL] 
+	ProducingArc ::= in[IDENTIFIER] "-produces->" out[IDENTIFIER] 
 		("{"  output[IDENTIFIER] ";" "}");	
 	
 	InitialisedVariable ::= name[IDENTIFIER] "=" initialisation; 
 	
 	
-	@Operator(type="binary_left_associative", weight="1", superclass="Expression")
+	@Operator(type="binary_right_associative", weight="1", superclass="Expression")
 	BooleanExpression ::= left (operator[BOOLEAN_OPERATOR]) right;
 
 	@Operator(type="primitive", weight="5", superclass="Expression")

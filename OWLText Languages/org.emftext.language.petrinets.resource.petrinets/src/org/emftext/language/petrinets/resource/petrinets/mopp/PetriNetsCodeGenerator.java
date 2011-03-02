@@ -567,7 +567,7 @@ public class PetriNetsCodeGenerator {
 			String rightResult = this.contextVariableName;
 			stringBuffer.appendLine(booleanExpressionResult + " = " + rightResult + ";");
 			stringBuffer.unIndent();
-			stringBuffer.append("}");
+			stringBuffer.appendLine("}");
 		} else // || operator 
 		{
 			stringBuffer.appendLine("boolean " + booleanExpressionResult + " = " + leftResult + ";");

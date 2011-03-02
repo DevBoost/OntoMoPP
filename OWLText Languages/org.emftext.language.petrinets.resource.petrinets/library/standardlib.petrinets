@@ -1,6 +1,6 @@
 package org.emftext.languages.petrinets.lib;
 
-petrinet "standardlib" 
+petrinet Standardlib
 
 import <platform:/resource/org.emftext.language.petrinets/metamodel/petrinets.text.ecore> <platform:/resource/org.emftext.language.petrinets/metamodel/petrinets.genmodel>;
 import <platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore> <platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel> ;
