@@ -27,6 +27,7 @@ import org.emftext.language.petrinets.Expression;
 import org.emftext.language.petrinets.FloatLiteral;
 import org.emftext.language.petrinets.Function;
 import org.emftext.language.petrinets.FunctionCall;
+import org.emftext.language.petrinets.FunctionType;
 import org.emftext.language.petrinets.InitialisedVariable;
 import org.emftext.language.petrinets.IntegerLiteral;
 import org.emftext.language.petrinets.ListFunction;
@@ -46,13 +47,13 @@ import org.emftext.language.petrinets.Variable;
 import org.emftext.language.petrinets.VariableCall;
 import org.emftext.language.petrinets.impl.PetrinetsFactoryImpl;
 
-public class FunctionCache {
+public class FunctionCallAnalysisHelper {
 
-	private static FunctionCache theInstance;
+	private static FunctionCallAnalysisHelper theInstance;
 	private Map<EClassifier, List<Function>> functionCache;
 	private Map<String, List<Function>> basicFunctions;
 
-	private FunctionCache() {
+	private FunctionCallAnalysisHelper() {
 		functionCache = new HashMap<EClassifier, List<Function>>();
 		basicFunctions = new HashMap<String, List<Function>>();
 		initBasicFunctionCache();
@@ -97,9 +98,9 @@ public class FunctionCache {
 		list.add(function);
 	}
 
-	public static FunctionCache getInstance() {
+	public static FunctionCallAnalysisHelper getInstance() {
 		if (theInstance == null) {
-			theInstance = new FunctionCache();
+			theInstance = new FunctionCallAnalysisHelper();
 		}
 		return theInstance;
 	}
@@ -204,6 +205,7 @@ public class FunctionCache {
 				if (eStructuralFeature.getUpperBound() == 1) {
 					Function setter = factory.createBasicFunction();
 					setter.setName("set" + name);
+					setter.setFunctionType(FunctionType.WRITE);
 					Parameter parameter = factory.createParameter();
 					parameter.setType(eType);
 					parameter.setName(eStructuralFeature.getName());

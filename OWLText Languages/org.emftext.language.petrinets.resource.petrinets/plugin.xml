@@ -79,4 +79,12 @@
 	<extension-point id="org.emftext.language.petrinets.resource.petrinets.additional_extension_parser" name="Additional Extension Parser" schema="schema/additional_extension_parser.exsd">
 	</extension-point>
 	
+	 <extension
+	       point="org.emftext.language.petrinets.resource.petrinets.default_load_options">
+	    <provider
+	          class="org.emftext.language.petrinets.resource.petrinets.custom.PetriNetsPostProcessor"
+	          id="org.emftext.language.petrinets.resource.petrinets.postProcessor">
+	    </provider>
+	 </extension>
+	
 </plugin>

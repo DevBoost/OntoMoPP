@@ -6,6 +6,33 @@ import org.emftext.language.petrinets.*;
 import org.eclipse.emf.ecore.*;
 public class StandardlibSemanticsEvaluation {
 
+	public class RemovalException extends Exception {}
+
+	public void revertRemovalTransactions() {
+		for(RemovalTransaction e : removalTransactions) {
+			e.revert();
+		}
+	}
+
+	private class RemovalTransaction {
+		private List list;
+		private Object element;
+		public RemovalTransaction(List l, Object e) {
+			list = l;
+			element = e;
+		}
+
+		public void revert() {
+			list.add(element);
+		}
+	}
+
+	private List<RemovalTransaction> removalTransactions;
+
+	private void startTransaction() {
+		assert(removalTransactions.isEmpty());
+		removalTransactions = new LinkedList<RemovalTransaction>();
+	}
 
 	List<PendingChange> pendingChanges = new LinkedList<PendingChange>();
 

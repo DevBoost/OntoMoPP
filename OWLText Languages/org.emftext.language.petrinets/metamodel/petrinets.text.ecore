@@ -54,6 +54,19 @@ package petrinets // this is the package name
 		reference Transition in (1..1) opposite outgoing;
 		reference Place out (1..1) opposite incoming;
 		reference Variable output (1..1);
+		containment reference Setting settings (1..-1);
+	}
+
+
+	class Setting {
+		reference EStructuralFeature feature (1..1);
+		attribute SettingOperator settingOperator (1..1);
+		reference Variable value (1..1);
+	}
+	
+	serializable enum SettingOperator {
+		0 : assign = ":=";
+		1 : add = "+=";
 	}
 
 	@"OWL_DEFINITION"("StartPlace"="( NameableElement_name value \"Start\" ) ", "A Start Place is not allowed to have incoming Arcs."="( Component_incoming exactly 0 Arc ) ")
@@ -93,6 +106,12 @@ package petrinets // this is the package name
 			containment reference Parameter parameters (0..-1);
 		reference EClassifier context (1..1);
 		attribute EBoolean library (1..1);
+		attribute FunctionType functionType (1..1);
+	}
+
+	serializable enum FunctionType {
+		0 : read = "read";
+		1 : write = "write";
 	}
 
 	class BasicFunction extends Function {

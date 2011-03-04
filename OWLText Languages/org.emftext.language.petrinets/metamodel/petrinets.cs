@@ -4,8 +4,10 @@ START PetriNet
 
 OPTIONS {
 	overrideBuilder = "false";	
+	overrideManifest = "false";
 	reloadGeneratorModel = "true";
 	usePredefinedTokens = "false";
+	overridePluginXML = "false";
 }
 
 TOKENS {
@@ -52,13 +54,13 @@ RULES {
 	
 	Parameter ::= type[IDENTIFIER] name[IDENTIFIER];
 	
-	ConsumingArc ::= in[IDENTIFIER] "-consumes->" out[IDENTIFIER] 
-		("{"  freeVariable ";" "}");
+	ConsumingArc ::= in[IDENTIFIER] "-" freeVariable "->" out[IDENTIFIER] ;
 
 	FreeVariable ::= name[IDENTIFIER]; 
 		
-	ProducingArc ::= in[IDENTIFIER] "-produces->" out[IDENTIFIER] 
-		("{"  output[IDENTIFIER] ";" "}");	
+	ProducingArc ::= in[IDENTIFIER] "-" output[IDENTIFIER] "(" settings? ("," settings)* ")" "->" out[IDENTIFIER];	
+	
+	Setting ::= feature[IDENTIFIER] settingOperator[assign : ":=", add : "+="] value[IDENTIFIER] ; 
 	
 	InitialisedVariable ::= name[IDENTIFIER] "=" initialisation; 
 	

@@ -33,7 +33,7 @@ public class FunctionCallFunctionReferenceResolver
 			boolean resolveFuzzy,
 			final org.emftext.language.petrinets.resource.petrinets.IPetrinetsReferenceResolveResult<org.emftext.language.petrinets.Function> result) {
 
-		List<Function> candidates = FunctionCache.getInstance()
+		List<Function> candidates = FunctionCallAnalysisHelper.getInstance()
 				.getDeclaredFunctions(container);
 		if (!resolveFuzzy) {
 			setHelpingErrorMessage(identifier, container, result);
@@ -45,7 +45,7 @@ public class FunctionCallFunctionReferenceResolver
 			String identifier,
 			org.emftext.language.petrinets.FunctionCall container,
 			final org.emftext.language.petrinets.resource.petrinets.IPetrinetsReferenceResolveResult<org.emftext.language.petrinets.Function> result) {
-		EClassifier contextType = FunctionCache.getInstance().getContextType(
+		EClassifier contextType = FunctionCallAnalysisHelper.getInstance().getContextType(
 				container);
 		String typeNote = "";
 		if (contextType != null) {
@@ -62,13 +62,13 @@ public class FunctionCallFunctionReferenceResolver
 		if (!parameters.isEmpty()) {
 			message += " with argument(s) ";
 			for (Expression expression : parameters) {
-				EClassifier type = FunctionCache.getInstance().getType(
+				EClassifier type = FunctionCallAnalysisHelper.getInstance().getType(
 						expression);
 				String name = "Type";
 				if (type != null) {
 					name = type.getName();
 				}
-				type = FunctionCache.getInstance().getType(expression);
+				type = FunctionCallAnalysisHelper.getInstance().getType(expression);
 				message += name + ", ";
 
 			}
@@ -85,13 +85,13 @@ public class FunctionCallFunctionReferenceResolver
 			if (resolveFuzzy) {
 				result.addMapping(function.getName(), function);
 			} else {
-				EClassifier contextType = FunctionCache.getInstance()
+				EClassifier contextType = FunctionCallAnalysisHelper.getInstance()
 						.getContextType(container);
 				if (function.getName().equals(identifier)) {
 					if (parametersMatch(function.getParameters(),
 							container.getParameters(), contextType)) {
 						result.addMapping(identifier, function);
-						container.setType(FunctionCache.getInstance()
+						container.setType(FunctionCallAnalysisHelper.getInstance()
 								.getFunctionReturnType(null, function));
 						return;
 					}
@@ -110,7 +110,7 @@ public class FunctionCallFunctionReferenceResolver
 			EClassifier parameterType = expected.get(i).getType();
 			Expression parameterExpression = found.get(i);
 
-			EClassifier argumentType = FunctionCache.getInstance().getType(
+			EClassifier argumentType = FunctionCallAnalysisHelper.getInstance().getType(
 					parameterExpression);
 			if (argumentType == null)
 				return false;

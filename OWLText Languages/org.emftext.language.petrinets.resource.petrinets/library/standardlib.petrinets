@@ -24,7 +24,7 @@ FUNCTIONS: {
 	
 	//library function EBoolean EBoolean.and(EBoolean argument)
 	//library function EBoolean EBoolean.or(EBoolean argument)
-	//library function EBoolean EBoolean.not()
+	library function EBoolean EBoolean.not()
 	
 	
 	
