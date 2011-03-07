@@ -77,6 +77,35 @@ public class CalculationTest {
 		assertEquals(5, add.getValue());
 		assertEquals(30, mult.getValue());
 	}
+	
+	@Test
+	public void testAutonInit() {
+		Element three = factory.createElement();
+		three.setValue(3);
+	
+		Element two = factory.createElement();
+		two.setValue(2);
+		
+		Expression add = factory.createExpression();
+		add.setOperator("+");
+		add.getElements().add(three);
+		add.getElements().add(two);
+		
+		Expression mult = factory.createExpression();
+		mult.setOperator("*");
+		mult.getElements().add(add);
+		
+		Element six = factory.createElement();
+		six.setValue(6);
+		mult.getElements().add(six);
+		
+		MathSemanticsEvaluation mathSemanticsEvaluation = new MathSemanticsEvaluation();
+		mathSemanticsEvaluation.intialisePlaces(mult);
+		mathSemanticsEvaluation.evaluatePetriNet();
+		
+		assertEquals(5, add.getValue());
+		assertEquals(30, mult.getValue());
+	}
 
 	
 }

@@ -53,6 +53,7 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//Setting/value"/>
     </genClasses>
     <genClasses image="false" ecoreClass="petrinets.text.ecore#//Place">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute petrinets.text.ecore#//Place/autoinit"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//Place/incoming"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//Place/outgoing"/>
     </genClasses>

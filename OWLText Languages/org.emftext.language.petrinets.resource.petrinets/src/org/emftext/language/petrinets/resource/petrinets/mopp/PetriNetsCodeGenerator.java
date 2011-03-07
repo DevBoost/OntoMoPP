@@ -162,14 +162,17 @@ public class PetriNetsCodeGenerator {
 		String name = toFirstUpper(trimQuotes(pn.getName()));
 		EList<Component> components = pn.getComponents();
 		if (!pn.getPkg().isEmpty()) {
-			stringBuffer.appendLine("package " + pn.getPkg().get(0));
+			stringBuffer.append("package " + pn.getPkg().get(0));
 			for (String p : pn.getPkg().subList(1, pn.getPkg().size())) {
 				stringBuffer.append("." + p);
 			}
 			stringBuffer.append(";");
 		}
+		stringBuffer.newline();
+		stringBuffer.appendLine("import org.eclipse.emf.common.util.TreeIterator;");
 		stringBuffer.appendLine("import org.eclipse.emf.ecore.*;");
 		stringBuffer.appendLine("import java.util.*;");
+		
 		EList<GenModel> imports = pn.getGenModels();
 		for (GenModel i : imports) {
 			EList<GenPackage> genPackages = i.getGenModel().getGenPackages();
@@ -178,9 +181,10 @@ public class PetriNetsCodeGenerator {
 						+ genPackage.getInterfacePackageName() + ".*;");
 			}
 		}
+		stringBuffer.newline();
 		stringBuffer.appendLine("public class " + name
 				+ "SemanticsEvaluation {");
-		stringBuffer.indent();
+		
 		stringBuffer.newline();
 		generateRemoveTransationCodeAccessorCode();
 
@@ -194,50 +198,42 @@ public class PetriNetsCodeGenerator {
 				.appendLine("List<PendingChange> pendingChanges = new LinkedList<PendingChange>();");
 		stringBuffer.newline();
 		stringBuffer.appendLine("private class PendingChange {");
-		stringBuffer.indent();
+		
 		stringBuffer.appendLine("private String transitionName;");
 		stringBuffer.appendLine("private List<Object> arguments;");
 		stringBuffer
 				.appendLine("public PendingChange(String transitionName, List<Object> arguments) {");
-		stringBuffer.indent();
+		
 		stringBuffer.appendLine("this.transitionName = transitionName;");
 		stringBuffer.appendLine("this.arguments = arguments;");
-		stringBuffer.unIndent();
+		
 		stringBuffer.appendLine("}");
 
-		stringBuffer.unIndent();
+		
 		stringBuffer.appendLine("}");
 
 		stringBuffer.newline();
 		stringBuffer
 				.appendLine("private void addPendingChange(String transitionName, List<Object> arguments) {");
-		stringBuffer.indent();
+		
 		stringBuffer
 				.appendLine("this.pendingChanges.add(new PendingChange(transitionName, arguments));");
-		stringBuffer.unIndent();
+		
 		stringBuffer.appendLine("}");
 
-		stringBuffer.newline();
-		stringBuffer.appendLine("public void intialisePlaces(EObject model) {");
-		stringBuffer.indent();
-		stringBuffer
-				.appendLine("// TODO implement place initialisation for places w/o incomming arcs.");
-		stringBuffer.unIndent();
-		stringBuffer.appendLine("}");
-
-		stringBuffer.newline();
+		generateAutoinitCode(pn);
 
 		stringBuffer.appendLine("public void evaluatePetriNet() {");
-		stringBuffer.indent();
-		stringBuffer.appendLine("while(this.pendingChanges.size() > 0) {;");
-		stringBuffer.indent();
+		
+		stringBuffer.appendLine("while(this.pendingChanges.size() > 0) {");
+		
 		stringBuffer.appendLine("PendingChange pc = pendingChanges.remove(0);");
 		for (Component component : components) {
 			if (component instanceof Transition) {
 				Transition t = (Transition) component;
 				stringBuffer.appendLine("if (pc.transitionName.equals(\""
 						+ t.getName() + "\") ) {");
-				stringBuffer.indent();
+				
 				stringBuffer.appendLine("transition_" + t.getName()
 						+ "_doFire(");
 				EList<ConsumingArc> incoming = t.getIncoming();
@@ -250,16 +246,16 @@ public class PetriNetsCodeGenerator {
 					}
 				}
 				stringBuffer.append(");");
-				stringBuffer.unIndent();
+				
 				stringBuffer.appendLine("}");
 
 				stringBuffer.newline();
 
 			}
 		}
-		stringBuffer.unIndent();
+		
 		stringBuffer.appendLine("}");
-		stringBuffer.unIndent();
+		
 		stringBuffer.appendLine("}");
 
 		for (Component component : components) {
@@ -270,8 +266,36 @@ public class PetriNetsCodeGenerator {
 		}
 
 		stringBuffer.newline();
-		stringBuffer.unIndent();
+		
 		stringBuffer.appendLine("}");
+	}
+
+	private void generateAutoinitCode(PetriNet pn) {
+		stringBuffer.newline();
+		stringBuffer.appendLine("public void intialisePlaces(EObject model) {");
+		stringBuffer.appendLine("relayObject(model);");
+		stringBuffer.appendLine("TreeIterator<EObject> eAllContents = model.eAllContents();");
+		stringBuffer.appendLine("while (eAllContents.hasNext()) {");
+		stringBuffer.appendLine("EObject eObject = (EObject) eAllContents.next();");
+		stringBuffer.appendLine("relayObject(eObject);");
+		stringBuffer.appendLine("}");
+		
+		stringBuffer.appendLine("}");
+		
+		stringBuffer.appendLine("private void relayObject(EObject eObject) {");
+		EList<Component> components = pn.getComponents();
+		for (Component component : components) {
+			if (component instanceof Place && ((Place) component).isAutoinit() ) {
+				Place p = (Place) component;
+				stringBuffer.appendLine("if (eObject instanceof " + printType(p) +") {");
+				stringBuffer.appendLine("add_to_place_" + trimQuotes(p.getName())
+						+ "((" +  printType(p) + ") eObject);");
+				stringBuffer.appendLine("}");
+			}
+		}
+		stringBuffer.appendLine("}");
+
+		stringBuffer.newline();
 	}
 
 	private void generateRemoveTransationCodeAccessorCode() {
@@ -279,34 +303,34 @@ public class PetriNetsCodeGenerator {
 				.appendLine("public class RemovalException extends Exception {}");
 		stringBuffer.newline();
 		stringBuffer.appendLine("public void revertRemovalTransactions() {");
-		stringBuffer.indent();
+		
 		stringBuffer.appendLine("for(RemovalTransaction e : removalTransactions) {");
-		stringBuffer.indent();
+		
 		stringBuffer.appendLine("e.revert();");
-		stringBuffer.unIndent();
+		
 		stringBuffer.appendLine("}");
-		stringBuffer.unIndent();
+		
 		stringBuffer.appendLine("}");
 		stringBuffer.newline();
 		stringBuffer.appendLine("private class RemovalTransaction {");
-		stringBuffer.indent();
+		
 		stringBuffer.appendLine("private List list;");
 		stringBuffer.appendLine("private Object element;");
 		stringBuffer
 				.appendLine("public RemovalTransaction(List l, Object e) {");
-		stringBuffer.indent();
+		
 		stringBuffer.appendLine("list = l;");
 		stringBuffer.appendLine("element = e;");
-		stringBuffer.unIndent();
+		
 		stringBuffer.appendLine("}");
 		stringBuffer.newline();
 		stringBuffer.appendLine("public void revert() {");
-		stringBuffer.indent();
+		
 		stringBuffer.appendLine("list.add(element);");
-		stringBuffer.unIndent();
+		
 		stringBuffer.appendLine("}");
 
-		stringBuffer.unIndent();
+		
 		stringBuffer.appendLine("}");
 		stringBuffer.newline();
 
@@ -315,11 +339,11 @@ public class PetriNetsCodeGenerator {
 		stringBuffer.newline();
 
 		stringBuffer.appendLine("private void startTransaction() {");
-		stringBuffer.indent();
+		
 		stringBuffer.appendLine("assert(removalTransactions.isEmpty());");
 		stringBuffer
 				.appendLine("removalTransactions = new LinkedList<RemovalTransaction>();");
-		stringBuffer.unIndent();
+		
 		stringBuffer.appendLine("}");
 
 	}
@@ -335,11 +359,11 @@ public class PetriNetsCodeGenerator {
 		stringBuffer.newline();
 		stringBuffer.appendLine("public void add_to_place_"
 				+ trimQuotes(p.getName()) + "(" + printType(p) + " object) {");
-		stringBuffer.indent();
+		
 		EList<ConsumingArc> outgoing = p.getOutgoing();
 		for (ConsumingArc consumingArc : outgoing) {
 			stringBuffer.appendLine("{");
-			stringBuffer.indent();
+			
 
 			Transition involvedTransition = consumingArc.getOut();
 			EList<ConsumingArc> incoming = involvedTransition.getIncoming();
@@ -351,7 +375,7 @@ public class PetriNetsCodeGenerator {
 					stringBuffer.appendLine("for(" + printType(p) + " "
 							+ "argument_" + counter + " : _place_"
 							+ trimQuotes(in.getName()) + ") {");
-					stringBuffer.indent();
+					
 				}
 			}
 			;
@@ -373,17 +397,17 @@ public class PetriNetsCodeGenerator {
 			for (ConsumingArc transitionArc : incoming) {
 				Place in = transitionArc.getIn();
 				if (!transitionArc.equals(consumingArc)) {
-					stringBuffer.unIndent();
+					
 					stringBuffer.append("}");
 				}
 			}
-			stringBuffer.unIndent();
+			
 			stringBuffer.appendLine("}");
 		}
 
 		stringBuffer.appendLine("_place_" + trimQuotes(p.getName())
 				+ ".add(object);");
-		stringBuffer.unIndent();
+		
 		stringBuffer.appendLine("}");
 
 		stringBuffer.newline();
@@ -391,13 +415,13 @@ public class PetriNetsCodeGenerator {
 		stringBuffer.appendLine("private void remove_from_place_"
 				+ trimQuotes(p.getName()) + "(" + printType(p)
 				+ " object) throws RemovalException{");
-		stringBuffer.indent();
+		
 		// EList<ConsumingArc> outgoingArcs = p.getOutgoing();
 		// stringBuffer
 		// .appendLine("List<String> involvedTransitions = new LinkedList<String>();");
 		// for (ConsumingArc consumingArc : outgoingArcs) {
 		// stringBuffer.appendLine("{");
-		// stringBuffer.indent();
+		// 
 		//
 		// Transition involvedTransition = consumingArc.getOut();
 		// stringBuffer.appendLine("involvedTransitions.add(\""
@@ -406,10 +430,10 @@ public class PetriNetsCodeGenerator {
 		// .appendLine("List<PendingChange> toRemove = new ArrayList<PendingChange>();");
 		// stringBuffer
 		// .appendLine("for (PendingChange p : this.pendingChanges) {");
-		// stringBuffer.indent();
+		// 
 		// stringBuffer
 		// .appendLine("if (involvedTransitions.contains(p.transitionName) ) {");
-		// stringBuffer.indent();
+		// 
 		// EList<ConsumingArc> incoming = involvedTransition.getIncoming();
 		// int placeIndex = -1;
 		// int i = 0;
@@ -423,22 +447,22 @@ public class PetriNetsCodeGenerator {
 		// stringBuffer.appendLine("if (p.arguments.get(" + placeIndex
 		// + ").equals(object)) toRemove.add(p);");
 		//
-		// stringBuffer.unIndent();
+		// 
 		// stringBuffer.appendLine("}");
-		// stringBuffer.unIndent();
+		// 
 		// stringBuffer.appendLine("}");
 		// stringBuffer.appendLine("for(PendingChange remove : toRemove ) {");
-		// stringBuffer.indent();
+		// 
 		// stringBuffer.appendLine("pendingChanges.remove(remove);");
-		// stringBuffer.unIndent();
+		// 
 		// stringBuffer.appendLine("}");
-		// stringBuffer.unIndent();
+		// 
 		// stringBuffer.appendLine("}");
 		// }
 		stringBuffer.appendLine("removalTransactions.add(new RemovalTransaction("+"_place_" + trimQuotes(p.getName())+", object));");
 		stringBuffer.appendLine("_place_" + trimQuotes(p.getName())
 				+ ".remove(object);");
-		stringBuffer.unIndent();
+		
 		stringBuffer.appendLine("}");
 
 	}
@@ -463,7 +487,7 @@ public class PetriNetsCodeGenerator {
 		}
 		stringBuffer.append(") {");
 		stringBuffer.newline();
-		stringBuffer.indent();
+		
 		stringBuffer.appendLine("// evaluate guard expression");
 		stringBuffer.appendLine("boolean guardSatisfied = false;");
 		String guardEvaluationResult = null;
@@ -476,10 +500,10 @@ public class PetriNetsCodeGenerator {
 		stringBuffer.appendLine("guardSatisfied = " + guardEvaluationResult
 				+ ";");
 		stringBuffer.appendLine("if (guardSatisfied) {");
-		stringBuffer.indent();
+		
 		stringBuffer.appendLine("startTransaction();");
 		stringBuffer.appendLine("try {");
-		stringBuffer.indent();
+		
 		for (ConsumingArc arc : incomingArcs) {
 			Place in = arc.getIn();
 
@@ -487,16 +511,16 @@ public class PetriNetsCodeGenerator {
 					+ trimQuotes(in.getName()) + "("
 					+ arc.getFreeVariable().getName() + ");");
 		}
-		stringBuffer.unIndent();
+		
 		stringBuffer
 				.appendLine("} catch(RemovalException __removalException) {");
-		stringBuffer.indent();
+		
 		stringBuffer.appendLine("revertRemovalTransactions();");
 		stringBuffer.appendLine("return false;");
-		stringBuffer.unIndent();
+		
 		stringBuffer.appendLine("}");
 		stringBuffer.appendLine("removalTransactions.clear();");
-		stringBuffer.unIndent();
+		
 		stringBuffer.appendLine("}");
 		stringBuffer.appendLine("else return false;");
 
@@ -523,7 +547,7 @@ public class PetriNetsCodeGenerator {
 		}
 
 		stringBuffer.appendLine("return true;");
-		stringBuffer.unIndent();
+		
 		stringBuffer.appendLine("}");
 
 	}
@@ -812,24 +836,24 @@ public class PetriNetsCodeGenerator {
 			stringBuffer.appendLine("boolean " + booleanExpressionResult
 					+ " = " + leftResult + ";");
 			stringBuffer.appendLine("if (" + booleanExpressionResult + ") {");
-			stringBuffer.indent();
+			
 			generateCode(be.getRight());
 			String rightResult = this.contextVariableName;
 			stringBuffer.appendLine(booleanExpressionResult + " = "
 					+ rightResult + ";");
-			stringBuffer.unIndent();
+			
 			stringBuffer.appendLine("}");
 		} else // || operator
 		{
 			stringBuffer.appendLine("boolean " + booleanExpressionResult
 					+ " = " + leftResult + ";");
 			stringBuffer.appendLine("if (!" + booleanExpressionResult + ") {");
-			stringBuffer.indent();
+			
 			generateCode(be.getRight());
 			String rightResult = this.contextVariableName;
 			stringBuffer.appendLine(booleanExpressionResult + " = "
 					+ rightResult + ";");
-			stringBuffer.unIndent();
+			
 			stringBuffer.append("}");
 		}
 

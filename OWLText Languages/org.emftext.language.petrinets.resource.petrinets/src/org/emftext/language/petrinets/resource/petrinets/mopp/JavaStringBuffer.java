@@ -9,24 +9,28 @@ public class JavaStringBuffer {
 		this.stringBuffer = new StringBuffer();
 	}
 	
-	public void indent() {
+	private void indent() {
 		this.indent++;
 	}
 	
-	public void unIndent() {
+	private void unIndent() {
 		this.indent--;
 	}
 	
 	public void append(String s) {
+		if (s.trim().endsWith("}") && !s.contains("{")) unIndent();
 		stringBuffer.append(s);
+		if (s.trim().endsWith("{")) indent();
 	}
 	
 	public void appendLine(String line) {
 		stringBuffer.append("\n");
+		if (line.trim().endsWith("}") && !line.contains("{")) unIndent();
 		for(int i = 0; i<indent; i++) {
 			stringBuffer.append("\t");
 		}
 		stringBuffer.append(line);
+		if (line.trim().endsWith("{")) indent();
 	}
 	
 	public String toString() {

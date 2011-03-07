@@ -72,6 +72,7 @@ package petrinets // this is the package name
 	@"OWL_DEFINITION"("StartPlace"="( NameableElement_name value \"Start\" ) ", "A Start Place is not allowed to have incoming Arcs."="( Component_incoming exactly 0 Arc ) ")
 
 	class Place extends Component, TypedElement {
+		attribute EBoolean autoinit (1..1);
 		reference ProducingArc incoming (0..-1) opposite out; 
 		reference ConsumingArc outgoing (0..-1) opposite in;
 	}

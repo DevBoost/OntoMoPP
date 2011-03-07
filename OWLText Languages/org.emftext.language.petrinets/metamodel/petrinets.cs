@@ -34,6 +34,8 @@ TOKENSTYLES {
 	"ML_COMMENT" COLOR #008000, ITALIC;
 	"SL_COMMENT" COLOR #000080, ITALIC;
 	"library" COLOR #7F0055, BOLD;
+	"autoinit" COLOR #7F0055, BOLD;
+	
 }  
  
 RULES { 
@@ -42,7 +44,7 @@ RULES {
 				("FUNCTIONS:" "{" functions* "}")?
 				"{" (components | arcs)* "}";
 				
-	Place ::= "place" name[IDENTIFIER]? ":" type[IDENTIFIER]?;
+	Place ::= autoinit["autoinit" : ""] "place" name[IDENTIFIER]? ":" type[IDENTIFIER]?;
 	
 	Transition ::= "transition"  name[IDENTIFIER] ( "->" alias[IDENTIFIER] )? ("if" "(" guard ")")? "do" 
 				"{" (statements:Statement,Expression ";")*
