@@ -46,26 +46,58 @@ public class PetriNetsPostProcessor implements IPetrinetsOptionProvider,
 				}
 			} else if (eObject instanceof BooleanExpression) {
 				BooleanExpression be = (BooleanExpression) eObject;
-				EClassifier leftType = FunctionCallAnalysisHelper.getInstance().getType(
-						be.getLeft());
-				if (leftType != null
-						&& !leftType.getInstanceTypeName().equals("boolean")) {
+				EClassifier leftType = FunctionCallAnalysisHelper.getInstance()
+						.getType(be.getLeft());
+				if (leftType == null || leftType.getInstanceTypeName() == null
+						|| !leftType.getInstanceClassName().equals("boolean")) {
+					String type;
+					if (leftType == null)
+						type = "null";
+					else
+						type = leftType.getName();
 					resource.addError(
-							"Arguments to boolean expressions need to have a boolean return type.",
+							"Arguments to boolean expressions need to have a boolean return type. (found: "
+									+ type + ")",
 							PetrinetsEProblemType.ANALYSIS_PROBLEM,
 							be.getLeft());
 				}
-				EClassifier rightType = FunctionCallAnalysisHelper.getInstance().getType(
-						be.getRight());
-				if (rightType != null
-						&& !rightType.getInstanceTypeName().equals("boolean")) {
+				EClassifier rightType = FunctionCallAnalysisHelper
+						.getInstance().getType(be.getRight());
+				if (rightType == null
+						|| rightType.getInstanceTypeName() == null
+						|| !rightType.getInstanceTypeName().equals("boolean")) {
+					String type;
+					if (rightType == null)
+						type = "null";
+					else
+						type = rightType.getName();
 					resource.addError(
-							"Arguments to boolean expressions need to have a boolean return type.",
+							"Arguments to boolean expressions need to have a boolean return type. (found: "
+									+ type + ")",
 							PetrinetsEProblemType.ANALYSIS_PROBLEM,
 							be.getRight());
 				}
 			} else if (eObject instanceof Setting) {
 				Setting setting = (Setting) eObject;
+				EClassifier expectedType = setting.getFeature().getEType();
+				EClassifier foundType = FunctionCallAnalysisHelper
+						.getInstance().getType(setting.getValue());
+				if (!FunctionCallAnalysisHelper.getInstance().isSubtype(
+						foundType, expectedType)) {
+					String found;
+					if (foundType == null) found = "null";
+					else found = foundType.getName();
+					String expected;
+					if (expectedType == null) expected = "null";
+					else expected = expectedType.getName();
+					
+					resource.addError(
+							"Type of assigned variable is not compatible with type expected for (found: "
+									+ found + " " + ", expected: "
+									+ expected + ")",
+							PetrinetsEProblemType.ANALYSIS_PROBLEM,
+							setting);
+				}
 				if (setting.getSettingOperator().equals(SettingOperator.ADD)) {
 					if (setting.getFeature() != null
 							&& !setting.getFeature().eIsProxy()

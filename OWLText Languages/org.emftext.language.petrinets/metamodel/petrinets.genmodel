@@ -100,7 +100,9 @@
     <genClasses ecoreClass="petrinets.text.ecore#//NestedExpression">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//NestedExpression/expression"/>
     </genClasses>
-    <genClasses ecoreClass="petrinets.text.ecore#//ConstructorCall"/>
+    <genClasses ecoreClass="petrinets.text.ecore#//ConstructorCall">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//ConstructorCall/settings"/>
+    </genClasses>
     <genClasses ecoreClass="petrinets.text.ecore#//VariableCall">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//VariableCall/variable"/>
     </genClasses>

@@ -78,7 +78,7 @@ RULES {
 	VariableCall ::= variable[IDENTIFIER];
 	
 	@Operator(type="primitive", weight="5", superclass="Expression")
-	ConstructorCall ::= "new" type[IDENTIFIER]"(" ")";
+	ConstructorCall ::= "new" type[IDENTIFIER]"(" settings? ("," settings)* ")";
 	
 	@Operator(type="primitive", weight="5", superclass="Expression")
 	Cast ::= "(" type[IDENTIFIER] ")" expression;

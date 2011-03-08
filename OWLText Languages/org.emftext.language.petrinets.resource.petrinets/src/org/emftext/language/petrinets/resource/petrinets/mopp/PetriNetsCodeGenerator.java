@@ -48,16 +48,11 @@ import org.emftext.language.petrinets.Statement;
 import org.emftext.language.petrinets.StringLiteral;
 import org.emftext.language.petrinets.Transition;
 import org.emftext.language.petrinets.TypedElement;
-import org.emftext.language.petrinets.Variable;
 import org.emftext.language.petrinets.VariableCall;
 import org.emftext.language.petrinets.resource.petrinets.PetrinetsEProblemType;
 import org.emftext.language.petrinets.resource.petrinets.analysis.FunctionCallAnalysisHelper;
 
 public class PetriNetsCodeGenerator {
-
-	private static final String OUT_TOKEN_NAME = "outToken";
-
-	private static final String IN_TOKEN_NAME = "inToken";
 
 	private JavaStringBuffer stringBuffer;
 
@@ -161,30 +156,36 @@ public class PetriNetsCodeGenerator {
 	private void generateCode(PetriNet pn) {
 		String name = toFirstUpper(trimQuotes(pn.getName()));
 		EList<Component> components = pn.getComponents();
+		String packageName = pn.getPkg().get(0);
 		if (!pn.getPkg().isEmpty()) {
-			stringBuffer.append("package " + pn.getPkg().get(0));
 			for (String p : pn.getPkg().subList(1, pn.getPkg().size())) {
-				stringBuffer.append("." + p);
+				packageName += "." + p;
 			}
+			stringBuffer.append("package " + packageName);
 			stringBuffer.append(";");
 		}
 		stringBuffer.newline();
-		stringBuffer.appendLine("import org.eclipse.emf.common.util.TreeIterator;");
+		stringBuffer
+				.appendLine("import org.eclipse.emf.common.util.TreeIterator;");
 		stringBuffer.appendLine("import org.eclipse.emf.ecore.*;");
 		stringBuffer.appendLine("import java.util.*;");
-		
+
 		EList<GenModel> imports = pn.getGenModels();
 		for (GenModel i : imports) {
 			EList<GenPackage> genPackages = i.getGenModel().getGenPackages();
 			for (GenPackage genPackage : genPackages) {
-				stringBuffer.appendLine("import "
-						+ genPackage.getInterfacePackageName() + ".*;");
+				String interfacePackageName = genPackage
+						.getInterfacePackageName();
+				if (!interfacePackageName.equals(packageName)) {
+					stringBuffer.appendLine("import " + interfacePackageName
+							+ ".*;");
+				}
 			}
 		}
 		stringBuffer.newline();
 		stringBuffer.appendLine("public class " + name
 				+ "SemanticsEvaluation {");
-		
+
 		stringBuffer.newline();
 		generateRemoveTransationCodeAccessorCode();
 
@@ -198,42 +199,41 @@ public class PetriNetsCodeGenerator {
 				.appendLine("List<PendingChange> pendingChanges = new LinkedList<PendingChange>();");
 		stringBuffer.newline();
 		stringBuffer.appendLine("private class PendingChange {");
-		
+
 		stringBuffer.appendLine("private String transitionName;");
 		stringBuffer.appendLine("private List<Object> arguments;");
 		stringBuffer
 				.appendLine("public PendingChange(String transitionName, List<Object> arguments) {");
-		
+
 		stringBuffer.appendLine("this.transitionName = transitionName;");
 		stringBuffer.appendLine("this.arguments = arguments;");
-		
+
 		stringBuffer.appendLine("}");
 
-		
 		stringBuffer.appendLine("}");
 
 		stringBuffer.newline();
 		stringBuffer
 				.appendLine("private void addPendingChange(String transitionName, List<Object> arguments) {");
-		
+
 		stringBuffer
 				.appendLine("this.pendingChanges.add(new PendingChange(transitionName, arguments));");
-		
+
 		stringBuffer.appendLine("}");
 
 		generateAutoinitCode(pn);
 
 		stringBuffer.appendLine("public void evaluatePetriNet() {");
-		
+
 		stringBuffer.appendLine("while(this.pendingChanges.size() > 0) {");
-		
+
 		stringBuffer.appendLine("PendingChange pc = pendingChanges.remove(0);");
 		for (Component component : components) {
 			if (component instanceof Transition) {
 				Transition t = (Transition) component;
 				stringBuffer.appendLine("if (pc.transitionName.equals(\""
 						+ t.getName() + "\") ) {");
-				
+
 				stringBuffer.appendLine("transition_" + t.getName()
 						+ "_doFire(");
 				EList<ConsumingArc> incoming = t.getIncoming();
@@ -246,16 +246,16 @@ public class PetriNetsCodeGenerator {
 					}
 				}
 				stringBuffer.append(");");
-				
+
 				stringBuffer.appendLine("}");
 
 				stringBuffer.newline();
 
 			}
 		}
-		
+
 		stringBuffer.appendLine("}");
-		
+
 		stringBuffer.appendLine("}");
 
 		for (Component component : components) {
@@ -266,7 +266,7 @@ public class PetriNetsCodeGenerator {
 		}
 
 		stringBuffer.newline();
-		
+
 		stringBuffer.appendLine("}");
 	}
 
@@ -274,22 +274,26 @@ public class PetriNetsCodeGenerator {
 		stringBuffer.newline();
 		stringBuffer.appendLine("public void intialisePlaces(EObject model) {");
 		stringBuffer.appendLine("relayObject(model);");
-		stringBuffer.appendLine("TreeIterator<EObject> eAllContents = model.eAllContents();");
+		stringBuffer
+				.appendLine("TreeIterator<EObject> eAllContents = model.eAllContents();");
 		stringBuffer.appendLine("while (eAllContents.hasNext()) {");
-		stringBuffer.appendLine("EObject eObject = (EObject) eAllContents.next();");
+		stringBuffer
+				.appendLine("EObject eObject = (EObject) eAllContents.next();");
 		stringBuffer.appendLine("relayObject(eObject);");
 		stringBuffer.appendLine("}");
-		
+
 		stringBuffer.appendLine("}");
-		
+
 		stringBuffer.appendLine("private void relayObject(EObject eObject) {");
 		EList<Component> components = pn.getComponents();
 		for (Component component : components) {
-			if (component instanceof Place && ((Place) component).isAutoinit() ) {
+			if (component instanceof Place && ((Place) component).isAutoinit()) {
 				Place p = (Place) component;
-				stringBuffer.appendLine("if (eObject instanceof " + printType(p) +") {");
-				stringBuffer.appendLine("add_to_place_" + trimQuotes(p.getName())
-						+ "((" +  printType(p) + ") eObject);");
+				stringBuffer.appendLine("if (eObject instanceof "
+						+ printType(p) + ") {");
+				stringBuffer.appendLine("add_to_place_"
+						+ trimQuotes(p.getName()) + "((" + printType(p)
+						+ ") eObject);");
 				stringBuffer.appendLine("}");
 			}
 		}
@@ -300,50 +304,52 @@ public class PetriNetsCodeGenerator {
 
 	private void generateRemoveTransationCodeAccessorCode() {
 		stringBuffer
-				.appendLine("public class RemovalException extends Exception {}");
+				.appendLine("public class RemovalException extends Exception {");
+		stringBuffer
+				.appendLine("private static final long serialVersionUID = -8317569526723196361L;");
+		stringBuffer.appendLine("}");
 		stringBuffer.newline();
 		stringBuffer.appendLine("public void revertRemovalTransactions() {");
-		
-		stringBuffer.appendLine("for(RemovalTransaction e : removalTransactions) {");
-		
+
+		stringBuffer
+				.appendLine("for(RemovalTransaction<?> e : removalTransactions) {");
+
 		stringBuffer.appendLine("e.revert();");
-		
+
 		stringBuffer.appendLine("}");
-		
+
 		stringBuffer.appendLine("}");
 		stringBuffer.newline();
-		stringBuffer.appendLine("private class RemovalTransaction {");
-		
-		stringBuffer.appendLine("private List list;");
-		stringBuffer.appendLine("private Object element;");
-		stringBuffer
-				.appendLine("public RemovalTransaction(List l, Object e) {");
-		
+		stringBuffer.appendLine("private class RemovalTransaction<T> {");
+
+		stringBuffer.appendLine("private List<T> list;");
+		stringBuffer.appendLine("private T element;");
+		stringBuffer.appendLine("public RemovalTransaction(List<T> l, T e) {");
+
 		stringBuffer.appendLine("list = l;");
 		stringBuffer.appendLine("element = e;");
-		
+
 		stringBuffer.appendLine("}");
 		stringBuffer.newline();
 		stringBuffer.appendLine("public void revert() {");
-		
+
 		stringBuffer.appendLine("list.add(element);");
-		
+
 		stringBuffer.appendLine("}");
 
-		
 		stringBuffer.appendLine("}");
 		stringBuffer.newline();
 
 		stringBuffer
-				.appendLine("private List<RemovalTransaction> removalTransactions;");
+				.appendLine("private List<RemovalTransaction<?>> removalTransactions;");
 		stringBuffer.newline();
 
 		stringBuffer.appendLine("private void startTransaction() {");
-		
+
 		stringBuffer.appendLine("assert(removalTransactions.isEmpty());");
 		stringBuffer
-				.appendLine("removalTransactions = new LinkedList<RemovalTransaction>();");
-		
+				.appendLine("removalTransactions = new LinkedList<RemovalTransaction<?>>();");
+
 		stringBuffer.appendLine("}");
 
 	}
@@ -359,11 +365,10 @@ public class PetriNetsCodeGenerator {
 		stringBuffer.newline();
 		stringBuffer.appendLine("public void add_to_place_"
 				+ trimQuotes(p.getName()) + "(" + printType(p) + " object) {");
-		
+
 		EList<ConsumingArc> outgoing = p.getOutgoing();
 		for (ConsumingArc consumingArc : outgoing) {
 			stringBuffer.appendLine("{");
-			
 
 			Transition involvedTransition = consumingArc.getOut();
 			EList<ConsumingArc> incoming = involvedTransition.getIncoming();
@@ -372,10 +377,10 @@ public class PetriNetsCodeGenerator {
 				counter++;
 				Place in = transitionArc.getIn();
 				if (!transitionArc.equals(consumingArc)) {
-					stringBuffer.appendLine("for(" + printType(p) + " "
+					stringBuffer.appendLine("for(" + printType(in) + " "
 							+ "argument_" + counter + " : _place_"
 							+ trimQuotes(in.getName()) + ") {");
-					
+
 				}
 			}
 			;
@@ -384,9 +389,9 @@ public class PetriNetsCodeGenerator {
 			counter = 0;
 			for (ConsumingArc transitionArc : incoming) {
 				counter++;
-				Place in = transitionArc.getIn();
 				if (!transitionArc.equals(consumingArc)) {
-					stringBuffer.appendLine("args.add(argument_" + counter + ");");
+					stringBuffer.appendLine("args.add(argument_" + counter
+							+ ");");
 				} else {
 					stringBuffer.appendLine("args.add(object);");
 				}
@@ -395,19 +400,18 @@ public class PetriNetsCodeGenerator {
 			stringBuffer.appendLine("addPendingChange(\""
 					+ involvedTransition.getName() + "\", args);");
 			for (ConsumingArc transitionArc : incoming) {
-				Place in = transitionArc.getIn();
 				if (!transitionArc.equals(consumingArc)) {
-					
+
 					stringBuffer.append("}");
 				}
 			}
-			
+
 			stringBuffer.appendLine("}");
 		}
 
 		stringBuffer.appendLine("_place_" + trimQuotes(p.getName())
 				+ ".add(object);");
-		
+
 		stringBuffer.appendLine("}");
 
 		stringBuffer.newline();
@@ -415,54 +419,14 @@ public class PetriNetsCodeGenerator {
 		stringBuffer.appendLine("private void remove_from_place_"
 				+ trimQuotes(p.getName()) + "(" + printType(p)
 				+ " object) throws RemovalException{");
-		
-		// EList<ConsumingArc> outgoingArcs = p.getOutgoing();
-		// stringBuffer
-		// .appendLine("List<String> involvedTransitions = new LinkedList<String>();");
-		// for (ConsumingArc consumingArc : outgoingArcs) {
-		// stringBuffer.appendLine("{");
-		// 
-		//
-		// Transition involvedTransition = consumingArc.getOut();
-		// stringBuffer.appendLine("involvedTransitions.add(\""
-		// + involvedTransition.getName() + "\");");
-		// stringBuffer
-		// .appendLine("List<PendingChange> toRemove = new ArrayList<PendingChange>();");
-		// stringBuffer
-		// .appendLine("for (PendingChange p : this.pendingChanges) {");
-		// 
-		// stringBuffer
-		// .appendLine("if (involvedTransitions.contains(p.transitionName) ) {");
-		// 
-		// EList<ConsumingArc> incoming = involvedTransition.getIncoming();
-		// int placeIndex = -1;
-		// int i = 0;
-		// for (ConsumingArc arc : incoming) {
-		// if (arc.getIn().equals(p)) {
-		// placeIndex = i;
-		// break;
-		// }
-		// i++;
-		// }
-		// stringBuffer.appendLine("if (p.arguments.get(" + placeIndex
-		// + ").equals(object)) toRemove.add(p);");
-		//
-		// 
-		// stringBuffer.appendLine("}");
-		// 
-		// stringBuffer.appendLine("}");
-		// stringBuffer.appendLine("for(PendingChange remove : toRemove ) {");
-		// 
-		// stringBuffer.appendLine("pendingChanges.remove(remove);");
-		// 
-		// stringBuffer.appendLine("}");
-		// 
-		// stringBuffer.appendLine("}");
-		// }
-		stringBuffer.appendLine("removalTransactions.add(new RemovalTransaction("+"_place_" + trimQuotes(p.getName())+", object));");
+
+		stringBuffer
+				.appendLine("removalTransactions.add(new RemovalTransaction<"
+						+ printType(p) + ">(" + "_place_"
+						+ trimQuotes(p.getName()) + ", object));");
 		stringBuffer.appendLine("_place_" + trimQuotes(p.getName())
 				+ ".remove(object);");
-		
+
 		stringBuffer.appendLine("}");
 
 	}
@@ -487,7 +451,7 @@ public class PetriNetsCodeGenerator {
 		}
 		stringBuffer.append(") {");
 		stringBuffer.newline();
-		
+
 		stringBuffer.appendLine("// evaluate guard expression");
 		stringBuffer.appendLine("boolean guardSatisfied = false;");
 		String guardEvaluationResult = null;
@@ -500,10 +464,10 @@ public class PetriNetsCodeGenerator {
 		stringBuffer.appendLine("guardSatisfied = " + guardEvaluationResult
 				+ ";");
 		stringBuffer.appendLine("if (guardSatisfied) {");
-		
+
 		stringBuffer.appendLine("startTransaction();");
 		stringBuffer.appendLine("try {");
-		
+
 		for (ConsumingArc arc : incomingArcs) {
 			Place in = arc.getIn();
 
@@ -511,16 +475,16 @@ public class PetriNetsCodeGenerator {
 					+ trimQuotes(in.getName()) + "("
 					+ arc.getFreeVariable().getName() + ");");
 		}
-		
+
 		stringBuffer
 				.appendLine("} catch(RemovalException __removalException) {");
-		
+
 		stringBuffer.appendLine("revertRemovalTransactions();");
 		stringBuffer.appendLine("return false;");
-		
+
 		stringBuffer.appendLine("}");
 		stringBuffer.appendLine("removalTransactions.clear();");
-		
+
 		stringBuffer.appendLine("}");
 		stringBuffer.appendLine("else return false;");
 
@@ -537,7 +501,7 @@ public class PetriNetsCodeGenerator {
 			stringBuffer.appendLine("// evaluate settings for " + outvar);
 			EList<Setting> settings = arc.getSettings();
 			for (Setting setting : settings) {
-				generateCode(arc.getOutput(), setting);
+				generateCode(arc.getOutput().getName(), setting);
 			}
 
 			stringBuffer.appendLine("// add " + outvar + " to place "
@@ -547,25 +511,24 @@ public class PetriNetsCodeGenerator {
 		}
 
 		stringBuffer.appendLine("return true;");
-		
+
 		stringBuffer.appendLine("}");
 
 	}
 
-	private void generateCode(Variable variable, Setting setting) {
+	private void generateCode(String contextVar, Setting setting) {
 		EStructuralFeature feature = setting.getFeature();
-		if (feature.eContainer() == null
-				&& variable.getName() == feature.getName()) {
-			stringBuffer.appendLine(variable.getName() + " = "
+		if (feature.eContainer() == null && contextVar == feature.getName()) {
+			stringBuffer.appendLine(contextVar + " = "
 					+ setting.getValue().getName() + ";");
 		}
 		if (feature.isMany()) {
-			stringBuffer.appendLine(variable.getName() + ".get"
+			stringBuffer.appendLine(contextVar + ".get"
 					+ toFirstUpper(feature.getName()) + "().add("
 					+ setting.getValue().getName() + ");");
 
 		} else {
-			stringBuffer.appendLine(variable.getName() + ".set"
+			stringBuffer.appendLine(contextVar + ".set"
 					+ toFirstUpper(feature.getName()) + "("
 					+ setting.getValue().getName() + ");");
 		}
@@ -680,6 +643,10 @@ public class PetriNetsCodeGenerator {
 		String contextVar = generateContextVariableName();
 		stringBuffer.appendLine(printType(cc) + " " + contextVar + " = ");
 		stringBuffer.append(printCreation(cc.getType(), cc));
+		EList<Setting> settings = cc.getSettings();
+		for (Setting setting : settings) {
+			generateCode(contextVar, setting);
+		}
 		stringBuffer.newline();
 		this.contextVariableName = contextVar;
 
@@ -836,24 +803,24 @@ public class PetriNetsCodeGenerator {
 			stringBuffer.appendLine("boolean " + booleanExpressionResult
 					+ " = " + leftResult + ";");
 			stringBuffer.appendLine("if (" + booleanExpressionResult + ") {");
-			
+
 			generateCode(be.getRight());
 			String rightResult = this.contextVariableName;
 			stringBuffer.appendLine(booleanExpressionResult + " = "
 					+ rightResult + ";");
-			
+
 			stringBuffer.appendLine("}");
 		} else // || operator
 		{
 			stringBuffer.appendLine("boolean " + booleanExpressionResult
 					+ " = " + leftResult + ";");
 			stringBuffer.appendLine("if (!" + booleanExpressionResult + ") {");
-			
+
 			generateCode(be.getRight());
 			String rightResult = this.contextVariableName;
 			stringBuffer.appendLine(booleanExpressionResult + " = "
 					+ rightResult + ";");
-			
+
 			stringBuffer.append("}");
 		}
 

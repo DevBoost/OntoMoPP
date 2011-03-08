@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcoreFactory;
+import org.emftext.language.petrinets.ConstructorCall;
 import org.emftext.language.petrinets.ProducingArc;
 
 public class SettingFeatureReferenceResolver
@@ -30,8 +31,15 @@ public class SettingFeatureReferenceResolver
 			int position,
 			boolean resolveFuzzy,
 			final org.emftext.language.petrinets.resource.petrinets.IPetrinetsReferenceResolveResult<org.eclipse.emf.ecore.EStructuralFeature> result) {
-		ProducingArc arc = (ProducingArc) container.eContainer();
-		EClassifier type = FunctionCallAnalysisHelper.getInstance().getType(arc.getOutput());
+		EClassifier type;
+		if (container.eContainer() instanceof ProducingArc) {
+			ProducingArc arc = (ProducingArc) container.eContainer();
+			type = FunctionCallAnalysisHelper.getInstance().getType(arc.getOutput());
+		} else {
+			ConstructorCall cc = (ConstructorCall) container.eContainer();
+			type = cc.getType();
+ 		}
+			
 		List<EStructuralFeature> candidates = new ArrayList<EStructuralFeature>();
 		if (type != null && type instanceof EClass) {
 			EClass c = (EClass) type;

@@ -21,6 +21,12 @@ FUNCTIONS: {
 	library function EInt EInt.mult(EInt argument)
 	library function EInt EInt.div(EInt argument) 
 	library function EInt EInt.power(EInt argument)
+	library function EFloat EInt.floatValue()
+	
+	library function EFloat EFloat.add(EFloat argument)
+	library function EFloat EFloat.sub(EFloat argument) 
+	library function EFloat EFloat.mult(EFloat argument)
+	library function EFloat EFloat.div(EFloat argument) 
 	
 	//library function EBoolean EBoolean.and(EBoolean argument)
 	//library function EBoolean EBoolean.or(EBoolean argument)

@@ -9,8 +9,10 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -25,6 +27,7 @@ import org.emftext.language.petrinets.DoubleLiteral;
 import org.emftext.language.petrinets.EClassLiteral;
 import org.emftext.language.petrinets.Expression;
 import org.emftext.language.petrinets.FloatLiteral;
+import org.emftext.language.petrinets.FreeVariable;
 import org.emftext.language.petrinets.Function;
 import org.emftext.language.petrinets.FunctionCall;
 import org.emftext.language.petrinets.FunctionType;
@@ -183,16 +186,21 @@ public class FunctionCallAnalysisHelper {
 		List<Function> functions = new ArrayList<Function>();
 		if (type.eIsProxy())
 			return functions;
+		PetrinetsFactory factory = PetrinetsFactoryImpl.eINSTANCE;
+		
 		if (type instanceof EClass) {
 			EClass cls = (EClass) type;
 			EList<EStructuralFeature> eStructuralFeatures = cls
 					.getEAllStructuralFeatures();
 			for (EStructuralFeature eStructuralFeature : eStructuralFeatures) {
-				PetrinetsFactory factory = PetrinetsFactoryImpl.eINSTANCE;
 				Function getter = factory.createBasicFunction();
 				String name = eStructuralFeature.getName();
 				name = name.substring(0, 1).toUpperCase() + name.substring(1);
-				getter.setName("get" + name);
+				if ("boolean".equals(eStructuralFeature.getEType().getInstanceClassName())) {
+					getter.setName("is" + name);
+				} else {
+					getter.setName("get" + name);
+				}
 				EClassifier eType = eStructuralFeature.getEType();
 				if (eStructuralFeature.getUpperBound() == -1) {
 					PList elist = PetrinetsFactoryImpl.eINSTANCE.createPList();
@@ -213,6 +221,12 @@ public class FunctionCallAnalysisHelper {
 					functions.add(setter);
 				}
 			}
+		}
+		if (type instanceof EEnum) {
+			Function getter = factory.createBasicFunction();
+			getter.setName("getLiteral");
+			getter.setType(EcorePackage.eINSTANCE.getEString());
+			functions.add(getter);
 		}
 		return functions;
 	}
@@ -244,6 +258,18 @@ public class FunctionCallAnalysisHelper {
 	}
 
 	public EClassifier calculateType(TypedElement e) {
+		if (e instanceof FreeVariable) {
+			ConsumingArc ca = (ConsumingArc) e.eContainer();
+			EClassifier type = ca.getIn().getType();
+			e.setType(type);
+			return type;
+		}
+		if (e instanceof InitialisedVariable) {
+			InitialisedVariable iv = (InitialisedVariable) e;
+			EClassifier type = getType(iv.getInitialisation());
+			e.setType(type);
+			return type;
+		}
 		if (e instanceof VariableCall) {
 			VariableCall vc = (VariableCall) e;
 			Variable variable = vc.getVariable();
@@ -375,5 +401,28 @@ public class FunctionCallAnalysisHelper {
 
 	private void resolveAllRequired(Variable variable, Expression container) {
 		EcoreUtil.resolve(variable, container);
+	}
+
+	public boolean isSubtype(EClassifier subtype, EClassifier supertype) {
+		if (subtype == null || supertype == null) return false;
+		if (subtype instanceof PList && supertype instanceof PList) {
+			return isSubtype(((PList) subtype).getType(),
+					((PList) supertype).getType());
+		}
+		if (supertype.getInstanceClass() != null
+				&& supertype.getInstanceClass().getName()
+						.equals("java.lang.Object"))
+			return true;
+		if (subtype.getInstanceClassName() != null) {
+			if (subtype.getInstanceClassName().equals(
+					supertype.getInstanceClassName())) {
+				return true;
+			}
+		}
+		if (supertype instanceof EClass && subtype instanceof EClass) {
+			return ((EClass) supertype).isSuperTypeOf((EClass) subtype);
+		}
+
+		return false;
 	}
 }

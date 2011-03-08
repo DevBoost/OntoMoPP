@@ -42,7 +42,7 @@ public class VariableCallVariableReferenceResolver
 		for (Variable variable : candidates) {
 			result.addMapping(variable.getName(), variable);
 			if (!resolveFuzzy) {
-				container.setType(variable.getType());
+				container.setType(FunctionCallAnalysisHelper.getInstance().getType(variable));
 				return;
 			}
 		}

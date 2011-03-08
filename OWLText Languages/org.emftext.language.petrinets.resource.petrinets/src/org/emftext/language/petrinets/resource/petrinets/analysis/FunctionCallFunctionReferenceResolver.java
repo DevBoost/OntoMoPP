@@ -116,7 +116,7 @@ public class FunctionCallFunctionReferenceResolver
 				return false;
 			if (parameterType instanceof PGenericType) {
 				if (contextType instanceof PList) {
-					if (isSubtype(argumentType, ((PList) contextType).getType())) {
+					if (FunctionCallAnalysisHelper.getInstance().isSubtype(argumentType, ((PList) contextType).getType())) {
 						continue; // check next parameter
 
 					}
@@ -124,7 +124,7 @@ public class FunctionCallFunctionReferenceResolver
 			}
 			if (parameterType instanceof EClassifier
 					&& argumentType instanceof EClassifier) {
-				if (isSubtype(argumentType, parameterType)) {
+				if (FunctionCallAnalysisHelper.getInstance().isSubtype(argumentType, parameterType)) {
 					continue; // check next parameter
 				}
 			}
@@ -134,28 +134,7 @@ public class FunctionCallFunctionReferenceResolver
 		return true;
 	}
 
-	private boolean isSubtype(EClassifier subtype, EClassifier supertype) {
-
-		if (subtype instanceof PList && supertype instanceof PList) {
-			return isSubtype(((PList) subtype).getType(),
-					((PList) supertype).getType());
-		}
-		if (supertype.getInstanceClass() != null
-				&& supertype.getInstanceClass().getName()
-						.equals("java.lang.Object"))
-			return true;
-		if (subtype.getInstanceClassName() != null) {
-			if (subtype.getInstanceClassName().equals(
-					supertype.getInstanceClassName())) {
-				return true;
-			}
-		}
-		if (supertype instanceof EClass && subtype instanceof EClass) {
-			return ((EClass) supertype).isSuperTypeOf((EClass) subtype);
-		}
-
-		return false;
-	}
+	
 
 	public String deResolve(org.emftext.language.petrinets.Function element,
 			org.emftext.language.petrinets.FunctionCall container,

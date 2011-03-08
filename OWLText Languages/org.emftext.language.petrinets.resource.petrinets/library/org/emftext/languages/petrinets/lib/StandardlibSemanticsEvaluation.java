@@ -1,9 +1,11 @@
-
 package org.emftext.languages.petrinets.lib;
+
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.*;
 import java.util.*;
 import org.emftext.language.petrinets.*;
 import org.eclipse.emf.ecore.*;
+
 public class StandardlibSemanticsEvaluation {
 
 	public class RemovalException extends Exception {}
@@ -50,11 +52,18 @@ public class StandardlibSemanticsEvaluation {
 	}
 
 	public void intialisePlaces(EObject model) {
-		// TODO implement place initialisation for places w/o incomming arcs.
+		relayObject(model);
+		TreeIterator<EObject> eAllContents = model.eAllContents();
+		while (eAllContents.hasNext()) {
+			EObject eObject = (EObject) eAllContents.next();
+			relayObject(eObject);
+		}
+	}
+	private void relayObject(EObject eObject) {
 	}
 
 	public void evaluatePetriNet() {
-		while(this.pendingChanges.size() > 0) {;
+		while(this.pendingChanges.size() > 0) {
 			PendingChange pc = pendingChanges.remove(0);
 		}
 	}
