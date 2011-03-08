@@ -51,8 +51,7 @@ import <math.text.ecore> <math.text.genmodel>;
  	InitialPlace - e -> mul
  	EndPlace - arg1 -> mul
  	EndPlace - arg2 -> mul 
- 	mul - e (value := result) -> EndPlace 
- // TODO working with mulitple same input arcs
+ 	mul - e (value := result) -> EndPlace
  
  	transition mul
 	if ( @Expression.isInstance(e) 
