@@ -176,6 +176,11 @@ package petrinets // this is the package name
 	class EClassLiteral extends Literal {
 		reference EClass clazz (1..1);
 	}
+	
+	class UnaryMinus extends Literal {
+		attribute EBoolean minus (1..1);
+		containment reference Expression expression (1..1);
+	}
 
 	class IntegerLiteral extends Literal {
 		attribute EInt value (1..1);

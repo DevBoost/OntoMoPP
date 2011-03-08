@@ -117,6 +117,10 @@
     <genClasses ecoreClass="petrinets.text.ecore#//EClassLiteral">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//EClassLiteral/clazz"/>
     </genClasses>
+    <genClasses ecoreClass="petrinets.text.ecore#//UnaryMinus">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute petrinets.text.ecore#//UnaryMinus/minus"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//UnaryMinus/expression"/>
+    </genClasses>
     <genClasses ecoreClass="petrinets.text.ecore#//IntegerLiteral">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute petrinets.text.ecore#//IntegerLiteral/value"/>
     </genClasses>

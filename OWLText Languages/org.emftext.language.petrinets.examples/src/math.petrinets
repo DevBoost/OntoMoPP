@@ -12,7 +12,7 @@ import <math.text.ecore> <math.text.genmodel>;
 
  	transition eval 
  	if ( @Expression.isInstance(e).not())  
- 	do {
+ 	do { 
  		result = e.getValue();  
  	}
  	InitialPlace - e -> add 
@@ -36,17 +36,16 @@ import <math.text.ecore> <math.text.genmodel>;
  	EndPlace - arg2 -> sub
  	sub - e ( value := result ) -> EndPlace 
   
- 	transition sub  
+ 	transition sub
 	if ( @Expression.isInstance(e) 
 			&& ((Expression) e).getElements().get(0).equals(arg1) 
 			&& ((Expression) e).getElements().get(1).equals(arg2) 
 			&& ((Expression) e).getOperator().equals("-") )
    	do {
-   		expression = ((Expression) e);
-   	  	left = arg1.getValue();
+   		left = arg1.getValue();
    		right = arg2.getValue();
    		result = left.sub(right);
- 	} 
+ 	}
  	
  	InitialPlace - e -> mul
  	EndPlace - arg1 -> mul

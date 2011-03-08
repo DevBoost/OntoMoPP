@@ -6,13 +6,16 @@ import java.util.Map;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.petrinets.BooleanExpression;
+import org.emftext.language.petrinets.Cast;
 import org.emftext.language.petrinets.Function;
 import org.emftext.language.petrinets.FunctionCall;
 import org.emftext.language.petrinets.FunctionType;
 import org.emftext.language.petrinets.Setting;
 import org.emftext.language.petrinets.SettingOperator;
+import org.emftext.language.petrinets.UnaryMinus;
 import org.emftext.language.petrinets.resource.petrinets.IPetrinetsOptionProvider;
 import org.emftext.language.petrinets.resource.petrinets.IPetrinetsOptions;
 import org.emftext.language.petrinets.resource.petrinets.IPetrinetsResourcePostProcessor;
@@ -85,18 +88,21 @@ public class PetriNetsPostProcessor implements IPetrinetsOptionProvider,
 				if (!FunctionCallAnalysisHelper.getInstance().isSubtype(
 						foundType, expectedType)) {
 					String found;
-					if (foundType == null) found = "null";
-					else found = foundType.getName();
+					if (foundType == null)
+						found = "null";
+					else
+						found = foundType.getName();
 					String expected;
-					if (expectedType == null) expected = "null";
-					else expected = expectedType.getName();
-					
+					if (expectedType == null)
+						expected = "null";
+					else
+						expected = expectedType.getName();
+
 					resource.addError(
 							"Type of assigned variable is not compatible with type expected for (found: "
-									+ found + " " + ", expected: "
-									+ expected + ")",
-							PetrinetsEProblemType.ANALYSIS_PROBLEM,
-							setting);
+									+ found + " " + ", expected: " + expected
+									+ ")",
+							PetrinetsEProblemType.ANALYSIS_PROBLEM, setting);
 				}
 				if (setting.getSettingOperator().equals(SettingOperator.ADD)) {
 					if (setting.getFeature() != null
@@ -117,6 +123,52 @@ public class PetriNetsPostProcessor implements IPetrinetsOptionProvider,
 					}
 				}
 
+			} else if (eObject instanceof UnaryMinus) {
+				UnaryMinus um = (UnaryMinus) eObject;
+				if (um.isMinus()) {
+					EClassifier type = FunctionCallAnalysisHelper.getInstance()
+							.getType(um.getExpression());
+
+					if (!(EcorePackage.eINSTANCE.getEShort().equals(type)
+							|| EcorePackage.eINSTANCE.getEInt().equals(type)
+							|| EcorePackage.eINSTANCE.getEFloat().equals(type) || EcorePackage.eINSTANCE
+							.getEDouble().equals(type))) {
+						String typename;
+						if (type == null)
+							typename = "null";
+						else
+							typename = type.getName();
+
+						resource.addError(
+								"The minus operator is not defined for "
+										+ typename,
+								PetrinetsEProblemType.ANALYSIS_PROBLEM, um);
+					}
+				}
+			} else if (eObject instanceof Cast) {
+				Cast c = (Cast) eObject;
+				EClassifier castTarget = c.getType();
+				EClassifier foundType = FunctionCallAnalysisHelper
+						.getInstance().getType(c.getExpression());
+				boolean isSubtype = FunctionCallAnalysisHelper.getInstance()
+						.isSubtype(castTarget, foundType);
+				if (!isSubtype) {
+					String target;
+					if (castTarget == null)
+						target = "null";
+					else
+						target = castTarget.getName();
+					String found;
+					if (foundType == null)
+						found = "null";
+					else
+						found = foundType.getName();
+
+					resource.addError(
+							"Casting to a non-subtype is not allowed. (cast target: "
+									+ target + ", found: " + found + ")",
+							PetrinetsEProblemType.ANALYSIS_PROBLEM, c);
+				}
 			}
 
 		}

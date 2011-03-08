@@ -46,6 +46,7 @@ import org.emftext.language.petrinets.Place;
 import org.emftext.language.petrinets.ProducingArc;
 import org.emftext.language.petrinets.StringLiteral;
 import org.emftext.language.petrinets.TypedElement;
+import org.emftext.language.petrinets.UnaryMinus;
 import org.emftext.language.petrinets.Variable;
 import org.emftext.language.petrinets.VariableCall;
 import org.emftext.language.petrinets.impl.PetrinetsFactoryImpl;
@@ -261,6 +262,12 @@ public class FunctionCallAnalysisHelper {
 		if (e instanceof FreeVariable) {
 			ConsumingArc ca = (ConsumingArc) e.eContainer();
 			EClassifier type = ca.getIn().getType();
+			e.setType(type);
+			return type;
+		}
+		if (e instanceof UnaryMinus) {
+			UnaryMinus um = (UnaryMinus) e;
+			EClassifier type = getType(um.getExpression());
 			e.setType(type);
 			return type;
 		}

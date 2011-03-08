@@ -70,9 +70,13 @@ RULES {
 	@Operator(type="binary_right_associative", weight="1", superclass="Expression")
 	BooleanExpression ::= left (operator[BOOLEAN_OPERATOR]) right;
 
-	@Operator(type="unary_postfix", weight="4", superclass="Expression")
+	@Operator(type="unary_postfix", weight="2", superclass="Expression")
 	MemberCallExpression ::= target "." calls ("." calls)*;
  	FunctionCall ::= function[IDENTIFIER] "(" ( parameters ("," parameters)*)?")" ;
+	
+	@Operator(type="unary_prefix", weight="3", superclass="Expression")	
+	UnaryMinus ::= minus["-":""] #1 expression;
+	
 	
 	@Operator(type="primitive", weight="5", superclass="Expression")
 	VariableCall ::= variable[IDENTIFIER];

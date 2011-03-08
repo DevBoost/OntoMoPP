@@ -48,6 +48,7 @@ import org.emftext.language.petrinets.Statement;
 import org.emftext.language.petrinets.StringLiteral;
 import org.emftext.language.petrinets.Transition;
 import org.emftext.language.petrinets.TypedElement;
+import org.emftext.language.petrinets.UnaryMinus;
 import org.emftext.language.petrinets.VariableCall;
 import org.emftext.language.petrinets.resource.petrinets.PetrinetsEProblemType;
 import org.emftext.language.petrinets.resource.petrinets.analysis.FunctionCallAnalysisHelper;
@@ -595,6 +596,8 @@ public class PetriNetsCodeGenerator {
 			return;
 		else if (o instanceof InitialisedVariable)
 			generateCode((InitialisedVariable) o);
+		else if (o instanceof UnaryMinus)
+			generateCode((UnaryMinus) o);
 		else if (o instanceof MemberCallExpression)
 			generateCode((MemberCallExpression) o);
 		else if (o instanceof VariableCall)
@@ -751,8 +754,9 @@ public class PetriNetsCodeGenerator {
 
 	private void generateCode(EClassLiteral ecl) {
 		this.contextVariableName = generateContextVariableName();
-		stringBuffer.appendLine("Class " + this.contextVariableName + " = "
-				+ ecl.getClazz().getName() + ".class;");
+		stringBuffer.appendLine("Class<" + ecl.getClazz().getName() + "> "
+				+ this.contextVariableName + " = " + ecl.getClazz().getName()
+				+ ".class;");
 
 	}
 
@@ -793,6 +797,19 @@ public class PetriNetsCodeGenerator {
 		stringBuffer.appendLine(printType(ne) + " " + nv + " = "
 				+ expressionVariable + ";");
 		this.contextVariableName = nv;
+	}
+
+	private void generateCode(UnaryMinus um) {
+		if (um.isMinus()) {
+			String uv = generateContextVariableName();
+			generateCode(um.getExpression());
+			String expressionVariable = this.contextVariableName;
+			stringBuffer.appendLine(printType(um) + " " + uv + " = - "
+					+ expressionVariable + ";");
+			this.contextVariableName = uv;
+		} else {
+			generateCode(um.getExpression());
+		}
 	}
 
 	private void generateCode(BooleanExpression be) {
