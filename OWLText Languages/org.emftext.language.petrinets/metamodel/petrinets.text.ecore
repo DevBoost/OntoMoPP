@@ -22,6 +22,7 @@ package petrinets // this is the package name
 		attribute EString pkg (0..-1);
 		reference EPackage ePackages (1..-1); 
 		reference genmodel::GenModel genModels (1..-1);
+		reference PetriNet imports (0..-1);
 		containment reference Function functions (0..-1);
 		containment reference Component components (0..-1) opposite net;
 		containment reference Arc arcs (0..-1);

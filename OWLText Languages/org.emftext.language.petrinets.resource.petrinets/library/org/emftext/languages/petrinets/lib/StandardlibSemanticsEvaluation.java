@@ -8,18 +8,20 @@ import org.eclipse.emf.ecore.*;
 
 public class StandardlibSemanticsEvaluation {
 
-	public class RemovalException extends Exception {}
+	public class RemovalException extends Exception {
+		private static final long serialVersionUID = -8317569526723196361L;
+	}
 
 	public void revertRemovalTransactions() {
-		for(RemovalTransaction e : removalTransactions) {
+		for(RemovalTransaction<?> e : removalTransactions) {
 			e.revert();
 		}
 	}
 
-	private class RemovalTransaction {
-		private List list;
-		private Object element;
-		public RemovalTransaction(List l, Object e) {
+	private class RemovalTransaction<T> {
+		private List<T> list;
+		private T element;
+		public RemovalTransaction(List<T> l, T e) {
 			list = l;
 			element = e;
 		}
@@ -29,11 +31,11 @@ public class StandardlibSemanticsEvaluation {
 		}
 	}
 
-	private List<RemovalTransaction> removalTransactions;
+	private List<RemovalTransaction<?>> removalTransactions;
 
 	private void startTransaction() {
 		assert(removalTransactions.isEmpty());
-		removalTransactions = new LinkedList<RemovalTransaction>();
+		removalTransactions = new LinkedList<RemovalTransaction<?>>();
 	}
 
 	List<PendingChange> pendingChanges = new LinkedList<PendingChange>();

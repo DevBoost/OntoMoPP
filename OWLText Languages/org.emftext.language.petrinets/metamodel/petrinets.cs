@@ -40,7 +40,8 @@ TOKENSTYLES {
  
 RULES { 
 	PetriNet ::= ("package" pkg[IDENTIFIER] ("." pkg[IDENTIFIER])* ";")? "petrinet" name[IDENTIFIER]?
-				("import" ePackages['<','>'] genModels['<','>'] ";")+
+				("types" ePackages['<','>'] genModels['<','>'] ";")*
+				("import" imports['<','>']";")*
 				("FUNCTIONS:" "{" functions* "}")?
 				"{" (components | arcs)* "}";
 				

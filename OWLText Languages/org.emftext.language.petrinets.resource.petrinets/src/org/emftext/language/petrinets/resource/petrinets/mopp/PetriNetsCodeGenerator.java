@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
@@ -86,6 +88,7 @@ public class PetriNetsCodeGenerator {
 			EcoreUtil.resolveAll(pn.eResource().getResourceSet());
 			initialiseGenClassMap(pn);
 			generateCode(pn);
+
 			try {
 
 				String name = toFirstUpper(trimQuotes(pn.getName()));
@@ -156,7 +159,12 @@ public class PetriNetsCodeGenerator {
 
 	private void generateCode(PetriNet pn) {
 		String name = toFirstUpper(trimQuotes(pn.getName()));
-		EList<Component> components = pn.getComponents();
+		List<Component> components = new LinkedList<Component>();
+		components.addAll(pn.getComponents());
+		EList<PetriNet> importedPNs = pn.getImports();
+		for (PetriNet petriNet : importedPNs) {
+			components.addAll(petriNet.getComponents());
+		}
 		String packageName = pn.getPkg().get(0);
 		if (!pn.getPkg().isEmpty()) {
 			for (String p : pn.getPkg().subList(1, pn.getPkg().size())) {
@@ -171,7 +179,11 @@ public class PetriNetsCodeGenerator {
 		stringBuffer.appendLine("import org.eclipse.emf.ecore.*;");
 		stringBuffer.appendLine("import java.util.*;");
 
-		EList<GenModel> imports = pn.getGenModels();
+		List<GenModel> imports = new LinkedList<GenModel>();
+		imports.addAll(pn.getGenModels());
+		for (PetriNet petriNet : importedPNs) {
+			imports.addAll(petriNet.getGenModels());
+		}
 		for (GenModel i : imports) {
 			EList<GenPackage> genPackages = i.getGenModel().getGenPackages();
 			for (GenPackage genPackage : genPackages) {
@@ -224,7 +236,7 @@ public class PetriNetsCodeGenerator {
 
 		generateAutoinitCode(pn);
 
-		stringBuffer.appendLine("public void evaluatePetriNet() {");
+		stringBuffer.appendLine("public void evaluateSemantics() {");
 
 		stringBuffer.appendLine("while(this.pendingChanges.size() > 0) {");
 

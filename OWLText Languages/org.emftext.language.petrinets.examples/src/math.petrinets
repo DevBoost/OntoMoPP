@@ -1,8 +1,9 @@
 package math.semantics;
-/* Invalid PetriNets as OWLText validation example*/
+
 petrinet Math 
 
-import <math.text.ecore> <math.text.genmodel>;
+types <math.text.ecore> <math.text.genmodel>;
+
 {
  	autoinit place InitialPlace : Element 
  	place EndPlace : Element 
@@ -19,16 +20,16 @@ import <math.text.ecore> <math.text.genmodel>;
  	EndPlace - arg1 -> add
  	EndPlace - arg2 -> add  
  	add - e (value := result )-> EndPlace   
- 	
+ 
    	transition add  
 	if ( @Expression.isInstance(e)
 			&& ((Expression) e).getElements().get(0).equals(arg1) 
-			&& ((Expression) e).getElements().get(1).equals(arg2) 
+			&& ((Expression) e).getElements().get(1).equals(arg2)
 			&& ((Expression) e).getOperator().equals("+") )
    	do { 
    		left = arg1.getValue();
    		right = arg2.getValue();
-   		result = left.add(right); 
+   		result = left.add(right);
  	} 
  	
  	InitialPlace - e -> sub 
