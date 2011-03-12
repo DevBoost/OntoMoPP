@@ -48,8 +48,7 @@ public class NamespaceImportedOntologyReferenceResolver
 			((OwlResource) container.eResource())
 					.addWarning(
 							"URIs of imported namespaces should end with \"#\", to allow for resolving its declarations by iri",
-							OwlEProblemType.ANALYSIS_PROBLEM,
-							container);
+							OwlEProblemType.ANALYSIS_PROBLEM, container);
 		}
 		OntologyDocument document = (OntologyDocument) container.eContainer();
 		if ((document.getOntology().getUri() + "#").equals(identifier)) {
@@ -87,7 +86,12 @@ public class NamespaceImportedOntologyReferenceResolver
 		String uri = element.getUri();
 
 		if (!uri.endsWith("#")) {
-			uri = uri.substring(0, uri.length()) + "#";
+			if (uri.endsWith(">")) {
+				uri = uri.substring(0, uri.length() - 1);
+				uri += "#>";
+			} else {
+				uri = uri.substring(0, uri.length()) + "#";
+			}
 		}
 		if (!uri.startsWith("<") && !uri.endsWith(">"))
 			uri = "<" + uri + ">";
