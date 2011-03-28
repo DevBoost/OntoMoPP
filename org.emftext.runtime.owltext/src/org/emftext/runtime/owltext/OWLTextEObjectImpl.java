@@ -830,6 +830,8 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 	private void addMetamodelImportAxioms(OwlFactory factory,
 			OntologyDocument ontologyDocument, Ontology ontology, EObject root) {
 		EPackage ePackage = root.eClass().getEPackage();
+		String metaModelNamespacePrefix = OWLTransformationHelper
+				.getNamespacePrefix(ePackage);
 
 		Ontology importedMetamodelOntology = OWLTransformationHelper
 				.getOntology(ePackage, root);
@@ -839,7 +841,8 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		OntologyDocument od = (OntologyDocument) importedMetamodelOntology
 				.eContainer();
 		for (Namespace namespace : od.getNamespace()) {
-			if ((":").equals(namespace.getPrefix())) {
+			if ((":").equals(namespace.getPrefix())
+					|| metaModelNamespacePrefix.equals(namespace.getPrefix())) {
 				continue;
 			} else if (!CrossResourceIRIResolver.standardNamespaces
 					.containsKey(namespace.getPrefix())) {
@@ -859,13 +862,11 @@ public class OWLTextEObjectImpl extends EObjectImpl {
 		ontologyDocument.getNamespace().add(local);
 
 		Namespace namespace = factory.createNamespace();
-		String metaModelNamespacePrefix = OWLTransformationHelper
-				.getNamespacePrefix(ePackage);
 		namespace.setPrefix(metaModelNamespacePrefix + ":");
 		namespace.setImportedOntology(importedMetamodelOntology);
 		ontologyDocument.getNamespace().add(namespace);
-		// addImportedFrames(factory, ontology, importedMetamodelOntology,
-		// metaModelNamespacePrefix + ":");
+		addImportedFrames(factory, ontology, importedMetamodelOntology,
+				metaModelNamespacePrefix + ":");
 	}
 
 	private void addImportedFrames(OwlFactory factory, Ontology ontology,
