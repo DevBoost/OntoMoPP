@@ -18,7 +18,15 @@ OPTIONS {
 }
 
 TOKENS {
+	DEFINE SL_COMMENT $'//'(~('\n'|'\r'|'\uffff'))* $ ;
+	DEFINE ML_COMMENT $'/*'.*'*/'$ ;
 	
+}
+
+TOKENSTYLES {
+	"STRING_LITERAL" COLOR #2A00FF;
+
+	"SL_COMMENT", "ML_COMMENT" COLOR #00bb00;
 }
 
 RULES {
