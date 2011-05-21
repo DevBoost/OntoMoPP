@@ -15,6 +15,8 @@ OPTIONS {
 	tokenspace = "1";
 	overrideBuilder = "false" ;
 	overrideManifest = "false" ;
+	disableLaunchSupport = "true";
+	disableDebugSupport = "true";
 }
 
 TOKENS {

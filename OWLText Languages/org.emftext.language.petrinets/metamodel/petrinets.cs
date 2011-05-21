@@ -8,6 +8,8 @@ OPTIONS {
 	reloadGeneratorModel = "true";
 	usePredefinedTokens = "false";
 	overridePluginXML = "false";
+	disableLaunchSupport = "true";
+	disableDebugSupport = "true";
 }
 
 TOKENS {

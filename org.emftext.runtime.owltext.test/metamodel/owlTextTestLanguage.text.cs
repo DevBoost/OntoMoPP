@@ -7,8 +7,11 @@ OPTIONS {
 	resourceUIPluginID="org.emftext.runtime.owltext.ui.test";
 	overrideManifest="false";
 	overrideUIManifest="false";
+	disableLaunchSupport = "true";
+	disableDebugSupport = "true";
 }
-TOKENS{
+
+TOKENS {
 	DEFINE COMMENT$'//'(~('\n'|'\r'|'\uffff'))*$;
 	DEFINE OPERATOR$'+'|'-'|'*'|'/'$;
 	
@@ -17,12 +20,12 @@ TOKENS{
 	
 }
 
-TOKENSTYLES{
+TOKENSTYLES {
 	"+Feature" COLOR #7F0055, BOLD;
 	"-Feature" COLOR #7F0055, BOLD;
 }
 
-RULES{
+RULES {
 	
 	MandatoryFeature ::= "+Feature"   name['"','"'] annotation? 
 		comments['<','>']* anyLiterals*   ("{" children* "}")?; // operator[OPERATOR]?

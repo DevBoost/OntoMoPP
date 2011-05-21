@@ -30,6 +30,8 @@ OPTIONS {
 	basePackage = "org.emftext.language.sparql.resource.sparql";
 	resourceUIPluginID = "org.emftext.language.sparql.resource.sparql.ui";
 	uiBasePackage = "org.emftext.language.sparql.resource.sparql.ui";
+	disableLaunchSupport = "true";
+	disableDebugSupport = "true";
 }
 
 TOKENS{

@@ -9,6 +9,8 @@ START SWRLDocument
 
 OPTIONS {
 	usePredefinedTokens = "false";
+	disableLaunchSupport = "true";
+	disableDebugSupport = "true";
 }
 
 TOKENS {
