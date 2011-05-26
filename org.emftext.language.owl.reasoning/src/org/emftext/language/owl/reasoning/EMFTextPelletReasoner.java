@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2006-2010 
+ * Copyright (c) 2006-2011
  * Software Technology Group, Dresden University of Technology
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * 
+ *
  * Contributors:
  *      - initial API and implementation
  ******************************************************************************/
@@ -57,7 +57,7 @@ public class EMFTextPelletReasoner implements
 		try {
 			// prepare infrastructure
 			PelletReasoner reasoner = loadOntology(owlRepresentation);
-			
+
 
 			// // derive inconsistent individuals
 
@@ -141,7 +141,7 @@ public class EMFTextPelletReasoner implements
 		if (owlRepresentation.equals(this.ontologyString)) {
 			return reasoner;
 		}
-		
+
 		this.ontologyString = owlRepresentation;
 		OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 		StringDocumentSource inputSource = new StringDocumentSource(
@@ -159,7 +159,7 @@ public class EMFTextPelletReasoner implements
 		OWLOntology ontology;
 		try {
 
-		
+
 			manager.addIRIMapper(new OWLOntologyIRIMapper() {
 
 				public IRI getDocumentIRI(IRI logicalUri) {
@@ -177,7 +177,7 @@ public class EMFTextPelletReasoner implements
 						String absoluteLocation = file.getLocation().toFile()
 								.toURI().toString();
 						URI absoluteURI = URI.create(absoluteLocation);
-					
+
 						return IRI.create(absoluteURI);
 					} else if (localURI.isFile()) {
 						URI absoluteURI = URI.create(localURI.toString());
@@ -187,7 +187,7 @@ public class EMFTextPelletReasoner implements
 				}
 			});
 			ontology = manager.loadOntologyFromOntologyDocument(inputSource);
-		
+
 			reasoner = PelletReasonerFactory.getInstance().createReasoner(
 					ontology);
 			reasoner.prepareReasoner();
@@ -225,7 +225,7 @@ public class EMFTextPelletReasoner implements
 		}
 		return superFrames;
 	}
-	
+
 //	public List<String> getAllSubframes(String owlRepresentation,
 //			String ontologyUri,
 //			String givenIri) throws ReasoningException {
@@ -252,6 +252,6 @@ public class EMFTextPelletReasoner implements
 //
 //		return subframes;
 //	}
-	
+
 
 }

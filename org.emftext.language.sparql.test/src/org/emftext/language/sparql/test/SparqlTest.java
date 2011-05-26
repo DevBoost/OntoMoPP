@@ -1,14 +1,14 @@
 /*******************************************************************************
- * Copyright (c) 2006-2010 
+ * Copyright (c) 2006-2011
  * Software Technology Group, Dresden University of Technology
- * 
+ *
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0 
+ * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
- *   Software Technology Group - TU Dresden, Germany 
+ *   Software Technology Group - TU Dresden, Germany
  *      - initial API and implementation
  ******************************************************************************/
 package org.emftext.language.sparql.test;
@@ -31,8 +31,8 @@ public class SparqlTest extends AbstractSparqlTestCase {
 	private static final String INPUT="input";
 	private int parsed;
 	private List<String> notParsed = new ArrayList<String>();
-	private static List<String> log = new ArrayList<String>(); 
-	
+	private static List<String> log = new ArrayList<String>();
+
 	@Override
 	public String getTestInputFolder() {
 		return USERDIR+INPUT+ File.separator;
@@ -42,8 +42,8 @@ public class SparqlTest extends AbstractSparqlTestCase {
 		parsed=0;
 		notParsed=new ArrayList<String>();
 	}
-	
-	private void testDirecory(File inputDir)throws Exception{		
+
+	private void testDirecory(File inputDir)throws Exception{
 		parseAllSubItems(inputDir);
 		int files=parsed+notParsed.size();
 		System.out.println("Dir: "+ inputDir.getAbsolutePath());
@@ -55,14 +55,14 @@ public class SparqlTest extends AbstractSparqlTestCase {
 		}
 		assertEquals("Not all Files parseable:", files, parsed);
 	}
-	
+
 	private void log(String string) {
 		SparqlTest.log.add(string);
 	}
-	
+
 	private void parseAllSubItems(File folder)throws Exception{
 		File[] allFiles = folder.listFiles();
-		
+
 		for (File next : allFiles) {
 			if (next.isFile() && next.getName().endsWith(".rq") && !next.getName().contains("syn-bad")){
 				//wrapFile(next);
@@ -75,48 +75,48 @@ public class SparqlTest extends AbstractSparqlTestCase {
 			}else if(next.isDirectory()) parseAllSubItems(next);
 		}
 	}
-	
+
 	//funktioniert nicht richtig da arq.qparse die JavaVM einfach beendet bei einem Fehler
 	//Dieser fehler laesst sich nicht abfangen
 	public void wrapFile(File file) throws Exception{
-		BufferedReader br;		
-		br = new BufferedReader(new FileReader(file));			
+		BufferedReader br;
+		br = new BufferedReader(new FileReader(file));
 		String content = "";
 		String input = "";
 		while((input = br.readLine()) != null) {
 			content += input + "\n";
 		}
-		String[] args = {content} ; 
-		
-		
+		String[] args = {content} ;
+
+
 		PrintStream old_ps = System.out;
 		ByteArrayOutputStream bout = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(bout));
-		
+
 		arq.qparse.main(args);
-		
+
 		System.setOut(old_ps);
 		String b = bout.toString().replace(" ", "").replace("\r", "").replace("\n", "");
 		String c = content.toString().replace(" ", "").replace("\n", "");
 		if (!b.equals(c)) System.out.println("Syntax errors in File "+file.getAbsolutePath());
 	}
-	
-	
-	
+
+
+
 	@Test
 	public void testHelloworld() throws Exception {
 		String typename = "hellowolrd";
 		String filename = typename + getFileExtension();
-		
+
 		wrapFile(new File(getTestInputFolder()+filename));
-		
+
 		/*SparqlQueries sQuer = */assertParsesToSparqlQueries(typename);
-		
-		
-	
+
+
+
 	}
-	
-	
+
+
     /*
 	@Test
 	public void testAllFilesOfTestcasesDawg() throws Exception{
@@ -243,7 +243,7 @@ public class SparqlTest extends AbstractSparqlTestCase {
 	public void testDAWG_type_promotion() throws Exception{
 		testDirecory(new File(getTestInputFolder()+ "testcases-dawg/data-r2/type-promotion/"));
 	}
-	
+
 	public void test_meta_EmptyLog() {
 		if (!log.isEmpty()) {
 			System.out.println(log.size() + " file(s) could not be parsed:");
@@ -251,9 +251,9 @@ public class SparqlTest extends AbstractSparqlTestCase {
 				System.out.println("\t" + logEntry);
 			}
 		}
-		
-		
+
+
 		assertTrue(SparqlTest.log.isEmpty());
 	}
-	
+
 }
