@@ -4,7 +4,6 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.Collections;
 
-import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -19,9 +18,9 @@ import org.emftext.language.owl.resource.owl.mopp.OwlResourceFactory;
 
 public class OWLParsingHelper {
 	static {
-		 Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap(
-	     ).put("owl", new OwlResourceFactory());
-	  
+		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(
+				"owl", new OwlResourceFactory());
+
 	}
 
 	public Description parseSubClassOf(String superClassDescription,
@@ -33,9 +32,10 @@ public class OWLParsingHelper {
 			InputStream inputStream = new ByteArrayInputStream(
 					toParse.getBytes());
 
-			ResourceSet resourceSet = resource.getResourceSet();
-			if (resourceSet == null)
-				resourceSet = new ResourceSetImpl();
+			ResourceSet resourceSet;
+			// = resource.getResourceSet();
+			// if (resourceSet == null)
+			resourceSet = new ResourceSetImpl();
 			URI tempUri = URI.createFileURI("_" + inputStream.hashCode())
 					.appendFileExtension("owl");
 			OwlResource res = (OwlResource) resourceSet.createResource(tempUri);
