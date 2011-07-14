@@ -11,7 +11,7 @@
  *   Software Technology Group - TU Dresden, Germany
  *   Institute for Web Science and Technologies - University Koblenz Landau, Germany
  *      - initial API and implementation
- ******************************************************************************
+ ******************************************************************************/
 package org.emftext.runtime.owltext.transformation;
 
 public enum Ecore2OwlOptions {
