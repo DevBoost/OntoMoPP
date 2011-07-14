@@ -8,6 +8,8 @@ START SWRLDocument
 //}
 
 OPTIONS {
+	licenceHeader ="../../org.dropsbox/licence.txt";
+	
 	usePredefinedTokens = "false";
 	disableLaunchSupport = "true";
 	disableDebugSupport = "true";
