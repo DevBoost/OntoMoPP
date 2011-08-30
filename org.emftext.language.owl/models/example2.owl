@@ -1,0 +1,31 @@
+Prefix: : <http://myBeleg.org/ontologies/test/schemas.owl#>
+
+Ontology: <http://myBeleg.org/ontologies/test/schemas.owl>
+
+	Class: NamedElement
+		SubClassOf: owl:Thing, 
+		name  exactly 1 xsd:string
+		 
+	Class: Table
+		SubClassOf: NamedElement
+		DisjointWith: Column
+		 
+	Class: Column
+		SubClassOf: NamedElement
+		DisjointWith: Table
+		
+	DataProperty: name
+		Domain: NamedElement
+		Range:  xsd:string 
+		Characteristics: Functional 
+
+	Class: Person
+ 	
+ 	DataProperty: hasJob
+ 		Domain: Person
+ 		Range: xsd:boolean
+ 
+ 	Individual: John
+		Types: Person
+ 		Facts: hasJob false, hasJob "false"^^xsd:boolean
+ 		
