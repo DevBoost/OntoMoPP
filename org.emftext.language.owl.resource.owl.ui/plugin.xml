@@ -32,6 +32,10 @@
 		</category>
 		<wizard category="org.emftext.runtime.ui.EMFTextFileCategory" icon="/icons/default_new_icon.gif" class="org.emftext.language.owl.resource.owl.ui.OwlNewFileWizard" id="org.emftext.language.owl.resource.owl.ui.OwlNewFileWizard" name="EMFText .owl file">
 		</wizard>
+		<category id="org.emftext.runtime.ui.EMFTextProjectCategory" name="EMFText Project">
+		</category>
+		<wizard category="org.emftext.runtime.ui.EMFTextProjectCategory" icon="/icons/default_new_icon.gif" class="org.emftext.language.owl.resource.owl.ui.OwlNewProjectWizard" id="org.emftext.language.owl.resource.owl.ui.OwlNewProjectWizard" name="EMFText owl project" project="true">
+		</wizard>
 	</extension>
 	
 	<extension point="org.eclipse.ui.ide.markerResolution">
