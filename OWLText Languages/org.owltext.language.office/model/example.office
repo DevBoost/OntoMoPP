@@ -5,9 +5,9 @@ officemodel ModelName {
 	office 2094
 	
 	employee Prof. Assmann
-		works in 2087
-		works with Roettger, Wende
- 
+		works in 2087 
+		works with Roettger
+		
  	employee Ph.D. Roettger
 		works in 2094 
 		works with Wende

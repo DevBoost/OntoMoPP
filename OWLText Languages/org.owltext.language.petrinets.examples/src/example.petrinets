@@ -8,4 +8,4 @@ petrinet "example" {
    	transition "t"
  
  	"t" -> "Start"
-} 
+}

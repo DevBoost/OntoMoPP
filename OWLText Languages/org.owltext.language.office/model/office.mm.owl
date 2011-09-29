@@ -58,9 +58,9 @@ Ontology: <http://emftext.org/office>
 			Range:  xsd:string 
 			
 		
-	DisjointClasses:  OfficeModel ,  OfficeElement 
-		
 	DisjointClasses:  Office ,  Employee 
+		
+	DisjointClasses:  OfficeElement ,  OfficeModel 
 		
 	Class: __c__Employee0_max_1_title 
 		Annotations: rdfs:comment "The maximal cardinality of \'1\' for attribute \'title\' is not satisfied." 
