@@ -1,0 +1,151 @@
+Prefix: xsd: <http://www.w3.org/2001/XMLSchema#> 
+Prefix: owl: <http://www.w3.org/2002/07/owl#> 
+Prefix: petrinets: <http://www.emftext.org/language/petrinets#> 
+Prefix: : <http://www.emftext.org/language/petrinets#> 
+Prefix: rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+Prefix: rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+Ontology: <http://www.emftext.org/language/petrinets> 
+	
+	Class: NameableElement 
+		SubClassOf:  owl:Thing 
+			
+		
+	Class: PetriNet 
+		SubClassOf:  NameableElement 
+			
+		
+	Class: Component 
+		SubClassOf:  NameableElement 
+			
+		
+	Class: Arc 
+		SubClassOf:  owl:Thing 
+			
+		
+	Class: ConsumingArc 
+		SubClassOf:  Arc 
+			
+		
+	Class: ProducingArc 
+		SubClassOf:  Arc 
+			
+		
+	Class: Place 
+		SubClassOf:  Component 
+			
+		
+	Class: Transition 
+		SubClassOf:  Component 
+			
+		
+	DataProperty: NameableElement_name 
+		Domain:  NameableElement 
+			Range:  xsd:string 
+			
+		
+	ObjectProperty: PetriNet_components 
+		Domain:  PetriNet 
+			Range:  Component 
+			
+		
+	ObjectProperty: PetriNet_arcs 
+		Domain:  PetriNet 
+			Range:  Arc 
+			
+		
+	ObjectProperty: Component_incoming 
+		Domain:  Component 
+			Range:  Arc 
+			InverseOf: Arc_out , Arc_out 
+			
+		
+	ObjectProperty: Component_outgoing 
+		Domain:  Component 
+			Range:  Arc 
+			InverseOf: Arc_in , Arc_in 
+			
+		
+	ObjectProperty: Arc_in 
+		Domain:  Arc 
+			Range:  Component 
+			InverseOf: Component_outgoing , Component_outgoing 
+			
+		
+	ObjectProperty: Arc_out 
+		Domain:  Arc 
+			Range:  Component 
+			InverseOf: Component_incoming , Component_incoming 
+			
+		
+	DisjointClasses:  ConsumingArc ,  ProducingArc 
+		
+	DisjointClasses:  Arc ,  NameableElement 
+		
+	DisjointClasses:  Place ,  Transition 
+		
+	DisjointClasses:  PetriNet ,  Component 
+		
+	Class: __c__NameableElement0_max_1_name 
+		Annotations: rdfs:comment "The maximal cardinality of \'1\' for attribute \'name\' is not satisfied." 
+			EquivalentTo:  NameableElement and not (  NameableElement_name max 1  xsd:string ) 
+			
+		
+	Class: __c__Component1_constraint_Compoments_need_to_be_named_ 
+		Annotations: rdfs:comment "Compoments need to be named." 
+			EquivalentTo:  Component and not (  (  (  NameableElement_name exactly 1  xsd:string ) ) ) 
+			
+		
+	Class: __c__Arc2_min_1_in 
+		Annotations: rdfs:comment "The minimal cardinality of \'1\' for reference \'in\' is not satisfied." 
+			EquivalentTo:  Arc and not (  Arc_in min 1  Component ) 
+			
+		
+	Class: __c__Arc3_max_1_in 
+		Annotations: rdfs:comment "The maximal cardinality of \'1\' for reference \'in\' is not satisfied." 
+			EquivalentTo:  Arc and not (  Arc_in max 1  Component ) 
+			
+		
+	Class: __c__Arc4_min_1_out 
+		Annotations: rdfs:comment "The minimal cardinality of \'1\' for reference \'out\' is not satisfied." 
+			EquivalentTo:  Arc and not (  Arc_out min 1  Component ) 
+			
+		
+	Class: __c__Arc5_max_1_out 
+		Annotations: rdfs:comment "The maximal cardinality of \'1\' for reference \'out\' is not satisfied." 
+			EquivalentTo:  Arc and not (  Arc_out max 1  Component ) 
+			
+		
+	Class: __c__Arc6_constraint_Arcs_need_to_be_either_consuming_or_producing_ 
+		Annotations: rdfs:comment "Arcs need to be either consuming or producing." 
+			EquivalentTo:  Arc and not (  (  (  Arc_in exactly 1  Transition and  Arc_out exactly 1  Place ) or  (  Arc_in exactly 1  Place and  Arc_out exactly 1  Transition ) ) ) 
+			
+		
+	Class: __c__ConsumingArc7_constraint_Consuming_Arcs_need_to_have_Places_as_input_ 
+		Annotations: rdfs:comment "Consuming Arcs need to have Places as input." 
+			EquivalentTo:  ConsumingArc and not (  (  (  Arc_in exactly 1  Place ) ) ) 
+			
+		
+	Class: __c__ConsumingArc8_constraint_Consuming_Arcs_need_to_have_Transitions_as_output_ 
+		Annotations: rdfs:comment "Consuming Arcs need to have Transitions as output." 
+			EquivalentTo:  ConsumingArc and not (  (  (  Arc_out exactly 1  Transition ) ) ) 
+			
+		
+	Class: __c__ProducingArc9_constraint_Producing_Arcs_need_to_have_Transitions_as_input_ 
+		Annotations: rdfs:comment "Producing Arcs need to have Transitions as input." 
+			EquivalentTo:  ProducingArc and not (  (  (  Arc_in exactly 1  Transition ) ) ) 
+			
+		
+	Class: __c__ProducingArc10_constraint_Producing_Arcs_need_to_have_Places_as_output_ 
+		Annotations: rdfs:comment "Producing Arcs need to have Places as output." 
+			EquivalentTo:  ProducingArc and not (  (  (  Arc_out exactly 1  Place ) ) ) 
+			
+		
+	Class: StartPlace 
+		EquivalentTo:  Place and  (  (  NameableElement_name value "Start" ) ) 
+			
+		
+	Class: __c__StartPlace11_constraint_A_Start_Place_is_not_allowed_to_have_incoming_Arcs_ 
+		Annotations: rdfs:comment "A Start Place is not allowed to have incoming Arcs." 
+			EquivalentTo:  StartPlace and not (  (  (  Component_incoming exactly 0  Arc ) ) ) 
+			
+		

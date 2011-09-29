@@ -1,0 +1,11 @@
+/* Invalid PetriNets as OWLText validation example*/
+petrinet "example" {
+	
+ 	place "dod" 
+ 	place "did" 
+ 	// invalid as start places are not allowed to have incoming arcs
+ 	place "Start"
+   	transition "t"
+ 
+ 	"t" -> "Start"
+} 
