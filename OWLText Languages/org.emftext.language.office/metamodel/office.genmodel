@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" copyrightText="Copyright (c) 2006-2011&#xA;Software Technology Group, Dresden University of Technology&#xA;&#xA;All rights reserved. This program and the accompanying materials&#xA;are made available under the terms of the Eclipse Public License v1.0 &#xA;which accompanies this distribution, and is available at&#xA;http://www.eclipse.org/legal/epl-v10.html&#xA;&#xA;Contributors:&#xA;  Software Technology Group - TU Dresden, Germany &#xA;     - initial API and implementation&#xA;"
+    modelDirectory="/org.emftext.language.office/src-gen" modelPluginID="org.emftext.language.office"
+    modelName="Office" rootExtendsClass="org.emftext.runtime.owltext.OWLTextEObjectImpl"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="5.0" copyrightFields="false">
+  <foreignModel>office.ecore</foreignModel>
+  <genPackages prefix="Office" basePackage="org.emftext.language" disposableProviderFactory="true"
+      ecorePackage="office.ecore#/">
+    <genClasses ecoreClass="office.ecore#//OfficeModel">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference office.ecore#//OfficeModel/elements"/>
+    </genClasses>
+    <genClasses ecoreClass="office.ecore#//Employee">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference office.ecore#//Employee/worksIn"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference office.ecore#//Employee/worksWith"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute office.ecore#//Employee/title"/>
+    </genClasses>
+    <genClasses ecoreClass="office.ecore#//Office">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference office.ecore#//Office/employees"/>
+    </genClasses>
+    <genClasses ecoreClass="office.ecore#//NamedElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute office.ecore#//NamedElement/name"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="office.ecore#//OfficeElement"/>
+  </genPackages>
+</genmodel:GenModel>

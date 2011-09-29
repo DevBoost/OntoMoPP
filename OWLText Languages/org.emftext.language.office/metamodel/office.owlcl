@@ -1,0 +1,17 @@
+import "./office.ecore"
+
+refinements: {
+ 	type ProfessorsOffice refines Office 
+ 		: Office_employees min 1 (Employee_title value "Prof.")
+ 	}
+
+ProfessorsOffice message "The professors office can  only be occupied by the professor alone."
+		: Office_employees max 1 Employee;
+						
+Employee message "A Ph.D. can't be without co-workers."
+		: not ( Employee_title value "Ph.D.") or
+		  ((Employee_title value "Ph.D.") and (Employee_worksWith min 1 Employee));
+		  
+Employee message "A professor can't be without a Ph.D. assistant."
+		: not ( Employee_title value "Prof.") or
+		  ((Employee_title value "Prof.") and (Employee_worksWith min 1 (Employee_title value "Ph.D." )));		  

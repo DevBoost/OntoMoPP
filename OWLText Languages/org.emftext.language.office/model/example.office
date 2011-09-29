@@ -1,0 +1,17 @@
+officemodel ModelName {
+	
+	office 2080
+	office 2087
+	office 2094
+	
+	employee Prof. Assmann
+		works in 2087
+		works with Roettger, Wende
+ 
+ 	employee Ph.D. Roettger
+		works in 2094 
+		works with Wende
+		
+	employee Wende
+		works in 2080	
+}

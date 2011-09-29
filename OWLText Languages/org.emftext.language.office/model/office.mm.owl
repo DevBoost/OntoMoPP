@@ -1,0 +1,103 @@
+Prefix: xsd: <http://www.w3.org/2001/XMLSchema#> 
+Prefix: owl: <http://www.w3.org/2002/07/owl#> 
+Prefix: office: <http://emftext.org/office#> 
+Prefix: : <http://emftext.org/office#> 
+Prefix: rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+Prefix: rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+Ontology: <http://emftext.org/office> 
+	
+	Class: OfficeModel 
+		SubClassOf:  NamedElement 
+			
+		
+	Class: Employee 
+		SubClassOf:  OfficeElement 
+			
+		
+	Class: Office 
+		SubClassOf:  OfficeElement 
+			
+		
+	Class: NamedElement 
+		SubClassOf:  owl:Thing 
+			
+		
+	Class: OfficeElement 
+		SubClassOf:  NamedElement 
+			
+		
+	ObjectProperty: OfficeModel_elements 
+		Domain:  OfficeModel 
+			Range:  OfficeElement 
+			
+		
+	ObjectProperty: Employee_worksIn 
+		Domain:  Employee 
+			Range:  Office 
+			InverseOf: Office_employees , Office_employees 
+			
+		
+	ObjectProperty: Employee_worksWith 
+		Domain:  Employee 
+			Range:  Employee 
+			
+		
+	DataProperty: Employee_title 
+		Domain:  Employee 
+			Range:  xsd:string 
+			
+		
+	ObjectProperty: Office_employees 
+		Domain:  Office 
+			Range:  Employee 
+			InverseOf: Employee_worksIn , Employee_worksIn 
+			
+		
+	DataProperty: NamedElement_name 
+		Domain:  NamedElement 
+			Range:  xsd:string 
+			
+		
+	DisjointClasses:  OfficeModel ,  OfficeElement 
+		
+	DisjointClasses:  Office ,  Employee 
+		
+	Class: __c__Employee0_max_1_title 
+		Annotations: rdfs:comment "The maximal cardinality of \'1\' for attribute \'title\' is not satisfied." 
+			EquivalentTo:  Employee and not (  Employee_title max 1  xsd:string ) 
+			
+		
+	Class: __c__Employee1_min_1_worksIn 
+		Annotations: rdfs:comment "The minimal cardinality of \'1\' for reference \'worksIn\' is not satisfied." 
+			EquivalentTo:  Employee and not (  Employee_worksIn min 1  Office ) 
+			
+		
+	Class: __c__Employee2_max_1_worksIn 
+		Annotations: rdfs:comment "The maximal cardinality of \'1\' for reference \'worksIn\' is not satisfied." 
+			EquivalentTo:  Employee and not (  Employee_worksIn max 1  Office ) 
+			
+		
+	Class: __c__Employee3_constraint_A_Ph_D__can_t_be_without_co-workers_ 
+		Annotations: rdfs:comment "A Ph.D. can\'t be without co-workers." 
+			EquivalentTo:  Employee and not (  ( not (  Employee_title value "Ph.D." ) or  (  (  Employee_title value "Ph.D." ) and  (  Employee_worksWith min 1  Employee ) ) ) ) 
+			
+		
+	Class: __c__Employee4_constraint_A_professor_can_t_be_without_a_Ph_D__assistant_ 
+		Annotations: rdfs:comment "A professor can\'t be without a Ph.D. assistant." 
+			EquivalentTo:  Employee and not (  ( not (  Employee_title value "Prof." ) or  (  (  Employee_title value "Prof." ) and  (  Employee_worksWith min 1  (  Employee_title value "Ph.D." ) ) ) ) ) 
+			
+		
+	Class: ProfessorsOffice 
+		EquivalentTo:  Office and  (  Office_employees min 1  (  Employee_title value "Prof." ) ) 
+			
+		
+	Class: __c__ProfessorsOffice5_constraint_The_professors_office_can__only_be_occupied_by_the_professor_alone_ 
+		Annotations: rdfs:comment "The professors office can  only be occupied by the professor alone." 
+			EquivalentTo:  ProfessorsOffice and not (  (  Office_employees max 1  Employee ) ) 
+			
+		
+	Class: __c__NamedElement6_max_1_name 
+		Annotations: rdfs:comment "The maximal cardinality of \'1\' for attribute \'name\' is not satisfied." 
+			EquivalentTo:  NamedElement and not (  NamedElement_name max 1  xsd:string ) 
+			
+		
