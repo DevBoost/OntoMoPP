@@ -13,7 +13,7 @@
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
             uri="http://www.emftext.org/language/requirements"
-            class="org.emftext.language.requirements.RequirementsPackage"
+            class="org.owltext.language.requirements.RequirementsPackage"
             genModel="metamodel/requirements.genmodel"/>
    </extension>
 

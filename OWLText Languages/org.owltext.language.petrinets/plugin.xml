@@ -13,7 +13,7 @@
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
             uri="http://www.emftext.org/language/petrinets"
-            class="org.emftext.language.petrinets.PetrinetsPackage"
+            class="org.owltext.language.petrinets.PetrinetsPackage"
             genModel="metamodel/petrinets.genmodel"/>
    </extension>
 

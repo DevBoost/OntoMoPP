@@ -2,83 +2,83 @@
 <?eclipse version="3.2"?>
 <plugin>
 	<extension point="org.emftext.access.syntax.ui">
-		<metaInformationProvider class="org.emftext.language.petrinets.resource.petrinets.ui.PetrinetsUIMetaInformation" id="org.emftext.language.petrinets.resource.petrinets.ui.PetrinetsUIMetaInformation">
+		<metaInformationProvider class="org.owltext.language.petrinets.resource.petrinets.ui.PetrinetsUIMetaInformation" id="org.owltext.language.petrinets.resource.petrinets.ui.PetrinetsUIMetaInformation">
 		</metaInformationProvider>
 	</extension>
 	
 	<extension point="org.eclipse.ui.editors">
-		<editor class="org.emftext.language.petrinets.resource.petrinets.ui.PetrinetsEditor" contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor" extensions="petrinets" icon="icons/editor_icon.gif" id="org.emftext.language.petrinets.resource.petrinets.ui.PetrinetsEditor" name="EMFText petrinets Editor">
-			<contentTypeBinding contentTypeId="org.emftext.language.petrinets.resource.petrinets">
+		<editor class="org.owltext.language.petrinets.resource.petrinets.ui.PetrinetsEditor" contributorClass="org.eclipse.ui.texteditor.BasicTextEditorActionContributor" extensions="petrinets" icon="icons/editor_icon.gif" id="org.owltext.language.petrinets.resource.petrinets.ui.PetrinetsEditor" name="EMFText petrinets Editor">
+			<contentTypeBinding contentTypeId="org.owltext.language.petrinets.resource.petrinets">
 			</contentTypeBinding>
 		</editor>
 	</extension>
 	
 	<extension point="org.eclipse.core.runtime.preferences">
-		<initializer class="org.emftext.language.petrinets.resource.petrinets.ui.PetrinetsPreferenceInitializer">
+		<initializer class="org.owltext.language.petrinets.resource.petrinets.ui.PetrinetsPreferenceInitializer">
 		</initializer>
 	</extension>
 	
 	<extension point="org.eclipse.ui.preferencePages">
-		<page name="Petrinets Text Editor" id="org.emftext.language.petrinets.resource.petrinets.ui.PetrinetsPreferencePage" class="org.emftext.language.petrinets.resource.petrinets.ui.PetrinetsPreferencePage" category="org.eclipse.ui.preferencePages.GeneralTextEditor">
+		<page name="Petrinets Text Editor" id="org.owltext.language.petrinets.resource.petrinets.ui.PetrinetsPreferencePage" class="org.owltext.language.petrinets.resource.petrinets.ui.PetrinetsPreferencePage" category="org.eclipse.ui.preferencePages.GeneralTextEditor">
 		</page>
-		<page name="Syntax Coloring" id="org.emftext.language.petrinets.resource.petrinets.ui.PetrinetsSyntaxColoringPreferencePage" class="org.emftext.language.petrinets.resource.petrinets.ui.PetrinetsSyntaxColoringPreferencePage" category="org.emftext.language.petrinets.resource.petrinets.ui.PetrinetsPreferencePage">
+		<page name="Syntax Coloring" id="org.owltext.language.petrinets.resource.petrinets.ui.PetrinetsSyntaxColoringPreferencePage" class="org.owltext.language.petrinets.resource.petrinets.ui.PetrinetsSyntaxColoringPreferencePage" category="org.owltext.language.petrinets.resource.petrinets.ui.PetrinetsPreferencePage">
 		</page>
-		<page name="Brackets" id="org.emftext.language.petrinets.resource.petrinets.ui.PetrinetsBracketPreferencePage" class="org.emftext.language.petrinets.resource.petrinets.ui.PetrinetsBracketPreferencePage" category="org.emftext.language.petrinets.resource.petrinets.ui.PetrinetsPreferencePage">
+		<page name="Brackets" id="org.owltext.language.petrinets.resource.petrinets.ui.PetrinetsBracketPreferencePage" class="org.owltext.language.petrinets.resource.petrinets.ui.PetrinetsBracketPreferencePage" category="org.owltext.language.petrinets.resource.petrinets.ui.PetrinetsPreferencePage">
 		</page>
 	</extension>
 	
 	<extension point="org.eclipse.ui.newWizards">
 		<category id="org.emftext.runtime.ui.EMFTextFileCategory" name="EMFText File">
 		</category>
-		<wizard category="org.emftext.runtime.ui.EMFTextFileCategory" icon="/icons/default_new_icon.gif" class="org.emftext.language.petrinets.resource.petrinets.ui.PetrinetsNewFileWizard" id="org.emftext.language.petrinets.resource.petrinets.ui.PetrinetsNewFileWizard" name="EMFText .petrinets file">
+		<wizard category="org.emftext.runtime.ui.EMFTextFileCategory" icon="/icons/default_new_icon.gif" class="org.owltext.language.petrinets.resource.petrinets.ui.PetrinetsNewFileWizard" id="org.owltext.language.petrinets.resource.petrinets.ui.PetrinetsNewFileWizard" name="EMFText .petrinets file">
 		</wizard>
 		<category id="org.emftext.runtime.ui.EMFTextProjectCategory" name="EMFText Project">
 		</category>
-		<wizard category="org.emftext.runtime.ui.EMFTextProjectCategory" icon="/icons/default_new_icon.gif" class="org.emftext.language.petrinets.resource.petrinets.ui.PetrinetsNewProjectWizard" id="org.emftext.language.petrinets.resource.petrinets.ui.PetrinetsNewProjectWizard" name="EMFText petrinets project" project="true">
+		<wizard category="org.emftext.runtime.ui.EMFTextProjectCategory" icon="/icons/default_new_icon.gif" class="org.owltext.language.petrinets.resource.petrinets.ui.PetrinetsNewProjectWizard" id="org.owltext.language.petrinets.resource.petrinets.ui.PetrinetsNewProjectWizard" name="EMFText petrinets project" project="true">
 		</wizard>
 	</extension>
 	
 	<extension point="org.eclipse.ui.ide.markerResolution">
-		<markerResolutionGenerator class="org.emftext.language.petrinets.resource.petrinets.ui.PetrinetsMarkerResolutionGenerator" markerType="org.emftext.language.petrinets.resource.petrinets.problem">
+		<markerResolutionGenerator class="org.owltext.language.petrinets.resource.petrinets.ui.PetrinetsMarkerResolutionGenerator" markerType="org.owltext.language.petrinets.resource.petrinets.problem">
 		</markerResolutionGenerator>
 	</extension>
 	
 	<extension point="org.eclipse.core.filebuffers.annotationModelCreation">
-		<factory class="org.emftext.language.petrinets.resource.petrinets.ui.PetrinetsAnnotationModelFactory" extensions="petrinets">
+		<factory class="org.owltext.language.petrinets.resource.petrinets.ui.PetrinetsAnnotationModelFactory" extensions="petrinets">
 		</factory>
 	</extension>
 	
 	<extension point="org.eclipse.core.contenttype.contentTypes">
-		<content-type id="org.emftext.language.petrinets.resource.petrinets" name=".petrinets File" base-type="org.eclipse.core.runtime.text" file-extensions="petrinets">
+		<content-type id="org.owltext.language.petrinets.resource.petrinets" name=".petrinets File" base-type="org.eclipse.core.runtime.text" file-extensions="petrinets">
 		</content-type>
 	</extension>
 	
 	<extension point="org.eclipse.ui.editors.documentProviders">
-		<provider class="org.eclipse.ui.editors.text.TextFileDocumentProvider" extensions="petrinets" id="org.emftext.language.petrinets.resource.petrinets.ui.provider">
+		<provider class="org.eclipse.ui.editors.text.TextFileDocumentProvider" extensions="petrinets" id="org.owltext.language.petrinets.resource.petrinets.ui.provider">
 		</provider>
 	</extension>
 	
 	<extension point="org.eclipse.ui.editors.annotationTypes">
-		<type name="org.emftext.language.petrinets.resource.petrinets.ui.occurences">
+		<type name="org.owltext.language.petrinets.resource.petrinets.ui.occurences">
 		</type>
-		<type name="org.emftext.language.petrinets.resource.petrinets.ui.occurences.declaration" super="org.emftext.language.petrinets.resource.petrinets.ui.occurences">
+		<type name="org.owltext.language.petrinets.resource.petrinets.ui.occurences.declaration" super="org.owltext.language.petrinets.resource.petrinets.ui.occurences">
 		</type>
 	</extension>
 	
 	<extension point="org.eclipse.ui.editors.markerAnnotationSpecification">
-		<specification annotationType="org.emftext.language.petrinets.resource.petrinets.ui.occurences" label="Occurrences (in .petrinets files)" icon="/icons/occurrence_icon.gif" textPreferenceKey="petrinets.occurrenceIndication" textPreferenceValue="false" highlightPreferenceKey="petrinets.occurrenceHighlighting" highlightPreferenceValue="true" contributesToHeader="false" overviewRulerPreferenceKey="petrinets.occurrenceIndicationInOverviewRuler" overviewRulerPreferenceValue="true" verticalRulerPreferenceKey="petrinets.occurrenceIndicationInVerticalRuler" verticalRulerPreferenceValue="false" colorPreferenceKey="petrinets.occurrenceIndicationColor" colorPreferenceValue="212,212,212" presentationLayer="4" showInNextPrevDropdownToolbarActionKey="petrinets.showOccurrenceInNextPrevDropdownToolbarAction" showInNextPrevDropdownToolbarAction="true" isGoToNextNavigationTargetKey="petrinets.isOccurrenceGoToNextNavigationTarget" isGoToNextNavigationTarget="false" isGoToPreviousNavigationTargetKey="petrinets.isOccurrenceGoToPreviousNavigationTarget" isGoToPreviousNavigationTarget="false" textStylePreferenceKey="petrinets.occurrenceTextStyle" textStylePreferenceValue="NONE">
+		<specification annotationType="org.owltext.language.petrinets.resource.petrinets.ui.occurences" label="Occurrences (in .petrinets files)" icon="/icons/occurrence_icon.gif" textPreferenceKey="petrinets.occurrenceIndication" textPreferenceValue="false" highlightPreferenceKey="petrinets.occurrenceHighlighting" highlightPreferenceValue="true" contributesToHeader="false" overviewRulerPreferenceKey="petrinets.occurrenceIndicationInOverviewRuler" overviewRulerPreferenceValue="true" verticalRulerPreferenceKey="petrinets.occurrenceIndicationInVerticalRuler" verticalRulerPreferenceValue="false" colorPreferenceKey="petrinets.occurrenceIndicationColor" colorPreferenceValue="212,212,212" presentationLayer="4" showInNextPrevDropdownToolbarActionKey="petrinets.showOccurrenceInNextPrevDropdownToolbarAction" showInNextPrevDropdownToolbarAction="true" isGoToNextNavigationTargetKey="petrinets.isOccurrenceGoToNextNavigationTarget" isGoToNextNavigationTarget="false" isGoToPreviousNavigationTargetKey="petrinets.isOccurrenceGoToPreviousNavigationTarget" isGoToPreviousNavigationTarget="false" textStylePreferenceKey="petrinets.occurrenceTextStyle" textStylePreferenceValue="NONE">
 		</specification>
-		<specification annotationType="org.emftext.language.petrinets.resource.petrinets.ui.occurences.declaration" label="Declarations (in .petrinets files)" textPreferenceKey="petrinets.declarationIndication" textPreferenceValue="false" highlightPreferenceKey="petrinets.declarationHighlighting" highlightPreferenceValue="true" overviewRulerPreferenceKey="petrinets.declarationIndicationInOverviewRuler" overviewRulerPreferenceValue="true" verticalRulerPreferenceKey="petrinets.declarationIndicationInVerticalRuler" verticalRulerPreferenceValue="false" colorPreferenceKey="petrinets.declarationIndicationColor" colorPreferenceValue="240,216,168" presentationLayer="4" textStylePreferenceKey="petrinets.declarationTextStyle" textStylePreferenceValue="NONE">
+		<specification annotationType="org.owltext.language.petrinets.resource.petrinets.ui.occurences.declaration" label="Declarations (in .petrinets files)" textPreferenceKey="petrinets.declarationIndication" textPreferenceValue="false" highlightPreferenceKey="petrinets.declarationHighlighting" highlightPreferenceValue="true" overviewRulerPreferenceKey="petrinets.declarationIndicationInOverviewRuler" overviewRulerPreferenceValue="true" verticalRulerPreferenceKey="petrinets.declarationIndicationInVerticalRuler" verticalRulerPreferenceValue="false" colorPreferenceKey="petrinets.declarationIndicationColor" colorPreferenceValue="240,216,168" presentationLayer="4" textStylePreferenceKey="petrinets.declarationTextStyle" textStylePreferenceValue="NONE">
 		</specification>
 	</extension>
 	
 	<extension point="org.eclipse.debug.ui.launchConfigurationTypeImages">
-		<launchConfigurationTypeImage icon="/icons/launch_type_icon.gif" configTypeID="org.emftext.language.petrinets.resource.petrinets.ui.launchConfigurationType" id="org.emftext.language.petrinets.launchImage">
+		<launchConfigurationTypeImage icon="/icons/launch_type_icon.gif" configTypeID="org.owltext.language.petrinets.resource.petrinets.ui.launchConfigurationType" id="org.owltext.language.petrinets.launchImage">
 		</launchConfigurationTypeImage>
 	</extension>
 	
 	<extension point="org.eclipse.debug.ui.launchConfigurationTabGroups">
-		<launchConfigurationTabGroup type="org.emftext.language.petrinets.resource.petrinets.ui.launchConfigurationType" class="org.emftext.language.petrinets.resource.petrinets.ui.launch.PetrinetsLaunchConfigurationTabGroup" id="org.emftext.language.petrinets.launchConfigurationTabGroup" helpContextId="org.emftext.language.petrinets.launchConfigHelpContext">
+		<launchConfigurationTabGroup type="org.owltext.language.petrinets.resource.petrinets.ui.launchConfigurationType" class="org.owltext.language.petrinets.resource.petrinets.ui.launch.PetrinetsLaunchConfigurationTabGroup" id="org.owltext.language.petrinets.launchConfigurationTabGroup" helpContextId="org.owltext.language.petrinets.launchConfigHelpContext">
 			<launchMode mode="debug" perspective="org.eclipse.debug.ui.DebugPerspective" description="Debug petrinets model.">
 			</launchMode>
 			<launchMode mode="run" description="Run petrinets model.">
@@ -87,7 +87,7 @@
 	</extension>
 	
 	<extension point="org.eclipse.debug.ui.launchShortcuts">
-		<shortcut label="petrinets Application" icon="/icons/launch_shortcut_icon.gif" helpContextId="org.emftext.language.petrinets.launch" modes="run,debug" class="org.emftext.language.petrinets.resource.petrinets.ui.launch.PetrinetsLaunchShortcut" description="Launch a petrinets model" id="org.emftext.language.petrinets.launchShortcut">
+		<shortcut label="petrinets Application" icon="/icons/launch_shortcut_icon.gif" helpContextId="org.owltext.language.petrinets.launch" modes="run,debug" class="org.owltext.language.petrinets.resource.petrinets.ui.launch.PetrinetsLaunchShortcut" description="Launch a petrinets model" id="org.owltext.language.petrinets.launchShortcut">
 			<description description="Run petrinets model" mode="run">
 			</description>
 			<description description="Debug petrinets model" mode="debug">
@@ -98,63 +98,63 @@
 						<count value="1">
 						</count>
 						<iterate>
-							<test property="org.emftext.language.petrinets.isLaunchable">
+							<test property="org.owltext.language.petrinets.isLaunchable">
 							</test>
 						</iterate>
 					</with>
 				</enablement>
 			</contextualLaunch>
-			<configurationType id="org.emftext.language.petrinets.resource.petrinets.ui.launchConfigurationType">
+			<configurationType id="org.owltext.language.petrinets.resource.petrinets.ui.launchConfigurationType">
 			</configurationType>
 		</shortcut>
 	</extension>
 	
 	<extension point="org.eclipse.core.expressions.propertyTesters">
-		<propertyTester id="org.emftext.language.petrinets.PropertyTester" type="java.lang.Object" namespace="org.emftext.language.petrinets" properties="isLaunchable" class="org.emftext.language.petrinets.resource.petrinets.ui.PetrinetsPropertyTester">
+		<propertyTester id="org.owltext.language.petrinets.PropertyTester" type="java.lang.Object" namespace="org.owltext.language.petrinets" properties="isLaunchable" class="org.owltext.language.petrinets.resource.petrinets.ui.PetrinetsPropertyTester">
 		</propertyTester>
 	</extension>
 	
 	<extension point="org.eclipse.ui.editors.annotationTypes">
-		<type name="org.emftext.language.petrinets.resource.petrinets.ui.debug.lineBreakpoint" markerType="org.emftext.language.petrinets.resource.petrinets.debug.lineBreakpoint.marker" super="org.eclipse.debug.core.breakpoint">
+		<type name="org.owltext.language.petrinets.resource.petrinets.ui.debug.lineBreakpoint" markerType="org.owltext.language.petrinets.resource.petrinets.debug.lineBreakpoint.marker" super="org.eclipse.debug.core.breakpoint">
 		</type>
 	</extension>
 	
 	<extension point="org.eclipse.ui.editors.markerAnnotationSpecification">
-		<specification annotationType="org.emftext.language.petrinets.resource.petrinets.ui.debug.lineBreakpoint" label="Breakpoints (in .petrinets files)" icon="/icons/breakpoint_icon.gif" textPreferenceKey="org.emftext.language.petrinets.resource.petrinets.ui.lineBreakpoint" textPreferenceValue="false" highlightPreferenceKey="org.emftext.language.petrinets.resource.petrinets.ui.lineBreakpointHighlighting" highlightPreferenceValue="true" contributesToHeader="false" overviewRulerPreferenceKey="org.emftext.language.petrinets.resource.petrinets.ui.lineBreakpointIndicationInOverviewRuler" overviewRulerPreferenceValue="true" verticalRulerPreferenceKey="org.emftext.language.petrinets.resource.petrinets.ui.lineBreakpointIndicationInVerticalRuler" verticalRulerPreferenceValue="false" colorPreferenceKey="org.emftext.language.petrinets.resource.petrinets.ui.lineBreakpointColor" colorPreferenceValue="212,212,212" presentationLayer="4" showInNextPrevDropdownToolbarActionKey="org.emftext.language.petrinets.resource.petrinets.ui.showLineBreakpointInNextPrevDropdownToolbarAction" showInNextPrevDropdownToolbarAction="true" isGoToNextNavigationTargetKey="org.emftext.language.petrinets.resource.petrinets.ui.isLineBreakpointGoToNextNavigationTarget" isGoToNextNavigationTarget="false" isGoToPreviousNavigationTargetKey="org.emftext.language.petrinets.resource.petrinets.ui.isLineBreakpointGoToPreviousNavigationTarget" isGoToPreviousNavigationTarget="false" textStylePreferenceKey="org.emftext.language.petrinets.resource.petrinets.ui.lineBreakpointTextStyle" textStylePreferenceValue="NONE">
+		<specification annotationType="org.owltext.language.petrinets.resource.petrinets.ui.debug.lineBreakpoint" label="Breakpoints (in .petrinets files)" icon="/icons/breakpoint_icon.gif" textPreferenceKey="org.owltext.language.petrinets.resource.petrinets.ui.lineBreakpoint" textPreferenceValue="false" highlightPreferenceKey="org.owltext.language.petrinets.resource.petrinets.ui.lineBreakpointHighlighting" highlightPreferenceValue="true" contributesToHeader="false" overviewRulerPreferenceKey="org.owltext.language.petrinets.resource.petrinets.ui.lineBreakpointIndicationInOverviewRuler" overviewRulerPreferenceValue="true" verticalRulerPreferenceKey="org.owltext.language.petrinets.resource.petrinets.ui.lineBreakpointIndicationInVerticalRuler" verticalRulerPreferenceValue="false" colorPreferenceKey="org.owltext.language.petrinets.resource.petrinets.ui.lineBreakpointColor" colorPreferenceValue="212,212,212" presentationLayer="4" showInNextPrevDropdownToolbarActionKey="org.owltext.language.petrinets.resource.petrinets.ui.showLineBreakpointInNextPrevDropdownToolbarAction" showInNextPrevDropdownToolbarAction="true" isGoToNextNavigationTargetKey="org.owltext.language.petrinets.resource.petrinets.ui.isLineBreakpointGoToNextNavigationTarget" isGoToNextNavigationTarget="false" isGoToPreviousNavigationTargetKey="org.owltext.language.petrinets.resource.petrinets.ui.isLineBreakpointGoToPreviousNavigationTarget" isGoToPreviousNavigationTarget="false" textStylePreferenceKey="org.owltext.language.petrinets.resource.petrinets.ui.lineBreakpointTextStyle" textStylePreferenceValue="NONE">
 		</specification>
 	</extension>
 	
 	<extension point="org.eclipse.core.runtime.adapters">
-		<factory adaptableType="org.emftext.language.petrinets.resource.petrinets.ui.PetrinetsEditor" class="org.emftext.language.petrinets.resource.petrinets.ui.debug.PetrinetsAdapterFactory">
+		<factory adaptableType="org.owltext.language.petrinets.resource.petrinets.ui.PetrinetsEditor" class="org.owltext.language.petrinets.resource.petrinets.ui.debug.PetrinetsAdapterFactory">
 			<adapter type="org.eclipse.debug.ui.actions.IToggleBreakpointsTarget">
 			</adapter>
 		</factory>
-		<factory adaptableType="org.emftext.language.petrinets.resource.petrinets.debug.PetrinetsDebugVariable" class="org.emftext.language.petrinets.resource.petrinets.ui.debug.PetrinetsAdapterFactory">
+		<factory adaptableType="org.owltext.language.petrinets.resource.petrinets.debug.PetrinetsDebugVariable" class="org.owltext.language.petrinets.resource.petrinets.ui.debug.PetrinetsAdapterFactory">
 			<adapter type="org.eclipse.debug.internal.ui.viewers.model.provisional.IElementLabelProvider">
 			</adapter>
 		</factory>
-		<factory adaptableType="org.emftext.language.petrinets.resource.petrinets.debug.PetrinetsDebugVariable" class="org.emftext.language.petrinets.resource.petrinets.ui.debug.PetrinetsAdapterFactory">
+		<factory adaptableType="org.owltext.language.petrinets.resource.petrinets.debug.PetrinetsDebugVariable" class="org.owltext.language.petrinets.resource.petrinets.ui.debug.PetrinetsAdapterFactory">
 			<adapter type="org.eclipse.debug.internal.ui.viewers.model.provisional.IElementContentProvider">
 			</adapter>
 		</factory>
 	</extension>
 	
 	<extension point="org.eclipse.ui.popupMenus">
-		<viewerContribution id="org.emftext.language.petrinets.resource.petrinets.ui.RulerPopupActions" targetID="org.emftext.language.petrinets.resource.petrinets.EditorRuler">
-			<action id="org.emftext.language.petrinets.resource.petrinets.ui.toggleBreakpointAction" icon="icons/breakpoint_icon.gif" label="Toggle Breakpoint" class="org.eclipse.debug.ui.actions.RulerToggleBreakpointActionDelegate" menubarPath="debug">
+		<viewerContribution id="org.owltext.language.petrinets.resource.petrinets.ui.RulerPopupActions" targetID="org.owltext.language.petrinets.resource.petrinets.EditorRuler">
+			<action id="org.owltext.language.petrinets.resource.petrinets.ui.toggleBreakpointAction" icon="icons/breakpoint_icon.gif" label="Toggle Breakpoint" class="org.eclipse.debug.ui.actions.RulerToggleBreakpointActionDelegate" menubarPath="debug">
 			</action>
 		</viewerContribution>
 	</extension>
 	
 	<extension point="org.eclipse.ui.editorActions">
-		<editorContribution targetID="org.emftext.language.petrinets.resource.petrinets.ui.PetrinetsEditor" id="org.emftext.language.petrinets.resource.petrinets.ui.BreakpointRulerActions">
-			<action id="org.emftext.language.petrinets.resource.petrinets.ui.debug.RulerToggleBreakpointAction" label="Add breakpoint" class="org.eclipse.debug.ui.actions.RulerToggleBreakpointActionDelegate" actionID="RulerDoubleClick">
+		<editorContribution targetID="org.owltext.language.petrinets.resource.petrinets.ui.PetrinetsEditor" id="org.owltext.language.petrinets.resource.petrinets.ui.BreakpointRulerActions">
+			<action id="org.owltext.language.petrinets.resource.petrinets.ui.debug.RulerToggleBreakpointAction" label="Add breakpoint" class="org.eclipse.debug.ui.actions.RulerToggleBreakpointActionDelegate" actionID="RulerDoubleClick">
 			</action>
 		</editorContribution>
 	</extension>
 	
 	<extension point="org.eclipse.debug.ui.debugModelPresentations">
-		<debugModelPresentation id="org.emftext.language.petrinets.resource.petrinets.debugModel" class="org.emftext.language.petrinets.resource.petrinets.ui.debug.PetrinetsDebugModelPresentation">
+		<debugModelPresentation id="org.owltext.language.petrinets.resource.petrinets.debugModel" class="org.owltext.language.petrinets.resource.petrinets.ui.debug.PetrinetsDebugModelPresentation">
 		</debugModelPresentation>
 	</extension>
 	

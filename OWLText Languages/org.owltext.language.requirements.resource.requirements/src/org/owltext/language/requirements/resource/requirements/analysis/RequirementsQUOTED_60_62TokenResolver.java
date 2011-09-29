@@ -11,18 +11,22 @@
  *   Software Technology Group - TU Dresden, Germany
  *      - initial API and implementation
  ******************************************************************************/
-package org.emftext.language.requirements.resource.requirements.analysis;
+package org.owltext.language.requirements.resource.requirements.analysis;
 
-public class RequirementsTEXTTokenResolver implements org.emftext.language.requirements.resource.requirements.IRequirementsTokenResolver {
+public class RequirementsQUOTED_60_62TokenResolver implements org.owltext.language.requirements.resource.requirements.IRequirementsTokenResolver {
 	
-	private org.emftext.language.requirements.resource.requirements.analysis.RequirementsDefaultTokenResolver defaultTokenResolver = new org.emftext.language.requirements.resource.requirements.analysis.RequirementsDefaultTokenResolver();
+	private org.owltext.language.requirements.resource.requirements.analysis.RequirementsDefaultTokenResolver defaultTokenResolver = new org.owltext.language.requirements.resource.requirements.analysis.RequirementsDefaultTokenResolver();
 	
 	public String deResolve(Object value, org.eclipse.emf.ecore.EStructuralFeature feature, org.eclipse.emf.ecore.EObject container) {
 		String result = defaultTokenResolver.deResolve(value, feature, container);
+		result += ">";
+		result = "<" + result;
 		return result;
 	}
 	
-	public void resolve(String lexem, org.eclipse.emf.ecore.EStructuralFeature feature, org.emftext.language.requirements.resource.requirements.IRequirementsTokenResolveResult result) {
+	public void resolve(String lexem, org.eclipse.emf.ecore.EStructuralFeature feature, org.owltext.language.requirements.resource.requirements.IRequirementsTokenResolveResult result) {
+		lexem = lexem.substring(1);
+		lexem = lexem.substring(0, lexem.length() - 1);
 		defaultTokenResolver.resolve(lexem, feature, result);
 	}
 	

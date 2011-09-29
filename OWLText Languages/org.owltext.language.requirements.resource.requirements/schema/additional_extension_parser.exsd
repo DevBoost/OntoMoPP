@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<schema targetNamespace="org.emftext.language.requirements.resource.requirements" xmlns="http://www.w3.org/2001/XMLSchema">
+<schema targetNamespace="org.owltext.language.requirements.resource.requirements" xmlns="http://www.w3.org/2001/XMLSchema">
 	<annotation>
 		<appinfo>
-			<meta.schema plugin="org.emftext.language.requirements.resource.requirements" id="org.emftext.language.requirements.resource.requirements.additional_extension_parser" name="Additional Extension Parser"/>
+			<meta.schema plugin="org.owltext.language.requirements.resource.requirements" id="org.owltext.language.requirements.resource.requirements.additional_extension_parser" name="Additional Extension Parser"/>
 		</appinfo>
 		<documentation>
 			This extension point can be used to add another parser for 'requirements' files.		</documentation>
