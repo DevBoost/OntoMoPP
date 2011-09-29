@@ -13,8 +13,6 @@
  ******************************************************************************/
 package org.owltext.language.requirements.resource.requirements.mopp;
 
-import java.security.acl.Owner;
-
 import org.emftext.runtime.owltext.OWLTextValidationMarker;
 
 public class RequirementsBuilder implements org.owltext.language.requirements.resource.requirements.IRequirementsBuilder {
