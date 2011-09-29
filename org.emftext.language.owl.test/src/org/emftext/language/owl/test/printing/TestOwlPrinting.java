@@ -28,8 +28,11 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.emftext.language.owl.Class;
 import org.emftext.language.owl.ClassAtomic;
+import org.emftext.language.owl.FeatureReference;
 import org.emftext.language.owl.Namespace;
+import org.emftext.language.owl.NestedDescription;
 import org.emftext.language.owl.ObjectProperty;
+import org.emftext.language.owl.ObjectPropertyMax;
 import org.emftext.language.owl.Ontology;
 import org.emftext.language.owl.OntologyDocument;
 import org.emftext.language.owl.OwlFactory;
@@ -72,9 +75,21 @@ public class TestOwlPrinting {
 		employeeIdDomain.setIri("EmployeeIdDomain");
 		o.getFrames().add(employeeIdDomain);
 		
+		
 		ObjectProperty id = owlFactory.createObjectProperty();
 		id.setIri("id");
 		o.getFrames().add(id);
+		
+		
+		ObjectPropertyMax objectPropertyMax = owlFactory.createObjectPropertyMax();
+		objectPropertyMax.setValue(5);
+		FeatureReference featureRef = owlFactory.createFeatureReference();
+		featureRef.setFeature(id);
+		objectPropertyMax.setFeatureReference(featureRef );
+		NestedDescription nestedDescription = owlFactory.createNestedDescription();
+		nestedDescription.setNot(true);
+		nestedDescription.setDescription(objectPropertyMax);
+		employeeIdDomain.getSuperClassesDescriptions().add(nestedDescription);
 		
 		ClassAtomic eca = owlFactory.createClassAtomic();
 		eca.setClazz(employee);
