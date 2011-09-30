@@ -3,9 +3,9 @@ petrinet "example" {
 	
  	place "dod" 
  	place "did" 
- 	// invalid as start places are not allowed to have incoming arcs
  	place "Start"
    	transition "t"
  
+ 	// introduces invalidity as start places are not allowed to have incoming arcs
  	"t" -> "Start"
 }

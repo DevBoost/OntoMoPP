@@ -77,13 +77,13 @@ Ontology: <http://www.emftext.org/language/petrinets>
 			InverseOf: Component_incoming , Component_incoming 
 			
 		
-	DisjointClasses:  ProducingArc ,  ConsumingArc 
-		
-	DisjointClasses:  Arc ,  NameableElement 
-		
 	DisjointClasses:  PetriNet ,  Component 
 		
 	DisjointClasses:  Place ,  Transition 
+		
+	DisjointClasses:  NameableElement ,  Arc 
+		
+	DisjointClasses:  ConsumingArc ,  ProducingArc 
 		
 	Class: __c__NameableElement0_max_1_name 
 		Annotations: rdfs:comment "The maximal cardinality of \'1\' for attribute \'name\' is not satisfied." 

@@ -10,7 +10,7 @@ petrinet "example" {
  	place "g place"
  	
 	transition "a transition" 
-	transition "b transition" 
+	transition "b transition"  
 	transition "c transition" 
 	transition "d transition" 
 	transition "e transition"  

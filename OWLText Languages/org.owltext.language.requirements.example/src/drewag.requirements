@@ -10,12 +10,12 @@ customer "DREWAG - Stadtwerke Dresden GmbH
 	    for
 	 private and business customers)
 	 
-Requirements {
+Requirements { 
 	PK10 : data_private_customers
 	+++ priority
 	(For private customers the following data needs to be managed:
 	name, address, customer id, energy contract type, 
-	retrieved energy)
+	retrieved energy) 
 
 	PK20 : private_customers_update_address [uiAction]
 	+++ priority
@@ -29,7 +29,7 @@ Requirements {
 	PK40 : energy_contract_update [strom, uiAction]
 	++ priority
 	(private customers need to change their energy contract type)
-	//related to [process_contract_update]
+	// related to [process_contract_update] 
 	
 	
 	GK10 : data_business_customers 
