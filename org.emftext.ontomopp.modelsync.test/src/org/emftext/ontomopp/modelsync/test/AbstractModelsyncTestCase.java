@@ -48,7 +48,7 @@ import aterm.ATermAppl;
 
 import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
 
-public abstract class AbstractModelsyncTest {
+public abstract class AbstractModelsyncTestCase {
 
 	public static final String NS = "test://mapping#";
 	protected OWLOntologyManager manager;

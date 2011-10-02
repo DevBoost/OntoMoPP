@@ -45,7 +45,7 @@ import org.semanticweb.owlapi.vocab.SWRLBuiltInsVocabulary;
  * A test case for the ontology-based model synchronization algorithm that was
  * developed by Federico Rieckhof.
  */
-public class ModelsyncTest extends AbstractModelsyncTest {
+public class ModelsyncTest extends AbstractModelsyncTestCase {
 
     @Test
 	public void testUpperOntology() {
