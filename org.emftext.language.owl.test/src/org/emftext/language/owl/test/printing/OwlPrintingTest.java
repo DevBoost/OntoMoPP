@@ -39,9 +39,9 @@ import org.emftext.language.owl.impl.OwlFactoryImpl;
 import org.emftext.language.owl.resource.owl.mopp.OwlResource;
 import org.junit.Test;
 
-public class TestOwlPrinting {
+public class OwlPrintingTest {
 
-	public TestOwlPrinting() {
+	public OwlPrintingTest() {
 		registerFactories();
 	}
 
