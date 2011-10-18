@@ -6,6 +6,8 @@
  */
 package org.emftext.language.owl.resource.owl.analysis;
 
+import org.eclipse.emf.ecore.util.EcoreUtil;
+
 
 public class OwlDefaultResolverDelegate<ContainerType extends org.eclipse.emf.ecore.EObject, ReferenceType extends org.eclipse.emf.ecore.EObject> {
 	
@@ -20,7 +22,7 @@ public class OwlDefaultResolverDelegate<ContainerType extends org.eclipse.emf.ec
 		if (!resolveFuzzy && result.wasResolved()) return;
 		try {
 			org.eclipse.emf.ecore.EClass type = reference.getEReferenceType();
-			org.eclipse.emf.ecore.EObject root = org.emftext.language.owl.resource.owl.util.OwlEObjectUtil.findRootContainer(container);
+			org.eclipse.emf.ecore.EObject root = EcoreUtil.getRootContainer(container);
 			// first check whether the root element matches
 			boolean continueSearch = checkElement(root, type, identifier, resolveFuzzy, true, result);
 			if (!continueSearch) {

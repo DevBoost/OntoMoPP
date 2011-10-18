@@ -18,19 +18,14 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Map;
 
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.emftext.language.owl.Class;
 import org.emftext.language.owl.ClassAtomic;
 import org.emftext.language.owl.Conjunction;
 import org.emftext.language.owl.Disjunction;
 import org.emftext.language.owl.Ontology;
 import org.emftext.language.owl.OntologyDocument;
-import org.emftext.language.owl.OwlFactory;
 import org.emftext.language.owl.OwlPackage;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,11 +33,13 @@ import org.junit.Test;
 public class OWLModelComparatorTest {
 
 	private ModelComparator modelComparator;
+	
 	private void registerFactories() {
 		EPackage.Registry.INSTANCE.put(OwlPackage.eNS_URI, OwlPackage.eINSTANCE);
 		Map<String, Object> extensionToFactoryMap = Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap();
 		extensionToFactoryMap.put("owl",new org.emftext.language.owl.resource.owl.mopp.OwlResourceFactory());
 	}
+	
 	@Before
 	public void setUp() {
 		modelComparator = new ModelComparator();

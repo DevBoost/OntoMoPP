@@ -172,7 +172,7 @@ public class CrossResourceIRIResolver {
 				return entity;
 			}
 		}
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 
 	public String getPrefix(String identifier) {

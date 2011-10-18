@@ -13,13 +13,11 @@
  ******************************************************************************/
 package org.emftext.language.owl.test.printing;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
-
-import javax.print.attribute.standard.MediaSize.Other;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
@@ -42,9 +40,8 @@ import org.emftext.language.owl.resource.owl.mopp.OwlResource;
 import org.junit.Test;
 
 public class TestOwlPrinting {
-	
 
-	public TestOwlPrinting(){
+	public TestOwlPrinting() {
 		registerFactories();
 	}
 
@@ -112,6 +109,5 @@ public class TestOwlPrinting {
 		assertTrue(reloadedResource.getContents().size() == 1);
 		assertTrue(reloadedResource instanceof OwlResource);
 		assertTrue(((OwlResource) reloadedResource).getErrors().size() == 0);
-		
 	}
 }
