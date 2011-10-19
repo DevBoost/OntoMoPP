@@ -79,7 +79,7 @@ Ontology: <http://www.emftext.org/language/petrinets>
 		
 	DisjointClasses:  PetriNet ,  Component 
 		
-	DisjointClasses:  Place ,  Transition 
+	DisjointClasses:  Transition ,  Place 
 		
 	DisjointClasses:  NameableElement ,  Arc 
 		

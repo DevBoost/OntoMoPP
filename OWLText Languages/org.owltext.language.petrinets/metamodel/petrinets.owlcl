@@ -7,7 +7,7 @@ refinements: {
 StartPlace message "A Start Place is not allowed to have incoming Arcs."
 	: (Component_incoming exactly 0 Arc);
 	
-Component message "Compoments need to be named."
+Component message "Components need to be named."
 	: (NameableElement_name exactly 1 xsd:string ) ;
 	
 Arc message "Arcs need to be either consuming or producing."

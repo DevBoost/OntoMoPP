@@ -12,7 +12,7 @@ package petrinets // this is the package name
 		containment reference Arc arcs (0..-1);
 	}
 
-	@"OWL_CONSTRAINT"("Compoments need to be named."=" (  NameableElement_name exactly 1  xsd:string ) ")
+	@"OWL_CONSTRAINT"("Components need to be named."=" (  NameableElement_name exactly 1  xsd:string ) ")
 
 	abstract class Component extends NameableElement {
 		reference Arc incoming (0..-1) opposite out; 
