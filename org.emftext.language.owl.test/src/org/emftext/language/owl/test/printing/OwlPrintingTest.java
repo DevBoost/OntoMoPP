@@ -35,6 +35,7 @@ import org.emftext.language.owl.Ontology;
 import org.emftext.language.owl.OntologyDocument;
 import org.emftext.language.owl.OwlFactory;
 import org.emftext.language.owl.OwlPackage;
+import org.emftext.language.owl.Primary;
 import org.emftext.language.owl.impl.OwlFactoryImpl;
 import org.emftext.language.owl.resource.owl.mopp.OwlResource;
 import org.junit.Test;
@@ -80,13 +81,16 @@ public class OwlPrintingTest {
 		
 		ObjectPropertyMax objectPropertyMax = owlFactory.createObjectPropertyMax();
 		objectPropertyMax.setValue(5);
+		ClassAtomic clazzRef = OwlFactory.eINSTANCE.createClassAtomic();
+		clazzRef.setClazz(employeeIdDomain);
+		objectPropertyMax.setPrimary(clazzRef );
 		FeatureReference featureRef = owlFactory.createFeatureReference();
 		featureRef.setFeature(id);
 		objectPropertyMax.setFeatureReference(featureRef );
 		NestedDescription nestedDescription = owlFactory.createNestedDescription();
 		nestedDescription.setNot(true);
 		nestedDescription.setDescription(objectPropertyMax);
-		employeeIdDomain.getSuperClassesDescriptions().add(nestedDescription);
+		employee.getSuperClassesDescriptions().add(nestedDescription);
 		
 		ClassAtomic eca = owlFactory.createClassAtomic();
 		eca.setClazz(employee);
@@ -97,7 +101,7 @@ public class OwlPrintingTest {
 		id.getDomain().add(eidd);
 		
 		ResourceSet rs = new ResourceSetImpl();
-		URI uri = URI.createURI("./src/printingTest.owl");
+		URI uri = URI.createURI("./out/printingTest.owl");
 		Resource newResource = rs.createResource(uri);
 		newResource.getContents().add(od);
 		
