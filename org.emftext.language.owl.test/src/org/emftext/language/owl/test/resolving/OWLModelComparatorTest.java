@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.emftext.language.owl.Class;
 import org.emftext.language.owl.ClassAtomic;
 import org.emftext.language.owl.Conjunction;
@@ -38,6 +39,7 @@ public class OWLModelComparatorTest {
 		EPackage.Registry.INSTANCE.put(OwlPackage.eNS_URI, OwlPackage.eINSTANCE);
 		Map<String, Object> extensionToFactoryMap = Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap();
 		extensionToFactoryMap.put("owl",new org.emftext.language.owl.resource.owl.mopp.OwlResourceFactory());
+		extensionToFactoryMap.put("xmi", new XMIResourceFactoryImpl());
 	}
 	
 	@Before
