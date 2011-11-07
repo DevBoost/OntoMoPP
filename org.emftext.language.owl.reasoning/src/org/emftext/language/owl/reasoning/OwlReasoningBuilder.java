@@ -40,6 +40,7 @@ import org.emftext.language.owl.resource.owl.OwlEProblemSeverity;
 import org.emftext.language.owl.resource.owl.OwlEProblemType;
 import org.emftext.language.owl.resource.owl.mopp.OwlBuilderAdapter;
 import org.emftext.language.owl.resource.owl.mopp.OwlMarkerHelper;
+import org.emftext.language.owl.resource.owl.mopp.OwlPlugin;
 import org.emftext.language.owl.resource.owl.mopp.OwlResource;
 import org.emftext.language.owl.resource.owl.util.OwlStreamUtil;
 
@@ -53,12 +54,18 @@ public class OwlReasoningBuilder extends IncrementalProjectBuilder implements
 		this.reasoner = new EMFTextPelletReasoner();
 	}
 
-	@SuppressWarnings("rawtypes")
 	@Override
-	protected IProject[] build(int kind, Map args, IProgressMonitor monitor)
+	protected IProject[] build(int kind, Map<String, String> args, IProgressMonitor monitor)
 			throws CoreException {
-		OwlBuilderAdapter adapter = new OwlBuilderAdapter();
-		return adapter.build(kind, args, monitor, this, getProject());
+		
+		OwlBuilderAdapter adapter = new OwlBuilderAdapter() {
+			
+			@Override
+			public IOwlBuilder getBuilder() {
+				return OwlReasoningBuilder.this;
+			}
+		};
+		return adapter.build(kind, args, monitor);
 	}
 
 	public IStatus build(OwlResource resource, IProgressMonitor monitor) {
@@ -71,11 +78,9 @@ public class OwlReasoningBuilder extends IncrementalProjectBuilder implements
 			validateOWL(content, resource);
 			mark(resource);
 		} catch (CoreException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			OwlPlugin.logError("Exception while reasoning over OWL file.", e);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			OwlPlugin.logError("Exception while reasoning over OWL file.", e);
 		}
 		return Status.OK_STATUS;
 	}
@@ -155,8 +160,7 @@ public class OwlReasoningBuilder extends IncrementalProjectBuilder implements
 				}
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			OwlPlugin.logError("Exception while reasoning over OWL file.", e);
 		}
 	}
 
