@@ -35,7 +35,6 @@ import org.emftext.language.owl.Ontology;
 import org.emftext.language.owl.OntologyDocument;
 import org.emftext.language.owl.OwlFactory;
 import org.emftext.language.owl.OwlPackage;
-import org.emftext.language.owl.Primary;
 import org.emftext.language.owl.impl.OwlFactoryImpl;
 import org.emftext.language.owl.resource.owl.mopp.OwlResource;
 import org.junit.Test;
