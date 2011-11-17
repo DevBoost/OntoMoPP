@@ -25,3 +25,4 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.emftext.language.owl.resource.owl.ui
 Bundle-Activator: org.emftext.language.owl.resource.owl.ui.OwlUIPlugin
+Import-Package: org.eclipse.ui.texteditor.spelling
