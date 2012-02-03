@@ -1,9 +1,16 @@
-/**
- * <copyright>
- * </copyright>
+/*******************************************************************************
+ * Copyright (c) 2006-2012
+ * Software Technology Group, Dresden University of Technology
  *
- * 
- */
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   Software Technology Group - TU Dresden, Germany
+ *      - initial API and implementation
+ ******************************************************************************/
 package org.emftext.language.owlcl.resource.owlcl.mopp;
 
 import java.io.IOException;
@@ -11,8 +18,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -21,20 +31,17 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import org.emftext.language.owlcl.Constraint;
 import org.emftext.language.owlcl.OWLCLSpec;
 import org.emftext.language.owlcl.Type;
+import org.emftext.language.owlcl.resource.owlcl.IOwlclBuilder;
 import org.emftext.runtime.owltext.OWLTextEObjectPrinter;
 import org.emftext.runtime.owltext.transformation.OWLTransformationConstants;
 
+public class OwlclBuilder implements IOwlclBuilder {
 
-public class OwlclBuilder implements
-		org.emftext.language.owlcl.resource.owlcl.IOwlclBuilder {
-
-	public boolean isBuildingNeeded(org.eclipse.emf.common.util.URI uri) {
+	public boolean isBuildingNeeded(URI uri) {
 		return true;
 	}
 
-	public org.eclipse.core.runtime.IStatus build(
-			org.emftext.language.owlcl.resource.owlcl.mopp.OwlclResource resource,
-			org.eclipse.core.runtime.IProgressMonitor monitor) {
+	public IStatus build(OwlclResource resource, IProgressMonitor monitor) {
 		if (resource.getErrors().size() > 0) {
 			return Status.OK_STATUS;
 		}
@@ -107,4 +114,7 @@ public class OwlclBuilder implements
 		}
 	}
 
+	public IStatus handleDeletion(URI uri, IProgressMonitor monitor) {
+		return Status.OK_STATUS;
+	}
 }
