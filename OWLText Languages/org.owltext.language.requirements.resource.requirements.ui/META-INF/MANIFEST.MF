@@ -22,6 +22,6 @@ Require-Bundle: org.eclipse.core.resources,
   org.emftext.commons.antlr3_4_0,
   org.owltext.language.requirements
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.owltext.language.requirements.resource.requirements.ui
 Bundle-Activator: org.owltext.language.requirements.resource.requirements.ui.RequirementsUIPlugin

@@ -12,5 +12,5 @@ Require-Bundle: org.eclipse.core.runtime,
  org.emftext.language.owl.reasoning,
  org.emftext.access
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.emftext.runtime.owltext
