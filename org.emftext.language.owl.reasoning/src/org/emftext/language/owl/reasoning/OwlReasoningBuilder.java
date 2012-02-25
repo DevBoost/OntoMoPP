@@ -69,7 +69,7 @@ public class OwlReasoningBuilder extends IncrementalProjectBuilder implements
 	}
 
 	public IStatus build(OwlResource resource, IProgressMonitor monitor) {
-		OwlMarkerHelper.unmark(resource, OwlEProblemType.BUILDER_ERROR);
+		new OwlMarkerHelper().unmark(resource, OwlEProblemType.BUILDER_ERROR);
 		IFile file = WorkspaceSynchronizer.getFile(resource);
 		InputStream stream;
 		try {
@@ -93,7 +93,7 @@ public class OwlReasoningBuilder extends IncrementalProjectBuilder implements
 	private void mark(OwlResource resource, EList<Diagnostic> diagnostics) {
 		for (Diagnostic diagnostic : diagnostics) {
 			if (diagnostic instanceof IOwlTextDiagnostic) {
-				OwlMarkerHelper.mark(resource, (IOwlTextDiagnostic) diagnostic);
+				new OwlMarkerHelper().mark(resource, (IOwlTextDiagnostic) diagnostic);
 			}
 		}
 	}
