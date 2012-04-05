@@ -1,31 +1,24 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<genmodel:GenModel xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
-    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.owltext.language.petrinets/src-gen"
-    editDirectory="/org.owltext.language.petrinets.edit/src-gen" editorDirectory="/org.owltext.language.petrinets.editor/src-gen"
-    modelPluginID="org.owltext.language.petrinets" modelName="Petrinets" rootExtendsClass="org.emftext.runtime.owltext.OWLTextEObjectImpl"
-    importerID="org.eclipse.emf.importer.ecore" complianceLevel="5.0" copyrightFields="false">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><genmodel:GenModel xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xmi="http://www.omg.org/XMI" complianceLevel="5.0" copyrightFields="false" copyrightText="/*******************************************************************************&#10; * Copyright (c) 2006-2012&#10; * Software Technology Group, Dresden University of Technology&#10; * DevBoost GmbH, Berlin, Amtsgericht Charlottenburg, HRB 140026&#10; *&#10; * All rights reserved. This program and the accompanying materials&#10; * are made available under the terms of the Eclipse Public License v1.0&#10; * which accompanies this distribution, and is available at&#10; * http://www.eclipse.org/legal/epl-v10.html&#10; *&#10; * Contributors:&#10; *   Software Technology Group - TU Dresden, Germany;&#10; *   DevBoost GmbH - Berlin, Germany&#10; *      - initial API and implementation&#10; ******************************************************************************/&#10;" editDirectory="/org.owltext.language.petrinets.edit/src-gen" editorDirectory="/org.owltext.language.petrinets.editor/src-gen" importerID="org.eclipse.emf.importer.ecore" modelDirectory="/org.owltext.language.petrinets/src-gen" modelName="Petrinets" modelPluginID="org.owltext.language.petrinets" rootExtendsClass="org.emftext.runtime.owltext.OWLTextEObjectImpl" xmi:version="2.0">
   <foreignModel>petrinets.text.ecore</foreignModel>
-  <genPackages prefix="Petrinets" basePackage="org.owltext.language" disposableProviderFactory="true"
-      ecorePackage="petrinets.text.ecore#/">
-    <genClasses image="false" ecoreClass="petrinets.text.ecore#//NameableElement">
+  <genPackages basePackage="org.owltext.language" disposableProviderFactory="true" ecorePackage="petrinets.text.ecore#/" prefix="Petrinets">
+    <genClasses ecoreClass="petrinets.text.ecore#//NameableElement" image="false">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute petrinets.text.ecore#//NameableElement/name"/>
     </genClasses>
     <genClasses ecoreClass="petrinets.text.ecore#//PetriNet">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//PetriNet/components"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//PetriNet/arcs"/>
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//PetriNet/components" property="None"/>
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//PetriNet/arcs" property="None"/>
     </genClasses>
-    <genClasses image="false" ecoreClass="petrinets.text.ecore#//Component">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//Component/incoming"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//Component/outgoing"/>
+    <genClasses ecoreClass="petrinets.text.ecore#//Component" image="false">
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference petrinets.text.ecore#//Component/incoming" notify="false" propertySortChoices="true"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference petrinets.text.ecore#//Component/outgoing" notify="false" propertySortChoices="true"/>
     </genClasses>
     <genClasses ecoreClass="petrinets.text.ecore#//Arc">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//Arc/in"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference petrinets.text.ecore#//Arc/out"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference petrinets.text.ecore#//Arc/in" notify="false" propertySortChoices="true"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference petrinets.text.ecore#//Arc/out" notify="false" propertySortChoices="true"/>
     </genClasses>
     <genClasses ecoreClass="petrinets.text.ecore#//ConsumingArc"/>
     <genClasses ecoreClass="petrinets.text.ecore#//ProducingArc"/>
-    <genClasses image="false" ecoreClass="petrinets.text.ecore#//Place"/>
+    <genClasses ecoreClass="petrinets.text.ecore#//Place" image="false"/>
     <genClasses ecoreClass="petrinets.text.ecore#//Transition"/>
   </genPackages>
 </genmodel:GenModel>
