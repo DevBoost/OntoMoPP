@@ -3,6 +3,8 @@ FOR <http://org.owltext/feature>
 START MandatoryFeature, OptionalFeature
 
 OPTIONS {
+	licenceHeader ="../../org.dropsbox/licence.txt";
+	
 	resourcePluginID="org.emftext.runtime.owltext.test";
 	resourceUIPluginID="org.emftext.runtime.owltext.ui.test";
 	overrideManifest="false";
