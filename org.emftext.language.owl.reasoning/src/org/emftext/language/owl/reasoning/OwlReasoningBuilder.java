@@ -21,8 +21,6 @@ import java.util.Collection;
 import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -46,7 +44,7 @@ import org.emftext.language.owl.resource.owl.mopp.OwlPlugin;
 import org.emftext.language.owl.resource.owl.mopp.OwlResource;
 import org.emftext.language.owl.resource.owl.util.OwlStreamUtil;
 
-public class OwlReasoningBuilder extends IncrementalProjectBuilder implements
+public class OwlReasoningBuilder extends OwlBuilderAdapter implements
 		IOwlBuilder {
 
 	private EMFTextOWLReasoner reasoner;
@@ -54,37 +52,6 @@ public class OwlReasoningBuilder extends IncrementalProjectBuilder implements
 	public OwlReasoningBuilder() {
 		super();
 		this.reasoner = new EMFTextPelletReasoner();
-	}
-
-	@Override
-	protected IProject[] build(int kind, Map<String, String> args, IProgressMonitor monitor)
-			throws CoreException {
-		
-		OwlBuilderAdapter adapter = new OwlBuilderAdapter() {
-			
-			@Override
-			public IOwlBuilder getBuilder() {
-				return OwlReasoningBuilder.this;
-			}
-		};
-		return adapter.build(kind, args, monitor);
-	}
-
-	public IStatus build(OwlResource resource, IProgressMonitor monitor) {
-		new OwlMarkerHelper().unmark(resource, OwlEProblemType.BUILDER_ERROR);
-		IFile file = WorkspaceSynchronizer.getFile(resource);
-		InputStream stream;
-		try {
-			stream = file.getContents();
-			String content = OwlStreamUtil.getContent(stream);
-			validateOWL(content, resource);
-			mark(resource);
-		} catch (CoreException e) {
-			OwlPlugin.logError("Exception while reasoning over OWL file.", e);
-		} catch (IOException e) {
-			OwlPlugin.logError("Exception while reasoning over OWL file.", e);
-		}
-		return Status.OK_STATUS;
 	}
 
 	private void mark(OwlResource resource) {
@@ -95,7 +62,8 @@ public class OwlReasoningBuilder extends IncrementalProjectBuilder implements
 	private void mark(OwlResource resource, EList<Diagnostic> diagnostics) {
 		for (Diagnostic diagnostic : diagnostics) {
 			if (diagnostic instanceof IOwlTextDiagnostic) {
-				new OwlMarkerHelper().mark(resource, (IOwlTextDiagnostic) diagnostic);
+				new OwlMarkerHelper().mark(resource,
+						(IOwlTextDiagnostic) diagnostic);
 			}
 		}
 	}
@@ -173,4 +141,26 @@ public class OwlReasoningBuilder extends IncrementalProjectBuilder implements
 	public IStatus handleDeletion(URI uri, IProgressMonitor monitor) {
 		return Status.OK_STATUS;
 	}
+
+	public IOwlBuilder getBuilder() {
+		return OwlReasoningBuilder.this;
+	}
+
+	public IStatus build(OwlResource resource, IProgressMonitor monitor) {
+		new OwlMarkerHelper().unmark(resource, OwlEProblemType.BUILDER_ERROR);
+		IFile file = WorkspaceSynchronizer.getFile(resource);
+		InputStream stream;
+		try {
+			stream = file.getContents();
+			String content = OwlStreamUtil.getContent(stream);
+			validateOWL(content, resource);
+			mark(resource);
+		} catch (CoreException e) {
+			OwlPlugin.logError("Exception while reasoning over OWL file.", e);
+		} catch (IOException e) {
+			OwlPlugin.logError("Exception while reasoning over OWL file.", e);
+		}
+		return Status.OK_STATUS;
+	}
+
 }
