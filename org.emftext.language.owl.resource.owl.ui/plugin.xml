@@ -72,4 +72,26 @@
 		</specification>
 	</extension>
 	
+	<extension point="org.eclipse.ui.commands">
+		<category description="All commands belonging to Owl" id="org.emftext.language.owl.resource.owl.ui.command.category" name="Owl">
+		</category>
+		<command categoryId="org.emftext.language.owl.resource.owl.ui.command.category" description="Toggle comment of the selected lines" id="org.emftext.language.owl.resource.owl.ui.command.togglecomment" name="Toggle Comment">
+		</command>
+	</extension>
+	
+	<extension point="org.eclipse.ui.handlers">
+		<handler class="org.emftext.language.owl.resource.owl.ui.OwlToggleCommentHandler" commandId="org.emftext.language.owl.resource.owl.ui.command.togglecomment">
+		</handler>
+	</extension>
+	
+	<extension point="org.eclipse.ui.contexts">
+		<context name="Editing Owl Files" description="Editing Owl Files Context" parentId="org.eclipse.ui.textEditorScope" id="org.emftext.language.owl.resource.owl.EditorScope">
+		</context>
+	</extension>
+	
+	<extension point="org.eclipse.ui.bindings">
+		<key sequence="M1+7" commandId="org.emftext.language.owl.resource.owl.ui.command.togglecomment" schemeId="org.eclipse.ui.defaultAcceleratorConfiguration" contextId="org.emftext.language.owl.resource.owl.EditorScope">
+		</key>
+	</extension>
+	
 </plugin>
