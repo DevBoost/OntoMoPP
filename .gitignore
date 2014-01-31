@@ -1,2 +1,7 @@
 *.DS_Store
 bin/
+/org.emftext.language.owl.edit/icons/
+
+src-gen/
+
+/org.emftext.language.owl.test/out/
