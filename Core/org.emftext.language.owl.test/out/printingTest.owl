@@ -1,0 +1,16 @@
+Prefix: : <http://owl/printing.test#>
+Ontology: <http://owl/printing.test>
+	Class: Employee
+		
+		SubClassOf: not ( id max 5 EmployeeIdDomain )
+	
+	
+	Class: EmployeeIdDomain
+	
+	
+	ObjectProperty: id
+				
+				Domain: EmployeeIdDomain
+				
+				
+				Range: Employee 
