@@ -1,246 +1,246 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><genmodel:GenModel xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xmi="http://www.omg.org/XMI" complianceLevel="5.0" copyrightFields="false" copyrightText="Copyright (c) 2006-2012&#10;Software Technology Group, Dresden University of Technology&#10;DevBoost GmbH, Berlin, Amtsgericht Charlottenburg, HRB 140026&#10;&#10;All rights reserved. This program and the accompanying materials&#10;are made available under the terms of the Eclipse Public License v1.0&#10;which accompanies this distribution, and is available at&#10;http://www.eclipse.org/legal/epl-v10.html&#10;&#10;Contributors:&#10;  Software Technology Group - TU Dresden, Germany;&#10;  DevBoost GmbH - Berlin, Germany&#10;     - initial API and implementation&#10; " editDirectory="/org.emftext.language.owl.edit/src-gen" editorDirectory="/org.emftext.language.owl.editor/src-gen" importerID="org.eclipse.emf.importer.ecore" modelDirectory="/org.emftext.language.owl/src-gen" modelName="Owl" modelPluginID="org.emftext.language.owl" testsDirectory="/org.emftext.language.owl.tests/src-gen" xmi:version="2.0">
-  <foreignModel>owl.text.ecore</foreignModel>
-  <genPackages basePackage="org.emftext.language" disposableProviderFactory="true" ecorePackage="owl.text.ecore#/" prefix="Owl">
-    <genEnums ecoreEnum="owl.text.ecore#//FacetType" typeSafeEnumCompatible="false">
-      <genEnumLiterals ecoreEnumLiteral="owl.text.ecore#//FacetType/LENGTH"/>
-      <genEnumLiterals ecoreEnumLiteral="owl.text.ecore#//FacetType/MIN_LENGTH"/>
-      <genEnumLiterals ecoreEnumLiteral="owl.text.ecore#//FacetType/MAX_LENGTH"/>
-      <genEnumLiterals ecoreEnumLiteral="owl.text.ecore#//FacetType/PATTERN"/>
-      <genEnumLiterals ecoreEnumLiteral="owl.text.ecore#//FacetType/LANG_PATTERN"/>
-      <genEnumLiterals ecoreEnumLiteral="owl.text.ecore#//FacetType/LESS_EQUALS"/>
-      <genEnumLiterals ecoreEnumLiteral="owl.text.ecore#//FacetType/LESS"/>
-      <genEnumLiterals ecoreEnumLiteral="owl.text.ecore#//FacetType/GREATER"/>
-      <genEnumLiterals ecoreEnumLiteral="owl.text.ecore#//FacetType/GREATER_EQUALS"/>
+  <foreignModel>owl.ecore</foreignModel>
+  <genPackages basePackage="org.emftext.language" disposableProviderFactory="true" ecorePackage="owl.ecore#/" prefix="Owl">
+    <genEnums ecoreEnum="owl.ecore#//FacetType" typeSafeEnumCompatible="false">
+      <genEnumLiterals ecoreEnumLiteral="owl.ecore#//FacetType/LENGTH"/>
+      <genEnumLiterals ecoreEnumLiteral="owl.ecore#//FacetType/MIN_LENGTH"/>
+      <genEnumLiterals ecoreEnumLiteral="owl.ecore#//FacetType/MAX_LENGTH"/>
+      <genEnumLiterals ecoreEnumLiteral="owl.ecore#//FacetType/PATTERN"/>
+      <genEnumLiterals ecoreEnumLiteral="owl.ecore#//FacetType/LANG_PATTERN"/>
+      <genEnumLiterals ecoreEnumLiteral="owl.ecore#//FacetType/LESS_EQUALS"/>
+      <genEnumLiterals ecoreEnumLiteral="owl.ecore#//FacetType/LESS"/>
+      <genEnumLiterals ecoreEnumLiteral="owl.ecore#//FacetType/GREATER"/>
+      <genEnumLiterals ecoreEnumLiteral="owl.ecore#//FacetType/GREATER_EQUALS"/>
     </genEnums>
-    <genEnums ecoreEnum="owl.text.ecore#//Characteristic" typeSafeEnumCompatible="false">
-      <genEnumLiterals ecoreEnumLiteral="owl.text.ecore#//Characteristic/FUNCTIONAL"/>
-      <genEnumLiterals ecoreEnumLiteral="owl.text.ecore#//Characteristic/INVERSE_FUNCTIONAL"/>
-      <genEnumLiterals ecoreEnumLiteral="owl.text.ecore#//Characteristic/REFLEXIVE"/>
-      <genEnumLiterals ecoreEnumLiteral="owl.text.ecore#//Characteristic/IRREFLEXIVE"/>
-      <genEnumLiterals ecoreEnumLiteral="owl.text.ecore#//Characteristic/SYMETRIC"/>
-      <genEnumLiterals ecoreEnumLiteral="owl.text.ecore#//Characteristic/ASYMETRIC"/>
-      <genEnumLiterals ecoreEnumLiteral="owl.text.ecore#//Characteristic/TRANSITIVE"/>
+    <genEnums ecoreEnum="owl.ecore#//Characteristic" typeSafeEnumCompatible="false">
+      <genEnumLiterals ecoreEnumLiteral="owl.ecore#//Characteristic/FUNCTIONAL"/>
+      <genEnumLiterals ecoreEnumLiteral="owl.ecore#//Characteristic/INVERSE_FUNCTIONAL"/>
+      <genEnumLiterals ecoreEnumLiteral="owl.ecore#//Characteristic/REFLEXIVE"/>
+      <genEnumLiterals ecoreEnumLiteral="owl.ecore#//Characteristic/IRREFLEXIVE"/>
+      <genEnumLiterals ecoreEnumLiteral="owl.ecore#//Characteristic/SYMETRIC"/>
+      <genEnumLiterals ecoreEnumLiteral="owl.ecore#//Characteristic/ASYMETRIC"/>
+      <genEnumLiterals ecoreEnumLiteral="owl.ecore#//Characteristic/TRANSITIVE"/>
     </genEnums>
-    <genClasses ecoreClass="owl.text.ecore#//IRIIdentified" image="false">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.text.ecore#//IRIIdentified/iri"/>
+    <genClasses ecoreClass="owl.ecore#//IRIIdentified" image="false">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.ecore#//IRIIdentified/iri"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//URIIdentified" image="false">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.text.ecore#//URIIdentified/uri"/>
+    <genClasses ecoreClass="owl.ecore#//URIIdentified" image="false">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.ecore#//URIIdentified/uri"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//Annotateable">
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//Annotateable/annotations" property="None"/>
+    <genClasses ecoreClass="owl.ecore#//Annotateable">
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//Annotateable/annotations" property="None"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//Ontology">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.text.ecore#//Ontology/versionIRI"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.text.ecore#//Ontology/imports" notify="false" propertySortChoices="true"/>
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//Ontology/frames" property="None"/>
+    <genClasses ecoreClass="owl.ecore#//Ontology">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.ecore#//Ontology/versionIRI"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.ecore#//Ontology/imports" notify="false" propertySortChoices="true"/>
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//Ontology/frames" property="None"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//OntologyDocument">
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//OntologyDocument/ontology" property="None"/>
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//OntologyDocument/namespace" property="None"/>
+    <genClasses ecoreClass="owl.ecore#//OntologyDocument">
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//OntologyDocument/ontology" property="None"/>
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//OntologyDocument/namespace" property="None"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//Annotation">
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//Annotation/annotationValues" property="None"/>
+    <genClasses ecoreClass="owl.ecore#//Annotation">
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//Annotation/annotationValues" property="None"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//AnnotationValue">
-      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.text.ecore#//AnnotationValue/annotationProperty" notify="false" propertySortChoices="true"/>
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//AnnotationValue/target" property="None"/>
+    <genClasses ecoreClass="owl.ecore#//AnnotationValue">
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.ecore#//AnnotationValue/annotationProperty" notify="false" propertySortChoices="true"/>
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//AnnotationValue/target" property="None"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//Target" image="false"/>
-    <genClasses ecoreClass="owl.text.ecore#//IRITarget">
-      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.text.ecore#//IRITarget/target" notify="false" propertySortChoices="true"/>
+    <genClasses ecoreClass="owl.ecore#//Target" image="false"/>
+    <genClasses ecoreClass="owl.ecore#//IRITarget">
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.ecore#//IRITarget/target" notify="false" propertySortChoices="true"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//LiteralTarget">
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//LiteralTarget/literal" property="None"/>
+    <genClasses ecoreClass="owl.ecore#//LiteralTarget">
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//LiteralTarget/literal" property="None"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//Namespace">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.text.ecore#//Namespace/prefix"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.text.ecore#//Namespace/importedOntology" notify="false" propertySortChoices="true"/>
+    <genClasses ecoreClass="owl.ecore#//Namespace">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.ecore#//Namespace/prefix"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.ecore#//Namespace/importedOntology" notify="false" propertySortChoices="true"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//Frame" image="false"/>
-    <genClasses ecoreClass="owl.text.ecore#//Feature" image="false">
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//Feature/domain" property="None"/>
+    <genClasses ecoreClass="owl.ecore#//Frame" image="false"/>
+    <genClasses ecoreClass="owl.ecore#//Feature" image="false">
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//Feature/domain" property="None"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//DataProperty">
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//DataProperty/range" property="None"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.text.ecore#//DataProperty/characteristic"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.text.ecore#//DataProperty/superProperties" notify="false" propertySortChoices="true"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.text.ecore#//DataProperty/equivalentProperties" notify="false" propertySortChoices="true"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.text.ecore#//DataProperty/disjointProperties" notify="false" propertySortChoices="true"/>
+    <genClasses ecoreClass="owl.ecore#//DataProperty">
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//DataProperty/range" property="None"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.ecore#//DataProperty/characteristic"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.ecore#//DataProperty/superProperties" notify="false" propertySortChoices="true"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.ecore#//DataProperty/equivalentProperties" notify="false" propertySortChoices="true"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.ecore#//DataProperty/disjointProperties" notify="false" propertySortChoices="true"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//AnnotationProperty">
-      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.text.ecore#//AnnotationProperty/domains" notify="false" propertySortChoices="true"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.text.ecore#//AnnotationProperty/ranges" notify="false" propertySortChoices="true"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.text.ecore#//AnnotationProperty/superAnnotationProperties" notify="false" propertySortChoices="true"/>
+    <genClasses ecoreClass="owl.ecore#//AnnotationProperty">
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.ecore#//AnnotationProperty/domains" notify="false" propertySortChoices="true"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.ecore#//AnnotationProperty/ranges" notify="false" propertySortChoices="true"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.ecore#//AnnotationProperty/superAnnotationProperties" notify="false" propertySortChoices="true"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//Class">
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//Class/superClassesDescriptions" property="None"/>
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//Class/equivalentClassesDescriptions" property="None"/>
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//Class/disjointWithClassesDescriptions" property="None"/>
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//Class/disjointUnionWithClassesDescriptions" property="None"/>
+    <genClasses ecoreClass="owl.ecore#//Class">
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//Class/superClassesDescriptions" property="None"/>
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//Class/equivalentClassesDescriptions" property="None"/>
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//Class/disjointWithClassesDescriptions" property="None"/>
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//Class/disjointUnionWithClassesDescriptions" property="None"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//ObjectProperty">
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//ObjectProperty/propertyRange" property="None"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.text.ecore#//ObjectProperty/characteristics"/>
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//ObjectProperty/superProperties" property="None"/>
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//ObjectProperty/equivalentProperties" property="None"/>
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//ObjectProperty/disjointProperties" property="None"/>
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//ObjectProperty/inverseProperties" property="None"/>
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//ObjectProperty/subPropertyChains" property="None"/>
+    <genClasses ecoreClass="owl.ecore#//ObjectProperty">
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//ObjectProperty/propertyRange" property="None"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.ecore#//ObjectProperty/characteristics"/>
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//ObjectProperty/superProperties" property="None"/>
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//ObjectProperty/equivalentProperties" property="None"/>
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//ObjectProperty/disjointProperties" property="None"/>
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//ObjectProperty/inverseProperties" property="None"/>
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//ObjectProperty/subPropertyChains" property="None"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//Individual">
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//Individual/types" property="None"/>
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//Individual/facts" property="None"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.text.ecore#//Individual/sameAs" notify="false" propertySortChoices="true"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.text.ecore#//Individual/differentFrom" notify="false" propertySortChoices="true"/>
+    <genClasses ecoreClass="owl.ecore#//Individual">
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//Individual/types" property="None"/>
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//Individual/facts" property="None"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.ecore#//Individual/sameAs" notify="false" propertySortChoices="true"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.ecore#//Individual/differentFrom" notify="false" propertySortChoices="true"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//Datatype">
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//Datatype/dataRange" property="None"/>
+    <genClasses ecoreClass="owl.ecore#//Datatype">
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//Datatype/dataRange" property="None"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//Misc" image="false"/>
-    <genClasses ecoreClass="owl.text.ecore#//EquivalentClasses">
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//EquivalentClasses/descriptions" property="None"/>
+    <genClasses ecoreClass="owl.ecore#//Misc" image="false"/>
+    <genClasses ecoreClass="owl.ecore#//EquivalentClasses">
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//EquivalentClasses/descriptions" property="None"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//DisjointClasses">
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//DisjointClasses/descriptions" property="None"/>
+    <genClasses ecoreClass="owl.ecore#//DisjointClasses">
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//DisjointClasses/descriptions" property="None"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//EquivalentProperties">
-      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.text.ecore#//EquivalentProperties/objectProperties" notify="false" propertySortChoices="true"/>
+    <genClasses ecoreClass="owl.ecore#//EquivalentProperties">
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.ecore#//EquivalentProperties/objectProperties" notify="false" propertySortChoices="true"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//DisjointProperties">
-      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.text.ecore#//DisjointProperties/objectProperties" notify="false" propertySortChoices="true"/>
+    <genClasses ecoreClass="owl.ecore#//DisjointProperties">
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.ecore#//DisjointProperties/objectProperties" notify="false" propertySortChoices="true"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//SameIndividuals">
-      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.text.ecore#//SameIndividuals/individuals" notify="false" propertySortChoices="true"/>
+    <genClasses ecoreClass="owl.ecore#//SameIndividuals">
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.ecore#//SameIndividuals/individuals" notify="false" propertySortChoices="true"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//DifferentIndividuals">
-      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.text.ecore#//DifferentIndividuals/individuals" notify="false" propertySortChoices="true"/>
+    <genClasses ecoreClass="owl.ecore#//DifferentIndividuals">
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.ecore#//DifferentIndividuals/individuals" notify="false" propertySortChoices="true"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//HasKey">
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//HasKey/description" property="None"/>
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//HasKey/featureReferences" property="None"/>
+    <genClasses ecoreClass="owl.ecore#//HasKey">
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//HasKey/description" property="None"/>
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//HasKey/featureReferences" property="None"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//DataRange">
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//DataRange/dataConjunctions" property="None"/>
+    <genClasses ecoreClass="owl.ecore#//DataRange">
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//DataRange/dataConjunctions" property="None"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//DataConjunction">
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//DataConjunction/dataPrimaries" property="None"/>
+    <genClasses ecoreClass="owl.ecore#//DataConjunction">
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//DataConjunction/dataPrimaries" property="None"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//DataPrimary" image="false">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.text.ecore#//DataPrimary/not"/>
+    <genClasses ecoreClass="owl.ecore#//DataPrimary" image="false">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.ecore#//DataPrimary/not"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//DatatypeReference">
-      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.text.ecore#//DatatypeReference/theDatatype" notify="false" propertySortChoices="true"/>
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//DatatypeReference/facets" property="None"/>
+    <genClasses ecoreClass="owl.ecore#//DatatypeReference">
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.ecore#//DatatypeReference/theDatatype" notify="false" propertySortChoices="true"/>
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//DatatypeReference/facets" property="None"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//Facet">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.text.ecore#//Facet/facetType"/>
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//Facet/literal" property="None"/>
+    <genClasses ecoreClass="owl.ecore#//Facet">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.ecore#//Facet/facetType"/>
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//Facet/literal" property="None"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//NestedDataRange">
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//NestedDataRange/dataRange" property="None"/>
+    <genClasses ecoreClass="owl.ecore#//NestedDataRange">
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//NestedDataRange/dataRange" property="None"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//DataPrimaryLiterals">
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//DataPrimaryLiterals/literals" property="None"/>
+    <genClasses ecoreClass="owl.ecore#//DataPrimaryLiterals">
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//DataPrimaryLiterals/literals" property="None"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//Fact" image="false">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.text.ecore#//Fact/not"/>
+    <genClasses ecoreClass="owl.ecore#//Fact" image="false">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.ecore#//Fact/not"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//ObjectPropertyFact">
-      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.text.ecore#//ObjectPropertyFact/objectProperty" notify="false" propertySortChoices="true"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.text.ecore#//ObjectPropertyFact/individual" notify="false" propertySortChoices="true"/>
+    <genClasses ecoreClass="owl.ecore#//ObjectPropertyFact">
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.ecore#//ObjectPropertyFact/objectProperty" notify="false" propertySortChoices="true"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.ecore#//ObjectPropertyFact/individual" notify="false" propertySortChoices="true"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//DataPropertyFact">
-      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.text.ecore#//DataPropertyFact/dataProperty" notify="false" propertySortChoices="true"/>
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//DataPropertyFact/literal" property="None"/>
+    <genClasses ecoreClass="owl.ecore#//DataPropertyFact">
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.ecore#//DataPropertyFact/dataProperty" notify="false" propertySortChoices="true"/>
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//DataPropertyFact/literal" property="None"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//Description" image="false"/>
-    <genClasses ecoreClass="owl.text.ecore#//Disjunction">
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//Disjunction/conjunctions" property="None"/>
+    <genClasses ecoreClass="owl.ecore#//Description" image="false"/>
+    <genClasses ecoreClass="owl.ecore#//Disjunction">
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//Disjunction/conjunctions" property="None"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//Conjunction">
-      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.text.ecore#//Conjunction/clazz" notify="false" propertySortChoices="true"/>
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//Conjunction/primaries" property="None"/>
+    <genClasses ecoreClass="owl.ecore#//Conjunction">
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.ecore#//Conjunction/clazz" notify="false" propertySortChoices="true"/>
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//Conjunction/primaries" property="None"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//Primary" image="false">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.text.ecore#//Primary/not"/>
+    <genClasses ecoreClass="owl.ecore#//Primary" image="false">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.ecore#//Primary/not"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//IndividualsAtomic">
-      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.text.ecore#//IndividualsAtomic/individuals" notify="false" propertySortChoices="true"/>
+    <genClasses ecoreClass="owl.ecore#//IndividualsAtomic">
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.ecore#//IndividualsAtomic/individuals" notify="false" propertySortChoices="true"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//ClassAtomic">
-      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.text.ecore#//ClassAtomic/clazz" notify="false" propertySortChoices="true"/>
+    <genClasses ecoreClass="owl.ecore#//ClassAtomic">
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.ecore#//ClassAtomic/clazz" notify="false" propertySortChoices="true"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//NestedDescription">
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//NestedDescription/description" property="None"/>
+    <genClasses ecoreClass="owl.ecore#//NestedDescription">
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//NestedDescription/description" property="None"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//FeatureRestriction" image="false">
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//FeatureRestriction/featureReference" property="None"/>
+    <genClasses ecoreClass="owl.ecore#//FeatureRestriction" image="false">
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//FeatureRestriction/featureReference" property="None"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//ObjectPropertyRestriction" image="false">
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//ObjectPropertyRestriction/objectPropertyReference" property="None"/>
+    <genClasses ecoreClass="owl.ecore#//ObjectPropertyRestriction" image="false">
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//ObjectPropertyRestriction/objectPropertyReference" property="None"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//FeatureReference">
-      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.text.ecore#//FeatureReference/feature" notify="false" propertySortChoices="true"/>
+    <genClasses ecoreClass="owl.ecore#//FeatureReference">
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.ecore#//FeatureReference/feature" notify="false" propertySortChoices="true"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//InverseFeatureReference"/>
-    <genClasses ecoreClass="owl.text.ecore#//OwlApiInverseFeatureReference"/>
-    <genClasses ecoreClass="owl.text.ecore#//ObjectPropertyReference">
-      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.text.ecore#//ObjectPropertyReference/objectProperty" notify="false" propertySortChoices="true"/>
+    <genClasses ecoreClass="owl.ecore#//InverseFeatureReference"/>
+    <genClasses ecoreClass="owl.ecore#//OwlApiInverseFeatureReference"/>
+    <genClasses ecoreClass="owl.ecore#//ObjectPropertyReference">
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.ecore#//ObjectPropertyReference/objectProperty" notify="false" propertySortChoices="true"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//InverseObjectPropertyReference"/>
-    <genClasses ecoreClass="owl.text.ecore#//OwlApiInverseObjectPropertyReference"/>
-    <genClasses ecoreClass="owl.text.ecore#//ObjectPropertySome">
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//ObjectPropertySome/primary" property="None"/>
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//ObjectPropertySome/dataPrimary" property="None"/>
+    <genClasses ecoreClass="owl.ecore#//InverseObjectPropertyReference"/>
+    <genClasses ecoreClass="owl.ecore#//OwlApiInverseObjectPropertyReference"/>
+    <genClasses ecoreClass="owl.ecore#//ObjectPropertySome">
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//ObjectPropertySome/primary" property="None"/>
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//ObjectPropertySome/dataPrimary" property="None"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//ObjectPropertyOnly">
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//ObjectPropertyOnly/primary" property="None"/>
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//ObjectPropertyOnly/dataPrimary" property="None"/>
+    <genClasses ecoreClass="owl.ecore#//ObjectPropertyOnly">
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//ObjectPropertyOnly/primary" property="None"/>
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//ObjectPropertyOnly/dataPrimary" property="None"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//ObjectPropertyValue">
-      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.text.ecore#//ObjectPropertyValue/individual" notify="false" propertySortChoices="true"/>
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//ObjectPropertyValue/literal" property="None"/>
+    <genClasses ecoreClass="owl.ecore#//ObjectPropertyValue">
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.ecore#//ObjectPropertyValue/individual" notify="false" propertySortChoices="true"/>
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//ObjectPropertyValue/literal" property="None"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//ObjectPropertySelf"/>
-    <genClasses ecoreClass="owl.text.ecore#//ObjectPropertyMin">
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//ObjectPropertyMin/primary" property="None"/>
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//ObjectPropertyMin/dataPrimary" property="None"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.text.ecore#//ObjectPropertyMin/value"/>
+    <genClasses ecoreClass="owl.ecore#//ObjectPropertySelf"/>
+    <genClasses ecoreClass="owl.ecore#//ObjectPropertyMin">
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//ObjectPropertyMin/primary" property="None"/>
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//ObjectPropertyMin/dataPrimary" property="None"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.ecore#//ObjectPropertyMin/value"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//ObjectPropertyMax">
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//ObjectPropertyMax/primary" property="None"/>
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//ObjectPropertyMax/dataPrimary" property="None"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.text.ecore#//ObjectPropertyMax/value"/>
+    <genClasses ecoreClass="owl.ecore#//ObjectPropertyMax">
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//ObjectPropertyMax/primary" property="None"/>
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//ObjectPropertyMax/dataPrimary" property="None"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.ecore#//ObjectPropertyMax/value"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//ObjectPropertyExactly">
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//ObjectPropertyExactly/primary" property="None"/>
-      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.text.ecore#//ObjectPropertyExactly/dataPrimary" property="None"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.text.ecore#//ObjectPropertyExactly/value"/>
+    <genClasses ecoreClass="owl.ecore#//ObjectPropertyExactly">
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//ObjectPropertyExactly/primary" property="None"/>
+      <genFeatures children="true" createChild="true" ecoreFeature="ecore:EReference owl.ecore#//ObjectPropertyExactly/dataPrimary" property="None"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.ecore#//ObjectPropertyExactly/value"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//Literal" image="false"/>
-    <genClasses ecoreClass="owl.text.ecore#//TypedLiteral">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.text.ecore#//TypedLiteral/lexicalValue"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.text.ecore#//TypedLiteral/theDatatype" notify="false" propertySortChoices="true"/>
+    <genClasses ecoreClass="owl.ecore#//Literal" image="false"/>
+    <genClasses ecoreClass="owl.ecore#//TypedLiteral">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.ecore#//TypedLiteral/lexicalValue"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference owl.ecore#//TypedLiteral/theDatatype" notify="false" propertySortChoices="true"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//AbbreviatedXSDStringLiteral">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.text.ecore#//AbbreviatedXSDStringLiteral/value"/>
+    <genClasses ecoreClass="owl.ecore#//AbbreviatedXSDStringLiteral">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.ecore#//AbbreviatedXSDStringLiteral/value"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//AbbreviatedRDFTextLiteral">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.text.ecore#//AbbreviatedRDFTextLiteral/value"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.text.ecore#//AbbreviatedRDFTextLiteral/languageTag"/>
+    <genClasses ecoreClass="owl.ecore#//AbbreviatedRDFTextLiteral">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.ecore#//AbbreviatedRDFTextLiteral/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.ecore#//AbbreviatedRDFTextLiteral/languageTag"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//IntegerLiteral">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.text.ecore#//IntegerLiteral/value"/>
+    <genClasses ecoreClass="owl.ecore#//IntegerLiteral">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.ecore#//IntegerLiteral/value"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//DecimalLiteral">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.text.ecore#//DecimalLiteral/value"/>
+    <genClasses ecoreClass="owl.ecore#//DecimalLiteral">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.ecore#//DecimalLiteral/value"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//FloatingPointLiteral">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.text.ecore#//FloatingPointLiteral/literal"/>
+    <genClasses ecoreClass="owl.ecore#//FloatingPointLiteral">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.ecore#//FloatingPointLiteral/literal"/>
     </genClasses>
-    <genClasses ecoreClass="owl.text.ecore#//BooleanLiteral">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.text.ecore#//BooleanLiteral/value"/>
+    <genClasses ecoreClass="owl.ecore#//BooleanLiteral">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.ecore#//BooleanLiteral/value"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>
