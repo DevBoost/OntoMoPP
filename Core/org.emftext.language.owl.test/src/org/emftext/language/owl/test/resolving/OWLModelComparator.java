@@ -1,3 +1,4 @@
+package org.emftext.language.owl.test.resolving;
 ///*******************************************************************************
 // * Copyright (c) 2006-2012
 // * Software Technology Group, Dresden University of Technology
