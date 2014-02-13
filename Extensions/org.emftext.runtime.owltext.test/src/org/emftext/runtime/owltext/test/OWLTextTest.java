@@ -15,13 +15,7 @@
  ******************************************************************************/
 package org.emftext.runtime.owltext.test;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
@@ -36,21 +30,25 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.compare.diff.metamodel.DiffModel;
-import org.eclipse.emf.compare.diff.service.DiffService;
-import org.eclipse.emf.compare.match.MatchOptions;
-import org.eclipse.emf.compare.match.metamodel.MatchModel;
-import org.eclipse.emf.compare.match.service.MatchService;
-import org.eclipse.emf.compare.util.ModelUtils;
+import org.eclipse.emf.compare.Comparison;
+import org.eclipse.emf.compare.EMFCompare;
+import org.eclipse.emf.compare.match.DefaultComparisonFactory;
+import org.eclipse.emf.compare.match.DefaultEqualityHelperFactory;
+import org.eclipse.emf.compare.match.DefaultMatchEngine;
+import org.eclipse.emf.compare.match.IComparisonFactory;
+import org.eclipse.emf.compare.match.IMatchEngine;
+import org.eclipse.emf.compare.match.eobject.IEObjectMatcher;
+import org.eclipse.emf.compare.match.impl.MatchEngineFactoryImpl;
+import org.eclipse.emf.compare.match.impl.MatchEngineFactoryRegistryImpl;
+import org.eclipse.emf.compare.scope.IComparisonScope;
+import org.eclipse.emf.compare.utils.UseIdentifiers;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.Resource.Diagnostic;
@@ -1769,22 +1767,34 @@ public class OWLTextTest {
 	private void checkDiff(File compareDiffFile, EObject owlifiedOntologyRoot,
 			EObject expectedOntologyRoot) throws InterruptedException,
 			IOException {
-		Map<String, Object> options = new LinkedHashMap<String, Object>();
-		options.put(MatchOptions.OPTION_IGNORE_ID, true);
-		options.put(MatchOptions.OPTION_IGNORE_XMI_ID, true);
-		options.put(MatchOptions.OPTION_SEARCH_WINDOW, Integer.valueOf(30)); // Toleranzwert
-																				// fuer
-																				// die
-																				// Zahlen!!!
-		MatchModel matchResult = MatchService.doContentMatch(
-				expectedOntologyRoot, owlifiedOntologyRoot, options);
-		DiffModel genDiff = DiffService.doDiff(matchResult, false);
-		// Serialize to XMI
-		ModelUtils.save(genDiff, compareDiffFile.getAbsolutePath());
-		// TODO should use EMFCompare for comparison, to be independent of tree
-		// structure.
+//		Map<String, Object> options = new LinkedHashMap<String, Object>();
+//		options.put(MatchOptions.OPTION_IGNORE_ID, true);
+//		options.put(MatchOptions.OPTION_IGNORE_XMI_ID, true);
+//		options.put(MatchOptions.OPTION_SEARCH_WINDOW, Integer.valueOf(30)); // Toleranzwert
+//																				// fuer
+//																				// die
+//																				// Zahlen!!!
+//		MatchModel matchResult = MatchService.doContentMatch(
+//				expectedOntologyRoot, owlifiedOntologyRoot, options);
+//		DiffModel genDiff = DiffService.doDiff(matchResult, false);
+//		// Serialize to XMI
+//		ModelUtils.save(genDiff, compareDiffFile.getAbsolutePath());
+		
+		IEObjectMatcher matcher = DefaultMatchEngine.createDefaultEObjectMatcher(UseIdentifiers.NEVER);
+		IComparisonFactory comparisonFactory = new DefaultComparisonFactory(new DefaultEqualityHelperFactory());
+		IMatchEngine.Factory matchEngineFactory = new MatchEngineFactoryImpl(matcher, comparisonFactory);
+		matchEngineFactory.setRanking(20);
+		IMatchEngine.Factory.Registry matchEngineRegistry = new MatchEngineFactoryRegistryImpl();
+		matchEngineRegistry.add(matchEngineFactory);
+		EMFCompare comparator = EMFCompare.builder().setMatchEngineFactoryRegistry(matchEngineRegistry).build();
+		// Compare the two models
+		IComparisonScope scope = EMFCompare.createDefaultScope(expectedOntologyRoot, owlifiedOntologyRoot);
+		Comparison comparison = comparator.compare(scope);
+		//			List<Match> matches = comparison.getMatches();
+		assertTrue("Models are not equal", comparison.getDifferences().size() == 0);
+		
 		Resource expectationResource = expectedOntologyRoot.eResource();
-		if (overrideExpectedOnMismatch && matchResult.getUnmatchedElements().size() > 0) {
+		if (overrideExpectedOnMismatch && comparison.getDifferences().size() > 0) {
 			
 			expectationResource.getContents().clear();
 			expectationResource.getContents().add(owlifiedOntologyRoot);
@@ -1794,15 +1804,16 @@ public class OWLTextTest {
 		
 		assertTrue("Expected ontology output does not equal produced output: "
 				+ expectationResource.getURI(),
-				matchResult.getUnmatchedElements().size() == 0);
+				comparison.getDifferences().size() == 0);
 	}
 
 	@SuppressWarnings("unchecked")
 	private <RESOURCE_TYPE extends Resource> RESOURCE_TYPE loadResource(
 			File modelInputFile) {
 		ResourceSet rs = new org.eclipse.emf.ecore.resource.impl.ResourceSetImpl();
+		URI uri = URI.createFileURI(modelInputFile.getAbsolutePath());
 		RESOURCE_TYPE modelResource = (RESOURCE_TYPE) rs.getResource(
-				URI.createFileURI(modelInputFile.getAbsolutePath()), true);
+				uri, true);
 		assertNotNull("Model input resource was not loaded.", modelResource);
 		assertTrue("Model input resource is empty.", modelResource
 				.getContents().size() == 1);

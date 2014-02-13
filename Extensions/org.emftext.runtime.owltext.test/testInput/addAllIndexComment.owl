@@ -1,7 +1,7 @@
 Prefix: feature: <http://org.owltext/feature#>
 	Prefix: : <http://transformed/syntaxMinimum.fea#>
 	Prefix: feature: <http://org.owltext/feature#>
-	Ontology: <http://transformed/syntaxMinimum.fea> Import: <file:/Users/cwende/data/svn/reuseware/OntoMoPP/org.emftext.runtime.owltext.test/testInput/feature.mm.owl>
+	Ontology: <http://transformed/syntaxMinimum.fea> Import: <feature.mm.owl>
 		Class: feature:Feature
 		
 		
