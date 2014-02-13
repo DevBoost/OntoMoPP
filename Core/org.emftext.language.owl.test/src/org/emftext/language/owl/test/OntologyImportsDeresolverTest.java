@@ -15,8 +15,7 @@
  ******************************************************************************/
 package org.emftext.language.owl.test;
 
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

@@ -15,6 +15,8 @@
  ******************************************************************************/
 package org.emftext.language.owl.test;
 
+import static org.junit.Assert.*;
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileFilter;
@@ -24,8 +26,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-import junit.framework.TestCase;
-
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -33,20 +33,26 @@ import org.eclipse.emf.ecore.resource.Resource.Diagnostic;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.emftext.language.owl.resource.owl.mopp.OwlMetaInformation;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
 
-public class OWLTest extends TestCase {
+public class OWLTest {
 
+	@Before
 	public void setUp() {
 		registerResourceFactories();
 	}
 
-
+	@Test
+	@Ignore
 	public void testRegularExpressions() {
 		// TODO enable this test
-		// Matcher matcher = OwlScannerlessParser.TOKEN_IRI.matcher("Class:");
+//		 Matcher matcher = OwlScannerlessParser.TOKEN_IRI.matcher("Class:");
 		// assertFalse(matcher.matches());
 	}
 
+	@Test
 	public void testSimpleOntologyParsing() {
 		parseString("Ontology:");
 		parseString("Ontology: Class: A");
@@ -54,7 +60,8 @@ public class OWLTest extends TestCase {
 		parseString("Ontology: Class: A SubClassOf: id min 1 and id max 1 Class: B");
 	}
 
-	public void temtExampleOntologies() {
+	@Test
+	public void testExampleOntologies() {
 		File modelDir = new File(".." + File.separator
 				+ "org.emftext.language.owl" + File.separator + "models");
 		assertTrue(modelDir.exists());

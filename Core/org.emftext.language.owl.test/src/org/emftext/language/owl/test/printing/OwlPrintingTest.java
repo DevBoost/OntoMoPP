@@ -15,7 +15,7 @@
  ******************************************************************************/
 package org.emftext.language.owl.test.printing;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.util.Collections;
