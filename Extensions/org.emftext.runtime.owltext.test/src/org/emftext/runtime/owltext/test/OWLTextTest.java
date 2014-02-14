@@ -38,6 +38,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.Comparison;
+import org.eclipse.emf.compare.Diff;
 import org.eclipse.emf.compare.EMFCompare;
 import org.eclipse.emf.compare.match.DefaultComparisonFactory;
 import org.eclipse.emf.compare.match.DefaultEqualityHelperFactory;
@@ -1791,20 +1792,22 @@ public class OWLTextTest {
 		IComparisonScope scope = EMFCompare.createDefaultScope(expectedOntologyRoot, owlifiedOntologyRoot);
 		Comparison comparison = comparator.compare(scope);
 		//			List<Match> matches = comparison.getMatches();
-		assertTrue("Models are not equal", comparison.getDifferences().size() == 0);
+		List<Diff> differences = comparison.getDifferences();
+//		assertEquals("Models are not equal", 0, differences.size());
 		
 		Resource expectationResource = expectedOntologyRoot.eResource();
-		if (overrideExpectedOnMismatch && comparison.getDifferences().size() > 0) {
+		if (overrideExpectedOnMismatch && differences.size() > 0) {
 			
 			expectationResource.getContents().clear();
 			expectationResource.getContents().add(owlifiedOntologyRoot);
 			expectationResource.save(Collections.EMPTY_MAP);
 			System.out.println("Replace expected result with new version: " + expectationResource.getURI());
 		}
-		
-		assertTrue("Expected ontology output does not equal produced output: "
+		assertEquals("Expected ontology output does not equal produced output: "
 				+ expectationResource.getURI(),
-				comparison.getDifferences().size() == 0);
+				0,
+				differences.size());
+		
 	}
 
 	@SuppressWarnings("unchecked")

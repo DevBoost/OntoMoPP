@@ -1,0 +1,456 @@
+Prefix: xsd: <http://www.w3.org/2001/XMLSchema#>
+Prefix: feature: <http://org.owltext/feature#>
+Prefix: owl: <http://www.w3.org/2002/07/owl#>
+Prefix: : <http://org.owltext/feature#>
+Prefix: rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+Prefix: rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+Ontology: <http://org.owltext/feature>
+	Class: Feature
+		
+		SubClassOf: owl:Thing
+	
+	
+	Class: MandatoryFeature
+				
+				SubClassOf: Feature
+	
+	
+	Class: OptionalFeature
+				
+				SubClassOf: Feature
+	
+	
+	Class: Annotation
+				
+				SubClassOf: owl:Thing
+	
+	
+	Class: AnyLiteral
+				
+				SubClassOf: owl:Thing
+	
+	
+	Class: AnyBoolean
+				
+				SubClassOf: AnyLiteral
+	
+	
+	Class: AnyInt
+				
+				SubClassOf: AnyLiteral
+	
+	
+	Class: AnyBigInteger
+				
+				SubClassOf: AnyLiteral
+	
+	
+	Class: AnyLong
+				
+				SubClassOf: AnyLiteral
+	
+	
+	Class: AnyShort
+				
+				SubClassOf: AnyLiteral
+	
+	
+	Class: AnyBigDecimal
+				
+				SubClassOf: AnyLiteral
+	
+	
+	Class: AnyFloat
+				
+				SubClassOf: AnyLiteral
+	
+	
+	Class: AnyDouble
+				
+				SubClassOf: AnyLiteral
+	
+	
+	Class: AnyChar
+				
+				SubClassOf: AnyLiteral
+	
+	
+	Class: AnyByte
+				
+				SubClassOf: AnyLiteral
+	
+	
+	DataProperty: Feature_name
+				
+				Domain: Feature
+				
+				
+				Range: xsd:string
+	
+	
+	DataProperty: Feature_comments
+				
+				Domain: Feature
+				
+				
+				Range: xsd:string
+	
+	
+	ObjectProperty: Feature_anyLiterals
+				
+				Domain: Feature
+				
+				
+				Range: AnyLiteral
+	
+	
+	ObjectProperty: Feature_annotation
+				
+				Domain: Feature
+				
+				
+				Range: Annotation
+	
+	
+	ObjectProperty: Feature_children
+				
+				Domain: Feature
+				
+				
+				Range: Feature
+				
+				
+				
+				
+				
+				
+				
+				InverseOf: Feature_parent , Feature_parent
+	
+	
+	ObjectProperty: Feature_uniqueRelations
+				
+				Domain: Feature
+				
+				
+				Range: Feature
+	
+	
+	ObjectProperty: Feature_nonUniqueRelations
+				
+				Domain: Feature
+				
+				
+				Range: Feature
+	
+	
+	ObjectProperty: Feature_parent
+				
+				Domain: Feature
+				
+				
+				Range: Feature
+				
+				
+				
+				
+				
+				
+				
+				InverseOf: Feature_children , Feature_children
+	
+	
+	DataProperty: Annotation_value
+				
+				Domain: Annotation
+				
+				
+				Range: xsd:string
+	
+	
+	DataProperty: AnyBoolean_literal
+				
+				Domain: AnyBoolean
+				
+				
+				Range: xsd:boolean
+	
+	
+	DataProperty: AnyInt_literal
+				
+				Domain: AnyInt
+				
+				
+				Range: xsd:integer
+	
+	
+	DataProperty: AnyBigInteger_literal
+				
+				Domain: AnyBigInteger
+				
+				
+				Range: xsd:integer
+	
+	
+	DataProperty: AnyLong_literal
+				
+				Domain: AnyLong
+				
+				
+				Range: xsd:long
+	
+	
+	DataProperty: AnyShort_literal
+				
+				Domain: AnyShort
+				
+				
+				Range: xsd:short
+	
+	
+	DataProperty: AnyBigDecimal_literal
+				
+				Domain: AnyBigDecimal
+				
+				
+				Range: xsd:decimal
+	
+	
+	DataProperty: AnyFloat_literal
+				
+				Domain: AnyFloat
+				
+				
+				Range: xsd:float
+	
+	
+	DataProperty: AnyDouble_literal
+				
+				Domain: AnyDouble
+				
+				
+				Range: xsd:double
+	
+	
+	DataProperty: AnyChar_literal
+				
+				Domain: AnyChar
+				
+				
+				Range: xsd:string
+	
+	
+	DataProperty: AnyByte_literal
+				
+				Domain: AnyByte
+				
+				
+				Range: xsd:byte
+	
+	
+	DisjointClasses: Feature , Annotation , AnyLiteral
+	
+	DisjointClasses: MandatoryFeature , OptionalFeature
+	
+	DisjointClasses: AnyBigInteger , AnyByte , AnyBoolean , AnyChar , AnyShort , AnyLong , AnyFloat , AnyInt , AnyBigDecimal , AnyDouble
+	
+	Class: __c__Feature0_min_1_name
+			Annotations: rdfs:comment "The minimal cardinality of \'1\' for attribute \'name\' is not satisfied."
+			
+			
+			EquivalentTo: Feature and not ( Feature_name min 1 xsd:string )
+	
+	
+	Class: __c__Feature1_max_1_name
+				Annotations: rdfs:comment "The maximal cardinality of \'1\' for attribute \'name\' is not satisfied."
+				
+				
+				EquivalentTo: Feature and not ( Feature_name max 1 xsd:string )
+	
+	
+	Class: __c__Feature2_max_1_annotation
+				Annotations: rdfs:comment "The maximal cardinality of \'1\' for reference \'annotation\' is not satisfied."
+				
+				
+				EquivalentTo: Feature and not ( Feature_annotation max 1 Annotation )
+	
+	
+	Class: __c__Feature3_max_1_parent
+				Annotations: rdfs:comment "The maximal cardinality of \'1\' for reference \'parent\' is not satisfied."
+				
+				
+				EquivalentTo: Feature and not ( Feature_parent max 1 Feature )
+	
+	
+	Class: NonRootFeature
+				
+				
+				EquivalentTo: Feature and ((Feature_parent min 1 Feature))
+	
+	
+	Class: __c__NonRootFeature4_constraint_Non-root_features_should_not_be_named__Root__
+				Annotations: rdfs:comment "Non-root features should not be named \'Root\'."
+				
+				
+				EquivalentTo: NonRootFeature and not ( ( not (Feature_name value "Root")) )
+	
+	
+	Class: __c__Feature5_constraint_Root_Feature_needs_to_be_mandatory_
+				Annotations: rdfs:comment "Root Feature needs to be mandatory."
+				
+				
+				EquivalentTo: Feature and not ( ((MandatoryFeature) or (Feature_parent min 1 Feature)) )
+	
+	
+	Class: __c__Annotation6_min_1_value
+				Annotations: rdfs:comment "The minimal cardinality of \'1\' for attribute \'value\' is not satisfied."
+				
+				
+				EquivalentTo: Annotation and not ( Annotation_value min 1 xsd:string )
+	
+	
+	Class: __c__Annotation7_max_1_value
+				Annotations: rdfs:comment "The maximal cardinality of \'1\' for attribute \'value\' is not satisfied."
+				
+				
+				EquivalentTo: Annotation and not ( Annotation_value max 1 xsd:string )
+	
+	
+	Class: __c__AnyBoolean8_min_1_literal
+				Annotations: rdfs:comment "The minimal cardinality of \'1\' for attribute \'literal\' is not satisfied."
+				
+				
+				EquivalentTo: AnyBoolean and not ( AnyBoolean_literal min 1 xsd:boolean )
+	
+	
+	Class: __c__AnyBoolean9_max_1_literal
+				Annotations: rdfs:comment "The maximal cardinality of \'1\' for attribute \'literal\' is not satisfied."
+				
+				
+				EquivalentTo: AnyBoolean and not ( AnyBoolean_literal max 1 xsd:boolean )
+	
+	
+	Class: __c__AnyInt10_min_1_literal
+				Annotations: rdfs:comment "The minimal cardinality of \'1\' for attribute \'literal\' is not satisfied."
+				
+				
+				EquivalentTo: AnyInt and not ( AnyInt_literal min 1 xsd:integer )
+	
+	
+	Class: __c__AnyInt11_max_1_literal
+				Annotations: rdfs:comment "The maximal cardinality of \'1\' for attribute \'literal\' is not satisfied."
+				
+				
+				EquivalentTo: AnyInt and not ( AnyInt_literal max 1 xsd:integer )
+	
+	
+	Class: __c__AnyBigInteger12_min_1_literal
+				Annotations: rdfs:comment "The minimal cardinality of \'1\' for attribute \'literal\' is not satisfied."
+				
+				
+				EquivalentTo: AnyBigInteger and not ( AnyBigInteger_literal min 1 xsd:integer )
+	
+	
+	Class: __c__AnyBigInteger13_max_1_literal
+				Annotations: rdfs:comment "The maximal cardinality of \'1\' for attribute \'literal\' is not satisfied."
+				
+				
+				EquivalentTo: AnyBigInteger and not ( AnyBigInteger_literal max 1 xsd:integer )
+	
+	
+	Class: __c__AnyLong14_min_1_literal
+				Annotations: rdfs:comment "The minimal cardinality of \'1\' for attribute \'literal\' is not satisfied."
+				
+				
+				EquivalentTo: AnyLong and not ( AnyLong_literal min 1 xsd:long )
+	
+	
+	Class: __c__AnyLong15_max_1_literal
+				Annotations: rdfs:comment "The maximal cardinality of \'1\' for attribute \'literal\' is not satisfied."
+				
+				
+				EquivalentTo: AnyLong and not ( AnyLong_literal max 1 xsd:long )
+	
+	
+	Class: __c__AnyShort16_min_1_literal
+				Annotations: rdfs:comment "The minimal cardinality of \'1\' for attribute \'literal\' is not satisfied."
+				
+				
+				EquivalentTo: AnyShort and not ( AnyShort_literal min 1 xsd:short )
+	
+	
+	Class: __c__AnyShort17_max_1_literal
+				Annotations: rdfs:comment "The maximal cardinality of \'1\' for attribute \'literal\' is not satisfied."
+				
+				
+				EquivalentTo: AnyShort and not ( AnyShort_literal max 1 xsd:short )
+	
+	
+	Class: __c__AnyBigDecimal18_min_1_literal
+				Annotations: rdfs:comment "The minimal cardinality of \'1\' for attribute \'literal\' is not satisfied."
+				
+				
+				EquivalentTo: AnyBigDecimal and not ( AnyBigDecimal_literal min 1 xsd:decimal )
+	
+	
+	Class: __c__AnyBigDecimal19_max_1_literal
+				Annotations: rdfs:comment "The maximal cardinality of \'1\' for attribute \'literal\' is not satisfied."
+				
+				
+				EquivalentTo: AnyBigDecimal and not ( AnyBigDecimal_literal max 1 xsd:decimal )
+	
+	
+	Class: __c__AnyFloat20_min_1_literal
+				Annotations: rdfs:comment "The minimal cardinality of \'1\' for attribute \'literal\' is not satisfied."
+				
+				
+				EquivalentTo: AnyFloat and not ( AnyFloat_literal min 1 xsd:float )
+	
+	
+	Class: __c__AnyFloat21_max_1_literal
+				Annotations: rdfs:comment "The maximal cardinality of \'1\' for attribute \'literal\' is not satisfied."
+				
+				
+				EquivalentTo: AnyFloat and not ( AnyFloat_literal max 1 xsd:float )
+	
+	
+	Class: __c__AnyDouble22_min_1_literal
+				Annotations: rdfs:comment "The minimal cardinality of \'1\' for attribute \'literal\' is not satisfied."
+				
+				
+				EquivalentTo: AnyDouble and not ( AnyDouble_literal min 1 xsd:double )
+	
+	
+	Class: __c__AnyDouble23_max_1_literal
+				Annotations: rdfs:comment "The maximal cardinality of \'1\' for attribute \'literal\' is not satisfied."
+				
+				
+				EquivalentTo: AnyDouble and not ( AnyDouble_literal max 1 xsd:double )
+	
+	
+	Class: __c__AnyChar24_min_1_literal
+				Annotations: rdfs:comment "The minimal cardinality of \'1\' for attribute \'literal\' is not satisfied."
+				
+				
+				EquivalentTo: AnyChar and not ( AnyChar_literal min 1 xsd:string )
+	
+	
+	Class: __c__AnyChar25_max_1_literal
+				Annotations: rdfs:comment "The maximal cardinality of \'1\' for attribute \'literal\' is not satisfied."
+				
+				
+				EquivalentTo: AnyChar and not ( AnyChar_literal max 1 xsd:string )
+	
+	
+	Class: __c__AnyByte26_min_1_literal
+				Annotations: rdfs:comment "The minimal cardinality of \'1\' for attribute \'literal\' is not satisfied."
+				
+				
+				EquivalentTo: AnyByte and not ( AnyByte_literal min 1 xsd:byte )
+	
+	
+	Class: __c__AnyByte27_max_1_literal
+				Annotations: rdfs:comment "The maximal cardinality of \'1\' for attribute \'literal\' is not satisfied."
+				
+				
+				EquivalentTo: AnyByte and not ( AnyByte_literal max 1 xsd:byte ) 
